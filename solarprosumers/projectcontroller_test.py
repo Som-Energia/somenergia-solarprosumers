@@ -1,9 +1,14 @@
 from .projectcontroller import ProjectController
 import unittest
 from yamlns import namespace as ns
+import datetime
 
 
-class ProjectController_Test(unittest.TestCase):
+def isodate(isodatestring):
+    return datetime.datetime.strptime(isodatestring, "%Y-%m-%d").date()
+
+
+class StateController_Test(unittest.TestCase):
 
 	def assertExceptionMessage(self, e, text):
 		self.assertEqual(forceUnicode(e.args[0]), text)
@@ -43,6 +48,27 @@ class ProjectController_Test(unittest.TestCase):
 		proj.is_paid = True
 		self.assertEqual(proj.is_paid, True)
 		self.assertEqual(proj.changes(), ns(is_paid=True))
+
+
+class ProjectController_Test(unittest.TestCase):
+
+	from .testutils import assertNsEqual
+
+	def test_preregister(self):
+		proj = ProjectController()
+		proj.preregister(
+			current_date = isodate('2019-02-01'),
+			member_id = 200,
+			contract_id = None, # 400
+			campaign_id = 2,
+		)
+		self.assertNsEqual(proj.changes(), """
+is_paid: false
+registration_date: 2019-02-01
+""")
+
+
+
 
 
 

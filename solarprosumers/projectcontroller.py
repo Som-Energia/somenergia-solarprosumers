@@ -5,13 +5,12 @@ class ProjectController:
 
 	_allowed = [
 		'is_paid',
+		'registration_date',
 	]
 
 	def _checkAttribute(self, name):
 		if name not in self._allowed:
 			raise AttributeError(name)
-
-		
 
 	def __init__(self, **kwds):
 		self._changes = ns()
@@ -33,6 +32,18 @@ class ProjectController:
 
 	def changes(self):
 		return self._changes
+
+
+	def preregister(self,
+			current_date,
+			member_id,
+			contract_id,
+			campaign_id,
+			):
+		self.is_paid = False
+		self.registration_date = current_date
+
+
 
 
 
