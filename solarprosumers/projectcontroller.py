@@ -24,7 +24,8 @@ class ProjectController:
 			self._checkAttribute(name)
 			self._changes[name]=value
 			self._values[name]=value
-		return super(ProjectController, self).__setattr__(name, value)
+		return super(
+			ProjectController, self).__setattr__(name, value)
 
 	def __getattr__(self, name):
 		self._checkAttribute(name)
