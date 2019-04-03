@@ -26,5 +26,12 @@ class ProjectController_Test(unittest.TestCase):
 		self.assertEqual(format(ctx.exception), "im_bad")
 
 
+	def test_setattr_withBadAttribute(self):
+		proj = ProjectController()
+		with self.assertRaises(AttributeError) as ctx:
+			proj.im_bad = True
+		self.assertEqual(format(ctx.exception), "im_bad")
+
+
 
 # vim: noet ts=4 sw=4

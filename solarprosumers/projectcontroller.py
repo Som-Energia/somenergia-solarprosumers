@@ -14,6 +14,13 @@ class ProjectController:
 		for name, value in kwds.items():
 			setattr(self, name, value)
 
+	def __setattr__(self, name, value):
+		if name not in self._allowed:
+			raise AttributeError(name)
+		return super(ProjectController, self)
+			.__setattr__(name, value)
+		raise AttributeError(name)
+
 	def changes(self):
 		return ns()
 
