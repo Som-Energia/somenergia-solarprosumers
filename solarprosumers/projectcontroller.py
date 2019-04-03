@@ -8,21 +8,28 @@ class ProjectController:
 	]
 
 	def __init__(self, **kwds):
+		self._changes = ns()
+		self._values = ns(kwds)
 		for name in kwds:
 			if name not in self._allowed:
 				raise AttributeError(name)
-		for name, value in kwds.items():
-			setattr(self, name, value)
 
 	def __setattr__(self, name, value):
-		if name not in self._allowed:
+		if not name.startswith('_'):
+			if  name not in self._allowed:
+				raise AttributeError(name)
+			self._changes[name]=value
+			self._values[name]=value
+		return super(ProjectController, self).__setattr__(name, value)
+
+	def __getattr__(self, name):
+		try:
+			return self._values[name]
+		except KeyError as e:
 			raise AttributeError(name)
-		return super(ProjectController, self)
-			.__setattr__(name, value)
-		raise AttributeError(name)
 
 	def changes(self):
-		return ns()
+		return self._changes
 
 
 

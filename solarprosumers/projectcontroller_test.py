@@ -26,11 +26,25 @@ class ProjectController_Test(unittest.TestCase):
 		self.assertEqual(format(ctx.exception), "im_bad")
 
 
-	def test_setattr_withBadAttribute(self):
+	def test_getattr_badAttribute(self):
+		proj = ProjectController()
+		with self.assertRaises(AttributeError) as ctx:
+			value = proj.im_bad
+		self.assertEqual(format(ctx.exception), "im_bad")
+
+	def test_setattr_badAttribute(self):
 		proj = ProjectController()
 		with self.assertRaises(AttributeError) as ctx:
 			proj.im_bad = True
 		self.assertEqual(format(ctx.exception), "im_bad")
+
+	def test_setattr_properAttribute(self):
+		proj = ProjectController(is_paid=False)
+		proj.is_paid = True
+		self.assertEqual(proj.is_paid, True)
+		self.assertEqual(proj.changes(), ns(is_paid=True))
+
+
 
 
 
