@@ -4,6 +4,8 @@ from yamlns import namespace as ns
 class ProjectController:
 
     _allowed = [
+        'status',
+        'log',
         'is_paid',
         'registration_date',
     ]
@@ -33,6 +35,8 @@ class ProjectController:
     def changes(self):
         return self._changes
 
+    def addlog(self, **kwds):
+        self.log.append(ns(kwds))
 
     def preregister(self,
             current_date,
@@ -40,6 +44,7 @@ class ProjectController:
             contract_id,
             campaign_id,
             ):
+        self.status = 'preregistered'
         self.is_paid = False
         self.registration_date = current_date
 

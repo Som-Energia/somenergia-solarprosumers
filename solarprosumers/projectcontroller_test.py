@@ -54,19 +54,49 @@ class ProjectController_Test(unittest.TestCase):
 
     from .testutils import assertNsEqual
 
+    def setupProject(self, **kwds):
+        kwds.setdefault('log', ['previous content'])
+        return ProjectController(**kwds)
+
+    def assertActionResult(self, proj, expectedChanges, addedLog=None):
+        changes = ns(proj.changes())
+        self.assertNsEqual(changes, expectedChanges)
+        expectedLog = ns(log=['previous content'])
+        if addedLog is not None:
+            if addedLog:
+                expectedLog.log.append(ns.loads(addedLog))
+            self.assertNsEqual(expectedLog, ns(log=proj.log))
+
+    def test_addlog_whenEmpty(self):
+        proj = self.setupProject()
+        self.assertActionResult(proj, {}, {})
+
+    def test_addlog_single(self):
+        proj = self.setupProject()
+        proj.addlog(
+            action='test',
+            date=isodate('2019-01-01'),
+            key='value'
+            )
+        self.assertActionResult(proj, {}, """
+            action: test
+            date: 2019-01-01
+            key: value
+            """)
+
     def test_preregister(self):
-        proj = ProjectController()
+        proj = self.setupProject()
         proj.preregister(
             current_date = isodate('2019-02-01'),
             member_id = 200,
             contract_id = None, # 400
             campaign_id = 2,
         )
-        self.assertNsEqual(proj.changes(), """
+        self.assertActionResult(proj, """
+            status: preregistered
             is_paid: false
             registration_date: 2019-02-01
         """)
-
 
 
 
