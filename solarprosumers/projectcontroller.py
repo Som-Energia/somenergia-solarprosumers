@@ -7,6 +7,7 @@ class ProjectController:
         'status',
         'log',
         'is_paid',
+        'preregistration_date',
         'registration_date',
     ]
 
@@ -46,10 +47,18 @@ class ProjectController:
             ):
         self.status = 'preregistered'
         self.is_paid = False
-        self.registration_date = current_date
+        self.preregistration_date = current_date
 
-
-
+    def register(self,
+            date_payment,
+            register_receipt,
+            is_paid,
+            member_id,
+            contract_id,
+            campaign_id,
+            ):
+        self.status = 'registered'
+        self.registration_date = date_payment
 
 
 # vim: et ts=4 sw=4
