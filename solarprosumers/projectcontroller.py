@@ -9,6 +9,10 @@ class ProjectController:
         'is_paid',
         'preregistration_date',
         'registration_date',
+        'date_sent_data',
+        'date_prereport',
+        'is_valid_prereport',
+        'discarded_type',
     ]
 
     def _checkAttribute(self, name):
@@ -59,6 +63,46 @@ class ProjectController:
             ):
         self.status = 'registered'
         self.registration_date = date_payment
+
+    def sent_data(self,
+            date_sent_data,
+            member_id,
+            contract_id,
+            campaign_id,
+            ):
+        self.status = 'data sent'
+
+    def prereport(self,
+            date_upload_prereport,
+            member_id,
+            contract_id,
+            campaign_id,
+            is_valid_prereport,
+            ):
+        self.date_prereport = date_upload_prereport
+        self.is_valid_prereport = is_valid_prereport
+        if not is_valid_prereport:
+            self.status = 'prereport_review'
+        else:
+            self.status = 'prereport'
+
+    def prereport_review(self,
+            date_prereport_review,
+            member_id,
+            contract_id,
+            campaign_id,
+            is_valid_prereport,
+            ):
+        self.is_valid_prereport = is_valid_prereport
+        self.date_prereport = date_prereport_review
+        if not is_valid_prereport:
+            self.status = 'discarded'
+            self.discarded_type = 'technical'
+        else:
+            self.status = 'prereport'
+
+
+
 
 
 # vim: et ts=4 sw=4
