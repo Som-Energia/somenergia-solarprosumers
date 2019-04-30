@@ -113,5 +113,18 @@ class ProjectController:
         self.status = 'technical_visit'
         self.date_technical_visit = date_set_technical_visit
 
+    def report(self,
+            date_upload_report,
+            member_id,
+            contract_id,
+            campaign_id,
+            is_valid_report,
+            ):
+        self.date_report = date_upload_report
+        self.is_valid_report = is_valid_report
+        if not is_valid_report:
+            self.status = 'report_review'
+        else:
+            self.status = 'signature'
 
 # vim: et ts=4 sw=4
