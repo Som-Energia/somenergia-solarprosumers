@@ -13,6 +13,9 @@ class ProjectController:
         'date_prereport',
         'is_valid_prereport',
         'discarded_type',
+        'date_technical_visit',
+        'date_report',
+        'is_valid_report'
     ]
 
     def _checkAttribute(self, name):
@@ -84,7 +87,7 @@ class ProjectController:
         if not is_valid_prereport:
             self.status = 'prereport_review'
         else:
-            self.status = 'prereport'
+            self.status = 'technical_visit'
 
     def prereport_review(self,
             date_prereport_review,
@@ -101,8 +104,14 @@ class ProjectController:
         else:
             self.status = 'prereport'
 
-
-
+    def set_technical_visit(self,
+            date_set_technical_visit,
+            member_id,
+            contract_id,
+            campaign_id,
+            ):
+        self.status = 'technical_visit'
+        self.date_technical_visit = date_set_technical_visit
 
 
 # vim: et ts=4 sw=4
