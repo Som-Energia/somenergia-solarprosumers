@@ -177,4 +177,33 @@ class ProjectController:
         else:
             self.status = 'signature'
 
+    def signature(self,
+            date_upload_signature,
+            member_id,
+            contract_id,
+            campaign_id
+            ):
+
+        self.date_signature = date_upload_signature
+        if date_upload_signature:
+            self.is_signed = True
+            self.status = 'construction permit'
+        else:
+            self.is_signed = False
+            self.status = 'signature'
+
+    def construction_permit(self,
+            date_upload_permit,
+            member_id,
+            contract_id,
+            campaign_id
+            ):
+
+        self.date_permit = date_upload_permit
+        if date_upload_permit:
+            self.status = 'pending work date'
+        else:
+            self.status = 'construction permit'
+
+
 # vim: et ts=4 sw=4
