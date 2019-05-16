@@ -10,13 +10,21 @@ class ProjectController:
         'preregistration_date',
         'registration_date',
         'date_sent_data',
+        'is_data_sent',
         'date_prereport',
         'is_valid_prereport',
         'discarded_type',
         'date_technical_visit',
         'date_report',
-        'is_valid_report'
-    ]
+        'is_valid_report',
+        'date_offer',
+        'is_offer_accepted',
+        'is_signed',
+        'date_permit',
+        'date_signature',
+        'date_begin_work',
+        'is_date_set',
+       ]
 
     def _checkAttribute(self, name):
         if name not in self._allowed:
@@ -64,8 +72,11 @@ class ProjectController:
             contract_id,
             campaign_id,
             ):
-        self.status = 'registered'
-        self.registration_date = date_payment
+        if is_paid:
+            self.status = 'registered'
+            self.registration_date = date_payment
+        else:
+            self.status = 'preregistered'
 
     def sent_data(self,
             date_sent_data,
@@ -74,6 +85,7 @@ class ProjectController:
             campaign_id,
             ):
         self.status = 'data sent'
+        self.is_data_sent = True
 
     def prereport(self,
             date_upload_prereport,
@@ -85,9 +97,9 @@ class ProjectController:
         self.date_prereport = date_upload_prereport
         self.is_valid_prereport = is_valid_prereport
         if not is_valid_prereport:
-            self.status = 'prereport_review'
+            self.status = 'prereport review'
         else:
-            self.status = 'technical_visit'
+            self.status = 'technical visit'
 
     def prereport_review(self,
             date_prereport_review,
@@ -110,7 +122,7 @@ class ProjectController:
             contract_id,
             campaign_id,
             ):
-        self.status = 'technical_visit'
+        self.status = 'technical visit'
         self.date_technical_visit = date_set_technical_visit
 
     def report(self,
@@ -123,7 +135,45 @@ class ProjectController:
         self.date_report = date_upload_report
         self.is_valid_report = is_valid_report
         if not is_valid_report:
-            self.status = 'report_review'
+            self.status = 'report review'
+        else:
+            self.status = 'offer'
+
+    def report_review(self,
+            date_report_review,
+            member_id,
+            contract_id,
+            campaign_id,
+            is_valid_report,
+            ):
+        self.is_valid_report = is_valid_report
+        self.date_report = date_report_review
+        if not is_valid_report:
+            self.status = 'discarded'
+            self.discarded_type = 'technical'
+        else:
+            self.status = 'report'
+
+    def offer(self,
+            date_upload_offer,
+            member_id,
+            contract_id,
+            campaign_id,
+            ):
+
+        self.date_offer = date_upload_offer
+        self.status = 'offer pending acceptance'
+        self.is_offer_accepted = False
+
+    def offer_acceptance(self,
+            is_offer_accepted,
+            member_id,
+            contract_id,
+            campaign_id
+            ):
+        self.is_offer_accepted = is_offer_accepted
+        if not is_offer_accepted:
+            self.status = 'offer'
         else:
             self.status = 'signature'
 
