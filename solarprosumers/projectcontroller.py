@@ -233,4 +233,20 @@ class ProjectController:
         else:
             self.status = 'installation'
 
+    def legalization(self,
+            date_upload_certificate,
+            member_id,
+            contract_id,
+            campaign_id,
+            is_delivery_certificate,
+            ):
+        self.date_certificate = date_upload_certificate
+        self.is_delivery_certificate = is_delivery_certificate
+        if not is_delivery_certificate:
+            self.status = 'legalization'
+        else:
+            self.date_end_installation = date_upload_certificate
+            self.status = 'installation payment'
+
+
 # vim: et ts=4 sw=4
