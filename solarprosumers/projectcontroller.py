@@ -22,7 +22,7 @@ class ProjectController:
         'is_signed',
         'date_permit',
         'date_signature',
-        'date_begin_work',
+        'date_start_installation',
         'is_date_set',
        ]
 
@@ -201,9 +201,37 @@ class ProjectController:
 
         self.date_permit = date_upload_permit
         if date_upload_permit:
-            self.status = 'pending work date'
+            self.status = 'pending installation date'
         else:
             self.status = 'construction permit'
+        
+    def set_date_installation(self,
+            date_installation,
+            member_id,
+            contract_id,
+            campaign_id
+            ):
 
+        self.date_start_installation = date_installation
+        if date_installation:
+            self.is_date_set = True
+            self.status = 'date installation set'
+        else:
+            self.is_date_set = False
+            self.status = 'pending installation date'
+
+    def installation(
+            date_start_installation,
+            is_installation_in_progress,
+            member_id,
+            contract_id,
+            campaign_id
+            ):
+        if is_installation_in_progress:
+            self.date_start_installation = date_start_installation
+            self.status = 'installation in progress'
+        else:
+            self.is_signed = False
+            self.status = 'installation'
 
 # vim: et ts=4 sw=4
