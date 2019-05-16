@@ -24,6 +24,7 @@ class ProjectController:
         'date_signature',
         'date_start_installation',
         'is_date_set',
+        'is_installation_in_progress',
        ]
 
     def _checkAttribute(self, name):
@@ -220,18 +221,16 @@ class ProjectController:
             self.is_date_set = False
             self.status = 'pending installation date'
 
-    def installation(
-            date_start_installation,
+    def installation(self,
             is_installation_in_progress,
             member_id,
             contract_id,
             campaign_id
             ):
+        self.is_installation_in_progress = is_installation_in_progress
         if is_installation_in_progress:
-            self.date_start_installation = date_start_installation
             self.status = 'installation in progress'
         else:
-            self.is_signed = False
             self.status = 'installation'
 
 # vim: et ts=4 sw=4
