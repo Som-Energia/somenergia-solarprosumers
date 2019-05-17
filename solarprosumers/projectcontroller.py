@@ -18,6 +18,7 @@ class ProjectController:
         'date_report',
         'is_valid_report',
         'date_offer',
+        'is_valid_offer',
         'is_offer_accepted',
         'is_signed',
         'date_permit',
@@ -157,26 +158,20 @@ class ProjectController:
 
     def offer(self,
             date_upload_offer,
+            is_valid_offer,
             member_id,
             contract_id,
             campaign_id,
             ):
 
         self.date_offer = date_upload_offer
-        self.status = 'offer pending acceptance'
-        self.is_offer_accepted = False
-
-    def offer_acceptance(self,
-            is_offer_accepted,
-            member_id,
-            contract_id,
-            campaign_id
-            ):
-        self.is_offer_accepted = is_offer_accepted
-        if not is_offer_accepted:
-            self.status = 'offer'
+        self.is_valid_offer = is_valid_offer
+        if not is_valid_offer:
+            self.status = 'offer review'
+            self.is_offer_accepted = False
         else:
             self.status = 'signature'
+            self.is_offer_accepted = True
 
     def signature(self,
             date_upload_signature,
