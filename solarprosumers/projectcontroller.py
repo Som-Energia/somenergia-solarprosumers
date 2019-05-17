@@ -173,6 +173,21 @@ class ProjectController:
             self.status = 'signature'
             self.is_offer_accepted = True
 
+    def offer_review(self,
+            date_offer_review,
+            member_id,
+            contract_id,
+            campaign_id,
+            is_valid_offer,
+            ):
+        self.is_valid_offer = is_valid_offer
+        self.date_offer = date_offer_review
+        if not is_valid_offer:
+            self.status = 'discarded'
+            self.discarded_type = 'voluntary'
+        else:
+            self.status = 'offer'
+
     def signature(self,
             date_upload_signature,
             member_id,
