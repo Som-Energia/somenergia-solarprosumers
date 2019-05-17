@@ -26,6 +26,7 @@ class ProjectController:
         'date_start_installation',
         'is_date_set',
         'is_installation_in_progress',
+        'date_legal_docs',
        ]
 
     def _checkAttribute(self, name):
@@ -243,7 +244,7 @@ class ProjectController:
         else:
             self.status = 'installation'
 
-    def legalization(self,
+    def end_installation(self,
             date_upload_certificate,
             member_id,
             contract_id,
@@ -253,10 +254,21 @@ class ProjectController:
         self.date_certificate = date_upload_certificate
         self.is_delivery_certificate = is_delivery_certificate
         if not is_delivery_certificate:
-            self.status = 'legalization'
+            self.status = 'installation in progress'
         else:
             self.date_end_installation = date_upload_certificate
-            self.status = 'installation payment'
+            self.status = 'legalization'
 
+    def legalization(self,
+            date_upload_legal_docs,
+            member_id,
+            contract_id,
+            campaign_id,
+            ):
+        self.date_legal_docs = date_upload_legal_docs
+        if not date_upload_legal_docs:
+            self.status = 'legalization'
+        else:
+            self.status = 'final payment'
 
 # vim: et ts=4 sw=4
