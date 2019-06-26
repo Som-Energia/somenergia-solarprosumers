@@ -1,0 +1,15 @@
+databases:
+  develop:
+    name: name
+    host: host
+    port: 5432
+    user: user
+    password: password
+  test:
+    name: name
+    host: host
+    port: 5432
+    user: user
+    password: password
+
+secret_key: super_secret_key

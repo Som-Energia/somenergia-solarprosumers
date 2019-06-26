@@ -1,0 +1,12 @@
+{% extends 'somsolet/base_layout.html' %}
+{% load i18n %}
+
+{% block content%}
+    <div class="pre-inscription">
+        <h2>{% trans "Fill in the inscription form" %}</h2>
+        <form method="POST" class="post-form">
+          {{ form }}
+          <button type="submit" class="save btn btn-default">{% trans "Save" %}</button>
+        </form>
+    </div>
+{% endblock %}

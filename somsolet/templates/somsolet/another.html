@@ -1,0 +1,24 @@
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">{% trans "General Details" %}</h3>
+  </div>
+
+
+  <div class="panel-body">
+    <a href="#" class="list-group-item">
+        {% trans "Campaign" %}: {{project.campaign.name}}
+    </a>
+    <a href="#" class="list-group-item">
+        {% trans "Clients" %}: {{project.client.name|default:" - " }}
+    </a>
+    <a href="#" class="list-group-item">
+        {% trans "Status" %}: {{project.status}}
+    </a>
+    <a href="#" class="list-group-item list-group-item-danger">
+        {% trans "Warnings" %}: {{project.warning}}
+    </a>
+    <a href="#" class="list-group-item">
+       {% trans "Date Prereport" %}: {{project.date_prereport}}
+    </a>
+</div>
