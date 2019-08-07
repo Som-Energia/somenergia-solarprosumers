@@ -110,3 +110,7 @@ venv.bak/
 #editor
 *.sublime-project
 *.sublime-workspace
+
+#config
+
+*.yaml

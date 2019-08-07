@@ -30,11 +30,49 @@ class CampaignAdmin(ImportExportModelAdmin):
     inlines = [CampaignInline]
 
 
+@admin.register(Technical_campaign)
+class Technical_CampaignAdmin(ImportExportModelAdmin):
+    pass
+
+
+@admin.register(Engineering)
+class EngineeringAdmin(ImportExportModelAdmin):
+    pass
+
+
+class Technical_detailsResource(resources.ModelResource):
+    comments = fields.Field(attribute='comments', column_name='COMENTARIOS')
+
+    class Meta:
+        model = Technical_details
+
+
 @admin.register(Technical_details)
 class Technical_detailsAdmin(ImportExportModelAdmin):
-    pass
+    resource_class = Technical_detailsResource
+
+
+class ClientResource(resources.ModelResource):
+    name = fields.Field(
+        attribute='name',
+        column_name='Nombre y apellidos')
+    membership_number = fields.Field(
+        attribute='membership_number',
+        column_name='Número de socio/a de Som Energia')
+    dni = fields.Field(
+        attribute='dni',
+        column_name='Número de DNI')
+    phone_number = fields.Field(
+        attribute='phone_number',
+        column_name='Teléfono de contacto')
+    email = fields.Field(
+        attribute='email',
+        column_name='Correo electrónico')
+
+    class Meta:
+        model = Client
+
 
 @admin.register(Client)
 class ClientAdmin(ImportExportModelAdmin):
-    pass
-
+    resource_class = ClientResource
