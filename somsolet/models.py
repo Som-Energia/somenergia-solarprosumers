@@ -60,6 +60,9 @@ class Engineering(models.Model):
         blank=True,
         max_length=500)
 
+    def __str__(self):
+        return self.name
+
 
 class Campaign(models.Model):
     name = models.CharField(
@@ -130,6 +133,9 @@ class Campaign(models.Model):
 
     active = models.BooleanField(
         default=True)
+
+    def __str__(self):
+        return self.name
 
 
 class Technical_campaign(models.Model):
@@ -252,6 +258,9 @@ class Technical_campaign(models.Model):
         blank=True,
         verbose_name='Trifasic Variable Price (€/Wp)')
 
+    def __str__(self):
+        return self.campaign
+
 
 class Client(models.Model):
     name = models.CharField(
@@ -274,22 +283,33 @@ class Client(models.Model):
         blank=True,
         max_length=50)
 
+    def __str__(self):
+        return self.dni
+
 
 class Project(models.Model):
+    name = models.CharField(
+        blank=True,
+        max_length=100,
+        verbose_name='Installation')
+
     campaign = models.ForeignKey(
         Campaign,
+        null=True,
+        blank=True,
         on_delete=models.CASCADE,
         verbose_name='Campaign')
 
     client = models.ForeignKey(
         Client,
         null=True,
+        blank=True,
         on_delete=models.CASCADE,
         verbose_name='Client')
 
     status = models.CharField(
         choices=ITEM_STATUS,
-        default='S0',
+        default='empty status',
         max_length=50)
 
     warning = models.CharField(
@@ -314,16 +334,21 @@ class Project(models.Model):
         null=True,
         blank=True)
 
-    is_data_sent = models.BooleanField(
+    is_cch_downloaded = models.BooleanField(
         default=False,
-        verbose_name='Sent CCH')
+        verbose_name='CCH downloaded')
+
+    date_cch_download = models.DateField(
+        null=True,
+        blank=True)
 
     date_prereport = models.DateField(
         null=True,
         blank=True)
 
     is_invalid_prereport = models.BooleanField(
-        default=False)
+        default=False,
+        verbose_name='Invalid Prereport')
 
     upload_prereport = models.FileField(
         upload_to='uploaded_files',
@@ -392,6 +417,20 @@ class Project(models.Model):
     is_installation_in_progress = models.BooleanField(
         default=False)
 
+    upload_delivery_certificate = models.FileField(
+        upload_to='uploaded_files',
+        default='uploaded_files/som.png',
+        verbose_name='Upload delivery certificate')
+
+    date_delivery_certificate = models.DateField(
+        null=True,
+        blank=True)
+
+    upload_legal_docs = models.FileField(
+        upload_to='uploaded_files',
+        default='uploaded_files/som.png',
+        verbose_name='Upload legal certificate')
+
     date_legal_docs = models.DateField(
         null=True,
         blank=True)
@@ -453,6 +492,9 @@ class Project(models.Model):
         else:
             self.status = 'report'
 
+    def __str__(self):
+        return self.name
+
 
 class Technical_details(models.Model):
     project = models.ForeignKey(
@@ -469,6 +511,14 @@ class Technical_details(models.Model):
         Client,
         on_delete=models.CASCADE,
         verbose_name='Client')
+
+    administrative_division = models.CharField(
+        max_length=50,
+        blank=True)
+
+    municipality = models.CharField(
+        max_length=50,
+        blank=True)
 
     street = models.CharField(
         max_length=50)
@@ -496,17 +546,17 @@ class Technical_details(models.Model):
         default=0)
 
     voltage = models.CharField(
-        choices=ITEM_VOLTAGE,
-        default='empty',
+        blank=True,
         max_length=50)
 
     tariff = models.CharField(
         max_length=10,
         blank=True)
 
-    anual_consumption = models.FloatField(
+    anual_consumption = models.CharField(
         null=True,
         blank=True,
+        max_length=100,
         verbose_name='Anual Consumption (kWh)')
 
     count_panels = models.IntegerField(
@@ -518,6 +568,18 @@ class Technical_details(models.Model):
         null=True,
         blank=True,
         verbose_name='Installation Power (kW)')
+
+    installation_model = models.CharField(
+        blank=True,
+        max_length=500)
+
+    installation_singlephase_model = models.CharField(
+        blank=True,
+        max_length=500)
+
+    installation_threephase_model = models.CharField(
+        blank=True,
+        max_length=500)
 
     shadow_optimizer = models.BooleanField(
         default=False)
@@ -535,18 +597,22 @@ class Technical_details(models.Model):
     charger_brand = models.BooleanField(
         default=False)
 
+    charger_manager = models.BooleanField(
+        default=False)
+
+    electric_car_charger = models.BooleanField(
+        default=False)
+
+    power_meter = models.BooleanField(
+        default=False)
+
+    acquire_interest = models.CharField(
+        blank=True,
+        max_length=500)
+
     comments = models.CharField(
         blank=True,
         max_length=500)
 
-    interest_shadow_optimizer = models.BooleanField(
-        default=False)
-
-    interest_charger_manager = models.BooleanField(
-        default=False)
-
-    interest_electric_car_charger = models.BooleanField(
-        default=False)
-
-    interest_power_meter = models.BooleanField(
-        default=False)
+    def __str__(self):
+        return self.project.name
