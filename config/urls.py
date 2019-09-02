@@ -22,5 +22,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('somsolet/', include('somsolet.urls')),
     path('somsolet/', include('django.contrib.auth.urls')),
-
+    path('django-rq/', include('django_rq.urls')),
 ]

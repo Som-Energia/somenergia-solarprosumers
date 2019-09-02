@@ -160,10 +160,12 @@ class ReportForm(forms.ModelForm):
         date_report = date_upload_report
         if self.cleaned_data['is_invalid_report']:
             status = 'report review'
-            return status, date_report
+            warning = 'No Warn'
+            return status, date_report, warning
         else:
             status = 'offer'
-            return status, date_report
+            warning = 'No Warn'
+            return status, date_report, warning
 
 
 class OfferForm(forms.ModelForm):
@@ -205,10 +207,12 @@ class OfferForm(forms.ModelForm):
         date_offer = date_upload_offer
         if self.cleaned_data['is_invalid_offer']:
             status = 'offer review'
-            return status, date_offer
+            warning = 'No Warn'
+            return status, date_offer, warning
         else:
             status = 'signature'
-            return status, date_offer
+            warning = 'No Warn'
+            return status, date_offer, warning
 
 
 class ConstructionPermitForm(forms.ModelForm):
@@ -241,12 +245,14 @@ class ConstructionPermitForm(forms.ModelForm):
         ]
 
     def construction_permit(self, date_permit):
-        if self.cleaned_data['date_permit']:
+        if date_permit:
             status = 'construction permit'
-            return status, date_permit
+            warning = 'No Warn'
+            return status, warning
         else:
-            status = 'date_permit'
-            return status, date_permit
+            status = 'signature'
+            warning = 'No Warn'
+            return status, warning
 
 
 class InstallationDateForm(forms.ModelForm):

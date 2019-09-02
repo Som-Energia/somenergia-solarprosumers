@@ -9,3 +9,8 @@ django-tables2==2.0.6
 django-tables2-bootstrap4==2.0.0b5
 django-tables2-column-shifter==0.5.2
 django-bootstrap-datepicker-plus==3.0.5
+rq
+rq-scheduler
+django-rq
+django-anymail
+sendgrid

@@ -1,7 +1,12 @@
 import os
+import yaml
 
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+with open(os.path.join(BASE_DIR, 'settings/config.yaml')) as f:
+    config = yaml.load(f.read())
+
 
 ALLOWED_HOSTS = []
 
@@ -14,13 +19,19 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'somsolet',
+    'somsolet.apps.SomsoletConfig',
     'crispy_forms',
     'django_tables2',
     'django_filters',
     'import_export',
     'bootstrap4',
     'bootstrap_datepicker_plus',
+    'django_rq',
+    'anymail',
+    'django_extensions',
+    'widget_tweaks',
+    'django',
+    'jquery',
 ]
 
 MIDDLEWARE = [
@@ -38,7 +49,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['./somsolet/templates',],
+        'DIRS': ['./somsolet/templates', ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -86,7 +97,7 @@ LOGIN_REDIRECT_URL = '/somsolet/project/'
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Madrid'
 
 USE_I18N = True
 
