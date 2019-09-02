@@ -1,3 +1,168 @@
+body {
+    padding-top: 3.5rem;
+}
+
 h1 a {
     color: #FCA205;
+}
+
+.navbar-dark .navbar-brand {
+    color: #bac92a;
+}
+
+.bg-dark {
+    background-color: #444 !important;
+}
+
+.btn-outline-primary {
+    color: #bac92a !important;
+    border-color: #bac92a !important;
+}
+
+.btn-primary {
+    color: #fff !important;
+    background-color: #5b5b5f !important;
+    border-color: #5b5b5f !important;
+}
+
+.btn-logout {
+    color: #5b5b5f !important;
+    background-color: #bac92a !important;
+    border-color: #bac92a !important;
+}
+
+.btn-primary:hover {
+    color: #fff !important;
+    background-color: #bac92a !important;
+    border-color: #bac92a !important;
+}
+
+.btn-outline-primary:hover {
+    color: #fff;
+    background-color: #bac92a;
+    border-color: #bac92a;
+}
+
+.form-filters label {
+    margin-right: .5rem !important;
+    margin-bottom: .25rem !important;   
+}
+
+.table-som a,
+.table-campaign a {
+    color: #212529 !important;
+}
+
+.table-som a:hover {
+    color: #bac92a !important;
+}
+
+:root {
+  --color1: #637674;
+  --color2: #9C6D43;
+  --color3: #677056;
+  --color4: #AB9F8F;
+  --color5: #b96d6d;
+  --color6: #e0af6d;
+  --color7: #bac92a;
+}
+
+
+.table-som th:nth-child(5),
+.table-som th:nth-child(6),
+.table-som th:nth-child(7) {
+    background-color: var(--color1);
+}
+
+
+.table-som th:nth-child(8) {
+    background-color: var(--color5);
+}
+
+.table-som th:nth-child(9),
+.table-som th:nth-child(10),
+.table-som th:nth-child(11) {
+    background-color: var(--color2);
+}
+
+.table-som th:nth-child(12),
+.table-som th:nth-child(13),
+.table-som th:nth-child(14) {
+    background-color: var(--color3);
+}
+
+.table-som th:nth-child(15),
+.table-som th:nth-child(16){
+    background-color: var(--color4);
+}
+
+.table-som th:nth-child(17) {
+    background-color: var(--color6);
+}
+
+.table-som .status.pre-report-uploaded {
+    color: var(--color1);
+}
+
+.table-som .status.s0 {
+    color: var(--color7)
+}
+
+.table-som .status.technical-visit-scheduled{
+   color: var(--color5)
+}
+
+.table-som .status.report-uploaded {
+    color: var(--color3)
+}
+
+.table-som .status.offer-review{
+    color: var(--color3)
+}
+
+.table-som .status.engeneering-offer {
+    color: var(--color3)
+}
+
+.table-som .status.contract-signature{
+    color: var(--color3)
+}
+
+.table-som .status.construction-permit {
+    color: var(--color4)
+}
+
+.table-som .status.date-permit {
+    color: var(--color4)
+}
+
+
+.table-som .status.date-installation-set {
+    color: var(--color6)
+}
+
+.table-som .status.pending-installation-date {
+    color: var(--color6)
+}
+
+
+.som-foot p {
+    text-align: center;
+    font-weight: 500;
+}
+
+.som-foot .fa-heart {
+    color: #bac92a;
+}
+
+.page-item.active .page-link {
+    z-index: 1;
+    color: #fff;
+    background-color: #bac92a !important;
+    border-color: #bac92a !important;
+}
+
+.table-campaign th:nth-child(1),
+.table-campaign th:nth-child(2) {
+    background-color: var(--color7);
 }

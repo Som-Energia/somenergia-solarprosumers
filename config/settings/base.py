@@ -53,9 +53,11 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
-DJANGO_TABLES2_TEMPLATE = 'django_tables2/bootstrap-responsive.html'
+DJANGO_TABLES2_TEMPLATE = 'django_tables2/bootstrap4-som.html'
 IMPORT_EXPORT_USE_TRANSACTIONS = True
-
+BOOTSTRAP4 = {
+    'include_jquery': True,
+}
 
 
 # Password validation
