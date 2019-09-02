@@ -89,7 +89,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-LOGIN_REDIRECT_URL = '/somsolet/project/'
+LOGIN_REDIRECT_URL = '/somsolet/profile_engineering/'
 
 
 # Internationalization
