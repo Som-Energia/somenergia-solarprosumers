@@ -2,14 +2,18 @@
 {% load i18n %}
 
 {% load crispy_forms_tags %}
+{% load bootstrap4 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript jquery='full' %}
+        {{ installationdateform.media }}
 
 {% block content%}
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h3 class="panel-title">{% trans "Prereport" %}</h3>
+        <h3 class="panel-title">{% trans "Installation Date" %}</h3>
     </div>
     <div class="panel-body">
-        {% crispy installationdateform%}
+        {% crispy installationdateform %}
     </div> 
 </div>
 {% endblock %}
