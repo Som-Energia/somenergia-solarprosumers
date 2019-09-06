@@ -1,21 +1,64 @@
-from django.urls import include, path
 from django.conf import settings
 from django.conf.urls.static import static
+from django.urls import path
 
 from . import views
 
-
 urlpatterns = [
-    path('campaign/<int:pk>/', views.campaign, name='campaign'),
-    path('technical_details/<int:pk>/', views.technical_details, name='technical_details'),
-    path('project/', views.project, name='project'),
-    path('prereport/<int:pk>/', views.prereport, name='prereport'),
-    path('technical_visit/<int:pk>/', views.technical_visit, name='technical_visit'),
-    path('report/<int:pk>/', views.report, name='report'),
-    path('offer/<int:pk>/', views.offer, name='offer'),
-    path('construction_permit/<int:pk>/', views.construction_permit, name='construction_permit'),
-    path('installation_date/<int:pk>/', views.set_date_installation, name='installation_date'),
-
-    path('register/',views.register, name='register'),
+    path(
+        'profile_engineering/',
+        views.CampaignSetView.as_view(),
+        name='campaign',
+    ),
+    path(
+        'client/<int:pk>/',
+        views.ClientView.as_view(template_name='somsolet/client_detail.html'),
+        name='client',
+    ),
+    path(
+        'technical_details/<int:pk>/',
+        views.TechnicalDetailsView.as_view(),
+        name='technical_details'
+    ),
+    path(
+        'technical_campaign/<int:pk>/',
+        views.TechnicalCampaignsView.as_view(),
+        name='technical_campaign'
+    ),
+    path(
+        'project/<int:pk>/',
+        views.ProjectView.as_view(),
+        name='project'),
+    path(
+        'prereport/<int:pk>/',
+        views.PrereportView.as_view(),
+        name='prereport'
+    ),
+    path(
+        'technical_visit/<int:pk>/',
+        views.TechnicalVisitView.as_view(),
+        name='technical_visit'
+    ),
+    path(
+        'report/<int:pk>/',
+        views.ReportView.as_view(),
+        name='report'
+    ),
+    path(
+        'offer/<int:pk>/',
+        views.OfferView.as_view(),
+        name='offer'
+    ),
+    path(
+        'construction_permit/<int:pk>/',
+        views.ConstructionPermitView.as_view(),
+        name='construction_permit'
+    ),
+    path(
+        'installation_date/<int:pk>/',
+        views.InstallationDateView.as_view(),
+        name='installation_date'
+    ),
+    path('register/', views.register, name='register'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

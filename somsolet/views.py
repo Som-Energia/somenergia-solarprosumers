@@ -35,226 +35,216 @@ def register(request):
     )
 
 
-def campaign(request, pk):
-    num_projects = Project.objects.all().count()
-    num_clients = Client.objects.all().count()
-    campaign_details = Project.objects.all()
-    return render(
-        request,
-        'somsolet/campaign_details.html',
-        {
-            'campaign': campaign_details,
-            'num_proj': num_projects,
-            'num_clients': num_clients
+class SomsoletProjectView(View):
+
+    def get_initial(self, pk):
+        proj_inst = get_object_or_404(Project, pk=pk)
+        return {
+            'campaign': proj_inst.campaign,
+            'project': proj_inst.id,
+            'client': proj_inst.client,
         }
-    )
+
+    def get(self, request, pk):
+        self.initial = self.get_initial(pk)
+        form = self.form_class(initial=self.initial)
+        return render(request, self.template_name, {self.form: form})
+
+    def button_options(self, request, pk, proj_inst):
+        if 'next' in request.POST:
+            proj_inst.save()
+            next_proj = Project.objects.filter(
+                campaign=proj_inst.campaign,
+                pk__gt=pk
+            ).order_by('pk').first() or Project.objects.filter(
+                campaign=proj_inst.campaign
+            ).first()
+            return HttpResponseRedirect(reverse(
+                self.url_path,
+                args=[next_proj.id])
+            )
+        elif 'previous' in request.POST:
+            proj_inst.save()
+            previous_proj = Project.objects.filter(
+                campaign=proj_inst.campaign,
+                pk__lt=pk
+            ).order_by('pk').last() or Project.objects.filter(
+                campaign=proj_inst.campaign
+            ).last()
+            return HttpResponseRedirect(reverse(
+                self.url_path,
+                args=[previous_proj.id]))
+        elif 'cancel' in request.POST:
+            return HttpResponseRedirect(reverse(
+                'project',
+                args=[proj_inst.campaign.pk]))
+        elif 'save' in request.POST:
+            proj_inst.save()
+            return HttpResponseRedirect(reverse(
+                'project',
+                args=[proj_inst.campaign.pk]))
 
 
-def prereport(request, pk):
-    proj_inst = get_object_or_404(Project, pk=pk)
-    if request.method == 'POST':
-        form = PrereportForm(request.POST, request.FILES)
-        print(form.errors)
+class PrereportView(SomsoletProjectView):
+    form_class = PrereportForm
+    template_name = 'somsolet/prereport.html'
+    model = Project
 
+    def __init__(self):
+        self.form = 'prereportform'
+        self.url_path = 'prereport'
+
+    def post(self, request, pk):
+        form = self.form_class(request.POST, request.FILES)
+        proj_inst = get_object_or_404(Project, pk=pk)
         if form.is_valid():
             date_prereport = datetime.now().strftime('%Y-%m-%d')
             prereport_invalid = form.cleaned_data['is_invalid_prereport']
-            status, date_prereport = form.prereport(
+            status, date_prereport, warn = form.prereport(
                 date_prereport_review=date_prereport,
-                is_invalid_prereport=prereport_invalid)
+                is_invalid_prereport=prereport_invalid,)
             proj_inst.status = status
+            proj_inst.warning = warn
             proj_inst.upload_prereport = form.cleaned_data['upload_prereport']
+            proj_inst.is_invalid_prereport = prereport_invalid
             if request.FILES:
                 proj_inst.date_prereport = date_prereport
-            if 'next' in request.POST:
-                proj_inst.save()
-                return HttpResponseRedirect(reverse(
-                    'prereport',
-                    args=[proj_inst.id + 1]))
-            elif 'previous' in request.POST:
-                proj_inst.save()
-                return HttpResponseRedirect(reverse(
-                    'prereport',
-                    args=[proj_inst.id - 1]))
-            elif 'cancel' in request.POST:
-                return redirect('project')
-            proj_inst.save()
-            return redirect('project')
+            return self.button_options(request, pk, proj_inst)
 
-    else:
-        form = PrereportForm()
-    return render(request, 'somsolet/prereport.html', {'prereportform': form})
+        return render(request, self.template_name, {'prereportform': form})
 
 
-def technical_visit(request, pk):
-    proj_inst = get_object_or_404(Project, pk=pk)
-    if request.method == 'POST':
-        form = TechnicalVisitForm(request.POST)
-        print(form.errors)
+class TechnicalVisitView(SomsoletProjectView):
+    form_class = TechnicalVisitForm
+    template_name = 'somsolet/technical_visit.html'
+
+    def __init__(self):
+        self.form = 'technicalvisitform'
+        self.url_path = 'technical_visit'
+
+    def post(self, request, pk):
+        form = self.form_class(request.POST)
+        proj_inst = get_object_or_404(Project, pk=pk)
         if form.is_valid():
-            date_technical_visit = datetime.now().strftime('%Y-%m-%d')
-            status, date_technical_visit = form.set_technical_visit(
+            date_technical_visit = form.cleaned_data['date_technical_visit']
+            status, date_technical_visit, warn = form.set_technical_visit(
                 date_set_technical_visit=date_technical_visit)
             proj_inst.status = status
-            if 'next' in request.POST:
-                proj_inst.save()
-                return HttpResponseRedirect(reverse(
-                    'technical_visit',
-                    args=[proj_inst.id + 1]))
-            elif 'previous' in request.POST:
-                proj_inst.save()
-                return HttpResponseRedirect(reverse(
-                    'technical_visit',
-                    args=[proj_inst.id - 1]))
-            elif 'cancel' in request.POST:
-                return redirect('project')
-            proj_inst.save()
-            return redirect('project')
+            proj_inst.warning = warn
+            proj_inst.date_technical_visit = date_technical_visit
+            return self.button_options(request, pk, proj_inst)
 
-    else:
-        form = TechnicalVisitForm()
-    return render(request, 'somsolet/technical_vist.html', {'technicalvisitform': form})
+        return render(request, self.template_name, {'technicalvisitform': form})
 
-def report(request, pk):
-    proj_inst = get_object_or_404(Project, pk=pk)
-    if request.method == 'POST':
-        form = ReportForm(request.POST, request.FILES)
-        print(form.errors)
+
+class ReportView(SomsoletProjectView):
+    form_class = ReportForm
+    template_name = 'somsolet/report.html'
+
+    def __init__(self):
+        self.form = 'reportform'
+        self.url_path = 'report'
+
+    def post(self, request, pk):
+        form = self.form_class(request.POST, request.FILES)
+        proj_inst = get_object_or_404(Project, pk=pk)
         if form.is_valid():
             date_report = datetime.now().strftime('%Y-%m-%d')
             report_invalid = form.cleaned_data['is_invalid_report']
-            status, date_report = form.report(
+            status, date_report, warn = form.report(
                 date_upload_report=date_report,
                 is_invalid_report=report_invalid)
             proj_inst.status = status
+            proj_inst.warning = warn
             proj_inst.upload_report = form.cleaned_data['upload_report']
+            proj_inst.is_invalid_report = report_invalid
             if request.FILES:
                 proj_inst.date_report = date_report
-            if 'next' in request.POST:
-                proj_inst.save()
-                return HttpResponseRedirect(reverse(
-                    'report',
-                    args=[proj_inst.id + 1]))
-            elif 'previous' in request.POST:
-                proj_inst.save()
-                return HttpResponseRedirect(reverse(
-                    'report',
-                    args=[proj_inst.id - 1]))
-            elif 'cancel' in request.POST:
-                return redirect('project')
-            proj_inst.save()
-            return redirect('project')
+            return self.button_options(request, pk, proj_inst)
 
-    else:
-        form = ReportForm()
-    return render(request, 'somsolet/report.html', {'reportform': form})
+        return render(request, self.template_name, {'reportform': form})
 
 
-def offer(request, pk):
-    proj_inst = get_object_or_404(Project, pk=pk)
-    if request.method == 'POST':
-        form = OfferForm(request.POST, request.FILES)
-        print(form.errors)
+class OfferView(SomsoletProjectView):
+    form_class = OfferForm
+    template_name = 'somsolet/offer.html'
+
+    def __init__(self):
+        self.form = 'offerform'
+        self.url_path = 'offer'
+
+    def post(self, request, pk):
+        form = self.form_class(request.POST, request.FILES)
+        proj_inst = get_object_or_404(Project, pk=pk)
         if form.is_valid():
             date_offer = datetime.now().strftime('%Y-%m-%d')
             offer_invalid = form.cleaned_data['is_invalid_offer']
-            status, date_offer = form.offer(
+            status, date_offer, warn = form.offer(
                 date_upload_offer=date_offer,
                 is_invalid_offer=offer_invalid)
             proj_inst.status = status
+            proj_inst.warning = warn
             proj_inst.upload_offer = form.cleaned_data['upload_offer']
+            proj_inst.is_invalid_offer = offer_invalid
             if request.FILES:
                 proj_inst.date_offer = date_offer
-            if 'next' in request.POST:
-                proj_inst.save()
-                return HttpResponseRedirect(reverse(
-                    'offer',
-                    args=[proj_inst.id + 1]))
-            elif 'previous' in request.POST:
-                proj_inst.save()
-                return HttpResponseRedirect(reverse(
-                    'offer',
-                    args=[proj_inst.id - 1]))
-            elif 'cancel' in request.POST:
-                return redirect('project')
-            proj_inst.save()
-            return redirect('project')
+            return self.button_options(request, pk, proj_inst)
 
-    else:
-        form = OfferForm()
-    return render(request, 'somsolet/offer.html', {'offerform': form})
+        return render(request, self.template_name, {'offerform': form})
 
 
-def construction_permit(request, pk):
-    proj_inst = get_object_or_404(Project, pk=pk)
-    if request.method == 'POST':
-        form = ConstructionPermitForm(request.POST, request.FILES)
-        print(form.errors)
+class ConstructionPermitView(SomsoletProjectView):
+    form_class = ConstructionPermitForm
+    template_name = 'somsolet/construction_permit.html'
+
+    def __init__(self):
+        self.form = 'constructionpermitform'
+        self.url_path = 'construction_permit'
+
+    def post(self, request, pk):
+        form = self.form_class(request.POST, request.FILES)
+        proj_inst = get_object_or_404(Project, pk=pk)
         if form.is_valid():
             date_permit = datetime.now().strftime('%Y-%m-%d')
-            status, date_permit = form.construction_permit(
+            status, warn = form.construction_permit(
                 date_permit=date_permit)
             proj_inst.status = status
+            proj_inst.warning = warn
             proj_inst.upload_permit = form.cleaned_data['upload_permit']
             if request.FILES:
                 proj_inst.date_permit = date_permit
-            if 'next' in request.POST:
-                proj_inst.save()
-                return HttpResponseRedirect(reverse(
-                    'construction_permit',
-                    args=[proj_inst.id + 1]))
-            elif 'previous' in request.POST:
-                proj_inst.save()
-                return HttpResponseRedirect(reverse(
-                    'construction_permit',
-                    args=[proj_inst.id - 1]))
-            elif 'cancel' in request.POST:
-                return redirect('project')
-            proj_inst.save()
-            return redirect('project')
+            return self.button_options(request, pk, proj_inst)
 
-    else:
-        form = ConstructionPermitForm()
-    return render(request, 'somsolet/construction_permit.html', {'constructionpermitform': form})
+        return render(request, self.template_name, {'constructionpermitform': form})
 
 
-def set_date_installation(request, pk):
-    proj_inst = get_object_or_404(Project, pk=pk)
-    if request.method == 'POST':
-        form = InstallationDateForm(request.POST, request.FILES)
-        print(form.errors)
+class InstallationDateView(SomsoletProjectView):
+    form_class = InstallationDateForm
+    template_name = 'somsolet/installation_date.html'
+
+    def __init__(self):
+        self.form = 'installationdateform'
+        self.url_path = 'installation_date'
+
+    def post(self, request, pk):
+        form = self.form_class(request.POST)
+        proj_inst = get_object_or_404(Project, pk=pk)
         if form.is_valid():
-            date_installation = form.cleaned_data['date_installation']
-            status, is_date_set, date_start_installation = form.set_date_installation(
+            date_installation = form.cleaned_data['date_start_installation']
+            status, is_date_set, warn = form.set_date_installation(
                 date_installation=date_installation)
             proj_inst.status = status
+            proj_inst.warning = warn
             proj_inst.is_date_set = is_date_set
             proj_inst.date_start_installation = date_installation
-            if 'next' in request.POST:
-                proj_inst.save()
-                return HttpResponseRedirect(reverse(
-                    'installation_date',
-                    args=[proj_inst.id + 1]))
-            elif 'previous' in request.POST:
-                proj_inst.save()
-                return HttpResponseRedirect(reverse(
-                    'installation_date',
-                    args=[proj_inst.id - 1]))
-            elif 'cancel' in request.POST:
-                return redirect('project')
-            proj_inst.save()
-            return redirect('project')
+            return self.button_options(request, pk, proj_inst)
 
-    else:
-        form = InstallationDateForm()
-    return render(request, 'somsolet/installation_date.html', {'installationdateform': form})
+        return render(request, self.template_name, {'installationdateform': form})
 
 
 class ClientView(DetailView):
     model = Client
 
-def project(request):
-    project_filter = ProjectListFilter(request.GET, queryset=Project.objects.all())
 
 class CampaignSetView(View):
     template_name = 'somsolet/campaign.html'
