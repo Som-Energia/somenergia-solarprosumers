@@ -1,0 +1,7 @@
+<a href="{% url 'technical_visit' record.pk %}">
+    {% if record.date_technical_visit %}
+        {{ record.date_technical_visit }} 
+    {% else %}
+        {{'insert date'}}
+    {% endif %}
+</a>

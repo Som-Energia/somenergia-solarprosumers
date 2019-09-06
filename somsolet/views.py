@@ -272,23 +272,20 @@ class CampaignSetView(View):
         return render(request, self.template_name, ctx)
 
 
-def technical_details(request, pk):
-    proj_inst = get_object_or_404(Project, pk=pk)
-    print(proj_inst.id, 'proj id')
-    if request.method == 'POST':
-        form = TechnicalDetailsForm(request.POST)
-        print(form.errors)
-        if form.is_valid():
-            check = form.save()
-            #return HttpResponse("Contact details created")
-            return HttpResponseRedirect(reverse('project', args=(proj_inst.id,)))
-    else:
-        form = TechnicalDetailsForm()
-    return render(
-        request,
-        'somsolet/technical_details.html',
-        {
-            'technicalform': form
+class ProjectView(View):
+    template_name = 'somsolet/project_detail.html'
+
+    def get(self, request, pk):
+        campaign_inst = get_object_or_404(Campaign, pk=pk)
+        project_filter = ProjectListFilter(
+            request.GET,
+            queryset=Project.objects.all().filter(campaign=campaign_inst.id))
+        project_list = project_filter.qs
+        projects_table = ProjectTable(project_list)
+
+        ctx = {
+            'project': projects_table,
+            'filter': project_filter
         }
         RequestConfig(
             request,
