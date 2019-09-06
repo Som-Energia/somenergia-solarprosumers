@@ -17,6 +17,12 @@ class UserProfileInfo(models.Model):
 
 
 class Engineering(models.Model):
+    user = models.OneToOneField(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True)
+
     name = models.CharField(
         blank=True,
         max_length=50)
