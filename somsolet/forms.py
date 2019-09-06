@@ -16,6 +16,12 @@ class UserForm(forms.ModelForm):
         fields = ('username', 'password', 'email')
 
 
+class ClientForm(forms.ModelForm):
+    class Meta():
+        model = Client
+        fields = '__all__'
+
+
 class ProjectForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(ProjectForm, self).__init__(*args, **kwargs)
