@@ -114,3 +114,73 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'uploaded_files')
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
+
+RQ_QUEUES = {
+    'default': {
+        'HOST': 'localhost',
+        'PORT': 6379,
+        'DB': 0,
+        'DEFAULT_TIMEOUT': 360,
+    },
+    'low': {
+        'HOST': 'localhost',
+        'PORT': 6379,
+        'DB': 0,
+    }
+}
+RQ_SHOW_ADMIN_LINK = True
+
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        'simple': {
+            'format': '{levelname} {message}',
+            'style': '{',
+        },
+    },
+    "handlers": {
+        "console": {
+            "level": "DEBUG",
+            'class': 'logging.StreamHandler',
+            "formatter": "simple",
+        },
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.handlers.TimedRotatingFileHandler',
+            'formatter': 'simple',
+            'filename': 'log/somsolet.log',
+            'when': 'midnight',
+            'backupCount': 7
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'propagate': True,
+        },
+        'somsolet': {
+            'handlers': ['console'],
+            'level': 'INFO'
+        },
+        "scheduler_tasks": {
+            "handlers": ["console", "file"],
+            "level": "DEBUG"
+        },
+    }
+}
+
+
+ANYMAIL = {
+    'SENDGRID_API_KEY': config['sendgrid_api_key'],
+    'EMAIL_HOST': 'smtp.sendgrid.net',
+    'EMAIL_HOST_USER': 'apikey',
+    'EMAIL_HOST_PASSWORD': config['sendgrid_api_key'],
+    'EMAIL_PORT': 587,
+    'EMAIL_USE_TLS': True,
+}
+EMAIL_BACKEND = "anymail.backends.sendgrid.EmailBackend"
+DEFAULT_FROM_EMAIL = "Autoproducció Som Energia <auto@somenergia.coop>"
+SERVER_EMAIL = "frontend@somenergia.coop"
+BCC = [config['email']['bcc']]
