@@ -284,7 +284,7 @@ class Client(models.Model):
         max_length=50)
 
     def __str__(self):
-        return self.dni
+        return self.name
 
 
 class Project(models.Model):

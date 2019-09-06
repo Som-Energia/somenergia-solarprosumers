@@ -1,0 +1,59 @@
+{% extends 'somsolet/base_layout.html' %}
+{% load i18n %}
+
+{% load crispy_forms_tags %}
+
+{% block content%}
+
+	<div class="row">
+		<div class="col-md-3">
+		</div>
+		<div class="col-md-6">
+	        <div class="list-group d-flex flex-row flex-wrap">
+	          <a class="list-group-item w-50 list-group-item-action">
+	            Name
+	          </a>
+	          <a class="list-group-item w-50 list-group-item-action">
+	             {{ object.name }}
+	          </a>
+	          <a class="list-group-item w-50 list-group-item-action">
+	            DNI
+	          </a>
+	          <a class="list-group-item w-50 list-group-item-action">
+	            {{ object.dni }}
+	          </a>
+	          <a class="list-group-item w-50 list-group-item-action">
+	            Email
+	          </a>
+	          <a class="list-group-item w-50 list-group-item-action">
+	            {{ object.email }}
+	          </a>
+	          <a class="list-group-item w-50 list-group-item-action">
+	            Membership number
+	          </a>
+	          <a class="list-group-item w-50 list-group-item-action">
+	            {{object.membership_number}}
+	          </a>
+	          <a class="list-group-item w-50 list-group-item-action">
+	            Phone number
+	          </a>
+	          <a class="list-group-item w-50 list-group-item-action">
+	            {{object.phone_number}}
+	          </a>
+	          <div class="col-md-10">
+				</div>
+		     <div class="row">
+	  			<div class="col-md-10">
+		          <a class="btn btn-primary btn-lg active" role="button" aria-pressed="true" onclick="goBack()"> <i>Go back</i> </a>
+				</div>
+	        </div>
+		</div>
+	</div> 
+
+<script>
+function goBack() {
+  window.history.back();
+}
+</script>
+
+{% endblock %}

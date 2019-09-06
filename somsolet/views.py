@@ -250,6 +250,8 @@ def set_date_installation(request, pk):
     return render(request, 'somsolet/installation_date.html', {'installationdateform': form})
 
 
+class ClientView(DetailView):
+    model = Client
 
 def project(request):
     project_filter = ProjectListFilter(request.GET, queryset=Project.objects.all())
