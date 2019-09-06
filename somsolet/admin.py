@@ -1,10 +1,10 @@
 from django.contrib import admin
-
+from import_export import fields, resources
 from import_export.admin import ImportExportModelAdmin
-from import_export import resources, fields
 from import_export.widgets import ForeignKeyWidget
 
-from .models import Project, Campaign, Client, Technical_details, Engineering, Technical_campaign
+from .models import (Campaign, Client, Engineering, Project,
+                     Technical_campaign, Technical_details)
 
 
 class ProjectResource(resources.ModelResource):

@@ -1,14 +1,29 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse, HttpResponseRedirect
-from django.urls import reverse
-from django_tables2 import RequestConfig, SingleTableView
+import logging
+
+from django.views import View
+from django.views.generic import DetailView
+
+
+from django.urls import reverse_lazy
+
 from datetime import datetime
 
-from .models import Technical_details, Project, Campaign, Engineering, Client, UserProfileInfo
-from .forms import TechnicalDetailsForm, PrereportForm, ProjectForm, UserForm, ReportForm
-from .forms import TechnicalVisitForm, OfferForm, ConstructionPermitForm, InstallationDateForm
-from .tables import ProjectTable
-from .filters import ProjectListFilter
+from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404, render
+from django.urls import reverse
+from django_tables2 import RequestConfig
+from django.contrib.auth import authenticate, login
+
+from .filters import ProjectListFilter, CampaignListFilter
+from .forms import (ConstructionPermitForm, InstallationDateForm, OfferForm,
+                    PrereportForm, ReportForm, TechnicalCampaignsForm,
+                    TechnicalDetailsForm, TechnicalVisitForm, UserForm,
+                    ClientForm)
+from .models import (Campaign, Client, Engineering, Project,
+                     Technical_campaign, Technical_details)
+from .tables import ProjectTable, CampaignTable
+
+logger = logging.getLogger(__name__)
 
 
 def register(request):

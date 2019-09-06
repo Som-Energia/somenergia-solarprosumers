@@ -1,11 +1,11 @@
+from bootstrap_datepicker_plus import DatePickerInput
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Column, Field, Layout, Row, Submit
 from django import forms
 from django.contrib.auth.models import User
 
-from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Submit, Row, Column, Button
-from django_tables2 import tables, TemplateColumn
-
-from .models import Project, Technical_details, Client, Engineering, UserProfileInfo
+from .models import (Client, Project, Technical_campaign,
+                     Technical_details)
 
 
 class UserForm(forms.ModelForm):
@@ -28,23 +28,39 @@ class ProjectForm(forms.ModelForm):
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
             Row(
-                Column('campaign', css_class='form-group col-md-4 mb-0'),
-                Column('client', css_class='form-group col-md-4 mb-0'),
+                Column(
+                    'campaign',
+                    css_class='form-group col-md-4 mb-0'),
+                Column(
+                    'client',
+                    css_class='form-group col-md-4 mb-0'),
                 css_class='form-row'
             ),
             Row(
-                Column('is_invalid_prereport', css_class='form-group col-md-4 mb-0'),
+                Column(
+                    'is_invalid_prereport',
+                    css_class='form-group col-md-4 mb-0'),
                 css_class='form-row'
             ),
             Row(
-                Column('status', css_class='form-group col-md-4 mb-0'),
-                Column('warning', css_class='form-group col-md-4 mb-0'),
-                Column('is_data_sent', css_class='form-group col-md-4 mb-0'),
+                Column(
+                    'status',
+                    css_class='form-group col-md-4 mb-0'),
+                Column(
+                    'warning',
+                    css_class='form-group col-md-4 mb-0'),
+                Column(
+                    'is_cch_downloaded',
+                    css_class='form-group col-md-4 mb-0'),
                 css_class='form-row'
             ),
             Row(
-                Column('date_prereport', css_class='form-group col-md-4 mb-0'),
-                Column('is_invalid_prereport', css_class='form-group col-md-4 mb-0'),
+                Column(
+                    'date_prereport',
+                    css_class='form-group col-md-4 mb-0'),
+                Column(
+                    'is_invalid_prereport',
+                    css_class='form-group col-md-4 mb-0'),
                 css_class='form-row'
             ),
         )
@@ -53,27 +69,41 @@ class ProjectForm(forms.ModelForm):
 
     class Meta:
         model = Project
-        fields = ['date_prereport', 'is_invalid_prereport', 'status', 'warning', 'is_data_sent', 'campaign', 'client']
+        fields = [
+            'date_prereport',
+            'is_invalid_prereport',
+            'status',
+            'warning',
+            'is_cch_downloaded',
+            'campaign',
+            'client'
+        ]
 
 
 class PrereportForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(PrereportForm, self).__init__(*args, **kwargs)
-        # If you pass FormHelper constructor a form instance
-        # It builds a default layout with all its fields
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
             Row(
-                Column('campaign', css_class='form-group col-md-4 mb-0'),
-                Column('client', css_class='form-group col-md-4 mb-0'),
+                Column(
+                    Field('campaign', disabled=True),
+                    css_class='col-sm-4 read-only'),
+                Column(
+                    Field('client', disabled=True),
+                    css_class='col-sm-4 read-only'),
                 css_class='form-row'
             ),
             Row(
-                Column('upload_prereport', css_class='form-group col-md-12 mb-0'),
+                Column(
+                    'upload_prereport',
+                    css_class='form-group col-md-12 mb-0'),
                 css_class='form-row'
             ),
             Row(
-                Column('is_invalid_prereport', css_class='form-group col-md-12 mb-0'),
+                Column(
+                    'is_invalid_prereport',
+                    css_class='form-group col-md-12 mb-0'),
                 css_class='form-row'
             ),
         )
@@ -84,49 +114,69 @@ class PrereportForm(forms.ModelForm):
 
     class Meta:
         model = Project
-        fields = ['date_prereport', 'is_invalid_prereport', 'upload_prereport', 'campaign', 'client']
-
+        fields = [
+            'date_prereport',
+            'is_invalid_prereport',
+            'upload_prereport',
+            'campaign',
+            'client'
+        ]
 
     def prereport(self, date_prereport_review, is_invalid_prereport):
         date_prereport = date_prereport_review
-        if self.cleaned_data['is_invalid_prereport']:
+        if is_invalid_prereport:
             status = 'prereport review'
-            return status, date_prereport
+            warning = 'No Warn'
+            return status, date_prereport, warning
         else:
-            status = 'technical visit'
-            return status, date_prereport
+            status = 'prereport'
+            warning = 'No Warn'
+            return status, date_prereport, warning
 
 
 class TechnicalVisitForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(TechnicalVisitForm, self).__init__(*args, **kwargs)
-        # If you pass FormHelper constructor a form instance
-        # It builds a default layout with all its fields
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
             Row(
-                Column('campaign', css_class='form-group col-md-4 mb-0'),
-                Column('client', css_class='form-group col-md-4 mb-0'),
+                Column(
+                    Field('campaign', disabled=True),
+                    css_class='col-sm-4 read-only'),
+                Column(
+                    Field('client', disabled=True),
+                    css_class='col-sm-4 read-only'),
                 css_class='form-row'
             ),
             Row(
-                Column('date_technical_visit', css_class='form-group col-md-12 mb-0'),
+                Column(
+                    'date_technical_visit',
+                    css_class='form-group col-md-4 mb-0'),
                 css_class='form-row'
             ),
         )
         self.helper.layout.append(Submit('previous', 'previous'))
+        self.helper.layout.append(Submit('cancel', 'cancel'))
         self.helper.layout.append(Submit('save', 'save'))
         self.helper.layout.append(Submit('next', 'next'))
 
     class Meta:
         model = Project
-        fields = ['date_technical_visit', 'campaign', 'client']
+        fields = [
+            'date_technical_visit',
+            'campaign',
+            'client'
+        ]
+        widgets = {
+            'date_technical_visit': DatePickerInput(),
+        }
 
     def set_technical_visit(self, date_set_technical_visit):
         date_technical_visit = date_set_technical_visit
         status = 'technical visit'
-        return status, date_technical_visit
+        warning = 'No Warn'
+        return status, date_technical_visit, warning
 
 
 class ReportForm(forms.ModelForm):
@@ -135,20 +185,29 @@ class ReportForm(forms.ModelForm):
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
             Row(
-                Column('campaign', css_class='form-group col-md-4 mb-0'),
-                Column('client', css_class='form-group col-md-4 mb-0'),
+                Column(
+                    Field('campaign', disabled=True),
+                    css_class='col-sm-4 read-only'),
+                Column(
+                    Field('client', disabled=True),
+                    css_class='col-sm-4 read-only'),
                 css_class='form-row'
             ),
             Row(
-                Column('upload_report', css_class='form-group col-md-12 mb-0'),
+                Column(
+                    'upload_report',
+                    css_class='form-group col-md-12 mb-0'),
                 css_class='form-row'
             ),
             Row(
-                Column('is_invalid_report', css_class='form-group col-md-12 mb-0'),
+                Column(
+                    'is_invalid_report',
+                    css_class='form-group col-md-12 mb-0'),
                 css_class='form-row'
             ),
         )
         self.helper.layout.append(Submit('previous', 'previous'))
+        self.helper.layout.append(Submit('cancel', 'cancel'))
         self.helper.layout.append(Submit('save', 'save'))
         self.helper.layout.append(Submit('next', 'next'))
 
@@ -180,16 +239,24 @@ class OfferForm(forms.ModelForm):
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
             Row(
-                Column('campaign', css_class='form-group col-md-4 mb-0'),
-                Column('client', css_class='form-group col-md-4 mb-0'),
+                Column(
+                    Field('campaign', disabled=True),
+                    css_class='col-sm-4 read-only'),
+                Column(
+                    Field('client', disabled=True),
+                    css_class='col-sm-4 read-only'),
                 css_class='form-row'
             ),
             Row(
-                Column('upload_offer', css_class='form-group col-md-12 mb-0'),
+                Column(
+                    'upload_offer',
+                    css_class='form-group col-md-12 mb-0'),
                 css_class='form-row'
             ),
             Row(
-                Column('is_invalid_offer', css_class='form-group col-md-12 mb-0'),
+                Column(
+                    'is_invalid_offer',
+                    css_class='form-group col-md-12 mb-0'),
                 css_class='form-row'
             ),
         )
@@ -197,7 +264,6 @@ class OfferForm(forms.ModelForm):
         self.helper.layout.append(Submit('save', 'save'))
         self.helper.layout.append(Submit('next', 'next'))
         self.helper.layout.append(Submit('cancel', 'cancel'))
-
 
     class Meta:
         model = Project
@@ -227,12 +293,18 @@ class ConstructionPermitForm(forms.ModelForm):
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
             Row(
-                Column('campaign', css_class='form-group col-md-4 mb-0'),
-                Column('client', css_class='form-group col-md-4 mb-0'),
+                Column(
+                    Field('campaign', disabled=True),
+                    css_class='col-sm-4 read-only'),
+                Column(
+                    Field('client', disabled=True),
+                    css_class='col-sm-4 read-only'),
                 css_class='form-row'
             ),
             Row(
-                Column('upload_permit', css_class='form-group col-md-12 mb-0'),
+                Column(
+                    'upload_permit',
+                    css_class='form-group col-md-12 mb-0'),
                 css_class='form-row'
             ),
         )
@@ -267,8 +339,18 @@ class InstallationDateForm(forms.ModelForm):
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
             Row(
-                Column('campaign', css_class='form-group col-md-4 mb-0'),
-                Column('client', css_class='form-group col-md-4 mb-0'),
+                Column(
+                    Field('campaign', disabled=True),
+                    css_class='col-sm-4 read-only'),
+                Column(
+                    Field('client', disabled=True),
+                    css_class='col-sm-4 read-only'),
+                css_class='form-row'
+            ),
+            Row(
+                Column(
+                    'date_start_installation',
+                    css_class='form-group col-md-4 mb-0'),
                 css_class='form-row'
             ),
         )

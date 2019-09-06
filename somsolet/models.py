@@ -1,19 +1,12 @@
-from django.db import models
 from django.contrib.auth.models import User
+from django.db import models
 from django.utils.translation import gettext_lazy as _
-
-from .choices_options import ITEM_STATUS, ITEM_WARNINGS, ITEM_DISCARDED_TYPES, ITEM_COMMUNITY
-from .choices_options import ITEM_ORIENTATION, ITEM_ANGLES, ITEM_VOLTAGE, PANELS_BRAND, PANELS_TYPE
-from .choices_options import INVERSOR_BRAND, BATERY_BRAND
-
 from yamlns import namespace as ns
 
-
-class UserProfileInfo(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.user.username
+from .choices_options import (BATERY_BRAND, INVERSOR_BRAND, ITEM_ANGLES,
+                              ITEM_COMMUNITY, ITEM_DISCARDED_TYPES,
+                              ITEM_ORIENTATION, ITEM_STATUS, ITEM_VOLTAGE,
+                              ITEM_WARNINGS, PANELS_BRAND, PANELS_TYPE)
 
 
 class Engineering(models.Model):
