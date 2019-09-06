@@ -279,86 +279,266 @@ class InstallationDateForm(forms.ModelForm):
             'campaign',
             'client'
         ]
+        widgets = {
+            'date_start_installation': DatePickerInput(),
+        }
 
     def set_date_installation(self, date_installation):
-        if self.cleaned_data['date_start_installation']:
+        if date_installation:
             status = 'date installation set'
             is_date_set = True
-            return status, is_date_set
+            warning = 'No Warn'
+            return status, is_date_set, warning
         else:
-            status = 'date_permit'
+            status = 'pending installation date'
             is_date_set = False
-            return status, is_date_set
-
+            warning = 'installation date'
+            return status, is_date_set, warning
 
 
 class TechnicalDetailsForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(TechnicalDetailsForm, self).__init__(*args, **kwargs)
-
-        # If you pass FormHelper constructor a form instance
-        # It builds a default layout with all its fields
         self.helper = FormHelper(self)
+        self.fields['project'].disabled = True
+        self.fields['campaign'].disabled = True
+        self.fields['client'].disabled = True
         self.helper.layout = Layout(
             Row(
-                Column('project', css_class='form-group col-md-4 mb-0'),
-                Column('campaign', css_class='form-group col-md-4 mb-0'),
-                Column('client', css_class='form-group col-md-4 mb-0'),
-                Column('engineering', css_class='form-group col-md-4 mb-0'),
+                Column(
+                    'project',
+                    css_class='form-group col-md-3 mb-0'),
+                Column(
+                    'campaign',
+                    css_class='form-group col-md-3 mb-0'),
+                Column(
+                    'client',
+                    css_class='form-group col-md-3 mb-0'),
                 css_class='form-row'
             ),
             Row(
-                Column('street', css_class='form-group col-md-7 mb-0'),
-                Column('town', css_class='form-group col-md-3 mb-0'),
-                Column('postal_code', css_class='form-group col-md-2 mb-0'),
+                Column(
+                    'administrative_division',
+                    css_class='form-group col-md-3 mb-0'),
+                Column(
+                    'municipality',
+                    css_class='form-group col-md-3 mb-0'),
+                Column(
+                    'street',
+                    css_class='form-group col-md-3 mb-0'),
+                Column(
+                    'town',
+                    css_class='form-group col-md-3 mb-0'),
+                Column(
+                    'postal_code',
+                    css_class='form-group col-md-3 mb-0'),
                 css_class='form-row'
             ),
             Row(
-                Column('contract_number', css_class='form-group col-md-6 mb-0'),
-                Column('cups', css_class='form-group col-md-6 mb-0'),
+                Column(
+                    'contract_number',
+                    css_class='form-group col-md-6 mb-0'),
+                Column(
+                    'cups',
+                    css_class='form-group col-md-6 mb-0'),
                 css_class='form-row'
             ),
 
             Row(
-                Column('roof_orientation', css_class='form-group col-md-6 mb-0'),
-                Column('solar_modules_angle', css_class='form-group col-md-6 mb-0'),
+                Column(
+                    'roof_orientation',
+                    css_class='form-group col-md-6 mb-0'),
+                Column(
+                    'solar_modules_angle',
+                    css_class='form-group col-md-6 mb-0'),
                 css_class='form-row'
             ),
             Row(
-                Column('voltage', css_class='form-group col-md-4 mb-0'),
-                Column('peak_power_panels_wp', css_class='form-group col-md-4 mb-0'),
-                Column('installation_power', css_class='form-group col-md-4 mb-0'),
+                Column(
+                    'voltage',
+                    css_class='form-group col-md-4 mb-0'),
+                Column(
+                    'tariff',
+                    css_class='form-group col-md-4 mb-0'),
+                Column(
+                    'anual_consumption',
+                    css_class='form-group col-md-4 mb-0'),
                 css_class='form-row'
             ),
             Row(
-                Column('panel_brand', css_class='form-group col-md-3 mb-0'),
-                Column('panel_type', css_class='form-group col-md-3 mb-0'),
-                Column('panel_model', css_class='form-group col-md-3 mb-0'),
-                Column('count_panels', css_class='form-group col-md-3 mb-0'),  
+                Column(
+                    'count_panels',
+                    css_class='form-group col-md-4 mb-0'),
+                Column(
+                    'installation_power',
+                    css_class='form-group col-md-4 mb-0'),
+                Column(
+                    'installation_model',
+                    css_class='form-group col-md-4 mb-0'),
+                Column(
+                    'installation_singlephase_model',
+                    css_class='form-group col-md-3 mb-0'),
+                Column(
+                    'installation_threephase_model',
+                    css_class='form-group col-md-3 mb-0'),
                 css_class='form-row'
             ),
             Row(
-                Column('inversor_brand', css_class='form-group col-md-4 mb-0'),
-                Column('nominal_inversor_power', css_class='form-group col-md-4 mb-0'),
-                Column('inversor_model', css_class='form-group col-md-4 mb-0'),
+                Column(
+                    'shadow_optimizer',
+                    css_class='form-group col-md-4 mb-0'),
+                Column(
+                    'homemanager',
+                    css_class='form-group col-md-4 mb-0'),
+                Column(
+                    'electric_car',
+                    css_class='form-group col-md-4 mb-0'),
+                Column(
+                    'charger_brand',
+                    css_class='form-group col-md-3 mb-0'),
+                Column(
+                    'charger_manager',
+                    css_class='form-group col-md-3 mb-0'),
+                Column(
+                    'electric_car_charger',
+                    css_class='form-group col-md-3 mb-0'),
+                Column(
+                    'power_meter',
+                    css_class='form-group col-md-3 mb-0'),
                 css_class='form-row'
             ),
             Row(
-                Column('bateries_brand', css_class='form-group col-md-3 mb-0'),
-                Column('bateries_power', css_class='form-group col-md-3 mb-0'),
-                Column('bateries_model', css_class='form-group col-md-3 mb-0'),
-                Column('bateries_capacity', css_class='form-group col-md-3 mb-0'), 
-                css_class='form-row'
-            ),
-            Row(
-                Column('homemanager', css_class='form-group col-md-6 mb-0'),
-                Column('electric_car', css_class='form-group col-md-8 mb-0'),
+                Column(
+                    'acquire_interest',
+                    css_class='form-group col-md-6 mb-0'),
+                Column(
+                    'comments',
+                    css_class='form-group col-md-8 mb-0'),
                 css_class='form-row'
             ),
 
         )
+        self.helper.layout.append(Submit('previous', 'previous'))
         self.helper.layout.append(Submit('save', 'save'))
+        self.helper.layout.append(Submit('next', 'next'))
+        self.helper.layout.append(Submit('cancel', 'cancel'))
 
     class Meta:
         model = Technical_details
+        fields = '__all__'
+
+
+class TechnicalCampaignsForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(TechnicalCampaignsForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.fields['campaign'].disabled = True
+        self.helper.layout = Layout(
+            Row(
+                Column(
+                    'campaign',
+                    css_class='form-group col-md-4 mb-0'),
+            ),
+            Row(
+                Column(
+                    'bateries_brand',
+                    css_class='form-group col-md-4 mb-0'),
+                Column(
+                    'bateries_model',
+                    css_class='form-group col-md-4 mb-0'),
+                Column(
+                    'bateries_power',
+                    css_class='form-group col-md-4 mb-0'),
+                Column(
+                    'bateries_capacity',
+                    css_class='form-group col-md-4 mb-0'),
+                Column(
+                    'bateries_price',
+                    css_class='form-group col-md-4 mb-0'),
+                css_class='form-row'
+            ),
+            Row(
+                Column(
+                    'shadow_optimizer_brand',
+                    css_class='form-group col-md-4 mb-0'),
+                Column(
+                    'shadow_optimizer_model',
+                    css_class='form-group col-md-4 mb-0'),
+                Column(
+                    'shadow_optimizer_price',
+                    css_class='form-group col-md-4 mb-0'),
+                css_class='form-row'
+            ),
+            Row(
+                Column(
+                    'peak_power_panels_wp',
+                    css_class='form-group col-md-4 mb-0'),
+                Column(
+                    'panel_brand',
+                    css_class='form-group col-md-4 mb-0'),
+                Column(
+                    'panel_type',
+                    css_class='form-group col-md-4 mb-0'),
+                Column(
+                    'panel_model',
+                    css_class='form-group col-md-4 mb-0'),
+            ),
+            Row(
+                Column(
+                    'inversor_brand',
+                    css_class='form-group col-md-4 mb-0'),
+                Column(
+                    'inversor_model',
+                    css_class='form-group col-md-4 mb-0'),
+                Column(
+                    'nominal_inversor_power',
+                    css_class='form-group col-md-4 mb-0'),
+                css_class='form-row'
+            ),
+            Row(
+                Column(
+                    'charger_manager_brand',
+                    css_class='form-group col-md-4 mb-0'),
+                Column(
+                    'charger_manager_model',
+                    css_class='form-group col-md-4 mb-0'),
+                Column(
+                    'charger_manager_price',
+                    css_class='form-group col-md-4 mb-0'),
+                css_class='form-row'
+            ),
+            Row(
+                Column(
+                    'electric_car_charger_brand',
+                    css_class='form-group col-md-4 mb-0'),
+                Column(
+                    'electric_car_charger_model',
+                    css_class='form-group col-md-4 mb-0'),
+                Column(
+                    'electric_car_charger_power',
+                    css_class='form-group col-md-4 mb-0'),
+                Column(
+                    'electric_car_charger_price',
+                    css_class='form-group col-md-4 mb-0'),
+            ),
+            Row(
+                Column(
+                    'price_mono_fixed',
+                    css_class='form-group col-md-4 mb-0'),
+                Column(
+                    'price_mono_var',
+                    css_class='form-group col-md-4 mb-0'),
+                Column(
+                    'price_tri_fixed',
+                    css_class='form-group col-md-4 mb-0'),
+                Column(
+                    'price_tri_var',
+                    css_class='form-group col-md-4 mb-0'),
+            ),
+        )
+
+        self.helper.layout.append(Submit('goback', 'Go back'))
+
+    class Meta:
+        model = Technical_campaign
         fields = '__all__'

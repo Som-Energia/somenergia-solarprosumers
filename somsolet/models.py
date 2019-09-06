@@ -259,7 +259,7 @@ class Technical_campaign(models.Model):
         verbose_name='Trifasic Variable Price (€/Wp)')
 
     def __str__(self):
-        return self.campaign
+        return self.campaign.name
 
 
 class Client(models.Model):

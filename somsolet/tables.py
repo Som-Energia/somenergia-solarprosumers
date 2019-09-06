@@ -11,6 +11,10 @@ class CampaignTable(tables.Table):
         'project',
         args=[A('pk')],
         verbose_name='Campaign',)
+    technical_campaign = tables.TemplateColumn(
+        template_name='somsolet/technical_campaign_update.html',
+        extra_context={'record': A('pk'), 'technical_campaign': A('pk')},
+        verbose_name='Technical Details',)
 
     class Meta:
         model = Campaign

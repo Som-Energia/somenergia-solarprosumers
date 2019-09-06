@@ -254,15 +254,20 @@ def set_date_installation(request, pk):
 def project(request):
     project_filter = ProjectListFilter(request.GET, queryset=Project.objects.all())
 
-    project_list = project_filter.qs
-    projects_table = ProjectTable(project_list)
+class CampaignSetView(View):
+    template_name = 'somsolet/campaign.html'
 
-    ctx = {
-        'project': projects_table,
-        'filter': project_filter
-    }
-    RequestConfig(request, paginate={'per_page': 2}).configure(projects_table)
-    return render(request, 'somsolet/project_detail.html', ctx)
+    def get(self, request):
+        campaign_filter = CampaignListFilter(
+            request,
+            queryset=Campaign.objects.all().filter(
+                engineering=request.user.engineering))
+        campaign_list = campaign_filter.qs
+        campaign_table = CampaignTable(campaign_list)
+        ctx = {
+            'campaign': campaign_table,
+        }
+        return render(request, self.template_name, ctx)
 
 
 def technical_details(request, pk):
@@ -283,4 +288,103 @@ def technical_details(request, pk):
         {
             'technicalform': form
         }
-    )
+        RequestConfig(
+            request,
+            paginate={'per_page': 20}
+        ).configure(projects_table)
+        return render(request, 'somsolet/project_detail.html', ctx)
+
+
+class TechnicalCampaignsView(View):
+    form_class = TechnicalCampaignsForm
+    template_name = 'somsolet/technical_details.html'
+    url_path = 'technical_campaign'
+
+    def get_initial_values(self, pk):
+        campaign_inst = get_object_or_404(Campaign, pk=pk)
+        tech_details = Technical_campaign.objects.get(campaign=campaign_inst.id)
+        return tech_details
+
+    def get(self, request, pk):
+        self.initial = self.get_initial_values(pk)
+        form = self.form_class(instance=self.initial)
+        return render(
+            request,
+            self.template_name, {'technical_form': form}
+        )
+
+    def post(self, request, pk):
+        self.initial = self.get_initial_values(pk)
+        form = self.form_class(self.request.POST, instance=self.initial)
+        campaign_inst = get_object_or_404(Campaign, pk=pk)
+        if form.is_valid():
+            return HttpResponseRedirect(reverse('campaign'))
+        return render(
+            request,
+            self.template_name, {'technical_form': form}
+        )
+
+
+class TechnicalDetailsView(View):
+    form_class = TechnicalDetailsForm
+    template_name = 'somsolet/technical_details.html'
+    url_path = 'technical_details'
+
+    def get_initial_values(self, pk):
+        proj_inst = get_object_or_404(Project, pk=pk)
+        tech_details = Technical_details.objects.get(project=proj_inst.id)
+        return tech_details
+
+    def get(self, request, pk):
+        self.initial = self.get_initial_values(pk)
+        form = self.form_class(instance=self.initial)
+        return render(
+            request,
+            self.template_name, {'technical_form': form}
+        )
+
+    def post(self, request, pk):
+        self.initial = self.get_initial_values(pk)
+        form = self.form_class(self.request.POST, instance=self.initial)
+        proj_inst = get_object_or_404(Project, pk=pk)
+        if form.is_valid():
+            form.campaign = proj_inst.campaign
+            return self.button_options(request, pk, proj_inst)
+        return render(
+            request,
+            self.template_name, {'technical_form': form}
+        )
+
+    def button_options(self, request, pk, proj_inst):
+        if 'next' in request.POST:
+            proj_inst.save()
+            next_proj = Project.objects.filter(
+                campaign=proj_inst.campaign,
+                pk__gt=pk
+            ).order_by('pk').first() or Project.objects.filter(
+                campaign=proj_inst.campaign
+            ).first()
+            return HttpResponseRedirect(reverse(
+                self.url_path,
+                args=[next_proj.id])
+            )
+        elif 'previous' in request.POST:
+            proj_inst.save()
+            previous_proj = Project.objects.filter(
+                campaign=proj_inst.campaign,
+                pk__lt=pk
+            ).order_by('pk').last() or Project.objects.filter(
+                campaign=proj_inst.campaign
+            ).last()
+            return HttpResponseRedirect(reverse(
+                self.url_path,
+                args=[previous_proj.id]))
+        elif 'cancel' in request.POST:
+            return HttpResponseRedirect(reverse(
+                'project',
+                args=[proj_inst.campaign.pk]))
+        elif 'save' in request.POST:
+            proj_inst.save()
+            return HttpResponseRedirect(reverse(
+                'project',
+                args=[proj_inst.campaign.pk]))
