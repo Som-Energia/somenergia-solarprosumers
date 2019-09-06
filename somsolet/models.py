@@ -498,16 +498,22 @@ class Project(models.Model):
 class Technical_details(models.Model):
     project = models.ForeignKey(
         Project,
+        null=True,
+        blank=True,
         on_delete=models.CASCADE,
         verbose_name='Project')
 
     campaign = models.ForeignKey(
         Campaign,
+        null=True,
+        blank=True,
         on_delete=models.CASCADE,
         verbose_name='Campaign')
 
     client = models.ForeignKey(
         Client,
+        null=True,
+        blank=True,
         on_delete=models.CASCADE,
         verbose_name='Client')
 
