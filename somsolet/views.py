@@ -353,6 +353,7 @@ class TechnicalDetailsView(View):
         proj_inst = get_object_or_404(Project, pk=pk)
         if form.is_valid():
             form.campaign = proj_inst.campaign
+            form.save()
             return self.button_options(request, pk, proj_inst)
         return render(
             request,
