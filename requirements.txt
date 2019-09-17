@@ -17,3 +17,4 @@ rq-scheduler
 django-rq
 django-anymail
 sendgrid
+pymongo

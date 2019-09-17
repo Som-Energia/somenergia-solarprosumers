@@ -53,6 +53,15 @@ class ProjectTable(tables.Table):
         template_name='somsolet/technical_details_update.html',
         extra_context={'record': A('pk'), 'technical_details': A('pk')},
         verbose_name='Technical Details',)
+    download_cch = tables.TemplateColumn(
+        template_name='somsolet/download_cch.html',
+        extra_context={
+            'record': A('pk'),
+            'download_cch': A('pk'),
+            'name': A('name')
+        },
+        verbose_name='Download CCH',
+        orderable=False)
 
     class Meta:
         model = Project

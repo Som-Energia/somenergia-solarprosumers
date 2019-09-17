@@ -1,27 +1,26 @@
+import csv
 import logging
-
-from django.views import View
-from django.views.generic import DetailView
-
-
-from django.urls import reverse_lazy
-
 from datetime import datetime
 
-from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render
-from django.urls import reverse
-from django_tables2 import RequestConfig
+import pymongo
+from django.conf import settings
+from django.contrib import messages
 from django.contrib.auth import authenticate, login
+from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import get_object_or_404, render
+from django.urls import reverse, reverse_lazy
+from django.views import View
+from django.views.generic import DetailView
+from django_tables2 import RequestConfig
 
-from .filters import ProjectListFilter, CampaignListFilter
-from .forms import (ConstructionPermitForm, InstallationDateForm, OfferForm,
-                    PrereportForm, ReportForm, TechnicalCampaignsForm,
-                    TechnicalDetailsForm, TechnicalVisitForm, UserForm,
-                    ClientForm)
+from .filters import CampaignListFilter, ProjectListFilter
+from .forms import (ClientForm, ConstructionPermitForm, InstallationDateForm,
+                    OfferForm, PrereportForm, ReportForm,
+                    TechnicalCampaignsForm, TechnicalDetailsForm,
+                    TechnicalVisitForm, UserForm)
 from .models import (Campaign, Client, Engineering, Project,
                      Technical_campaign, Technical_details)
-from .tables import ProjectTable, CampaignTable
+from .tables import CampaignTable, ProjectTable
 
 logger = logging.getLogger(__name__)
 
@@ -297,6 +296,51 @@ class ProjectView(View):
             paginate={'per_page': 20}
         ).configure(projects_table)
         return render(request, 'somsolet/project_detail.html', ctx)
+
+
+class DownloadCch(View):
+    url_path = 'download_cch'
+
+    def get(self, request, pk): # Autentication required
+        project = Project.objects.get(pk=pk)
+        technical_details = project.technical_details_set.first()
+        cups = technical_details.cups
+
+        client = pymongo.MongoClient('mongodb://{}:{}@{}:{}/{}'.format(
+            settings.DATABASES['mongodb']['USER'],
+            settings.DATABASES['mongodb']['PASSWORD'],
+            settings.DATABASES['mongodb']['HOST'],
+            settings.DATABASES['mongodb']['PORT'],
+            settings.DATABASES['mongodb']['NAME'],
+            )
+        )
+        db = client[settings.DATABASES['mongodb']['NAME']]
+
+        cursor = db.tg_cchfact.find({
+            "name": {'$regex': '^{}'.format(cups[:20])}
+        })
+
+        if cursor.count() == 0:
+            return HttpResponseRedirect(reverse(
+                'project',
+                args=[project.campaign.pk])
+            )
+        else:
+            response = HttpResponse(content_type='text/csv')
+            response['Content-Disposition'] = 'attachment; filename="cch_project_{}.csv"'.format(cups)
+            writer = csv.writer(response)
+
+            writer.writerow(['Project', 'date', 'value', 'units'])
+            for measure in cursor:
+                writer.writerow([
+                    project.name,
+                    measure['datetime'],
+                    measure['ai'],
+                    'Wh'
+                ])
+            cursor.close()
+            client.close()
+            return response
 
 
 class TechnicalCampaignsView(View):

@@ -16,6 +16,11 @@ urlpatterns = [
         name='client',
     ),
     path(
+        'download_cch/<int:pk>/',
+        views.DownloadCch.as_view(),
+        name='download_cch'
+    ),
+    path(
         'technical_details/<int:pk>/',
         views.TechnicalDetailsView.as_view(),
         name='technical_details'

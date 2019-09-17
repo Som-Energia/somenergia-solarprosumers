@@ -167,3 +167,17 @@ h1 a {
 .table-campaign th:nth-child(3){
     background-color: var(--color7);
 }
+
+.loader{
+  text-align: center;
+  display: inline-block;
+  vertical-align: top;
+}
+
+/*
+  Set the color of the icon
+*/
+svg path,
+svg rect{
+  fill: #bac92a;
+}

@@ -16,5 +16,12 @@ DATABASES = {
         'PASSWORD': config['databases']['develop']['password'],
         'HOST': config['databases']['develop']['host'],
         'PORT': config['databases']['develop']['port'],
+    },
+    'mongodb': {
+        'HOST': config['mongodb']['host'],
+        'PORT': config['mongodb']['port'],
+        'USER': config['mongodb']['user'],
+        'PASSWORD': config['mongodb']['password'],
+        'NAME': config['mongodb']['name']
     }
 }
