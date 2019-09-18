@@ -32,8 +32,9 @@ ITEM_WARNINGS = (
                 ('signature', _('Warning: Waiting for signature')),
                 ('installation date', _('Warning: Waiting for installation date')),
                 ('finish installation', _('Warning: Installation deadline has passed')),
-                ('legalization', _('Warning: Waiting for legalization certificates')),)
-
+                ('legalization', _('Warning: Waiting for legalization certificates')),
+                ('final payment', _('Warning: Pending engeneering payment')),
+                ('warranty payment', _('Warning: Pending warranty payment')),)
 
 ITEM_DISCARDED_TYPES = (
                        ('Not discarded', _('---')),
