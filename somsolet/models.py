@@ -350,8 +350,8 @@ class Project(models.Model):
         verbose_name='Invalid Prereport')
 
     upload_prereport = models.FileField(
-        upload_to='uploaded_files',
-        default='uploaded_files/som.png',
+        upload_to='uploaded_files/prereport',
+        default='uploaded_files/prereport/som.png',
         verbose_name='Upload Prereport')
 
     date_technical_visit = models.DateField(
@@ -366,8 +366,8 @@ class Project(models.Model):
         default=False)
 
     upload_report = models.FileField(
-        upload_to='uploaded_files',
-        default='uploaded_files/som.png',
+        upload_to='uploaded_files/report',
+        default='uploaded_files/report/som.png',
         verbose_name='Upload Report')
 
     date_offer = models.DateField(
@@ -381,8 +381,8 @@ class Project(models.Model):
         default=False)
 
     upload_offer = models.FileField(
-        upload_to='uploaded_files',
-        default='uploaded_files/som.png',
+        upload_to='uploaded_files/offer',
+        default='uploaded_files/offer/som.png',
         verbose_name='Upload Offer')
 
     date_signature = models.DateField(
@@ -397,8 +397,8 @@ class Project(models.Model):
         blank=True)
 
     upload_permit = models.FileField(
-        upload_to='uploaded_files',
-        default='uploaded_files/som.png',
+        upload_to='uploaded_files/permit',
+        default='uploaded_files/permit/som.png',
         verbose_name='Upload Permit')
 
     discarded_type = models.CharField(
@@ -417,8 +417,8 @@ class Project(models.Model):
         default=False)
 
     upload_delivery_certificate = models.FileField(
-        upload_to='uploaded_files',
-        default='uploaded_files/som.png',
+        upload_to='uploaded_files/delivery_certificate',
+        default='uploaded_files/delivery_certificate/som.png',
         verbose_name='Upload delivery certificate')
 
     date_delivery_certificate = models.DateField(
@@ -426,8 +426,8 @@ class Project(models.Model):
         blank=True)
 
     upload_legal_docs = models.FileField(
-        upload_to='uploaded_files',
-        default='uploaded_files/som.png',
+        upload_to='uploaded_files/legal_docs',
+        default='uploaded_files/legal_docs/som.png',
         verbose_name='Upload legal certificate')
 
     date_legal_docs = models.DateField(

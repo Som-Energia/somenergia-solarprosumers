@@ -89,19 +89,19 @@ class ProjectTable(tables.Table):
         return format_html("<span class=\"status {}\"><i class=\"fa fa-circle\" title=\"{}\" aria-hidden=\"true\"></i></span>", slugify(value), value)
 
     def render_upload_prereport(self, value):
-        if value.name != 'uploaded_files/som.png':
+        if value.name != 'uploaded_files/prereport/som.png':
             return format_html("<i class=\"fa fa-file\" title=\"{}\"/>", value.name)
         else:
             return format_html("<i class=\"fa fa-times\"")
 
     def render_upload_report(self, value):
-        if value.name != 'uploaded_files/som.png':
+        if value.name != 'uploaded_files/report/som.png':
             return format_html("<i class=\"fa fa-file\" title=\"{}\"/>", value.name)
         else:
             return format_html("<i class=\"fa fa-times\"")
 
     def render_upload_offer(self, value):
-        if value.name != 'uploaded_files/som.png':
+        if value.name != 'uploaded_files/offer/som.png':
             return format_html("<i class=\"fa fa-file\" title=\"{}\"/>", value.name)
         else:
             return format_html("<i class=\"fa fa-times\"")
