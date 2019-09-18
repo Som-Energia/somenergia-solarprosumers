@@ -16,7 +16,7 @@ ITEM_STATUS = (
               ('pending installation date', _('Pending installation date')),
               ('date installation set', _('Date installation set')),
               ('installation in progress', _('Installation in progress')),
-              ('installation', _('Installation')),
+              ('end installation', _('End installation')),
               ('legalization', _('Legalization')),
               ('final payment', _('Final payment')),
               ('warranty payment', _('Warranty payment')),

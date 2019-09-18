@@ -17,7 +17,7 @@ from .filters import CampaignListFilter, ProjectListFilter
 from .forms import (ClientForm, ConstructionPermitForm, InstallationDateForm,
                     OfferForm, PrereportForm, ReportForm,
                     TechnicalCampaignsForm, TechnicalDetailsForm,
-                    TechnicalVisitForm, UserForm)
+                    TechnicalVisitForm, UserForm, DeliveryCertificateForm)
 from .models import (Campaign, Client, Engineering, Project,
                      Technical_campaign, Technical_details)
 from .tables import CampaignTable, ProjectTable
@@ -254,6 +254,40 @@ class InstallationDateView(SomsoletProjectView):
             return self.button_options(request, pk, proj_inst)
 
         return render(request, self.template_name, {'installationdateform': form})
+
+class DeliveryCertificateView(SomsoletProjectView):
+    form_class = DeliveryCertificateForm
+    template_name = 'somsolet/delivery_certificate.html'
+
+    def __init__(self):
+        self.form = 'deliverycertificateform'
+        self.url_path = 'delivery_certificate'
+
+    def post(self, request, pk):
+        form = self.form_class(request.POST, request.FILES)
+        proj_inst = get_object_or_404(Project, pk=pk)
+        if 'cancel' in request.POST:
+            return HttpResponseRedirect(reverse(
+                'project',
+                args=[proj_inst.campaign.pk]))
+        if form.is_valid():
+            date_delivery_certificate = datetime.now().strftime('%Y-%m-%d')
+            proj_inst.status = 'end installation'
+            proj_inst.warning = 'No Warn'
+            proj_inst.upload_delivery_certificate = form.cleaned_data[
+                'upload_delivery_certificate'
+            ]
+            if request.FILES:
+                proj_inst.upload_delivery_certificate.name = proj_inst.name \
+                    + '_' + proj_inst.upload_delivery_certificate.name
+                proj_inst.date_delivery_certificate = date_delivery_certificate
+            return self.button_options(request, pk, proj_inst)
+
+        return render(
+            request,
+            self.template_name,
+            {'deliverycertificateform': form}
+        )
 
 
 class ClientView(DetailView):

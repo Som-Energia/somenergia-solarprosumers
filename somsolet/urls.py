@@ -64,6 +64,11 @@ urlpatterns = [
         views.InstallationDateView.as_view(),
         name='installation_date'
     ),
+    path(
+        'delivery_certificate/<int:pk>/',
+        views.DeliveryCertificateView.as_view(),
+        name='delivery_certificate'
+    ),
     path('register/', views.register, name='register'),
 
 ]
