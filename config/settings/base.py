@@ -181,6 +181,6 @@ ANYMAIL = {
     'EMAIL_USE_TLS': True,
 }
 EMAIL_BACKEND = "anymail.backends.sendgrid.EmailBackend"
-DEFAULT_FROM_EMAIL = "Autoproducció Som Energia <auto@somenergia.coop>"
-SERVER_EMAIL = "frontend@somenergia.coop"
+DEFAULT_FROM_EMAIL = [config['email']['default_from']]
 BCC = [config['email']['bcc']]
+COMPANY_MAIL = [config['email']['company_mail']]

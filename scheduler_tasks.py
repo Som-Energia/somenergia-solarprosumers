@@ -1,11 +1,11 @@
 import logging
 from datetime import datetime, timedelta
 
+from config.settings.base import BCC, COMPANY_MAIL
 from django.core.mail import EmailMessage
+from django.db.models import Q
 from django.template.loader import render_to_string
-
-from config.settings.base import BCC
-from somsolet.models import Project, Campaign
+from somsolet.models import Campaign, Project
 
 logger = logging.getLogger('scheduler_tasks')
 
@@ -16,27 +16,67 @@ def send_email_tasks():
     for campaign in active_campaigns:
         warnings = Project.objects.filter(
             campaign=campaign).exclude(warning='No Warn')
-        if warnings:
-            logger.info("if warnings send emails")
-            html_body = render_to_string(
-                'emails/message_body.html',
-                {'result': list(warnings)}
-            )
-            subject = render_to_string(
-                "emails/message_subject.txt",
-                {
-                    'campaign': campaign.name
-                }
-            )
-            msg = EmailMessage(
-                subject,
-                html_body,
-                '',
-                [campaign.engineering.email],
-                BCC
-            )
-            msg.content_subtype = "html"
-            msg.send()
+
+        engineering_warnings = warnings.exclude(
+            Q(warning='warranty payment') | Q(warning='final payment')
+        )
+        som_warning_final_payment = warnings.filter(
+            warning='final payment'
+        )
+        som_warning_warranty = warnings.filter(
+            warning='warranty payment'
+        ).distinct('campaign')
+        to_email = ''
+        logger.info("Sending email...")
+
+        if engineering_warnings:
+            message_params = {
+                'result': list(engineering_warnings),
+                'intro': 'Engineering intro mail text...',
+                'warning_type': 'Instalació',
+                'ending': 'Engineering ending mail text...',
+            }
+            to_email = [campaign.engineering.email]
+        if som_warning_final_payment:
+            message_params = {
+                'result': list(som_warning_final_payment),
+                'intro': 'Som Energia intro mail text...',
+                'warning_type': 'Project',
+                'ending': 'Som Energia ending mail text...',
+            }
+            to_email = COMPANY_MAIL
+        if som_warning_warranty:
+            campaign_warning = []
+            for project in som_warning_warranty:
+                campaign_warning.append({
+                    'name': project.campaign.name,
+                    'warning': project.warning
+                })
+            message_params = {
+                'result': campaign_warning,
+                'intro': 'Som Energia intro mail text...',
+                'warning_type': 'Campaign',
+                'ending': 'Som Energia ending mail text...',
+            }
+            to_email = COMPANY_MAIL
+
+        html_body = render_to_string(
+            'emails/message_body.html',
+            message_params
+        )
+        subject = render_to_string(
+            "emails/message_subject.txt",
+            {'campaign': campaign.name}
+        )
+        msg = EmailMessage(
+            subject,
+            html_body,
+            '',
+            to_email,
+            BCC
+        )
+        msg.content_subtype = "html"
+        msg.send()
 
 
 def prereport_warning():
