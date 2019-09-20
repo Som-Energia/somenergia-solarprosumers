@@ -17,7 +17,8 @@ from .filters import CampaignListFilter, ProjectListFilter
 from .forms import (ClientForm, ConstructionPermitForm, InstallationDateForm,
                     OfferForm, PrereportForm, ReportForm,
                     TechnicalCampaignsForm, TechnicalDetailsForm,
-                    TechnicalVisitForm, UserForm, DeliveryCertificateForm)
+                    TechnicalVisitForm, UserForm, DeliveryCertificateForm,
+                    LegalizationForm)
 from .models import (Campaign, Client, Engineering, Project,
                      Technical_campaign, Technical_details)
 from .tables import CampaignTable, ProjectTable
@@ -290,6 +291,39 @@ class DeliveryCertificateView(SomsoletProjectView):
         )
 
 
+class LegalizationView(SomsoletProjectView):
+    form_class = LegalizationForm
+    template_name = 'somsolet/legalization.html'
+
+    def __init__(self):
+        self.form = 'legalizationform'
+        self.url_path = 'legalization'
+
+    def post(self, request, pk):
+        form = self.form_class(request.POST, request.FILES)
+        proj_inst = get_object_or_404(Project, pk=pk)
+        if 'cancel' in request.POST:
+            return HttpResponseRedirect(reverse(
+                'project',
+                args=[proj_inst.campaign.pk]))
+        if form.is_valid():
+            date_legal_docs = datetime.now().strftime('%Y-%m-%d')
+            proj_inst.status = 'legalization'
+            proj_inst.warning = 'No Warn'
+            proj_inst.upload_legal_docs = form.cleaned_data[
+                'upload_legal_docs'
+            ]
+            if request.FILES:
+                proj_inst.upload_legal_docs.name = proj_inst.name \
+                    + '_' + proj_inst.upload_legal_docs.name
+                proj_inst.date_legal_docs = date_legal_docs
+            return self.button_options(request, pk, proj_inst)
+
+        return render(
+            request,
+            self.template_name,
+            {'legalizationform': form}
+        )
 class ClientView(DetailView):
     model = Client
 

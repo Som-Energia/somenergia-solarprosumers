@@ -370,6 +370,44 @@ class DeliveryCertificateForm(forms.ModelForm):
         ]
 
 
+
+class LegalizationForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(LegalizationForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.layout = Layout(
+            Row(
+                Column(
+                    Field('campaign', disabled=True),
+                    css_class='col-sm-4 read-only'),
+                Column(
+                    Field('client', disabled=True),
+                    css_class='col-sm-4 read-only'),
+                css_class='form-row'
+            ),
+            Row(
+                Column(
+                    'upload_legal_docs',
+                    css_class='form-group col-md-12 mb-0'),
+                css_class='form-row'
+            ),
+        )
+        self.helper.layout.append(Submit('previous', 'previous'))
+        self.helper.layout.append(Submit('save', 'save'))
+        self.helper.layout.append(Submit('next', 'next'))
+        self.helper.layout.append(Submit('cancel', 'cancel'))
+
+    class Meta:
+        model = Project
+        fields = [
+            'date_legal_docs',
+            'upload_legal_docs',
+            'campaign',
+            'client'
+        ]
+
+
+
 class InstallationDateForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(InstallationDateForm, self).__init__(*args, **kwargs)

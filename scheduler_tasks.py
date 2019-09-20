@@ -202,7 +202,7 @@ def legalization_warning():
     installations = Project.objects.filter(
         campaign__active=True,
         date_legal_docs__isnull=True,
-        status='installation',
+        status='end installation',
         date_delivery_certificate__lte=datetime.now() - timedelta(days=60)
     )
 

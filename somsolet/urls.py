@@ -69,6 +69,11 @@ urlpatterns = [
         views.DeliveryCertificateView.as_view(),
         name='delivery_certificate'
     ),
+    path(
+        'legalization/<int:pk>/',
+        views.LegalizationView.as_view(),
+        name='legalization'
+    ),
     path('register/', views.register, name='register'),
 
 ]
