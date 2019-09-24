@@ -58,12 +58,20 @@ class SomsoletProjectView(View):
             'campaign': proj_inst.campaign,
             'project': proj_inst.id,
             'client': proj_inst.client,
+            'status': proj_inst.status,
+            'campaign_pk': proj_inst.campaign.pk,
         }
 
     def get(self, request, pk):
         self.initial = self.get_initial(pk)
-        form = self.form_class(initial=self.initial)
-        return render(request, self.template_name, {self.form: form})
+        if self.initial['status'] in self.status_condition:
+            form = self.form_class(initial=self.initial)
+            return render(request, self.template_name, {self.form: form})
+        else:
+            return HttpResponseRedirect(reverse(
+                'project',
+                args=[self.initial['campaign_pk']]))
+
 
     def button_options(self, request, pk, proj_inst):
         if 'next' in request.POST:
@@ -104,6 +112,8 @@ class PrereportView(SomsoletProjectView):
     form_class = PrereportForm
     template_name = 'somsolet/prereport.html'
     model = Project
+    status_condition = ('empty status', 'data downloaded',
+                        'prereport review', 'prereport')
 
     def __init__(self):
         self.form = 'prereportform'
@@ -132,6 +142,7 @@ class PrereportView(SomsoletProjectView):
 class TechnicalVisitView(SomsoletProjectView):
     form_class = TechnicalVisitForm
     template_name = 'somsolet/technical_visit.html'
+    status_condition = ('prereport', 'technical visit')
 
     def __init__(self):
         self.form = 'technicalvisitform'
@@ -155,6 +166,8 @@ class TechnicalVisitView(SomsoletProjectView):
 class ReportView(SomsoletProjectView):
     form_class = ReportForm
     template_name = 'somsolet/report.html'
+    status_condition = ('technical visit', 'report review',
+                        'report')
 
     def __init__(self):
         self.form = 'reportform'
@@ -183,6 +196,7 @@ class ReportView(SomsoletProjectView):
 class OfferView(SomsoletProjectView):
     form_class = OfferForm
     template_name = 'somsolet/offer.html'
+    status_condition = ('report', 'offer')
 
     def __init__(self):
         self.form = 'offerform'
@@ -211,6 +225,7 @@ class OfferView(SomsoletProjectView):
 class ConstructionPermitView(SomsoletProjectView):
     form_class = ConstructionPermitForm
     template_name = 'somsolet/construction_permit.html'
+    status_condition = ('offer', 'construction permit')
 
     def __init__(self):
         self.form = 'constructionpermitform'
@@ -236,6 +251,7 @@ class ConstructionPermitView(SomsoletProjectView):
 class InstallationDateView(SomsoletProjectView):
     form_class = InstallationDateForm
     template_name = 'somsolet/installation_date.html'
+    status_condition = ('construction permit', 'date installation set')
 
     def __init__(self):
         self.form = 'installationdateform'
@@ -256,9 +272,11 @@ class InstallationDateView(SomsoletProjectView):
 
         return render(request, self.template_name, {'installationdateform': form})
 
+
 class DeliveryCertificateView(SomsoletProjectView):
     form_class = DeliveryCertificateForm
     template_name = 'somsolet/delivery_certificate.html'
+    status_condition = ('end installation', 'date installation set')
 
     def __init__(self):
         self.form = 'deliverycertificateform'
@@ -294,6 +312,7 @@ class DeliveryCertificateView(SomsoletProjectView):
 class LegalizationView(SomsoletProjectView):
     form_class = LegalizationForm
     template_name = 'somsolet/legalization.html'
+    status_condition = ('end installation', 'legalization')
 
     def __init__(self):
         self.form = 'legalizationform'

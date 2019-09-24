@@ -57,7 +57,10 @@ class ProjectTable(tables.Table):
         args=[A('pk')])
     technical_details = tables.TemplateColumn(
         template_name='somsolet/technical_details_update.html',
-        extra_context={'record': A('pk'), 'technical_details': A('pk')},
+        extra_context={
+            'record': A('pk'),
+            'technical_details': A('pk')
+        },
         verbose_name='Technical Details',)
     download_cch = tables.TemplateColumn(
         template_name='somsolet/download_cch.html',

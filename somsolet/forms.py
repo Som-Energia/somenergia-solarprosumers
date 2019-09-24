@@ -228,7 +228,7 @@ class ReportForm(forms.ModelForm):
             warning = 'No Warn'
             return status, date_report, warning
         else:
-            status = 'offer'
+            status = 'report'
             warning = 'No Warn'
             return status, date_report, warning
 
@@ -282,7 +282,7 @@ class OfferForm(forms.ModelForm):
             warning = 'No Warn'
             return status, date_offer, warning
         else:
-            status = 'signature'
+            status = 'offer'
             warning = 'No Warn'
             return status, date_offer, warning
 
