@@ -63,8 +63,12 @@ h1 a {
   --color3: #677056;
   --color4: #AB9F8F;
   --color5: #b96d6d;
-  --color6: #e0af6d;
+  --color6: #D9815B;
   --color7: #bac92a;
+  --color8: #4589af;
+  --color9: #4f9e66;
+  --color10: #FEC054;
+  --color11: #f50303;
 }
 
 
@@ -96,8 +100,23 @@ h1 a {
     background-color: var(--color4);
 }
 
-.table-som th:nth-child(17) {
+.table-som th:nth-child(17),
+.table-som th:nth-child(18){
     background-color: var(--color6);
+}
+
+.table-som th:nth-child(19){
+    background-color: var(--color8);
+}
+
+.table-som th:nth-child(20),
+.table-som th:nth-child(21){
+    background-color: var(--color9);
+}
+
+.table-som th:nth-child(22),
+.table-som th:nth-child(23){
+    background-color: var(--color10);
 }
 
 .table-som .status.pre-report-uploaded {
@@ -113,7 +132,7 @@ h1 a {
 }
 
 .table-som .status.report-uploaded {
-    color: var(--color3)
+    color: var(--color2)
 }
 
 .table-som .status.offer-review{
@@ -125,26 +144,40 @@ h1 a {
 }
 
 .table-som .status.contract-signature{
-    color: var(--color3)
+    color: var(--color4)
 }
 
 .table-som .status.construction-permit {
-    color: var(--color4)
+    color: var(--color6)
 }
 
 .table-som .status.date-permit {
-    color: var(--color4)
+    color: var(--color6)
 }
-
 
 .table-som .status.date-installation-set {
-    color: var(--color6)
+    color: var(--color8)
 }
 
-.table-som .status.pending-installation-date {
-    color: var(--color6)
+.table-som .status.end-installation {
+    color: var(--color9)
 }
 
+.table-som .status.legalization {
+    color: var(--color10)
+}
+
+.table-som .status.prereport-review {
+    color: var(--color7)
+}
+
+.table-som .status.report-review {
+    color: var(--color7)
+}
+
+.table-som .status.discarded {
+    color: var(--color11)
+}
 
 .som-foot p {
     text-align: center;
