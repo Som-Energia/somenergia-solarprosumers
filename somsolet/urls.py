@@ -1,5 +1,3 @@
-from django.conf import settings
-from django.conf.urls.static import static
 from django.urls import path
 
 from . import views
@@ -53,6 +51,11 @@ urlpatterns = [
         'offer/<int:pk>/',
         views.OfferView.as_view(),
         name='offer'
+    ),
+    path(
+        'signed_contract/<int:pk>/',
+        views.SignatureView.as_view(),
+        name='signed_contract'
     ),
     path(
         'construction_permit/<int:pk>/',

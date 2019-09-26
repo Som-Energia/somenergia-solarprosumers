@@ -14,11 +14,11 @@ from django.views.generic import DetailView
 from django_tables2 import RequestConfig
 
 from .filters import CampaignListFilter, ProjectListFilter
-from .forms import (ClientForm, ConstructionPermitForm, InstallationDateForm,
-                    OfferForm, PrereportForm, ReportForm,
-                    TechnicalCampaignsForm, TechnicalDetailsForm,
-                    TechnicalVisitForm, UserForm, DeliveryCertificateForm,
-                    LegalizationForm)
+from .forms import (ClientForm, ConstructionPermitForm,
+                    DeliveryCertificateForm, InstallationDateForm,
+                    LegalizationForm, OfferForm, PrereportForm, ReportForm,
+                    SignedContractForm, TechnicalCampaignsForm,
+                    TechnicalDetailsForm, TechnicalVisitForm, UserForm)
 from .models import (Campaign, Client, Engineering, Project,
                      Technical_campaign, Technical_details)
 from .tables import CampaignTable, ProjectTable
@@ -71,7 +71,6 @@ class SomsoletProjectView(View):
             return HttpResponseRedirect(reverse(
                 'project',
                 args=[self.initial['campaign_pk']]))
-
 
     def button_options(self, request, pk, proj_inst):
         if 'next' in request.POST:
@@ -222,10 +221,36 @@ class OfferView(SomsoletProjectView):
         return render(request, self.template_name, {'offerform': form})
 
 
+class SignatureView(SomsoletProjectView):
+    form_class = SignedContractForm
+    template_name = 'somsolet/signed_contract.html'
+    status_condition = ('offer', 'signature')
+
+    def __init__(self):
+        self.form = 'signatureform'
+        self.url_path = 'signed_contract'
+
+    def post(self, request, pk):
+        form = self.form_class(request.POST, request.FILES)
+        proj_inst = get_object_or_404(Project, pk=pk)
+        if form.is_valid():
+            proj_inst.is_signed = True
+            proj_inst.status = 'signature'
+            proj_inst.warning = 'No Warn'
+            proj_inst.upload_contract = form.cleaned_data['upload_contract']
+            if request.FILES:
+                proj_inst.date_signature = datetime.now().strftime('%Y-%m-%d')
+            return self.button_options(request, pk, proj_inst)
+
+        return render(request,
+                      self.template_name,
+                      {'signatureform': form})
+
+
 class ConstructionPermitView(SomsoletProjectView):
     form_class = ConstructionPermitForm
     template_name = 'somsolet/construction_permit.html'
-    status_condition = ('offer', 'construction permit')
+    status_condition = ('signature', 'construction permit')
 
     def __init__(self):
         self.form = 'constructionpermitform'

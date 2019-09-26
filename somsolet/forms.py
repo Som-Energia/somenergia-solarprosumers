@@ -287,6 +287,42 @@ class OfferForm(forms.ModelForm):
             return status, date_offer, warning
 
 
+class SignedContractForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(SignedContractForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.layout = Layout(
+            Row(
+                Column(
+                    Field('campaign', disabled=True),
+                    css_class='col-sm-4 read-only'),
+                Column(
+                    Field('client', disabled=True),
+                    css_class='col-sm-4 read-only'),
+                css_class='form-row'
+            ),
+            Row(
+                Column(
+                    'upload_contract',
+                    css_class='form-group col-md-12 mb-0'),
+                css_class='form-row'
+            ),
+        )
+        self.helper.layout.append(Submit('previous', 'previous'))
+        self.helper.layout.append(Submit('save', 'save'))
+        self.helper.layout.append(Submit('next', 'next'))
+        self.helper.layout.append(Submit('cancel', 'cancel'))
+
+    class Meta:
+        model = Project
+        fields = [
+            'date_signature',
+            'upload_contract',
+            'campaign',
+            'client'
+        ]
+
+
 class ConstructionPermitForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(ConstructionPermitForm, self).__init__(*args, **kwargs)
@@ -333,7 +369,6 @@ class ConstructionPermitForm(forms.ModelForm):
             return status, warning
 
 
-
 class DeliveryCertificateForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(DeliveryCertificateForm, self).__init__(*args, **kwargs)
@@ -370,7 +405,6 @@ class DeliveryCertificateForm(forms.ModelForm):
         ]
 
 
-
 class LegalizationForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(LegalizationForm, self).__init__(*args, **kwargs)
@@ -405,7 +439,6 @@ class LegalizationForm(forms.ModelForm):
             'campaign',
             'client'
         ]
-
 
 
 class InstallationDateForm(forms.ModelForm):

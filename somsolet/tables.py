@@ -43,6 +43,9 @@ class ProjectTable(tables.Table):
     upload_offer = tables.LinkColumn(
         'offer',
         args=[A('pk')])
+    upload_contract = tables.LinkColumn(
+        'signed_contract',
+        args=[A('pk')])
     upload_permit = tables.LinkColumn(
         'construction_permit',
         args=[A('pk')])
@@ -89,6 +92,8 @@ class ProjectTable(tables.Table):
             'date_offer',
             'is_invalid_offer',
             'upload_offer',
+            'date_signature',
+            'upload_contract',
             'date_permit',
             'upload_permit',
             'date_start_installation',
@@ -115,6 +120,12 @@ class ProjectTable(tables.Table):
 
     def render_upload_offer(self, value):
         if value.name != 'uploaded_files/offer/som.png':
+            return format_html("<i class=\"fa fa-file\" title=\"{}\"/>", value.name)
+        else:
+            return format_html("<i class=\"fa fa-times\"")
+
+    def render_upload_contract(self, value):
+        if value.name != 'uploaded_files/contract/som.png':
             return format_html("<i class=\"fa fa-file\" title=\"{}\"/>", value.name)
         else:
             return format_html("<i class=\"fa fa-times\"")

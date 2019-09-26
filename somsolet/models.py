@@ -392,6 +392,11 @@ class Project(models.Model):
     is_signed = models.BooleanField(
         default=False)
 
+    upload_contract = models.FileField(
+        upload_to='uploaded_files/contract',
+        default='uploaded_files/contract/som.png',
+        verbose_name='Upload Signed Contract')
+
     date_permit = models.DateField(
         null=True,
         blank=True)
