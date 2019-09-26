@@ -51,6 +51,13 @@ class SomsoletConfig(AppConfig):
 
         scheduler.cron(
             "0 23 * * *",
+            func=scheduler_tasks.signature_warning,
+            repeat=1,
+            queue_name='default',
+        )
+
+        scheduler.cron(
+            "0 23 * * *",
             func=scheduler_tasks.set_date_installation_warning,
             repeat=1,
             queue_name='default',
@@ -66,6 +73,20 @@ class SomsoletConfig(AppConfig):
         scheduler.cron(
             "0 23 * * *",
             func=scheduler_tasks.legalization_warning,
+            repeat=1,
+            queue_name='default',
+        )
+
+        scheduler.cron(
+            "0 23 1 * *",
+            func=scheduler_tasks.final_payment_warning,
+            repeat=1,
+            queue_name='default',
+        )
+
+        scheduler.cron(
+            "0 23 * * *",
+            func=scheduler_tasks.warranty_warning,
             repeat=1,
             queue_name='default',
         )

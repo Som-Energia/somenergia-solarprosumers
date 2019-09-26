@@ -106,7 +106,8 @@ def prereport_warning():
         installation.warning = 'prereport'
         installation.warning_date = datetime.now()
         installation.save()
-        logger.info("Prereport warning saved")
+        msg = "Finish prereport warning saved for: {}"
+        logger.info(msg.format(installation.name))
 
 
 def technical_visit_warning():
@@ -123,7 +124,8 @@ def technical_visit_warning():
         installation.warning = 'technical visit'
         installation.warning_date = datetime.now()
         installation.save()
-        logger.info("Technical visit warning saved")
+        msg = "Finish technical visit warning saved for: {}"
+        logger.info(msg.format(installation.name))
 
 
 def report_warning():
@@ -139,7 +141,8 @@ def report_warning():
         installation.warning = 'report'
         installation.warning_date = datetime.now()
         installation.save()
-        logger.info("Report warning saved")
+        msg = "Finish report warning saved for: {}"
+        logger.info(msg.format(installation.name))
 
 
 def offer_warning():
@@ -156,10 +159,10 @@ def offer_warning():
         installation.warning = 'offer'
         installation.warning_date = datetime.now()
         installation.save()
-        logger.info("Offer warning saved")
+        msg = "Finish offer warning saved for: {}"
+        logger.info(msg.format(installation.name))
 
 
-# To Do: send mail to member
 def signature_warning():
     logger.info("Start offer_warning...")
     installations = Project.objects.filter(
@@ -174,7 +177,8 @@ def signature_warning():
         installation.warning = 'signature'
         installation.warning_date = datetime.now()
         installation.save()
-        logger.info("Signature warning saved")
+        msg = "Finish signature warning saved for: {}"
+        logger.info(msg.format(installation.name))
 
 
 def set_date_installation_warning():
@@ -191,7 +195,8 @@ def set_date_installation_warning():
         installation.warning = 'installation date'
         installation.warning_date = datetime.now()
         installation.save()
-        logger.info("Set date installation warning saved")
+        msg = "Finish set date installation warning saved for: {}"
+        logger.info(msg.format(installation.name))
 
 
 def finish_installation_warning():
@@ -207,7 +212,8 @@ def finish_installation_warning():
         installation.warning = 'finish installation'
         installation.warning_date = datetime.now()
         installation.save()
-        logger.info("Finish installation warning saved")
+        msg = "Finish installation warning saved for: {}"
+        logger.info(msg.format(installation.name))
 
 
 def legalization_warning():
@@ -223,4 +229,46 @@ def legalization_warning():
         installation.warning = 'legalization'
         installation.warning_date = datetime.now()
         installation.save()
-        logger.info("Finish legalization warning saved")
+        msg = "Finish legalization warning saved for: {}"
+        logger.info(msg.format(installation.name))
+
+
+def final_payment_warning():
+    logger.info("Start final_payment_warning...")
+    installations = Project.objects.filter(
+        campaign__active=True,
+        date_legal_docs__isnull=False,
+        status='legalization',
+        date_legal_docs__lte=datetime.now() - timedelta(days=21)
+    )
+
+    for installation in installations:
+        installation.warning = 'final payment'
+        installation.warning_date = datetime.now()
+        installation.save()
+        msg = "Finish final payment warning saved for: {}"
+        logger.info(msg.format(installation.name))
+
+
+def warranty_warning():
+    logger.info("Start warranty_warning...")
+    legalized_campaigns = Campaign.objects.filter(
+        active=True).exclude(
+        project__date_legal_docs__isnull=True)
+    for campaign in legalized_campaigns:
+        warranty_deadline = Project.objects.filter(
+            campaign=campaign).order_by(
+            '-date_legal_docs').first().date_legal_docs + relativedelta(
+            months=+24)
+        installations = Project.objects.filter(
+            campaign=campaign)
+        if datetime.now().date() >= warranty_deadline:
+            installations = Project.objects.filter(campaign=campaign)
+            for installation in installations:
+                installation.warning = 'warranty payment'
+                installation.warning_date = datetime.now()
+                installation.save()
+            msg = "Finish warranty warning saved for: {}"
+            logger.info(msg.format(campaign.name))
+        else:
+            logger.info("there are no warrings to send")
