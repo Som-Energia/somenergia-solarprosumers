@@ -1,7 +1,8 @@
 import logging
 from datetime import datetime, timedelta
 
-from config.settings.base import BCC, COMPANY_MAIL
+from config.settings.base import BCC
+from dateutil.relativedelta import relativedelta
 from django.core.mail import EmailMessage
 from django.db.models import Q
 from django.template.loader import render_to_string
@@ -26,8 +27,6 @@ def send_email_tasks():
         som_warning_warranty = warnings.filter(
             warning='warranty payment'
         ).distinct('campaign')
-        to_email = ''
-        logger.info("Sending email...")
 
         if engineering_warnings:
             message_params = {
@@ -36,7 +35,10 @@ def send_email_tasks():
                 'warning_type': 'Instalació',
                 'ending': 'Engineering ending mail text...',
             }
-            to_email = [campaign.engineering.email]
+            send_email(
+                [campaign.engineering.email],
+                campaign.name,
+                message_params)
         if som_warning_final_payment:
             message_params = {
                 'result': list(som_warning_final_payment),
@@ -44,7 +46,10 @@ def send_email_tasks():
                 'warning_type': 'Project',
                 'ending': 'Som Energia ending mail text...',
             }
-            to_email = COMPANY_MAIL
+            send_email(
+                [campaign.engineering.email],
+                campaign.name,
+                message_params)
         if som_warning_warranty:
             campaign_warning = []
             for project in som_warning_warranty:
@@ -58,25 +63,33 @@ def send_email_tasks():
                 'warning_type': 'Campaign',
                 'ending': 'Som Energia ending mail text...',
             }
-            to_email = COMPANY_MAIL
+            send_email(
+                [campaign.engineering.email],
+                campaign.name,
+                message_params)
+        logger.info("Emails sent to engineering.")
 
-        html_body = render_to_string(
-            'emails/message_body.html',
-            message_params
-        )
-        subject = render_to_string(
-            "emails/message_subject.txt",
-            {'campaign': campaign.name}
-        )
-        msg = EmailMessage(
-            subject,
-            html_body,
-            '',
-            to_email,
-            BCC
-        )
-        msg.content_subtype = "html"
-        msg.send()
+
+def send_email(to_email, subject, message_params):
+    to_email = to_email
+    logger.info(to_email)
+    subject = render_to_string(
+        "emails/message_subject.txt",
+        {'campaign': subject}
+    )
+    html_body = render_to_string(
+        'emails/message_body.html',
+        message_params
+    )
+    msg = EmailMessage(
+        subject,
+        html_body,
+        '',
+        to_email,
+        BCC
+    )
+    msg.content_subtype = "html"
+    msg.send()
 
 
 def prereport_warning():
