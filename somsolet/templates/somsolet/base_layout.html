@@ -18,8 +18,10 @@
           <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#"><img src="http://www.somenergia.coop/wp-content/uploads/2014/07/logo.png" class="mr-2">
 Som Solet</a>
           <ul class="navbar-nav px-3">
-            <li class="nav-item text-nowrap">
+            {% if user.is_authenticated %}
+                <li class="nav-item text-nowrap">
                 {% include "registration/logout.html" %}
+            {%endif%}
             </li>
           </ul>
         </nav>
