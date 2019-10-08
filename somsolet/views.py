@@ -6,6 +6,7 @@ import pymongo
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse, reverse_lazy
@@ -35,7 +36,7 @@ def register(request):
             user.set_password(user.password)
             user.save()
             registered = True
-            return HttpResponseRedirect(reverse('project'))
+            return HttpResponseRedirect(reverse('login'))
         else:
             print(user_form.errors)
     else:
@@ -50,7 +51,8 @@ def register(request):
     )
 
 
-class SomsoletProjectView(View):
+class SomsoletProjectView(LoginRequiredMixin, View):
+    login_url = 'login'
 
     def get_initial(self, pk):
         proj_inst = get_object_or_404(Project, pk=pk)
@@ -368,11 +370,15 @@ class LegalizationView(SomsoletProjectView):
             self.template_name,
             {'legalizationform': form}
         )
-class ClientView(DetailView):
+
+
+class ClientView(LoginRequiredMixin, DetailView):
+    login_url = 'login'
     model = Client
 
 
-class CampaignSetView(View):
+class CampaignSetView(LoginRequiredMixin, View):
+    login_url = 'login'
     template_name = 'somsolet/campaign.html'
 
     def get(self, request):
@@ -388,7 +394,8 @@ class CampaignSetView(View):
         return render(request, self.template_name, ctx)
 
 
-class ProjectView(View):
+class ProjectView(LoginRequiredMixin, View):
+    login_url = 'login'
     template_name = 'somsolet/project_detail.html'
 
     def get(self, request, pk):
@@ -410,7 +417,8 @@ class ProjectView(View):
         return render(request, 'somsolet/project_detail.html', ctx)
 
 
-class DownloadCch(View):
+class DownloadCch(LoginRequiredMixin, View):
+    login_url = 'login'
     url_path = 'download_cch'
 
     def get(self, request, pk): # Autentication required
@@ -455,7 +463,8 @@ class DownloadCch(View):
             return response
 
 
-class TechnicalCampaignsView(View):
+class TechnicalCampaignsView(LoginRequiredMixin, View):
+    login_url = 'login'
     form_class = TechnicalCampaignsForm
     template_name = 'somsolet/technical_details.html'
     url_path = 'technical_campaign'
@@ -485,7 +494,8 @@ class TechnicalCampaignsView(View):
         )
 
 
-class TechnicalDetailsView(View):
+class TechnicalDetailsView(LoginRequiredMixin, View):
+    login_url = 'login'
     form_class = TechnicalDetailsForm
     template_name = 'somsolet/technical_details.html'
     url_path = 'technical_details'
