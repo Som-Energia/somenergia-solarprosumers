@@ -620,7 +620,11 @@ class Technical_details(models.Model):
         blank=True,
         max_length=500)
 
-    comments = models.CharField(
+    client_comments = models.CharField(
+        blank=True,
+        max_length=500)
+
+    engineering_comments = models.CharField(
         blank=True,
         max_length=500)
 
