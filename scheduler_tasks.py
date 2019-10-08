@@ -6,6 +6,7 @@ from dateutil.relativedelta import relativedelta
 from django.core.mail import EmailMessage
 from django.db.models import Q
 from django.template.loader import render_to_string
+from django.utils.translation import gettext_lazy as _
 from somsolet.models import Campaign, Project
 
 logger = logging.getLogger('scheduler_tasks')
@@ -29,11 +30,20 @@ def send_email_tasks():
         ).distinct('campaign')
 
         if engineering_warnings:
+            logger.info("engineering_warnings")
+
             message_params = {
                 'result': list(engineering_warnings),
-                'intro': 'Engineering intro mail text...',
+                'header': _("Hola {},").format(campaign.engineering),
+                'intro': _("SOM SOLET us fa arribar els WARNINGS!\
+                            d’aquesta setmana:"),
                 'warning_type': 'Instalació',
-                'ending': 'Engineering ending mail text...',
+                'main': _("Us demanem que atengueu als diferents avisos\
+                          el més aviat possible. Si us trobeu davant d’alguna\
+                          incidència que us ho impedeixi, poseu-vos, siusplau,\
+                          en contacte amb nosaltres per intentar solucionar\
+                          l'inconvenient dels casos concrets."),
+                'ending': _("Salut i fins aviat,"),
             }
             send_email(
                 [campaign.engineering.email],
@@ -42,9 +52,12 @@ def send_email_tasks():
         if som_warning_final_payment:
             message_params = {
                 'result': list(som_warning_final_payment),
-                'intro': 'Som Energia intro mail text...',
+                'header': _('Hola {},').format(campaign.engineering),
+                'intro': _("Us recordem que caldria omplir la informació\
+                          al document de 'fitxa tècnica' referent a cada\
+                          una de les instal·lacions."),
                 'warning_type': 'Project',
-                'ending': 'Som Energia ending mail text...',
+                'ending': _("Gràcies i fins aviat,"),
             }
             send_email(
                 [campaign.engineering.email],
@@ -59,9 +72,14 @@ def send_email_tasks():
                 })
             message_params = {
                 'result': campaign_warning,
-                'intro': 'Som Energia intro mail text...',
+                'header': _("Hola {},").format(campaign.engineering),
+                'intro': _("Per tal de poder fer-vos el retorn de la garantia\
+                            disposada a l'inici de la campanya us demanem que\
+                            ens feu arribar un rebut a l'adreça\
+                            compres@somenergia.coop indicant el número de\
+                            compte on fer la transferència."),
                 'warning_type': 'Campaign',
-                'ending': 'Som Energia ending mail text...',
+                'ending': _('Gràcies i fins aviat,'),
             }
             send_email(
                 [campaign.engineering.email],
@@ -99,7 +117,7 @@ def prereport_warning():
         date_prereport__isnull=True,
         is_cch_downloaded=True,
         status='data downloaded',
-        date_cch_download___lte=datetime.now() - timedelta(days=10)
+        date_cch_download__lte=datetime.now() - timedelta(days=10)
     )
 
     for installation in installations:
