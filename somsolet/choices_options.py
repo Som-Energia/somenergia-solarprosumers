@@ -1,6 +1,6 @@
 from django.utils.translation import gettext_lazy as _
 ITEM_STATUS = (
-              ('empty status', _('---')),
+              ('empty status', _('Initial')),
               ('preregistered', _('Pre-Registered')),
               ('registered', _('Registered')),
               ('data downloaded', _('CCH data downloaded for analysis')),
