@@ -347,7 +347,7 @@ class Project(models.Model):
 
     is_invalid_prereport = models.BooleanField(
         default=False,
-        verbose_name='Invalid Prereport')
+        verbose_name='Invalid Prereport?')
 
     upload_prereport = models.FileField(
         upload_to='uploaded_files/prereport',
@@ -363,7 +363,8 @@ class Project(models.Model):
         blank=True)
 
     is_invalid_report = models.BooleanField(
-        default=False)
+        default=False,
+        verbose_name='Invalid Report?')
 
     upload_report = models.FileField(
         upload_to='uploaded_files/report',
@@ -375,7 +376,8 @@ class Project(models.Model):
         blank=True)
 
     is_invalid_offer = models.BooleanField(
-        default=False)
+        default=False,
+        verbose_name='Invalid Offer?')
 
     is_offer_accepted = models.BooleanField(
         default=False)
