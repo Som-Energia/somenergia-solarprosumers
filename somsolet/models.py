@@ -521,17 +521,20 @@ class Technical_details(models.Model):
         blank=True)
 
     street = models.CharField(
-        max_length=50)
+        max_length=50,
+        blank=True)
 
     town = models.CharField(
         max_length=50,
         blank=True)
 
     postal_code = models.CharField(
-        max_length=10)
+        max_length=10,
+        blank=True)
 
     contract_number = models.CharField(
-        max_length=10)
+        max_length=10,
+        blank=True)
 
     cups = models.CharField(
         max_length=22)
