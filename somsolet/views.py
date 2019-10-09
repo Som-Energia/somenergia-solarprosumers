@@ -4,24 +4,22 @@ from datetime import datetime
 
 import pymongo
 from django.conf import settings
-from django.contrib import messages
-from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse
 from django.views import View
 from django.views.generic import DetailView
 from django_tables2 import RequestConfig
 
 from .filters import CampaignListFilter, ProjectListFilter
-from .forms import (ClientForm, ConstructionPermitForm,
-                    DeliveryCertificateForm, InstallationDateForm,
-                    LegalizationForm, OfferForm, PrereportForm, ReportForm,
-                    SignedContractForm, TechnicalCampaignsForm,
-                    TechnicalDetailsForm, TechnicalVisitForm, UserForm)
-from .models import (Campaign, Client, Engineering, Project,
-                     Technical_campaign, Technical_details)
+from .forms import (ConstructionPermitForm, DeliveryCertificateForm,
+                    InstallationDateForm, LegalizationForm, OfferForm,
+                    PrereportForm, ReportForm, SignedContractForm,
+                    TechnicalCampaignsForm, TechnicalDetailsForm,
+                    TechnicalVisitForm, UserForm)
+from .models import (Campaign, Client, Project, Technical_campaign,
+                     Technical_details)
 from .tables import CampaignTable, ProjectTable
 
 logger = logging.getLogger(__name__)
@@ -137,7 +135,11 @@ class PrereportView(SomsoletProjectView):
                 proj_inst.date_prereport = date_prereport
             return self.button_options(request, pk, proj_inst)
 
-        return render(request, self.template_name, {'prereportform': form})
+        return render(
+            request,
+            self.template_name,
+            {'prereportform': form}
+        )
 
 
 class TechnicalVisitView(SomsoletProjectView):
@@ -161,7 +163,11 @@ class TechnicalVisitView(SomsoletProjectView):
             proj_inst.date_technical_visit = date_technical_visit
             return self.button_options(request, pk, proj_inst)
 
-        return render(request, self.template_name, {'technicalvisitform': form})
+        return render(
+            request,
+            self.template_name,
+            {'technicalvisitform': form}
+        )
 
 
 class ReportView(SomsoletProjectView):
@@ -191,7 +197,11 @@ class ReportView(SomsoletProjectView):
                 proj_inst.date_report = date_report
             return self.button_options(request, pk, proj_inst)
 
-        return render(request, self.template_name, {'reportform': form})
+        return render(
+            request,
+            self.template_name,
+            {'reportform': form}
+        )
 
 
 class OfferView(SomsoletProjectView):
@@ -220,7 +230,11 @@ class OfferView(SomsoletProjectView):
                 proj_inst.date_offer = date_offer
             return self.button_options(request, pk, proj_inst)
 
-        return render(request, self.template_name, {'offerform': form})
+        return render(
+            request,
+            self.template_name,
+            {'offerform': form}
+        )
 
 
 class SignatureView(SomsoletProjectView):
@@ -244,9 +258,11 @@ class SignatureView(SomsoletProjectView):
                 proj_inst.date_signature = datetime.now().strftime('%Y-%m-%d')
             return self.button_options(request, pk, proj_inst)
 
-        return render(request,
-                      self.template_name,
-                      {'signatureform': form})
+        return render(
+            request,
+            self.template_name,
+            {'signatureform': form}
+        )
 
 
 class ConstructionPermitView(SomsoletProjectView):
@@ -272,7 +288,11 @@ class ConstructionPermitView(SomsoletProjectView):
                 proj_inst.date_permit = date_permit
             return self.button_options(request, pk, proj_inst)
 
-        return render(request, self.template_name, {'constructionpermitform': form})
+        return render(
+            request,
+            self.template_name,
+            {'constructionpermitform': form}
+        )
 
 
 class InstallationDateView(SomsoletProjectView):
@@ -297,7 +317,11 @@ class InstallationDateView(SomsoletProjectView):
             proj_inst.date_start_installation = date_installation
             return self.button_options(request, pk, proj_inst)
 
-        return render(request, self.template_name, {'installationdateform': form})
+        return render(
+            request,
+            self.template_name,
+            {'installationdateform': form}
+        )
 
 
 class DeliveryCertificateView(SomsoletProjectView):
@@ -391,7 +415,11 @@ class CampaignSetView(LoginRequiredMixin, View):
         ctx = {
             'campaign': campaign_table,
         }
-        return render(request, self.template_name, ctx)
+        return render(
+            request,
+            self.template_name,
+            ctx
+        )
 
 
 class ProjectView(LoginRequiredMixin, View):
@@ -414,14 +442,18 @@ class ProjectView(LoginRequiredMixin, View):
             request,
             paginate={'per_page': 20}
         ).configure(projects_table)
-        return render(request, 'somsolet/project_detail.html', ctx)
+        return render(
+            request,
+            'somsolet/project_detail.html',
+            ctx
+        )
 
 
 class DownloadCch(LoginRequiredMixin, View):
     login_url = 'login'
     url_path = 'download_cch'
 
-    def get(self, request, pk): # Autentication required
+    def get(self, request, pk):  # Autentication required
         project = Project.objects.get(pk=pk)
         technical_details = project.technical_details_set.first()
         cups = technical_details.cups
@@ -432,7 +464,7 @@ class DownloadCch(LoginRequiredMixin, View):
             settings.DATABASES['mongodb']['HOST'],
             settings.DATABASES['mongodb']['PORT'],
             settings.DATABASES['mongodb']['NAME'],
-            )
+        )
         )
         db = client[settings.DATABASES['mongodb']['NAME']]
 
@@ -447,7 +479,9 @@ class DownloadCch(LoginRequiredMixin, View):
             )
         else:
             response = HttpResponse(content_type='text/csv')
-            response['Content-Disposition'] = 'attachment; filename="cch_project_{}.csv"'.format(cups)
+            response['Content-Disposition'] = 'attachment;\
+                filename="cch_project_{}.csv"'.format(
+                cups)
             writer = csv.writer(response)
 
             writer.writerow(['Project', 'date', 'value', 'units'])
@@ -471,7 +505,8 @@ class TechnicalCampaignsView(LoginRequiredMixin, View):
 
     def get_initial_values(self, pk):
         campaign_inst = get_object_or_404(Campaign, pk=pk)
-        tech_details = Technical_campaign.objects.get(campaign=campaign_inst.id)
+        tech_details = Technical_campaign.objects.get(
+            campaign=campaign_inst.id)
         return tech_details
 
     def get(self, request, pk):
@@ -485,7 +520,6 @@ class TechnicalCampaignsView(LoginRequiredMixin, View):
     def post(self, request, pk):
         self.initial = self.get_initial_values(pk)
         form = self.form_class(self.request.POST, instance=self.initial)
-        campaign_inst = get_object_or_404(Campaign, pk=pk)
         if form.is_valid():
             return HttpResponseRedirect(reverse('campaign'))
         return render(

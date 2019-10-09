@@ -4,13 +4,12 @@
 {% load crispy_forms_tags %}
 
 {% block content%}
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <h3 class="panel-title">{% trans "Technical data" %}</h3>
-    </div>
-    <div class="panel-body">
-        {% crispy technical_form %}
-    </div> 
-</div>
-
+	<div class="panel panel-default">
+	    <div class="panel-heading">
+	        <h3 class="panel-title">{% trans "Technical data" %}</h3>
+	    </div>
+	    <div class="panel-body">
+	        {% crispy technical_form %}
+	    </div>
+	</div>
 {% endblock %}

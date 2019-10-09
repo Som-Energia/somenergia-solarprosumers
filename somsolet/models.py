@@ -5,8 +5,8 @@ from yamlns import namespace as ns
 
 from .choices_options import (BATERY_BRAND, INVERSOR_BRAND, ITEM_ANGLES,
                               ITEM_COMMUNITY, ITEM_DISCARDED_TYPES,
-                              ITEM_ORIENTATION, ITEM_STATUS, ITEM_VOLTAGE,
-                              ITEM_WARNINGS, PANELS_BRAND, PANELS_TYPE)
+                              ITEM_ORIENTATION, ITEM_STATUS, ITEM_WARNINGS,
+                              PANELS_BRAND, PANELS_TYPE)
 
 
 class Engineering(models.Model):
@@ -455,18 +455,6 @@ class Project(models.Model):
     final_payment = models.FloatField(
         null=True,
         blank=True)
-
-    def addlog(self, **kwds):
-        self.log.append(ns(kwds))
-
-    def sent_data(
-            self,
-            date_sent_data,
-            member_id,
-            contract_id,
-            campaign_id):
-        self.status = 'data sent'
-        self.is_data_sent = True
 
     def prereport_review(
             self,

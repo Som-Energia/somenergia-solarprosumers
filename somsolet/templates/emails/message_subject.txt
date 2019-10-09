@@ -1,1 +1,1 @@
-Warnings Campaña {{ campaign }}
+Warnings Campanya {{ campaign }}
