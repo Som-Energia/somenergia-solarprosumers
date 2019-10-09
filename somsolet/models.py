@@ -39,17 +39,17 @@ class Engineering(models.Model):
     count_closed_campaigns = models.IntegerField(
         null=True,
         blank=True,
-        verbose_name='Closed Campaigns')
+        verbose_name=_('Closed Campaigns'))
 
     count_open_campaigns = models.IntegerField(
         null=True,
         blank=True,
-        verbose_name='Open Campaigns')
+        verbose_name=_('Open Campaigns'))
 
     count_closed_projects = models.IntegerField(
         null=True,
         blank=True,
-        verbose_name='Closed Installations')
+        verbose_name=_('Closed Installations'))
 
     total_kwp_installed = models.FloatField(
         null=True,
@@ -71,7 +71,7 @@ class Campaign(models.Model):
     engineering = models.ForeignKey(
         Engineering,
         on_delete=models.CASCADE,
-        verbose_name='Engineering')
+        verbose_name=_('Engineering'))
 
     date_call_for_engineerings = models.DateField(
         null=True,
@@ -113,22 +113,22 @@ class Campaign(models.Model):
     warranty_pending_amount = models.FloatField(
         null=True,
         blank=True,
-        verbose_name='Pending Warranty (€)')
+        verbose_name=_('Pending Warranty (€)'))
 
     warranty_payed_amount = models.FloatField(
         null=True,
         blank=True,
-        verbose_name='Payed Warranty (€)')
+        verbose_name=_('Payed Warranty (€)'))
 
     total_penalties_days = models.IntegerField(
         null=True,
         blank=True,
-        verbose_name='Total Penalties (days)')
+        verbose_name=_('Total Penalties (days)'))
 
     total_amount_penalties = models.FloatField(
         null=True,
         blank=True,
-        verbose_name='Total Penalties (€)')
+        verbose_name=_('Total Penalties (€)'))
 
     active = models.BooleanField(
         default=True)
@@ -141,7 +141,7 @@ class Technical_campaign(models.Model):
     campaign = models.ForeignKey(
         Campaign,
         on_delete=models.CASCADE,
-        verbose_name='Campaign')
+        verbose_name=_('Campaign'))
 
     bateries_brand = models.CharField(
         blank=True,
@@ -156,12 +156,12 @@ class Technical_campaign(models.Model):
     bateries_power = models.FloatField(
         null=True,
         blank=True,
-        verbose_name='Batery Power (kW)')
+        verbose_name=_('Batery Power (kW)'))
 
     bateries_capacity = models.FloatField(
         null=True,
         blank=True,
-        verbose_name='Batery Capacity (kWh)')
+        verbose_name=_('Batery Capacity (kWh)'))
 
     bateries_price = models.FloatField(
         null=True,
@@ -176,12 +176,12 @@ class Technical_campaign(models.Model):
     shadow_optimizer_price = models.FloatField(
         null=True,
         blank=True,
-        verbose_name='Shadow Optimizer (€)')
+        verbose_name=_('Shadow Optimizer (€)'))
 
     peak_power_panels_wp = models.FloatField(
         null=True,
         blank=True,
-        verbose_name='Panel Peak Power (Wp)')
+        verbose_name=_('Panel Peak Power (Wp)'))
 
     panel_brand = models.CharField(
         choices=PANELS_BRAND,
@@ -204,7 +204,7 @@ class Technical_campaign(models.Model):
     nominal_inversor_power = models.FloatField(
         null=True,
         blank=True,
-        verbose_name='Nominal Inversor Power (Wn)')
+        verbose_name=_('Nominal Inversor Power (Wn)'))
 
     charger_manager_brand = models.CharField(
         blank=True,
@@ -217,7 +217,7 @@ class Technical_campaign(models.Model):
     charger_manager_price = models.FloatField(
         null=True,
         blank=True,
-        verbose_name='Charger manager (€)')
+        verbose_name=_('Charger manager (€)'))
 
     electric_car_charger_brand = models.CharField(
         blank=True,
@@ -230,32 +230,32 @@ class Technical_campaign(models.Model):
     electric_car_charger_power = models.FloatField(
         null=True,
         blank=True,
-        verbose_name='Electric Car Charger Power (kW)')
+        verbose_name=_('Electric Car Charger Power (kW)'))
 
     electric_car_charger_price = models.FloatField(
         null=True,
         blank=True,
-        verbose_name='Electric Car Charger (€)')
+        verbose_name=_('Electric Car Charger (€)'))
 
     price_mono_fixed = models.FloatField(
         null=True,
         blank=True,
-        verbose_name='Monofasic Fixed Price (€)')
+        verbose_name=_('Monofasic Fixed Price (€)'))
 
     price_mono_var = models.FloatField(
         null=True,
         blank=True,
-        verbose_name='Monofasic Variable Price (€/Wp)')
+        verbose_name=_('Monofasic Variable Price (€/Wp)'))
 
     price_tri_fixed = models.FloatField(
         null=True,
         blank=True,
-        verbose_name='Trifasic Fixed Price (€)')
+        verbose_name=_('Trifasic Fixed Price (€)'))
 
     price_tri_var = models.FloatField(
         null=True,
         blank=True,
-        verbose_name='Trifasic Variable Price (€/Wp)')
+        verbose_name=_('Trifasic Variable Price (€/Wp)'))
 
     def __str__(self):
         return self.campaign.name
@@ -290,30 +290,30 @@ class Project(models.Model):
     name = models.CharField(
         blank=True,
         max_length=100,
-        verbose_name='Installation')
+        verbose_name=_('Installation'))
 
     campaign = models.ForeignKey(
         Campaign,
         null=True,
         blank=True,
         on_delete=models.CASCADE,
-        verbose_name='Campaign')
+        verbose_name=_('Campaign'))
 
     client = models.ForeignKey(
         Client,
         null=True,
         blank=True,
         on_delete=models.CASCADE,
-        verbose_name='Client')
+        verbose_name=_('Client'))
 
     status = models.CharField(
         choices=ITEM_STATUS,
-        default='empty status',
+        default=_('empty status'),
         max_length=50)
 
     warning = models.CharField(
         choices=ITEM_WARNINGS,
-        default='No Warn',
+        default=_('No Warn'),
         max_length=100)
 
     warning_date = models.DateField(
@@ -323,11 +323,11 @@ class Project(models.Model):
     preregistration_date = models.DateField(
         null=True,
         blank=True,
-        verbose_name='Preregistration Date')
+        verbose_name=_('Preregistration Date'))
 
     is_paid = models.BooleanField(
         default=False,
-        verbose_name='Payed Preregistration')
+        verbose_name=_('Payed Preregistration'))
 
     registration_date = models.DateField(
         null=True,
@@ -335,7 +335,7 @@ class Project(models.Model):
 
     is_cch_downloaded = models.BooleanField(
         default=False,
-        verbose_name='CCH downloaded')
+        verbose_name=_('CCH downloaded'))
 
     date_cch_download = models.DateField(
         null=True,
@@ -347,12 +347,12 @@ class Project(models.Model):
 
     is_invalid_prereport = models.BooleanField(
         default=False,
-        verbose_name='Invalid Prereport?')
+        verbose_name=_('Invalid Prereport?'))
 
     upload_prereport = models.FileField(
         upload_to='uploaded_files/prereport',
         default='uploaded_files/prereport/som.png',
-        verbose_name='Upload Prereport')
+        verbose_name=_('Upload Prereport'))
 
     date_technical_visit = models.DateField(
         null=True,
@@ -364,12 +364,12 @@ class Project(models.Model):
 
     is_invalid_report = models.BooleanField(
         default=False,
-        verbose_name='Invalid Report?')
+        verbose_name=_('Invalid Report?'))
 
     upload_report = models.FileField(
         upload_to='uploaded_files/report',
         default='uploaded_files/report/som.png',
-        verbose_name='Upload Report')
+        verbose_name=_('Upload Report'))
 
     date_offer = models.DateField(
         null=True,
@@ -377,7 +377,7 @@ class Project(models.Model):
 
     is_invalid_offer = models.BooleanField(
         default=False,
-        verbose_name='Invalid Offer?')
+        verbose_name=_('Invalid Offer?'))
 
     is_offer_accepted = models.BooleanField(
         default=False)
@@ -385,7 +385,7 @@ class Project(models.Model):
     upload_offer = models.FileField(
         upload_to='uploaded_files/offer',
         default='uploaded_files/offer/som.png',
-        verbose_name='Upload Offer')
+        verbose_name=_('Upload Offer'))
 
     date_signature = models.DateField(
         null=True,
@@ -397,7 +397,7 @@ class Project(models.Model):
     upload_contract = models.FileField(
         upload_to='uploaded_files/contract',
         default='uploaded_files/contract/som.png',
-        verbose_name='Upload Signed Contract')
+        verbose_name=_('Upload Signed Contract'))
 
     date_permit = models.DateField(
         null=True,
@@ -406,7 +406,7 @@ class Project(models.Model):
     upload_permit = models.FileField(
         upload_to='uploaded_files/permit',
         default='uploaded_files/permit/som.png',
-        verbose_name='Upload Permit')
+        verbose_name=_('Upload Permit'))
 
     discarded_type = models.CharField(
         choices=ITEM_DISCARDED_TYPES,
@@ -426,7 +426,7 @@ class Project(models.Model):
     upload_delivery_certificate = models.FileField(
         upload_to='uploaded_files/delivery_certificate',
         default='uploaded_files/delivery_certificate/som.png',
-        verbose_name='Upload delivery certificate')
+        verbose_name=_('Upload delivery certificate'))
 
     date_delivery_certificate = models.DateField(
         null=True,
@@ -435,7 +435,7 @@ class Project(models.Model):
     upload_legal_docs = models.FileField(
         upload_to='uploaded_files/legal_docs',
         default='uploaded_files/legal_docs/som.png',
-        verbose_name='Upload legal certificate')
+        verbose_name=_('Upload legal certificate'))
 
     date_legal_docs = models.DateField(
         null=True,
@@ -496,21 +496,21 @@ class Technical_details(models.Model):
         null=True,
         blank=True,
         on_delete=models.CASCADE,
-        verbose_name='Project')
+        verbose_name=_('Project'))
 
     campaign = models.ForeignKey(
         Campaign,
         null=True,
         blank=True,
         on_delete=models.CASCADE,
-        verbose_name='Campaign')
+        verbose_name=_('Campaign'))
 
     client = models.ForeignKey(
         Client,
         null=True,
         blank=True,
         on_delete=models.CASCADE,
-        verbose_name='Client')
+        verbose_name=_('Client'))
 
     administrative_division = models.CharField(
         max_length=50,
@@ -557,17 +557,17 @@ class Technical_details(models.Model):
         null=True,
         blank=True,
         max_length=100,
-        verbose_name='Anual Consumption (kWh)')
+        verbose_name=_('Anual Consumption (kWh)'))
 
     count_panels = models.IntegerField(
         null=True,
         blank=True,
-        verbose_name='Solar Panels')
+        verbose_name=_('Solar Panels'))
 
     installation_power = models.FloatField(
         null=True,
         blank=True,
-        verbose_name='Installation Power (kW)')
+        verbose_name=_('Installation Power (kW)'))
 
     installation_model = models.CharField(
         blank=True,

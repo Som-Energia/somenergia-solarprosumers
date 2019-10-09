@@ -10,7 +10,7 @@ from .models import (Campaign, Client, Engineering, Project,
 class ProjectResource(resources.ModelResource):
     name = fields.Field(
         attribute='name',
-        column_name='instalació')
+        column_name='Codi Instal·lació')
     campaign = fields.Field(
         attribute='campaign',
         column_name="campanya",
@@ -65,7 +65,7 @@ class EngineeringAdmin(ImportExportModelAdmin):
 class Technical_detailsResource(resources.ModelResource):
     project = fields.Field(
         attribute='project',
-        column_name="instalació",
+        column_name="Codi Instal·lació",
         widget=ForeignKeyWidget(Project, 'name'))
     campaign = fields.Field(
         attribute='campaign',
