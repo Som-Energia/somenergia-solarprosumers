@@ -7,7 +7,10 @@ from .choices_options import ITEM_STATUS, ITEM_WARNINGS
 
 class ProjectListFilter(django_filters.FilterSet):
 
-    client = django_filters.CharFilter(lookup_expr='icontains')
+    client = django_filters.CharFilter(
+        field_name='client__name',
+        lookup_expr='icontains'
+    )
     status = django_filters.ChoiceFilter(
         choices=ITEM_STATUS,
         empty_label=_('--- Status ---'),
