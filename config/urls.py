@@ -18,12 +18,14 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
 
+from somsolet import views
 
 app_name = 'config'
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('', views.CampaignSetView.as_view()),
+    path('auth/', include('django.contrib.auth.urls')),
     path('somsolet/', include('somsolet.urls')),
-    path('somsolet/', include('django.contrib.auth.urls')),
+    path('admin/', admin.site.urls),
     path('django-rq/', include('django_rq.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
