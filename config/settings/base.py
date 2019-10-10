@@ -49,7 +49,10 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['./somsolet/templates', ],
+        'DIRS': [
+            './somsolet/templates',
+            './somsolet/static/html'
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -64,7 +67,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
-DJANGO_TABLES2_TEMPLATE = 'django_tables2/bootstrap4-som.html'
+DJANGO_TABLES2_TEMPLATE = 'bootstrap4-som.html'
 IMPORT_EXPORT_USE_TRANSACTIONS = True
 BOOTSTRAP4 = {
     'include_jquery': True,
