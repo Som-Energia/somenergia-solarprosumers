@@ -98,8 +98,8 @@ class Technical_detailsResource(resources.ModelResource):
         column_name="Tarifa d'accès")
     anual_consumption = fields.Field(
         attribute='anual_consumption',
-        column_name="Selecciona l'ús anual d'electricitat\
-                     d'aquest habitatge o local")
+        column_name=("Selecciona l'ús anual d'electricitat d'aquest"
+                     " habitatge o local"))
     installation_singlephase_model = fields.Field(
         attribute='installation_singlephase_model',
         column_name="Model monofàsic triat")

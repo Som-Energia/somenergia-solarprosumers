@@ -553,8 +553,9 @@ class Technical_details(models.Model):
         max_length=50)
 
     tariff = models.CharField(
-        max_length=10,
-        blank=True)
+        null=True,
+        blank=True,
+        max_length=200)
 
     anual_consumption = models.CharField(
         null=True,
@@ -573,14 +574,17 @@ class Technical_details(models.Model):
         verbose_name=_('Installation Power (kW)'))
 
     installation_model = models.CharField(
+        null=True,
         blank=True,
         max_length=500)
 
     installation_singlephase_model = models.CharField(
+        null=True,
         blank=True,
         max_length=500)
 
     installation_threephase_model = models.CharField(
+        null=True,
         blank=True,
         max_length=500)
 
@@ -610,14 +614,17 @@ class Technical_details(models.Model):
         default=False)
 
     acquire_interest = models.CharField(
+        null=True,
         blank=True,
         max_length=500)
 
     client_comments = models.CharField(
+        null=True,
         blank=True,
         max_length=500)
 
     engineering_comments = models.CharField(
+        null=True,
         blank=True,
         max_length=500)
 
