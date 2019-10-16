@@ -111,7 +111,7 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
-MEDIA_URL = '/home/usuario/Documentos/somenergia-solarprosumers/solarprosumers/somsolet/uploaded_files/'
+MEDIA_URL = '/uploaded_files/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'uploaded_files')
 
 STATIC_URL = '/static/'
