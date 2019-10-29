@@ -68,9 +68,9 @@ class Campaign(models.Model):
         blank=True,
         max_length=50)
 
-    engineering = models.ForeignKey(
+    engineerings = models.ManyToManyField(
         Engineering,
-        on_delete=models.CASCADE,
+        related_name='campaigns',
         verbose_name=_('Engineering'))
 
     date_call_for_engineerings = models.DateField(

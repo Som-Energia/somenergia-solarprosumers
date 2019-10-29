@@ -41,12 +41,11 @@ class InstallationsInline(admin.TabularInline):
 class CampaignAdmin(ImportExportModelAdmin):
     list_display = (
         'name',
-        'engineering',
         'autonomous_community',
         'date_warranty_payment'
     )
     list_filter = (
-        'engineering',
+        'engineerings',
         'autonomous_community'
     )
     inlines = [InstallationsInline]

@@ -409,7 +409,7 @@ class CampaignSetView(LoginRequiredMixin, View):
         campaign_filter = CampaignListFilter(
             request,
             queryset=Campaign.objects.all().filter(
-                engineering=request.user.engineering))
+                engineerings=request.user.engineering))
         campaign_list = campaign_filter.qs
         campaign_table = CampaignTable(campaign_list)
         ctx = {

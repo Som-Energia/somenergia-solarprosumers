@@ -7,7 +7,7 @@ from django.core.mail import EmailMessage
 from django.db.models import Q
 from django.template.loader import render_to_string
 from django.utils.translation import gettext_lazy as _
-from somsolet.models import Campaign, Project
+from somsolet.models import Campaign, Project, Engineering
 
 logger = logging.getLogger('scheduler_tasks')
 
@@ -29,12 +29,18 @@ def send_email_tasks():
             warning='warranty payment'
         ).distinct('campaign')
 
+        engineering_data = Engineering.objects.filter(
+            campaigns__name=campaign.name
+        ).values('name', 'email')
+
+        engineering_name = [engineering['name'] for engineering in engineering_data]
+        engineering_email = [engineering['email'] for engineering in engineering_data]
+
         if engineering_warnings:
             logger.info("engineering_warnings")
-
             message_params = {
                 'result': list(engineering_warnings),
-                'header': _("Hola {},").format(campaign.engineering),
+                'header': _("Hola {},").format(", ".join(engineering_name)),
                 'intro': _("SOM SOLET us fa arribar els WARNINGS!\
                             d’aquesta setmana:"),
                 'warning_type': 'Instalació',
@@ -46,13 +52,13 @@ def send_email_tasks():
                 'ending': _("Salut i fins aviat,"),
             }
             send_email(
-                [campaign.engineering.email],
+                engineering_email,
                 campaign.name,
                 message_params)
         if som_warning_final_payment:
             message_params = {
                 'result': list(som_warning_final_payment),
-                'header': _('Hola {},').format(campaign.engineering),
+                'header': _('Hola {},').format(", ".join(engineering_name)),
                 'intro': _("Us recordem que caldria omplir la informació\
                           al document de 'fitxa tècnica' referent a cada\
                           una de les instal·lacions."),
@@ -60,7 +66,7 @@ def send_email_tasks():
                 'ending': _("Gràcies i fins aviat,"),
             }
             send_email(
-                [campaign.engineering.email],
+                engineering_email,
                 campaign.name,
                 message_params)
         if som_warning_warranty:
@@ -72,7 +78,7 @@ def send_email_tasks():
                 })
             message_params = {
                 'result': campaign_warning,
-                'header': _("Hola {},").format(campaign.engineering),
+                'header': _("Hola {},").format(", ".join(engineering_name)),
                 'intro': _("Per tal de poder fer-vos el retorn de la garantia\
                             disposada a l'inici de la campanya us demanem que\
                             ens feu arribar un rebut a l'adreça\
@@ -82,10 +88,10 @@ def send_email_tasks():
                 'ending': _('Gràcies i fins aviat,'),
             }
             send_email(
-                [campaign.engineering.email],
+                engineering_email,
                 campaign.name,
                 message_params)
-        logger.info("Emails sent to engineering.")
+        logger.info("Emails sent to engineerings.")
 
 
 def send_email(to_email, subject, message_params):
