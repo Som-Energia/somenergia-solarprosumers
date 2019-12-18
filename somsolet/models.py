@@ -521,7 +521,7 @@ class Technical_details(models.Model):
         blank=True)
 
     street = models.CharField(
-        max_length=50,
+        max_length=200,
         blank=True)
 
     town = models.CharField(
