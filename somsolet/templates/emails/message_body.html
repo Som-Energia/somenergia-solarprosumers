@@ -25,6 +25,9 @@
                                     <th align="center" valign="top" style="padding:10px;">
                                         Warning
                                     </th>
+                                    <th align="center" valign="top" style="padding:10px;">
+                                        Date
+                                    </th>
                                 </tr>
                                 {% for r in result %}
                                 {% if forloop.counter|divisibleby:2 %}
@@ -37,6 +40,9 @@
                                     </td>
                                     <td align="center" valign="top" style="padding:10px;">
                                         {{ r.warning }}
+                                    </td>
+                                    <td align="center" valign="top" style="padding:10px;">
+                                        {{ r.warning_date }}
                                     </td>
                                 </tr>
 
