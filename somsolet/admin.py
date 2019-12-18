@@ -147,6 +147,10 @@ class ClientResource(resources.ModelResource):
         import_id_fields = ('name', 'membership_number', 'dni')
         exclude = ('id', )
 
+    def before_import_row(self, row, **kwargs):
+        row['Nom i cognoms'] = row['Nom i cognoms'].title()
+        row['Número de DNI'] = row['Número de DNI'].upper()
+
 
 @admin.register(Client)
 class ClientAdmin(ImportExportModelAdmin):

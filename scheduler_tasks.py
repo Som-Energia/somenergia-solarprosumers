@@ -7,7 +7,7 @@ from django.core.mail import EmailMessage
 from django.db.models import Q
 from django.template.loader import render_to_string
 from django.utils.translation import gettext_lazy as _
-from somsolet.models import Campaign, Project, Engineering
+from somsolet.models import Campaign, Engineering, Project
 
 logger = logging.getLogger('scheduler_tasks')
 
