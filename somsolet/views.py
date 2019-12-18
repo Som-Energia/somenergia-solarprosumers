@@ -430,10 +430,11 @@ class ProjectView(LoginRequiredMixin, View):
         campaign_inst = get_object_or_404(Campaign, pk=pk)
         project_filter = ProjectListFilter(
             request.GET,
-            queryset=Project.objects.all().filter(campaign=campaign_inst.id))
+            queryset=Project.objects.all().filter(
+                campaign=campaign_inst.id).order_by('name')
+            )
         project_list = project_filter.qs
         projects_table = ProjectTable(project_list)
-
         ctx = {
             'project': projects_table,
             'filter': project_filter
