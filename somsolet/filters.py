@@ -1,8 +1,8 @@
 import django_filters
 from django.utils.translation import gettext_lazy as _
 
-from .models import Project, Campaign
 from .choices_options import ITEM_STATUS, ITEM_WARNINGS
+from .models import Campaign, Project
 
 
 class ProjectListFilter(django_filters.FilterSet):
@@ -18,6 +18,14 @@ class ProjectListFilter(django_filters.FilterSet):
     warning = django_filters.ChoiceFilter(
         choices=ITEM_WARNINGS,
         empty_label=_('--- Warning ---'),
+    )
+    municipality = django_filters.CharFilter(
+        field_name='technical_details__municipality',
+        lookup_expr='icontains'
+    )
+    administrative_division = django_filters.CharFilter(
+        field_name='technical_details__administrative_division',
+        lookup_expr='icontains'
     )
 
     class Meta:
