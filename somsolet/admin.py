@@ -28,7 +28,14 @@ class ProjectResource(resources.ModelResource):
 
 @admin.register(Project)
 class ProjectAdmin(ImportExportModelAdmin):
-    list_display = ('campaign', 'client', 'status', 'warning')
+    list_display = (
+        'campaign',
+        'name',
+        'client',
+        'status',
+        'warning',
+        'warning_date'
+    )
     list_filter = ('campaign', 'status', 'discarded_type')
     resource_class = ProjectResource
 
@@ -156,3 +163,4 @@ class ClientResource(resources.ModelResource):
 class ClientAdmin(ImportExportModelAdmin):
     list_display = ('name', 'membership_number', 'email')
     resource_class = ClientResource
+    search_fields = ['name', 'email', 'membership_number']
