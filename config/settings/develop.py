@@ -11,11 +11,11 @@ DEBUG = True
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': config['databases']['develop']['name'],
-        'USER': config['databases']['develop']['user'],
-        'PASSWORD': config['databases']['develop']['password'],
-        'HOST': config['databases']['develop']['host'],
-        'PORT': config['databases']['develop']['port'],
+        'NAME': config['databases']['name'],
+        'USER': config['databases']['user'],
+        'PASSWORD': config['databases']['password'],
+        'HOST': config['databases']['host'],
+        'PORT': config['databases']['port'],
     },
     'mongodb': {
         'HOST': config['mongodb']['host'],
