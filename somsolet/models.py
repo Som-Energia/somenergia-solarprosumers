@@ -143,100 +143,6 @@ class Technical_campaign(models.Model):
         on_delete=models.CASCADE,
         verbose_name=_('Campaign'))
 
-    bateries_brand = models.CharField(
-        blank=True,
-        choices=BATERY_BRAND,
-        max_length=50)
-
-    bateries_model = models.CharField(
-        blank=True,
-        null=True,
-        max_length=50)
-
-    bateries_power = models.FloatField(
-        null=True,
-        blank=True,
-        verbose_name=_('Batery Power (kW)'))
-
-    bateries_capacity = models.FloatField(
-        null=True,
-        blank=True,
-        verbose_name=_('Batery Capacity (kWh)'))
-
-    bateries_price = models.FloatField(
-        null=True,
-        blank=True)
-
-    shadow_optimizer_brand = models.CharField(
-        max_length=50)
-
-    shadow_optimizer_model = models.CharField(
-        max_length=22)
-
-    shadow_optimizer_price = models.FloatField(
-        null=True,
-        blank=True,
-        verbose_name=_('Shadow Optimizer (€)'))
-
-    peak_power_panels_wp = models.FloatField(
-        null=True,
-        blank=True,
-        verbose_name=_('Panel Peak Power (Wp)'))
-
-    panel_brand = models.CharField(
-        choices=PANELS_BRAND,
-        max_length=22)
-
-    panel_type = models.CharField(
-        choices=PANELS_TYPE,
-        max_length=50)
-
-    panel_model = models.CharField(
-        max_length=22)
-
-    inversor_brand = models.CharField(
-        choices=INVERSOR_BRAND,
-        max_length=50)
-
-    inversor_model = models.CharField(
-        max_length=50)
-
-    nominal_inversor_power = models.FloatField(
-        null=True,
-        blank=True,
-        verbose_name=_('Nominal Inversor Power (Wn)'))
-
-    charger_manager_brand = models.CharField(
-        blank=True,
-        max_length=22)
-
-    charger_manager_model = models.CharField(
-        blank=True,
-        max_length=22)
-
-    charger_manager_price = models.FloatField(
-        null=True,
-        blank=True,
-        verbose_name=_('Charger manager (€)'))
-
-    electric_car_charger_brand = models.CharField(
-        blank=True,
-        max_length=22)
-
-    electric_car_charger_model = models.CharField(
-        blank=True,
-        max_length=22)
-
-    electric_car_charger_power = models.FloatField(
-        null=True,
-        blank=True,
-        verbose_name=_('Electric Car Charger Power (kW)'))
-
-    electric_car_charger_price = models.FloatField(
-        null=True,
-        blank=True,
-        verbose_name=_('Electric Car Charger (€)'))
-
     price_mono_fixed = models.FloatField(
         null=True,
         blank=True,
@@ -627,6 +533,100 @@ class Technical_details(models.Model):
         null=True,
         blank=True,
         max_length=500)
+
+    bateries_brand = models.CharField(
+        blank=True,
+        choices=BATERY_BRAND,
+        max_length=50)
+
+    bateries_model = models.CharField(
+        blank=True,
+        null=True,
+        max_length=50)
+
+    bateries_power = models.FloatField(
+        null=True,
+        blank=True,
+        verbose_name=_('Batery Power (kW)'))
+
+    bateries_capacity = models.FloatField(
+        null=True,
+        blank=True,
+        verbose_name=_('Batery Capacity (kWh)'))
+
+    bateries_price = models.FloatField(
+        null=True,
+        blank=True)
+
+    shadow_optimizer_brand = models.CharField(
+        max_length=50)
+
+    shadow_optimizer_model = models.CharField(
+        max_length=22)
+
+    shadow_optimizer_price = models.FloatField(
+        null=True,
+        blank=True,
+        verbose_name=_('Shadow Optimizer (€)'))
+
+    peak_power_panels_wp = models.FloatField(
+        null=True,
+        blank=True,
+        verbose_name=_('Panel Peak Power (Wp)'))
+
+    panel_brand = models.CharField(
+        choices=PANELS_BRAND,
+        max_length=22)
+
+    panel_type = models.CharField(
+        choices=PANELS_TYPE,
+        max_length=50)
+
+    panel_model = models.CharField(
+        max_length=22)
+
+    inversor_brand = models.CharField(
+        choices=INVERSOR_BRAND,
+        max_length=50)
+
+    inversor_model = models.CharField(
+        max_length=50)
+
+    nominal_inversor_power = models.FloatField(
+        null=True,
+        blank=True,
+        verbose_name=_('Nominal Inversor Power (Wn)'))
+
+    charger_manager_brand = models.CharField(
+        blank=True,
+        max_length=22)
+
+    charger_manager_model = models.CharField(
+        blank=True,
+        max_length=22)
+
+    charger_manager_price = models.FloatField(
+        null=True,
+        blank=True,
+        verbose_name=_('Charger manager (€)'))
+
+    electric_car_charger_brand = models.CharField(
+        blank=True,
+        max_length=22)
+
+    electric_car_charger_model = models.CharField(
+        blank=True,
+        max_length=22)
+
+    electric_car_charger_power = models.FloatField(
+        null=True,
+        blank=True,
+        verbose_name=_('Electric Car Charger Power (kW)'))
+
+    electric_car_charger_price = models.FloatField(
+        null=True,
+        blank=True,
+        verbose_name=_('Electric Car Charger (€)'))
 
     def __str__(self):
         return self.project.name

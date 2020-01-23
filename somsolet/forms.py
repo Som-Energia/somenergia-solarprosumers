@@ -563,9 +563,6 @@ class TechnicalDetailsForm(forms.ModelForm):
             ),
             Row(
                 Column(
-                    'count_panels',
-                    css_class='form-group col-md-4 mb-0'),
-                Column(
                     'installation_power',
                     css_class='form-group col-md-4 mb-0'),
                 Column(
@@ -581,23 +578,8 @@ class TechnicalDetailsForm(forms.ModelForm):
             ),
             Row(
                 Column(
-                    'shadow_optimizer',
-                    css_class='form-group col-md-4 mb-0'),
-                Column(
                     'homemanager',
                     css_class='form-group col-md-4 mb-0'),
-                Column(
-                    'electric_car',
-                    css_class='form-group col-md-4 mb-0'),
-                Column(
-                    'charger_brand',
-                    css_class='form-group col-md-3 mb-0'),
-                Column(
-                    'charger_manager',
-                    css_class='form-group col-md-3 mb-0'),
-                Column(
-                    'electric_car_charger',
-                    css_class='form-group col-md-3 mb-0'),
                 Column(
                     'power_meter',
                     css_class='form-group col-md-3 mb-0'),
@@ -608,32 +590,12 @@ class TechnicalDetailsForm(forms.ModelForm):
                     'acquire_interest',
                     css_class='form-group col-md-6 mb-0'),
                 Column(
-                    'comments',
+                    'client_comments',
+                    css_class='form-group col-md-8 mb-0'),
+                Column(
+                    'engineering_comments',
                     css_class='form-group col-md-8 mb-0'),
                 css_class='form-row'
-            ),
-
-        )
-        self.helper.layout.append(Submit('previous', 'previous'))
-        self.helper.layout.append(Submit('save', 'save'))
-        self.helper.layout.append(Submit('next', 'next'))
-        self.helper.layout.append(Submit('cancel', 'cancel'))
-
-    class Meta:
-        model = Technical_details
-        fields = '__all__'
-
-
-class TechnicalCampaignsForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        super(TechnicalCampaignsForm, self).__init__(*args, **kwargs)
-        self.helper = FormHelper(self)
-        self.fields['campaign'].disabled = True
-        self.helper.layout = Layout(
-            Row(
-                Column(
-                    'campaign',
-                    css_class='form-group col-md-4 mb-0'),
             ),
             Row(
                 Column(
@@ -655,6 +617,9 @@ class TechnicalCampaignsForm(forms.ModelForm):
             ),
             Row(
                 Column(
+                    'shadow_optimizer',
+                    css_class='form-group col-md-4 mb-0'),
+                Column(
                     'shadow_optimizer_brand',
                     css_class='form-group col-md-4 mb-0'),
                 Column(
@@ -666,6 +631,9 @@ class TechnicalCampaignsForm(forms.ModelForm):
                 css_class='form-row'
             ),
             Row(
+                Column(
+                    'count_panels',
+                    css_class='form-group col-md-4 mb-0'),
                 Column(
                     'peak_power_panels_wp',
                     css_class='form-group col-md-4 mb-0'),
@@ -693,6 +661,15 @@ class TechnicalCampaignsForm(forms.ModelForm):
             ),
             Row(
                 Column(
+                    'electric_car_charger',
+                    css_class='form-group col-md-3 mb-0'),
+                Column(
+                    'charger_brand',
+                    css_class='form-group col-md-3 mb-0'),
+                Column(
+                    'charger_manager',
+                    css_class='form-group col-md-3 mb-0'),
+                Column(
                     'charger_manager_brand',
                     css_class='form-group col-md-4 mb-0'),
                 Column(
@@ -705,6 +682,9 @@ class TechnicalCampaignsForm(forms.ModelForm):
             ),
             Row(
                 Column(
+                    'electric_car',
+                    css_class='form-group col-md-4 mb-0'),
+                Column(
                     'electric_car_charger_brand',
                     css_class='form-group col-md-4 mb-0'),
                 Column(
@@ -715,6 +695,29 @@ class TechnicalCampaignsForm(forms.ModelForm):
                     css_class='form-group col-md-4 mb-0'),
                 Column(
                     'electric_car_charger_price',
+                    css_class='form-group col-md-4 mb-0'),
+            ),
+
+        )
+        self.helper.layout.append(Submit('previous', 'previous'))
+        self.helper.layout.append(Submit('save', 'save'))
+        self.helper.layout.append(Submit('next', 'next'))
+        self.helper.layout.append(Submit('cancel', 'cancel'))
+
+    class Meta:
+        model = Technical_details
+        fields = '__all__'
+
+
+class TechnicalCampaignsForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(TechnicalCampaignsForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.fields['campaign'].disabled = True
+        self.helper.layout = Layout(
+            Row(
+                Column(
+                    'campaign',
                     css_class='form-group col-md-4 mb-0'),
             ),
             Row(
