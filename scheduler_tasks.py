@@ -20,7 +20,7 @@ def send_email_tasks():
             campaign=campaign).exclude(warning='No Warn')
 
         engineering_warnings = warnings.exclude(
-            Q(warning='warranty payment') | Q(warning='final payment')
+            Q(warning='warranty payment') | Q(warning='final payment') | Q(status='discarded')
         )
         som_warning_final_payment = warnings.filter(
             warning='final payment'
