@@ -12,36 +12,36 @@ def campaing_to_technical(apps, schema_editor):
     Campaigns = Campaign.objects.all()
 
     for campaign in Campaigns:
-        technical_campaign = TechnicalCampaign.objects.filter(
-            campaign=campaign
-        )[0]
-        technicalDetail = TechnicalDetails.objects.filter(
-            project__campaign=campaign
-        )
-        for technical_detail in technicalDetail:
-            technical_detail.bateries_brand = technical_campaign.bateries_brand
-            technical_detail.bateries_model = technical_campaign.bateries_model
-            technical_detail.bateries_power = technical_campaign.bateries_power
-            technical_detail.bateries_capacity = technical_campaign.bateries_capacity
-            technical_detail.bateries_price = technical_campaign.bateries_price
-            technical_detail.shadow_optimizer_brand = technical_campaign.shadow_optimizer_brand
-            technical_detail.shadow_optimizer_model = technical_campaign.shadow_optimizer_model
-            technical_detail.shadow_optimizer_price = technical_campaign.shadow_optimizer_price
-            technical_detail.peak_power_panels_wp = technical_campaign.peak_power_panels_wp
-            technical_detail.panel_brand = technical_campaign.panel_brand
-            technical_detail.panel_type = technical_campaign.panel_type
-            technical_detail.panel_model = technical_campaign.panel_model
-            technical_detail.inversor_brand = technical_campaign.inversor_brand
-            technical_detail.inversor_model = technical_campaign.inversor_model
-            technical_detail.nominal_inversor_power = technical_campaign.nominal_inversor_power
-            technical_detail.charger_manager_brand = technical_campaign.charger_manager_brand
-            technical_detail.charger_manager_model = technical_campaign.charger_manager_model
-            technical_detail.charger_manager_price = technical_campaign.charger_manager_price
-            technical_detail.electric_car_charger_brand = technical_campaign.electric_car_charger_brand
-            technical_detail.electric_car_charger_model = technical_campaign.electric_car_charger_model
-            technical_detail.electric_car_charger_power = technical_campaign.electric_car_charger_power
-            technical_detail.electric_car_charger_price = technical_campaign.electric_car_charger_price
-            technical_detail.save()
+        tc = TechnicalCampaign.objects.filter(campaign=campaign)
+        if tc:
+            technical_campaign = tc[0]
+            technicalDetail = TechnicalDetails.objects.filter(
+                project__campaign=campaign
+            )
+            for technical_detail in technicalDetail:
+                technical_detail.bateries_brand = technical_campaign.bateries_brand
+                technical_detail.bateries_model = technical_campaign.bateries_model
+                technical_detail.bateries_power = technical_campaign.bateries_power
+                technical_detail.bateries_capacity = technical_campaign.bateries_capacity
+                technical_detail.bateries_price = technical_campaign.bateries_price
+                technical_detail.shadow_optimizer_brand = technical_campaign.shadow_optimizer_brand
+                technical_detail.shadow_optimizer_model = technical_campaign.shadow_optimizer_model
+                technical_detail.shadow_optimizer_price = technical_campaign.shadow_optimizer_price
+                technical_detail.peak_power_panels_wp = technical_campaign.peak_power_panels_wp
+                technical_detail.panel_brand = technical_campaign.panel_brand
+                technical_detail.panel_type = technical_campaign.panel_type
+                technical_detail.panel_model = technical_campaign.panel_model
+                technical_detail.inversor_brand = technical_campaign.inversor_brand
+                technical_detail.inversor_model = technical_campaign.inversor_model
+                technical_detail.nominal_inversor_power = technical_campaign.nominal_inversor_power
+                technical_detail.charger_manager_brand = technical_campaign.charger_manager_brand
+                technical_detail.charger_manager_model = technical_campaign.charger_manager_model
+                technical_detail.charger_manager_price = technical_campaign.charger_manager_price
+                technical_detail.electric_car_charger_brand = technical_campaign.electric_car_charger_brand
+                technical_detail.electric_car_charger_model = technical_campaign.electric_car_charger_model
+                technical_detail.electric_car_charger_power = technical_campaign.electric_car_charger_power
+                technical_detail.electric_car_charger_price = technical_campaign.electric_car_charger_price
+                technical_detail.save()
 
 
 class Migration(migrations.Migration):
