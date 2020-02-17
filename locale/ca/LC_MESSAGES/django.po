@@ -3,20 +3,21 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-02-17 11:22+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2020-02-17 11:43+0000\n"
+"Last-Translator: Weblate Admin <admin@example.com>\n"
+"Language-Team: Catalan <http://example.com/projects/somsolet/git-somsolet/ca/"
+">\n"
+"Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 3.10.3\n"
 
 #: config/settings/base.py:107
 msgid "English"
@@ -40,7 +41,7 @@ msgstr ""
 
 #: scheduler_tasks.py:43 scheduler_tasks.py:61 scheduler_tasks.py:81
 msgid "Hola {},"
-msgstr ""
+msgstr "Hola {},"
 
 #: scheduler_tasks.py:44
 msgid ""
@@ -67,6 +68,9 @@ msgid ""
 "document de 'fitxa tècnica' referent a cada                          una de "
 "les instal·lacions."
 msgstr ""
+"Us recordem que caldria omplir la informació                          al "
+"document de 'fitxa tècnica' referent a cada                          una de "
+"les instal·lacions."
 
 #: scheduler_tasks.py:66 scheduler_tasks.py:88
 msgid "Gràcies i fins aviat,"
@@ -119,7 +123,7 @@ msgstr ""
 
 #: somsolet/choices_options.py:12
 msgid "Engeneering offer"
-msgstr ""
+msgstr "Oferta d'Enginyeria"
 
 #: somsolet/choices_options.py:13
 msgid "offer Review"
@@ -178,7 +182,7 @@ msgstr ""
 
 #: somsolet/choices_options.py:28
 msgid "Warning: Waiting for prereport"
-msgstr ""
+msgstr "Avís: Esperant preinforme"
 
 #: somsolet/choices_options.py:29
 msgid "Warning: Waiting for technical visit"
@@ -566,7 +570,7 @@ msgstr ""
 
 #: somsolet/models.py:256
 msgid "Invalid Prereport?"
-msgstr ""
+msgstr "Preinforme invàlid?"
 
 #: somsolet/models.py:261
 msgid "Upload Prereport"
