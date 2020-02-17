@@ -1,12 +1,16 @@
 import os
 
 import yaml
+from django.utils.translation import gettext_lazy as _
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 with open(os.path.join(BASE_DIR, 'settings/config.yaml')) as f:
     config = yaml.load(f.read())
 
+LOCALE_PATHS = (
+    os.path.join(BASE_DIR, 'locale'),
+)
 
 ALLOWED_HOSTS = []
 
@@ -99,6 +103,13 @@ LOGOUT_REDIRECT_URL = 'login'
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
+LANGUAGES = (
+    ('en', _('English')),
+    ('ca', _('Catalan')),
+    ('es', _('Spanish')),
+    ('eu', _('Basque')),
+    ('gl', _('Galician')),
+)
 
 TIME_ZONE = 'Europe/Madrid'
 
