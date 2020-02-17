@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-02-17 11:22+0100\n"
-"PO-Revision-Date: 2020-02-17 11:43+0000\n"
+"PO-Revision-Date: 2020-02-17 13:13+0000\n"
 "Last-Translator: Weblate Admin <admin@example.com>\n"
 "Language-Team: Catalan <http://example.com/projects/somsolet/git-somsolet/ca/"
 ">\n"
@@ -670,11 +670,11 @@ msgstr ""
 
 #: somsolet/templates/registration/login.html:15
 msgid "Inicia sessió"
-msgstr ""
+msgstr "Inicia la sessió"
 
 #: somsolet/templates/registration/login.html:27
 msgid "Lost password?"
-msgstr ""
+msgstr "T'has oblidat de la clau d'accés?"
 
 #: somsolet/templates/registration/password_reset_complete.html:6
 msgid "The password has been changed!"
