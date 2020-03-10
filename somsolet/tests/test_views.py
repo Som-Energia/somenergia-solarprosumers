@@ -6,7 +6,8 @@ from django.urls import reverse
 from factories import ProjectFactory
 from mixer.backend.django import mixer
 from mock import patch
-from somsolet.views import PrereportView, ProjectView, TechnicalVisitView
+from somsolet.views import (PrereportView, ProjectView, TechnicalVisitView,
+                            ReportView)
 
 
 @pytest.mark.django_db
@@ -156,3 +157,24 @@ class TestViews:
 
             response = TechnicalVisitView.as_view()(request, pk=1)
             assert 'auth/login' in response.url
+
+    def test_report_view_auth_valid_status_condition(self):
+        project = ProjectFactory.build()
+
+        get_initial_mock = {
+            'campaign': project.campaign,
+            'project': project.id,
+            'client': project.client,
+            'status': 'report'
+        }
+        with patch.object(
+            ReportView,
+            'get_initial',
+            return_value=get_initial_mock
+        ):
+            path = reverse('technical_visit', kwargs={'pk': 1})
+            request = RequestFactory().get(path)
+            request.user = mixer.blend(User)
+
+            response = ReportView.as_view()(request, pk=1)
+            assert response.status_code == 200
