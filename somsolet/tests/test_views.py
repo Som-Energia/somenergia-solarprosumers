@@ -242,3 +242,25 @@ class TestViews:
 
             response = OfferView.as_view()(request, pk=1)
             assert response.status_code == 200
+
+    def test_offer_view_auth_invalid_status_condition(self):
+        project = ProjectFactory.build()
+
+        get_initial_mock = {
+            'campaign': project.campaign,
+            'project': project.id,
+            'client': project.client,
+            'status': 'random',
+            'campaign_pk': 2
+        }
+        with patch.object(
+            OfferView,
+            'get_initial',
+            return_value=get_initial_mock
+        ):
+            path = reverse('technical_visit', kwargs={'pk': 1})
+            request = RequestFactory().get(path)
+            request.user = mixer.blend(User)
+
+            response = OfferView.as_view()(request, pk=1)
+            assert 'project' in response.url
