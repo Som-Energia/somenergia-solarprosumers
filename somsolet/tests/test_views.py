@@ -380,3 +380,16 @@ class TestViews:
 
             response = LegalizationView.as_view()(request, pk=1)
             assert 'project' in response.url
+
+    def test_legalization_unauthenticated(self):
+        with patch.object(
+            LegalizationView,
+            'get_initial',
+            return_value=self.get_initial_mock()
+        ):
+            path = reverse('technical_visit', kwargs={'pk': 1})
+            request = RequestFactory().get(path)
+            request.user = AnonymousUser()
+
+            response = LegalizationView.as_view()(request, pk=1)
+            assert 'auth/login' in response.url
