@@ -457,3 +457,24 @@ class TestViews:
 
             response = InstallationDateView.as_view()(request, pk=1)
             assert 'project' in response.url
+
+    def test_installation_date_unauthenticated(self):
+        project = ProjectFactory.build()
+        get_initial_mock = {
+            'campaign': project.campaign,
+            'project': project.id,
+            'client': project.client,
+            'status': 'random',
+            'campaign_pk': 2
+        }
+        with patch.object(
+            InstallationDateView,
+            'get_initial',
+            return_value=get_initial_mock
+        ):
+            path = reverse('technical_visit', kwargs={'pk': 1})
+            request = RequestFactory().get(path)
+            request.user = AnonymousUser()
+
+            response = InstallationDateView.as_view()(request, pk=1)
+            assert 'auth/login' in response.url
