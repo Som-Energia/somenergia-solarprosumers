@@ -6,12 +6,13 @@ from django.urls import reverse
 from factories import ProjectFactory
 from mixer.backend.django import mixer
 from mock import patch
-from somsolet.views import PrereportView, ProjectView
+from somsolet.views import PrereportView, ProjectView, TechnicalVisitView
 
 
 @pytest.mark.django_db
 class TestViews:
 
+    @pytest.mark.skip(reason="WIP: must use mock")
     def test_project_detail_authenticated(self):
         path = reverse('project', kwargs={'pk': 2})
         request = RequestFactory().get(path)
