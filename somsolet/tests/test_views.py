@@ -367,3 +367,16 @@ class TestViews:
 
             response = LegalizationView.as_view()(request, pk=1)
             assert response.status_code == 200
+
+    def test_legalization_auth_invalid_status_condition(self):
+        with patch.object(
+            LegalizationView,
+            'get_initial',
+            return_value=self.get_initial_mock()
+        ):
+            path = reverse('technical_visit', kwargs={'pk': 1})
+            request = RequestFactory().get(path)
+            request.user = mixer.blend(User)
+
+            response = LegalizationView.as_view()(request, pk=1)
+            assert 'project' in response.url
