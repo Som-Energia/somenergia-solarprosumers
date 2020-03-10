@@ -158,7 +158,7 @@ class TestViews:
             response = TechnicalVisitView.as_view()(request, pk=1)
             assert 'auth/login' in response.url
 
-    def test_report_view_auth_valid_status_condition(self):
+    def test_report_auth_valid_status_condition(self):
         project = ProjectFactory.build()
 
         get_initial_mock = {
@@ -179,7 +179,7 @@ class TestViews:
             response = ReportView.as_view()(request, pk=1)
             assert response.status_code == 200
 
-    def test_report_view_auth_invalid_status_condition(self):
+    def test_report_auth_invalid_status_condition(self):
         project = ProjectFactory.build()
 
         get_initial_mock = {
@@ -201,7 +201,7 @@ class TestViews:
             response = ReportView.as_view()(request, pk=1)
             assert 'project' in response.url
 
-    def test_report_view_unauthenticated(self):
+    def test_report_unauthenticated(self):
         project = ProjectFactory.build()
         get_initial_mock = {
             'campaign': project.campaign,
@@ -222,7 +222,7 @@ class TestViews:
             response = ReportView.as_view()(request, pk=1)
             assert 'auth/login' in response.url
 
-    def test_offer_view_auth_valid_status_condition(self):
+    def test_offer_auth_valid_status_condition(self):
         project = ProjectFactory.build()
 
         get_initial_mock = {
@@ -243,7 +243,7 @@ class TestViews:
             response = OfferView.as_view()(request, pk=1)
             assert response.status_code == 200
 
-    def test_offer_view_auth_invalid_status_condition(self):
+    def test_offer_auth_invalid_status_condition(self):
         project = ProjectFactory.build()
 
         get_initial_mock = {
@@ -265,7 +265,7 @@ class TestViews:
             response = OfferView.as_view()(request, pk=1)
             assert 'project' in response.url
 
-    def test_offer_view_unauthenticated(self):
+    def test_offer_unauthenticated(self):
         project = ProjectFactory.build()
         get_initial_mock = {
             'campaign': project.campaign,
