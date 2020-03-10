@@ -8,7 +8,8 @@ from mixer.backend.django import mixer
 from mock import patch
 from somsolet.views import (PrereportView, ProjectView, TechnicalVisitView,
                             ReportView, OfferView, SignatureView,
-                            ConstructionPermitView, InstallationDateView)
+                            ConstructionPermitView, InstallationDateView,
+                            DeliveryCertificateView)
 
 
 @pytest.mark.django_db
@@ -478,3 +479,24 @@ class TestViews:
 
             response = InstallationDateView.as_view()(request, pk=1)
             assert 'auth/login' in response.url
+
+    def test_delivery_cert_auth_valid_status_condition(self):
+        project = ProjectFactory.build()
+
+        get_initial_mock = {
+            'campaign': project.campaign,
+            'project': project.id,
+            'client': project.client,
+            'status': 'end installation'
+        }
+        with patch.object(
+            DeliveryCertificateView,
+            'get_initial',
+            return_value=get_initial_mock
+        ):
+            path = reverse('technical_visit', kwargs={'pk': 1})
+            request = RequestFactory().get(path)
+            request.user = mixer.blend(User)
+
+            response = DeliveryCertificateView.as_view()(request, pk=1)
+            assert response.status_code == 200
