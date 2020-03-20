@@ -117,6 +117,7 @@ class TestViews:
             [ConstructionPermitView, 'construction_permit'],
             [InstallationDateView, 'installation_date'],
             [DeliveryCertificateView, 'delivery_certificate'],
+            [LegalRegistrationView, 'legal_registration'],
             [LegalizationView, 'legalization']
         ], name_func=custom_name_func
     )
