@@ -10,7 +10,8 @@ from parameterized import parameterized
 from somsolet.views import (PrereportView, ProjectView, TechnicalVisitView,
                             ReportView, OfferView, SignatureView,
                             ConstructionPermitView, InstallationDateView,
-                            DeliveryCertificateView, LegalizationView)
+                            DeliveryCertificateView, LegalRegistrationView,
+                            LegalizationView)
 
 
 def custom_name_func(testcase_func, param_num, param):
@@ -62,6 +63,7 @@ class TestViews:
             [ConstructionPermitView, 'construction_permit', 'construction permit'],
             [InstallationDateView, 'installation_date', 'date installation set'],
             [DeliveryCertificateView, 'delivery_certificate', 'end installation'],
+            [LegalRegistrationView, 'legal_registration', 'end installation'],
             [LegalizationView, 'legalization', 'legalization']
         ], name_func=custom_name_func
     )
@@ -88,6 +90,7 @@ class TestViews:
             [ConstructionPermitView, 'construction_permit'],
             [InstallationDateView, 'installation_date'],
             [DeliveryCertificateView, 'delivery_certificate'],
+            [LegalRegistrationView, 'legal_registration'],
             [LegalizationView, 'legalization']
         ], name_func=custom_name_func
     )
