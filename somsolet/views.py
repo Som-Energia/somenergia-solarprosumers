@@ -14,7 +14,7 @@ from django_tables2 import RequestConfig
 
 from .filters import CampaignListFilter, ProjectListFilter
 from .forms import (ConstructionPermitForm, DeliveryCertificateForm,
-                    InstallationDateForm, LegalizationForm, OfferForm,
+                    InstallationDateForm, LegalizationForm, LegalRegistrationForm, OfferForm,
                     PrereportForm, ReportForm, SignedContractForm,
                     TechnicalCampaignsForm, TechnicalDetailsForm,
                     TechnicalVisitForm, UserForm)
@@ -363,7 +363,7 @@ class DeliveryCertificateView(SomsoletProjectView):
 class LegalizationView(SomsoletProjectView):
     form_class = LegalizationForm
     template_name = 'somsolet/legalization.html'
-    status_condition = ('end installation', 'legalization')
+    status_condition = ('legal registration', 'legalization')
 
     def __init__(self):
         self.form = 'legalizationform'
@@ -395,6 +395,40 @@ class LegalizationView(SomsoletProjectView):
             {'legalizationform': form}
         )
 
+class LegalRegistrationView(SomsoletProjectView):
+    form_class = LegalRegistrationForm
+    template_name = 'somsolet/legal_registration.html'
+    status_condition = ('end installation', 'legal registration')
+
+    def __init__(self):
+        self.form = 'legalregistrationform'
+        self.url_path = 'legal_registration'
+
+    def post(self, request, pk):
+        form = self.form_class(request.POST, request.FILES)
+        proj_inst = get_object_or_404(Project, pk=pk)
+        if 'cancel' in request.POST:
+            return HttpResponseRedirect(reverse(
+                'project',
+                args=[proj_inst.campaign.pk]))
+        if form.is_valid():
+            date_legal_registration_docs = datetime.now().strftime('%Y-%m-%d')
+            proj_inst.status = 'legal registration'
+            proj_inst.warning = 'No Warn'
+            proj_inst.upload_legal_registration_docs = form.cleaned_data[
+                'upload_legal_registration_docs'
+            ]
+            if request.FILES:
+                proj_inst.upload_legal_registration_docs.name = proj_inst.name \
+                    + '_' + proj_inst.upload_legal_registration_docs.name
+                proj_inst.date_legal_registration_docs = date_legal_registration_docs
+            return self.button_options(request, pk, proj_inst)
+
+        return render(
+            request,
+            self.template_name,
+            {'legalregistrationform': form}
+        )
 
 class ClientView(LoginRequiredMixin, DetailView):
     login_url = 'login'

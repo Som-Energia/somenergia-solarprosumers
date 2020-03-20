@@ -58,6 +58,9 @@ class ProjectTable(tables.Table):
     upload_legal_docs = tables.LinkColumn(
         'legalization',
         args=[A('pk')])
+    upload_legal_registration_docs = tables.LinkColumn(
+        'legal_registration',
+        args=[A('pk')])
     technical_details = tables.TemplateColumn(
         template_name='somsolet/technical_details_update.html',
         extra_context={
@@ -99,6 +102,8 @@ class ProjectTable(tables.Table):
             'date_start_installation',
             'date_delivery_certificate',
             'upload_delivery_certificate',
+            'date_legal_registration_docs',
+            'upload_legal_registration_docs',
             'date_legal_docs',
             'upload_legal_docs',
         ]
@@ -168,6 +173,15 @@ class ProjectTable(tables.Table):
 
     def render_upload_legal_docs(self, value):
         if value.name != 'uploaded_files/legal_docs/som.png':
+            return format_html(
+                "<i class=\"fa fa-file\" title=\"{}\"/>",
+                value.name
+            )
+        else:
+            return format_html("<i class=\"fa fa-upload\"")
+
+    def render_upload_legal_registration_docs(self, value):
+        if value.name != 'uploaded_files/legal_registration_docs/som.png':
             return format_html(
                 "<i class=\"fa fa-file\" title=\"{}\"/>",
                 value.name

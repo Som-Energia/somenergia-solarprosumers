@@ -338,6 +338,15 @@ class Project(models.Model):
         null=True,
         blank=True)
 
+    upload_legal_registration_docs = models.FileField(
+        upload_to='uploaded_files/legal_registration_docs',
+        default='uploaded_files/legal_registration_docs/som.png',
+        verbose_name=_('Upload legal registration certificate'))
+
+    date_legal_registration_docs = models.DateField(
+        null=True,
+        blank=True)
+
     upload_legal_docs = models.FileField(
         upload_to='uploaded_files/legal_docs',
         default='uploaded_files/legal_docs/som.png',

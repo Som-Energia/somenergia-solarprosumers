@@ -77,4 +77,9 @@ urlpatterns = [
         views.LegalizationView.as_view(),
         name='legalization'
     ),
+    path(
+        'legal_registration/<int:pk>/',
+        views.LegalRegistrationView.as_view(),
+        name='legal_registration'
+    ),
 ]

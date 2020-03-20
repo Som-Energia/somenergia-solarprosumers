@@ -69,6 +69,7 @@ h1 a {
   --color9: #4f9e66;
   --color10: #FEC054;
   --color11: #f50303;
+  --color12: #8a72cf;
 }
 
 
@@ -116,6 +117,11 @@ h1 a {
 
 .table-som th:nth-child(22),
 .table-som th:nth-child(23){
+    background-color: var(--color12);
+}
+
+.table-som th:nth-child(24),
+.table-som th:nth-child(25){
     background-color: var(--color10);
 }
 
@@ -161,6 +167,10 @@ h1 a {
 
 .table-som .status.end-installation {
     color: var(--color9)
+}
+
+.table-som .status.legal-registration {
+    color: var(--color12)
 }
 
 .table-som .status.legalization {
