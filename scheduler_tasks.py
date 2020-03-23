@@ -239,6 +239,21 @@ def finish_installation_warning():
         msg = "Finish installation warning saved for: {}"
         logger.info(msg.format(installation.name))
 
+def legal_registration_warning():
+    logger.info("Start legal_registration_warning...")
+    installations = Project.objects.filter(
+        campaign__active=True,
+        date_legal_registration_docs__isnull=True,
+        status='end installation',
+        date_delivery_certificate__lte=datetime.now() - timedelta(days=60)
+    )
+
+    for installation in installations:
+        installation.warning = 'pending registration reciept'
+        installation.warning_date = datetime.now()
+        installation.save()
+        msg = "Finish legal registration warning saved for: {}"
+        logger.info(msg.format(installation.name))
 
 def legalization_warning():
     logger.info("Start legalization_warning...")
@@ -246,7 +261,7 @@ def legalization_warning():
         campaign__active=True,
         date_legal_docs__isnull=True,
         status='legal registration',
-        date_delivery_certificate__lte=datetime.now() - timedelta(days=60)
+        date_legal_registration_docs__lte=datetime.now() - timedelta(days=15)
     )
 
     for installation in installations:

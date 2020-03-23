@@ -72,6 +72,13 @@ class SomsoletConfig(AppConfig):
 
         scheduler.cron(
             "0 23 * * *",
+            func=scheduler_tasks.legal_registration_warning,
+            repeat=1,
+            queue_name='default',
+        )
+
+        scheduler.cron(
+            "0 23 * * *",
             func=scheduler_tasks.legalization_warning,
             repeat=1,
             queue_name='default',
