@@ -568,9 +568,13 @@ class Technical_details(models.Model):
         blank=True)
 
     shadow_optimizer_brand = models.CharField(
+        null=True,
+        blank=True,
         max_length=50)
 
     shadow_optimizer_model = models.CharField(
+        null=True,
+        blank=True,
         max_length=22)
 
     shadow_optimizer_price = models.FloatField(
@@ -585,20 +589,27 @@ class Technical_details(models.Model):
 
     panel_brand = models.CharField(
         choices=PANELS_BRAND,
-        max_length=22)
+        max_length=22,
+        default='empty')
 
     panel_type = models.CharField(
         choices=PANELS_TYPE,
-        max_length=50)
+        max_length=50,
+        default='empty')
 
     panel_model = models.CharField(
+        blank=True,
+        null=True,
         max_length=22)
 
     inversor_brand = models.CharField(
         choices=INVERSOR_BRAND,
-        max_length=50)
+        max_length=50,
+        default='empty')
 
     inversor_model = models.CharField(
+        blank=True,
+        null=True,
         max_length=50)
 
     nominal_inversor_power = models.FloatField(

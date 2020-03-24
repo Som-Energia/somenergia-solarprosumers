@@ -104,6 +104,7 @@ ITEM_VOLTAGE = (
                ('3P', _('three-phase')),)
 
 PANELS_BRAND = (
+               ('empty', _('---')),
                ('REC', _('REC')),
                ('JA SOLAR', _('JA SOLAR')),
                ('JINKO', _('JINKO')),
@@ -118,10 +119,12 @@ PANELS_BRAND = (
                ('YINGLI', _('YINGLI')),)
 
 PANELS_TYPE = (
+              ('empty', _('---')),
               ('CRISTAL', _('CRISTAL')),
               ('OTRO', _('OTRO')),)
 
 INVERSOR_BRAND = (
+                 ('empty', _('---')),
                  ('SMA', _('SMA')),
                  ('HUAWEI', _('HUAWEI')),
                  ('FRONIUS', _('FRONIUS')),
