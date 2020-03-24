@@ -122,16 +122,17 @@ class PrereportView(SomsoletProjectView):
         form = self.form_class(request.POST, request.FILES)
         proj_inst = get_object_or_404(Project, pk=pk)
         if form.is_valid():
-            date_prereport = datetime.now().strftime('%Y-%m-%d')
-            prereport_invalid = form.cleaned_data['is_invalid_prereport']
-            status, date_prereport, warn = form.prereport(
-                date_prereport_review=date_prereport,
-                is_invalid_prereport=prereport_invalid,)
-            proj_inst.status = status
-            proj_inst.warning = warn
-            proj_inst.upload_prereport = form.cleaned_data['upload_prereport']
-            proj_inst.is_invalid_prereport = prereport_invalid
             if request.FILES:
+                date_prereport = datetime.now().strftime('%Y-%m-%d')
+                prereport_invalid = form.cleaned_data['is_invalid_prereport']
+                status, date_prereport, warn = form.prereport(
+                    date_prereport_review=date_prereport,
+                    is_invalid_prereport=prereport_invalid,
+                )
+                proj_inst.warning = warn
+                proj_inst.status = status
+                proj_inst.is_invalid_prereport = prereport_invalid
+                proj_inst.upload_prereport = form.cleaned_data['upload_prereport']
                 proj_inst.date_prereport = date_prereport
             return self.button_options(request, pk, proj_inst)
 
@@ -156,11 +157,12 @@ class TechnicalVisitView(SomsoletProjectView):
         proj_inst = get_object_or_404(Project, pk=pk)
         if form.is_valid():
             date_technical_visit = form.cleaned_data['date_technical_visit']
-            status, date_technical_visit, warn = form.set_technical_visit(
-                date_set_technical_visit=date_technical_visit)
-            proj_inst.status = status
-            proj_inst.warning = warn
-            proj_inst.date_technical_visit = date_technical_visit
+            if date_technical_visit:
+                status, date_technical_visit, warn = form.set_technical_visit(
+                    date_set_technical_visit=date_technical_visit)
+                proj_inst.status = status
+                proj_inst.warning = warn
+                proj_inst.date_technical_visit = date_technical_visit
             return self.button_options(request, pk, proj_inst)
 
         return render(
@@ -184,16 +186,16 @@ class ReportView(SomsoletProjectView):
         form = self.form_class(request.POST, request.FILES)
         proj_inst = get_object_or_404(Project, pk=pk)
         if form.is_valid():
-            date_report = datetime.now().strftime('%Y-%m-%d')
-            report_invalid = form.cleaned_data['is_invalid_report']
-            status, date_report, warn = form.report(
-                date_upload_report=date_report,
-                is_invalid_report=report_invalid)
-            proj_inst.status = status
-            proj_inst.warning = warn
-            proj_inst.upload_report = form.cleaned_data['upload_report']
-            proj_inst.is_invalid_report = report_invalid
             if request.FILES:
+                date_report = datetime.now().strftime('%Y-%m-%d')
+                report_invalid = form.cleaned_data['is_invalid_report']
+                status, date_report, warn = form.report(
+                    date_upload_report=date_report,
+                    is_invalid_report=report_invalid)
+                proj_inst.status = status
+                proj_inst.warning = warn
+                proj_inst.upload_report = form.cleaned_data['upload_report']
+                proj_inst.is_invalid_report = report_invalid
                 proj_inst.date_report = date_report
             return self.button_options(request, pk, proj_inst)
 
@@ -217,16 +219,16 @@ class OfferView(SomsoletProjectView):
         form = self.form_class(request.POST, request.FILES)
         proj_inst = get_object_or_404(Project, pk=pk)
         if form.is_valid():
-            date_offer = datetime.now().strftime('%Y-%m-%d')
-            offer_invalid = form.cleaned_data['is_invalid_offer']
-            status, date_offer, warn = form.offer(
-                date_upload_offer=date_offer,
-                is_invalid_offer=offer_invalid)
-            proj_inst.status = status
-            proj_inst.warning = warn
-            proj_inst.upload_offer = form.cleaned_data['upload_offer']
-            proj_inst.is_invalid_offer = offer_invalid
             if request.FILES:
+                date_offer = datetime.now().strftime('%Y-%m-%d')
+                offer_invalid = form.cleaned_data['is_invalid_offer']
+                status, date_offer, warn = form.offer(
+                    date_upload_offer=date_offer,
+                    is_invalid_offer=offer_invalid)
+                proj_inst.status = status
+                proj_inst.warning = warn
+                proj_inst.upload_offer = form.cleaned_data['upload_offer']
+                proj_inst.is_invalid_offer = offer_invalid
                 proj_inst.date_offer = date_offer
             return self.button_options(request, pk, proj_inst)
 
@@ -250,11 +252,11 @@ class SignatureView(SomsoletProjectView):
         form = self.form_class(request.POST, request.FILES)
         proj_inst = get_object_or_404(Project, pk=pk)
         if form.is_valid():
-            proj_inst.is_signed = True
-            proj_inst.status = 'signature'
-            proj_inst.warning = 'No Warn'
-            proj_inst.upload_contract = form.cleaned_data['upload_contract']
             if request.FILES:
+                proj_inst.is_signed = True
+                proj_inst.status = 'signature'
+                proj_inst.warning = 'No Warn'
+                proj_inst.upload_contract = form.cleaned_data['upload_contract']
                 proj_inst.date_signature = datetime.now().strftime('%Y-%m-%d')
             return self.button_options(request, pk, proj_inst)
 
@@ -278,13 +280,13 @@ class ConstructionPermitView(SomsoletProjectView):
         form = self.form_class(request.POST, request.FILES)
         proj_inst = get_object_or_404(Project, pk=pk)
         if form.is_valid():
-            date_permit = datetime.now().strftime('%Y-%m-%d')
-            status, warn = form.construction_permit(
-                date_permit=date_permit)
-            proj_inst.status = status
-            proj_inst.warning = warn
-            proj_inst.upload_permit = form.cleaned_data['upload_permit']
             if request.FILES:
+                date_permit = datetime.now().strftime('%Y-%m-%d')
+                status, warn = form.construction_permit(
+                    date_permit=date_permit)
+                proj_inst.status = status
+                proj_inst.warning = warn
+                proj_inst.upload_permit = form.cleaned_data['upload_permit']
                 proj_inst.date_permit = date_permit
             return self.button_options(request, pk, proj_inst)
 
@@ -309,12 +311,13 @@ class InstallationDateView(SomsoletProjectView):
         proj_inst = get_object_or_404(Project, pk=pk)
         if form.is_valid():
             date_installation = form.cleaned_data['date_start_installation']
-            status, is_date_set, warn = form.set_date_installation(
-                date_installation=date_installation)
-            proj_inst.status = status
-            proj_inst.warning = warn
-            proj_inst.is_date_set = is_date_set
-            proj_inst.date_start_installation = date_installation
+            if date_installation:
+                status, is_date_set, warn = form.set_date_installation(
+                    date_installation=date_installation)
+                proj_inst.status = status
+                proj_inst.warning = warn
+                proj_inst.is_date_set = is_date_set
+                proj_inst.date_start_installation = date_installation
             return self.button_options(request, pk, proj_inst)
 
         return render(
@@ -336,18 +339,14 @@ class DeliveryCertificateView(SomsoletProjectView):
     def post(self, request, pk):
         form = self.form_class(request.POST, request.FILES)
         proj_inst = get_object_or_404(Project, pk=pk)
-        if 'cancel' in request.POST:
-            return HttpResponseRedirect(reverse(
-                'project',
-                args=[proj_inst.campaign.pk]))
         if form.is_valid():
-            date_delivery_certificate = datetime.now().strftime('%Y-%m-%d')
-            proj_inst.status = 'end installation'
-            proj_inst.warning = 'No Warn'
-            proj_inst.upload_delivery_certificate = form.cleaned_data[
-                'upload_delivery_certificate'
-            ]
             if request.FILES:
+                date_delivery_certificate = datetime.now().strftime('%Y-%m-%d')
+                proj_inst.status = 'end installation'
+                proj_inst.warning = 'No Warn'
+                proj_inst.upload_delivery_certificate = form.cleaned_data[
+                    'upload_delivery_certificate'
+                ]
                 proj_inst.upload_delivery_certificate.name = proj_inst.name \
                     + '_' + proj_inst.upload_delivery_certificate.name
                 proj_inst.date_delivery_certificate = date_delivery_certificate
@@ -372,18 +371,14 @@ class LegalizationView(SomsoletProjectView):
     def post(self, request, pk):
         form = self.form_class(request.POST, request.FILES)
         proj_inst = get_object_or_404(Project, pk=pk)
-        if 'cancel' in request.POST:
-            return HttpResponseRedirect(reverse(
-                'project',
-                args=[proj_inst.campaign.pk]))
         if form.is_valid():
-            date_legal_docs = datetime.now().strftime('%Y-%m-%d')
-            proj_inst.status = 'legalization'
-            proj_inst.warning = 'No Warn'
-            proj_inst.upload_legal_docs = form.cleaned_data[
-                'upload_legal_docs'
-            ]
             if request.FILES:
+                date_legal_docs = datetime.now().strftime('%Y-%m-%d')
+                proj_inst.status = 'legalization'
+                proj_inst.warning = 'No Warn'
+                proj_inst.upload_legal_docs = form.cleaned_data[
+                    'upload_legal_docs'
+                ]
                 proj_inst.upload_legal_docs.name = proj_inst.name \
                     + '_' + proj_inst.upload_legal_docs.name
                 proj_inst.date_legal_docs = date_legal_docs
@@ -407,18 +402,14 @@ class LegalRegistrationView(SomsoletProjectView):
     def post(self, request, pk):
         form = self.form_class(request.POST, request.FILES)
         proj_inst = get_object_or_404(Project, pk=pk)
-        if 'cancel' in request.POST:
-            return HttpResponseRedirect(reverse(
-                'project',
-                args=[proj_inst.campaign.pk]))
         if form.is_valid():
-            date_legal_registration_docs = datetime.now().strftime('%Y-%m-%d')
-            proj_inst.status = 'legal registration'
-            proj_inst.warning = 'No Warn'
-            proj_inst.upload_legal_registration_docs = form.cleaned_data[
-                'upload_legal_registration_docs'
-            ]
             if request.FILES:
+                date_legal_registration_docs = datetime.now().strftime('%Y-%m-%d')
+                proj_inst.status = 'legal registration'
+                proj_inst.warning = 'No Warn'
+                proj_inst.upload_legal_registration_docs = form.cleaned_data[
+                    'upload_legal_registration_docs'
+                ]
                 proj_inst.upload_legal_registration_docs.name = proj_inst.name \
                     + '_' + proj_inst.upload_legal_registration_docs.name
                 proj_inst.date_legal_registration_docs = date_legal_registration_docs
