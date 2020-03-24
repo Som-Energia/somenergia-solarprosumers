@@ -17,6 +17,7 @@ ITEM_STATUS = (
               ('date installation set', _('Date installation set')),
               ('installation in progress', _('Installation in progress')),
               ('end installation', _('End installation')),
+              ('legal registration', _('Legal Registration')),
               ('legalization', _('Legalization')),
               ('final payment', _('Final payment')),
               ('warranty payment', _('Warranty payment')),
@@ -32,6 +33,7 @@ ITEM_WARNINGS = (
                 ('signature', _('Warning: Waiting for signature')),
                 ('installation date', _('Warning: Waiting for installation date')),
                 ('finish installation', _('Warning: Installation deadline has passed')),
+                ('legal registration', _('Warning: Pending registration reciept')),
                 ('legalization', _('Warning: Waiting for legalization certificates')),
                 ('final payment', _('Warning: Pending engeneering payment')),
                 ('warranty payment', _('Warning: Pending warranty payment')),)

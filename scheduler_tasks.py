@@ -249,7 +249,7 @@ def legal_registration_warning():
     )
 
     for installation in installations:
-        installation.warning = 'pending registration reciept'
+        installation.warning = 'legal registration'
         installation.warning_date = datetime.now()
         installation.save()
         msg = "Finish legal registration warning saved for: {}"
