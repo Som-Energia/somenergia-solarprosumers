@@ -4,7 +4,7 @@ from import_export.admin import ImportExportModelAdmin
 from import_export.widgets import ForeignKeyWidget
 
 from .models import (Campaign, Client, Engineering, Project,
-                     Technical_campaign, Technical_details)
+                     Technical_campaign, Technical_details, LocalGroup)
 
 
 class ProjectResource(resources.ModelResource):
@@ -164,3 +164,8 @@ class ClientAdmin(ImportExportModelAdmin):
     list_display = ('name', 'membership_number', 'email')
     resource_class = ClientResource
     search_fields = ['name', 'email', 'membership_number']
+
+@admin.register(LocalGroup)
+class LocalGroupAdmin(ImportExportModelAdmin):
+    list_display = ('name', 'phone_number', 'email')
+    search_fields = ['name', 'email']

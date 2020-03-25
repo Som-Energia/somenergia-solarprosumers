@@ -6,8 +6,29 @@ from yamlns import namespace as ns
 from .choices_options import (BATERY_BRAND, INVERSOR_BRAND, ITEM_ANGLES,
                               ITEM_COMMUNITY, ITEM_DISCARDED_TYPES,
                               ITEM_ORIENTATION, ITEM_STATUS, ITEM_WARNINGS,
-                              PANELS_BRAND, PANELS_TYPE)
+                              PANELS_BRAND, PANELS_TYPE, LANGUAGES)
 
+class LocalGroup(models.Model):
+    name = models.CharField(
+        blank=True,
+        max_length=100)
+
+    phone_number = models.CharField(
+        blank=True,
+        max_length=9)
+
+    email = models.CharField(
+        blank=True,
+        max_length=50)
+
+    language = models.CharField(
+        default='ca',
+        choices=LANGUAGES,
+        max_length=5,
+    )
+
+    def __str__(self):
+        return self.name
 
 class Engineering(models.Model):
     user = models.OneToOneField(
@@ -72,6 +93,11 @@ class Campaign(models.Model):
         Engineering,
         related_name='campaigns',
         verbose_name=_('Engineering'))
+
+    local_group = models.ManyToManyField(
+        LocalGroup,
+        related_name='campaigns',
+        verbose_name=_('LocalGroup'))
 
     date_call_for_engineerings = models.DateField(
         null=True,

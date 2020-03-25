@@ -140,3 +140,10 @@ BATERY_BRAND = (
                ('AMPERE', _('AMPERE')),
                ('LG', _('LG')),
                ('TESLA', _('TESLA')),)
+
+LANGUAGES = (
+            ('es', _('Spanish')),
+            ('ca', _('Catalan')),
+            ('gl', _('Galician')),
+            ('eu', _('Euskara')),
+            )
