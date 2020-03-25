@@ -4,10 +4,10 @@ from datetime import datetime, timedelta
 from config.settings.base import BCC
 from dateutil.relativedelta import relativedelta
 from django.core.mail import EmailMessage
-from django.db.models import Q
+from django.db.models import Q, Min
 from django.template.loader import render_to_string
 from django.utils.translation import gettext_lazy as _
-from somsolet.models import Campaign, Engineering, Project
+from somsolet.models import Campaign, Engineering, Project, LocalGroup
 
 logger = logging.getLogger('scheduler_tasks')
 
@@ -93,6 +93,44 @@ def send_email_tasks():
                 message_params)
         logger.info("Emails sent to engineerings.")
 
+def send_email_summary():
+    logger.info("hola")
+    active_campaigns = Campaign.objects.filter(active=True)
+    logger.info("send_email_summary")
+
+    for campaign in active_campaigns:
+        local_group_info = LocalGroup.objects.filter(
+                    campaigns__name=campaign.name
+                ).values('email')
+        local_group_email = [lg['email'] for lg in local_group_info]
+
+        prereport_summary = [_('Prereports')]
+        fields_list= []
+        projects = Project.objects.filter(
+            campaign=campaign)
+        sent_prereport = projects.exclude(date_prereport__isnull=True).count()
+        fields_list.append({'name': _('Sent Prereports'), 'value': sent_prereport})
+        unsent_prereport = projects.filter(date_prereport__isnull=True).count()
+        fields_list.append({'name': _('Unsent Prereports'), 'value': unsent_prereport})
+        overdue_prereport = projects.filter(warning='prereport').count()
+        fields_list.append({'name': _('Overdue Prereports'), 'value': overdue_prereport})
+        max_overdue_prereport = projects.filter(warning='prereport').aggregate(Min('warning_date'))
+        fields_list.append({'name':_('Maximum overdue days'), 'value': max_overdue_prereport})
+        prereport_summary[1] = fields_list
+        message_params = {
+            'result': prereport_summary,
+            'header': _("Hola,"),
+            'intro': _("El SomSolet de Som Energia us envia un breu \
+                    informe de l’estat de la \
+                    compra col·lectiva {}".format(campaign)),
+            'main': _('Per qualsevol dubte o aportació podeu fer \
+                    un correu electrònic a auto@somenergia.coop'),
+            'ending': _('Salut i bona energia!'),
+        }
+       send_email(
+           local_group_email,
+           campaign.name,
+           message_params)
 
 def send_email(to_email, subject, message_params):
     to_email = to_email
