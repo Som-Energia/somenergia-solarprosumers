@@ -1,5 +1,5 @@
 import logging
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 
 from config.settings.base import BCC
 from dateutil.relativedelta import relativedelta
@@ -125,11 +125,11 @@ def send_email_summary():
         max_overdue_prereport = projects.filter(warning='prereport').aggregate(Min('warning_date'))
         prereport_summary.append({
             'name': _('Maximum overdue days'),
-            'value': max_overdue_prereport
+            'value': (date.today() - max_overdue_prereport['warning_date__min']).days,
         })
 
         message_params = {
-            'result': prereport_summary,
+            'result': {_('Prereports'): prereport_summary},
             'header': _("Hola,"),
             'intro': _("El SomSolet de Som Energia us envia un breu \
                     informe de l’estat de la \
@@ -142,10 +142,11 @@ def send_email_summary():
         send_email(
             local_group_email,
             campaign.name,
-            message_params
+            message_params,
+            'emails/message_summary_body.html',
         )
 
-def send_email(to_email, subject, message_params):
+def send_email(to_email, subject, message_params, email_template='emails/message_body.html'):
     to_email = to_email
     logger.info(to_email)
     subject = render_to_string(
@@ -153,8 +154,7 @@ def send_email(to_email, subject, message_params):
         {'campaign': subject}
     )
     html_body = render_to_string(
-    #    'emails/message_body.html',
-        'emails/message_summary_body.html',
+        email_template,
         message_params
     )
     msg = EmailMessage(
