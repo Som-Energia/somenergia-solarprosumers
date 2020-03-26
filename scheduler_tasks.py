@@ -104,32 +104,10 @@ def send_email_summary():
         ).values('email')
         local_group_email = [lg['email'] for lg in local_group_info]
 
-        prereport_summary = []
-        projects = Project.objects.filter(
-            campaign=campaign)
-        sent_prereport = projects.exclude(date_prereport__isnull=True).count()
-        prereport_summary.append({
-            'name': _('Sent Prereports'),
-            'value': sent_prereport
-        })
-        unsent_prereport = projects.filter(date_prereport__isnull=True).count()
-        prereport_summary.append({
-            'name': _('Unsent Prereports'),
-            'value': unsent_prereport
-        })
-        overdue_prereport = projects.filter(warning='prereport').count()
-        prereport_summary.append({
-            'name': _('Overdue Prereports'),
-            'value': overdue_prereport
-        })
-        max_overdue_prereport = projects.filter(warning='prereport').aggregate(Min('warning_date'))
-        prereport_summary.append({
-            'name': _('Maximum overdue days'),
-            'value': (date.today() - max_overdue_prereport['warning_date__min']).days,
-        })
-
         message_params = {
-            'result': {_('Prereports'): prereport_summary},
+            'result': {
+                    _('Prereports'): prereport_summary(campaign),
+                    },
             'header': _("Hola,"),
             'intro': _("El SomSolet de Som Energia us envia un breu \
                     informe de l’estat de la \
@@ -363,3 +341,29 @@ def warranty_warning():
             logger.info(msg.format(campaign.name))
         else:
             logger.info("there are no warrings to send")
+
+def prereport_summary(campaign):
+    prereport_summary = []
+    projects = Project.objects.filter(
+        campaign=campaign)
+    sent_prereport = projects.exclude(date_prereport__isnull=True).count()
+    prereport_summary.append({
+        'name': _('Sent Prereports'),
+        'value': sent_prereport
+    })
+    unsent_prereport = projects.filter(date_prereport__isnull=True).count()
+    prereport_summary.append({
+        'name': _('Unsent Prereports'),
+        'value': unsent_prereport
+    })
+    overdue_prereport = projects.filter(warning='prereport').count()
+    prereport_summary.append({
+        'name': _('Overdue Prereports'),
+        'value': overdue_prereport
+    })
+    max_overdue_prereport = projects.filter(warning='prereport').aggregate(Min('warning_date'))
+    prereport_summary.append({
+        'name': _('Maximum overdue days'),
+        'value': (date.today() - max_overdue_prereport['warning_date__min']).days,
+    })
+    return prereport_summary
