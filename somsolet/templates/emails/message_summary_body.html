@@ -15,26 +15,25 @@
                             <p>{{ intro }}</p>
                         </td>
                     </tr>
-                    {% for r in result %}
                     <tr>
                         <td align="center" valign="top" style="padding:10px;" colspan="">
                             <table width="600" cellspacing="0" cellpadding="0" border="0" align="center" style="max-width:600px; width:100%;">
                                 <tr style="background-color: #aec122;" >
                                     <th align="center" valign="top" style="padding:10px;" colspan="2">
-                                        {{ r.title }}
+                                        {{ section_title }}
                                     </th>
                                 </tr>
-                                {% for f in r.fields %}
+                                {% for r in result %}
                                 {% if forloop.counter|divisibleby:2 %}
                                     <tr  style="background-color: #f2f2f2;">
                                 {% else %}
                                     <tr>
                                 {% endif %}
-                                    <td align="center" valign="top" style="padding:10px;">
-                                        {{ f.name }}
+                                    <td align="left" valign="top" style="padding:10px;">
+                                        {{ r.name }}
                                     </td>
-                                    <td align="center" valign="top" style="padding:10px;">
-                                        {{ f.value }}
+                                    <td align="right" valign="top" style="padding:10px;">
+                                        {{ r.value }}
                                     </td>
                                 </tr>
 
@@ -42,7 +41,6 @@
                             </table>
                         </td>
                     </tr>
-                    {% endfor %}
                     <tr>
                         <td align="left" valign="top" style="padding:10px; color: #333333;">
                             <p>{{ main }}</p>
