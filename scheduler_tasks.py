@@ -94,19 +94,27 @@ def send_email_tasks():
         logger.info("Emails sent to engineerings.")
 
 
-def send_email_summary():
+def send_email_summary(toSomEnergia):
     active_campaigns = Campaign.objects.filter(active=True)
     logger.info("send_email_summary")
 
     for campaign in active_campaigns:
-        local_group_info = LocalGroup.objects.filter(
-            campaigns__name=campaign.name
-        ).values('email')
-        local_group_email = [lg['email'] for lg in local_group_info]
+        if not toSomEnergia:
+            local_group_info = LocalGroup.objects.filter(
+                campaigns__name=campaign.name
+                ).values('email')
+            email = [lg['email'] for lg in local_group_info]
+        else:
+            email = BCC
 
+        projects = Project.objects.filter(
+            campaign=campaign)
         message_params = {
             'result': {
-                    _('Prereports'): prereport_summary(campaign),
+                        _('Prereports'): prereport_summary(projects),
+                        _('Technical Visits'): technical_visit_summary(projects),
+                        _('Signed Contracts'): signature_summary(projects),
+                        _('Construction Permits'): construction_permits_summary(projects),
                     },
             'header': _("Hola,"),
             'intro': _("El SomSolet de Som Energia us envia un breu \
@@ -117,8 +125,11 @@ def send_email_summary():
             'section_title': _('Prereports'),
             'ending': _('Salut i bona energia!'),
         }
+        if toSomEnergia:
+            message_params['result'].update({_('Deposit'):[{'name':'To do', 'value':0}]})
+
         send_email(
-            local_group_email,
+            set(email),
             campaign.name,
             message_params,
             'emails/message_summary_body.html',
@@ -342,10 +353,8 @@ def warranty_warning():
         else:
             logger.info("there are no warrings to send")
 
-def prereport_summary(campaign):
+def prereport_summary(projects):
     prereport_summary = []
-    projects = Project.objects.filter(
-        campaign=campaign)
     sent_prereport = projects.exclude(date_prereport__isnull=True).count()
     prereport_summary.append({
         'name': _('Sent Prereports'),
@@ -357,13 +366,69 @@ def prereport_summary(campaign):
         'value': unsent_prereport
     })
     overdue_prereport = projects.filter(warning='prereport').count()
-    prereport_summary.append({
-        'name': _('Overdue Prereports'),
-        'value': overdue_prereport
-    })
-    max_overdue_prereport = projects.filter(warning='prereport').aggregate(Min('warning_date'))
-    prereport_summary.append({
-        'name': _('Maximum overdue days'),
-        'value': (date.today() - max_overdue_prereport['warning_date__min']).days,
-    })
+    if overdue_prereport:
+        prereport_summary.append({
+            'name': _('Overdue Prereports'),
+            'value': overdue_prereport
+        })
+        max_overdue_prereport = projects.filter(warning='prereport').aggregate(Min('warning_date'))
+        prereport_summary.append({
+            'name': _('Maximum overdue days'),
+            'value': (date.today() - max_overdue_prereport['warning_date__min']).days,
+        })
     return prereport_summary
+
+def technical_visit_summary(projects):
+    prereport_status = projects.filter(status='prereport')
+    pending_visits = prereport_status.exclude(date_technical_visit__isnull=True).count()
+    Q(warning='warranty payment') | Q(warning='final payment') | Q(status='discarded')
+    scheduled_visits = prereport_status.exclude(
+        Q(date_technical_visit__isnull=False) | Q(date_technical_visit__gte=date.today())).count()
+    visits_done = projects.exclude(
+        Q(date_technical_visit__gt=date.today()) | Q(date_technical_visit__isnull=True)).count()
+    summary = [
+        {'name': _('Technical Visits Pending'), 'value': pending_visits},
+        {'name': _('Technical Visits Calendarized'), 'value': scheduled_visits},
+        {'name': _('Technical Visits Done'), 'value': visits_done},
+    ]
+    overdue = projects.filter(warning='technical visit')
+    if overdue:
+        max_overdue = overdue.aggregate(Min('warning_date'))['warning_date__min']
+        summary.append(
+            {'name': _('Overdue Technical Visits'), 'value': overdue.count()})
+        summary.append({
+                'name': _('Maximum Overdue Days'),
+                'value': (date.today() - max_overdue).days,
+            })
+    return summary
+
+def signature_summary(projects):
+    uploaded_offers = projects.filter(date_offer__isnull=False).filter(is_invalid_offer=False).count()
+    signed_contracts = projects.filter(date_signature__isnull=False).count()
+    overdue_contracts = projects.filter(warning='signature')
+    summary = [
+        {'name': _('Submitted Offers'), 'value': uploaded_offers},
+        {'name': _('Signed Contracts'), 'value': signed_contracts},
+        {
+            'name': _('Signature Pending Contracts'),
+            'value': uploaded_offers - signed_contracts,
+        }
+    ]
+    if overdue_contracts:
+        max_overdue = overdue_contracts.aggregate(Min('warning_date'))['warning_date__min']
+        summary.append(
+            {'name': _('Overdue Signed Contracts'), 'value': overdue_contracts.count()})
+        summary.append({
+                'name': _('Maximum Overdue Days'),
+                'value': (date.today() - max_overdue).days,
+            })
+    return summary
+
+def construction_permits_summary(projects):
+    pending_permits = projects.filter(status='signature').count()
+    accepted_permits = projects.filter(date_permit__isnull=False).count()
+
+    return [
+        {'name': _('Construction Permits Pending'), 'value': pending_permits},
+        {'name': _('Accepted Construction Permits'), 'value': accepted_permits},
+    ]
