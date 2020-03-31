@@ -1,5 +1,5 @@
 import logging
-from datetime import datetime, timedelta, date
+from datetime import date, datetime, timedelta
 
 from config.settings.base import BCC
 from dateutil.relativedelta import relativedelta
@@ -54,7 +54,10 @@ def send_email_tasks():
             send_email(
                 engineering_email,
                 campaign.name,
-                message_params)
+                message_params,
+                'emails/message_subject.txt',
+                'emails/message_body.html',
+            )
         if som_warning_final_payment:
             message_params = {
                 'result': list(som_warning_final_payment),
@@ -68,7 +71,10 @@ def send_email_tasks():
             send_email(
                 engineering_email,
                 campaign.name,
-                message_params)
+                message_params,
+                'emails/message_subject.txt',
+                'emails/message_body.html',
+            )
         if som_warning_warranty:
             campaign_warning = []
             for project in som_warning_warranty:
@@ -90,7 +96,10 @@ def send_email_tasks():
             send_email(
                 engineering_email,
                 campaign.name,
-                message_params)
+                message_params,
+                'emails/message_subject.txt',
+                'emails/message_body.html',
+            )
         logger.info("Emails sent to engineerings.")
 
 
@@ -132,14 +141,16 @@ def send_email_summary(toSomEnergia):
             set(email),
             campaign.name,
             message_params,
+            'emails/message_summary_subject.txt',
             'emails/message_summary_body.html',
         )
 
-def send_email(to_email, subject, message_params, email_template='emails/message_body.html'):
+
+def send_email(to_email, subject, message_params, email_subject, email_template):
     to_email = to_email
     logger.info(to_email)
     subject = render_to_string(
-        "emails/message_subject.txt",
+        email_subject,
         {'campaign': subject}
     )
     html_body = render_to_string(
