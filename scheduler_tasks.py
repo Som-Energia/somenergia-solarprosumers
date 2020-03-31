@@ -525,7 +525,7 @@ def installation_summary(projects):
     if overdue_installations:
         installation_summary.append({
             'name': _('Overdue installations by more than five days'),
-            'values': overdue_installations
+            'value': overdue_installations
         })
     return installation_summary
 
@@ -545,15 +545,15 @@ def legalization_summary(projects):
     legalization_summary = [
         {
             'name': _('Installations pending registration'),
-            'values': pending_registration
+            'value': pending_registration
         },
         {
             'name': _('Registered installations pending approval'),
-            'values': pending_approval
+            'value': pending_approval
         },
         {
             'name': _('Legalized installations'),
-            'values': legalized_installations
+            'value': legalized_installations
         }
     ]
 
@@ -600,7 +600,7 @@ def discarded_summary(campaign):
     discarded_voluntary = projects.filter(discarded_type='voluntary').count()
 
     discarded_summary = [
-        {'name': _('Technical'), 'values': discarded_technical},
-        {'name': _('Voluntary'), 'values': discarded_voluntary}
+        {'name': _('Technical'), 'value': discarded_technical},
+        {'name': _('Voluntary'), 'value': discarded_voluntary}
     ]
     return discarded_summary
