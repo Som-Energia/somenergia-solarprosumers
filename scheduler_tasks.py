@@ -371,17 +371,13 @@ def warranty_warning():
 
 
 def prereport_summary(projects):
-    prereport_summary = []
-    sent_prereport = projects.exclude(date_prereport__isnull=True).count()
-    prereport_summary.append({
-        'name': _('Sent Prereports'),
-        'value': sent_prereport
-    })
+    sent_prereport = projects.filter(date_prereport__isnull=False).count()
     unsent_prereport = projects.filter(date_prereport__isnull=True).count()
-    prereport_summary.append({
-        'name': _('Unsent Prereports'),
-        'value': unsent_prereport
-    })
+
+    prereport_summary = [
+        {'name': _('Sent Prereports'), 'value': sent_prereport},
+        {'name': _('Unsent Prereports'), 'value': unsent_prereport},
+    ]
     overdue_prereport = projects.filter(warning='prereport').count()
     if overdue_prereport:
         max_overdue_prereport = projects.filter(warning='prereport').aggregate(
@@ -402,12 +398,10 @@ def prereport_summary(projects):
 
 def technical_visit_summary(projects):
     prereport_status = projects.filter(status='prereport')
-    pending_visits = prereport_status.exclude(date_technical_visit__isnull=True).count()
-    Q(warning='warranty payment') | Q(warning='final payment') | Q(status='discarded')
-    scheduled_visits = prereport_status.exclude(
-        Q(date_technical_visit__isnull=False) | Q(date_technical_visit__gte=date.today())).count()
-    visits_done = projects.exclude(
-        Q(date_technical_visit__gt=date.today()) | Q(date_technical_visit__isnull=True)).count()
+    pending_visits = prereport_status.filter(date_technical_visit__isnull=True).count()
+    scheduled_visits = projects.filter(date_technical_visit__isnull=False).exclude(
+        date_report__isnull=False).count()
+    visits_done = projects.filter(date_report__isnull=False).count()
     summary = [
         {
             'name': _('Technical Visits Pending'),
