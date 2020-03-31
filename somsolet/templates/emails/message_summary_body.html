@@ -15,6 +15,13 @@
                             <p>{{ intro }}</p>
                         </td>
                     </tr>
+                    <tr>
+                        <td align="left" valign="top" style="padding:10px; color: #333333;">
+                          {% for key, value in campaign_info.items %}
+                            <p><b>{{ key }}:</b> {{ value }} </p>
+                          {% endfor %}
+                        </td>
+                    </tr>
                     {% for key, value in result.items %}
                     <tr>
                         <td align="center" valign="top" style="padding:10px;" colspan="">

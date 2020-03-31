@@ -116,13 +116,13 @@ def send_email_summary(toSomEnergia):
                         _('Signed Contracts'): signature_summary(projects),
                         _('Construction Permits'): construction_permits_summary(projects),
                     },
+            'campaign_info': campaign_info(campaign),
             'header': _("Hola,"),
             'intro': _("El SomSolet de Som Energia us envia un breu \
                     informe de l’estat de la \
                     compra col·lectiva {}".format(campaign)),
             'main': _('Per qualsevol dubte o aportació podeu fer \
                     un correu electrònic a auto@somenergia.coop'),
-            'section_title': _('Prereports'),
             'ending': _('Salut i bona energia!'),
         }
         if toSomEnergia:
@@ -352,6 +352,14 @@ def warranty_warning():
             logger.info(msg.format(campaign.name))
         else:
             logger.info("there are no warrings to send")
+
+def campaign_info(campaign):
+    return {
+        _('Summary date'): date.today().strftime("%d/%m/%Y"),
+        _('Date inscriptions start'): campaign.date_call_for_inscriptions.strftime("%d/%m/%Y"),
+        _('Total inscriptions'): Project.objects.filter(
+                campaign=campaign).count(),
+    }
 
 def prereport_summary(projects):
     prereport_summary = []
