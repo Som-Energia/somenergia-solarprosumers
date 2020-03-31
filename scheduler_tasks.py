@@ -117,13 +117,17 @@ def send_email_summary(toSomEnergia):
             email = BCC
 
         projects = Project.objects.filter(
-            campaign=campaign)
+            campaign=campaign).exclude(status='discarded')
         message_params = {
             'result': {
                         _('Prereports'): prereport_summary(projects),
                         _('Technical Visits'): technical_visit_summary(projects),
                         _('Signed Contracts'): signature_summary(projects),
                         _('Construction Permits'): construction_permits_summary(projects),
+                        _('Installations'): installation_summary(projects),
+                        _('legalization'): legalization_summary(projects),
+                        _('Discarded inscriptions'): discarded_summary(campaign),
+
                     },
             'header': _("Hola,"),
             'intro': _("El SomSolet de Som Energia us envia un breu \
@@ -131,7 +135,6 @@ def send_email_summary(toSomEnergia):
                     compra col·lectiva {}".format(campaign)),
             'main': _('Per qualsevol dubte o aportació podeu fer \
                     un correu electrònic a auto@somenergia.coop'),
-            'section_title': _('Prereports'),
             'ending': _('Salut i bona energia!'),
         }
         if toSomEnergia:
@@ -281,7 +284,7 @@ def finish_installation_warning():
         campaign__active=True,
         date_delivery_certificate__isnull=True,
         status='installation in progress',
-        date_start_installation__lte=datetime.now() - timedelta(days=15)
+        date_start_installation__lte=datetime.now() - timedelta(days=10)
     )
 
     for installation in installations:
@@ -440,6 +443,127 @@ def construction_permits_summary(projects):
     accepted_permits = projects.filter(date_permit__isnull=False).count()
 
     return [
-        {'name': _('Construction Permits Pending'), 'value': pending_permits},
-        {'name': _('Accepted Construction Permits'), 'value': accepted_permits},
+        {
+            'name': _('Construction Permits Pending'),
+            'value': pending_permits
+        },
+        {
+            'name': _('Accepted Construction Permits'),
+            'value': accepted_permits
+        },
     ]
+
+
+def installation_summary(projects):
+    installation_summary = []
+
+    scheduled_installations = projects.filter(
+        status='date installation set'
+    ).count()
+    incompleted_installations = projects.filter(
+        date_start_installation__isnull=False).exclude(
+        date_delivery_certificate__isnull=False
+    ).count()
+    finished_installations = projects.filter(
+        date_delivery_certificate__isnull=False
+    ).count()
+    installation_summary = [
+        {
+            'name': _('Scheduled installations'),
+            'value': scheduled_installations
+        },
+        {
+            'name': _('Incompleted installations'),
+            'value': incompleted_installations
+        },
+        {
+            'name': _('Finished installations'),
+            'value': finished_installations
+        }
+    ]
+    overdue_installations = projects.filter(
+        warning='finish installation'
+    ).count()
+
+    if overdue_installations:
+        installation_summary.append({
+            'name': _('Overdue installations by more than five days'),
+            'values': overdue_installations
+        })
+    return installation_summary
+
+
+def legalization_summary(projects):
+    pending_registration = projects.filter(
+        date_delivery_certificate__isnull=False).exclude(
+        date_legal_registration_docs__isnull=False
+    ).count()
+    pending_approval = projects.filter(
+        date_legal_registration_docs__isnull=False).exclude(
+        date_legal_docs__isnull=False
+    ).count()
+    legalized_installations = projects.filter(
+        date_legal_docs__isnull=False
+    ).count()
+    legalization_summary = [
+        {
+            'name': _('Installations pending registration'),
+            'values': pending_registration
+        },
+        {
+            'name': _('Registered installations pending approval'),
+            'values': pending_approval
+        },
+        {
+            'name': _('Legalized installations'),
+            'values': legalized_installations
+        }
+    ]
+
+    overdue_pending_registration = projects.filter(
+        warning='legal registration'
+    ).count()
+    if overdue_pending_registration:
+        max_overdue_pending_registration = projects.filter(
+            warning='legal registration').aggregate(Min('warning_date'))
+        legalization_summary.extend([
+            {
+                'name': _('Overdue pending registration'),
+                'value': overdue_pending_registration
+            },
+            {
+                'name': _('Maximum overdue days'),
+                'value': (date.today() - max_overdue_pending_registration['warning_date__min']).days
+            }
+        ])
+
+    overdue_pending_approval = projects.filter(
+        warning='legalization'
+    ).count()
+    if overdue_pending_approval:
+        max_overdue_pending_approval = projects.filter(
+            warning='legalization'
+        ).aggregate(Min('warning_date'))
+        legalization_summary.extend([
+            {
+                'name': _('Overdue pending registration'),
+                'value': overdue_pending_approval
+            },
+            {
+                'name': _('Maximum overdue days'),
+                'value': (date.today() - max_overdue_pending_approval['warning_date__min']).days,
+            }
+        ])
+    return legalization_summary
+
+
+def discarded_summary(campaign):
+    projects = Project.objects.filter(campaign=campaign)
+    discarded_technical = projects.filter(discarded_type='technical').count()
+    discarded_voluntary = projects.filter(discarded_type='voluntary').count()
+
+    discarded_summary = [
+        {'name': _('Technical'), 'values': discarded_technical},
+        {'name': _('Voluntary'), 'values': discarded_voluntary}
+    ]
+    return discarded_summary

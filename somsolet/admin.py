@@ -3,8 +3,8 @@ from import_export import fields, resources
 from import_export.admin import ImportExportModelAdmin
 from import_export.widgets import ForeignKeyWidget
 
-from .models import (Campaign, Client, Engineering, Project,
-                     Technical_campaign, Technical_details, LocalGroup)
+from .models import (Campaign, Client, Engineering, LocalGroup, Project,
+                     Technical_campaign, Technical_details)
 
 
 class ProjectResource(resources.ModelResource):
