@@ -294,6 +294,7 @@ def finish_installation_warning():
         msg = "Finish installation warning saved for: {}"
         logger.info(msg.format(installation.name))
 
+
 def legal_registration_warning():
     logger.info("Start legal_registration_warning...")
     installations = Project.objects.filter(
@@ -309,6 +310,7 @@ def legal_registration_warning():
         installation.save()
         msg = "Finish legal registration warning saved for: {}"
         logger.info(msg.format(installation.name))
+
 
 def legalization_warning():
     logger.info("Start legalization_warning...")
@@ -367,6 +369,7 @@ def warranty_warning():
         else:
             logger.info("there are no warrings to send")
 
+
 def prereport_summary(projects):
     prereport_summary = []
     sent_prereport = projects.exclude(date_prereport__isnull=True).count()
@@ -381,16 +384,21 @@ def prereport_summary(projects):
     })
     overdue_prereport = projects.filter(warning='prereport').count()
     if overdue_prereport:
-        prereport_summary.append({
-            'name': _('Overdue Prereports'),
-            'value': overdue_prereport
-        })
-        max_overdue_prereport = projects.filter(warning='prereport').aggregate(Min('warning_date'))
-        prereport_summary.append({
-            'name': _('Maximum overdue days'),
-            'value': (date.today() - max_overdue_prereport['warning_date__min']).days,
-        })
+        max_overdue_prereport = projects.filter(warning='prereport').aggregate(
+            Min('warning_date')
+        )
+        prereport_summary.extend([
+            {
+                'name': _('Overdue Prereports'),
+                'value': overdue_prereport
+            },
+            {
+                'name': _('Maximum overdue days'),
+                'value': (date.today() - max_overdue_prereport['warning_date__min']).days
+            },
+        ])
     return prereport_summary
+
 
 def technical_visit_summary(projects):
     prereport_status = projects.filter(status='prereport')
@@ -401,42 +409,70 @@ def technical_visit_summary(projects):
     visits_done = projects.exclude(
         Q(date_technical_visit__gt=date.today()) | Q(date_technical_visit__isnull=True)).count()
     summary = [
-        {'name': _('Technical Visits Pending'), 'value': pending_visits},
-        {'name': _('Technical Visits Calendarized'), 'value': scheduled_visits},
-        {'name': _('Technical Visits Done'), 'value': visits_done},
+        {
+            'name': _('Technical Visits Pending'),
+            'value': pending_visits
+        },
+        {
+            'name': _('Technical Visits Calendarized'),
+            'value': scheduled_visits
+        },
+        {
+            'name': _('Technical Visits Done'),
+            'value': visits_done
+        },
     ]
     overdue = projects.filter(warning='technical visit')
     if overdue:
         max_overdue = overdue.aggregate(Min('warning_date'))['warning_date__min']
-        summary.append(
-            {'name': _('Overdue Technical Visits'), 'value': overdue.count()})
-        summary.append({
+        summary.extend([
+            {
+                'name': _('Overdue Technical Visits'),
+                'value': overdue.count()
+            },
+            {
                 'name': _('Maximum Overdue Days'),
-                'value': (date.today() - max_overdue).days,
-            })
+                'value': (date.today() - max_overdue).days
+            },
+        ])
     return summary
 
+
 def signature_summary(projects):
-    uploaded_offers = projects.filter(date_offer__isnull=False).filter(is_invalid_offer=False).count()
+    uploaded_offers = projects.filter(date_offer__isnull=False).filter(
+        is_invalid_offer=False).count()
     signed_contracts = projects.filter(date_signature__isnull=False).count()
     overdue_contracts = projects.filter(warning='signature')
     summary = [
-        {'name': _('Submitted Offers'), 'value': uploaded_offers},
-        {'name': _('Signed Contracts'), 'value': signed_contracts},
+        {
+            'name': _('Submitted Offers'),
+            'value': uploaded_offers
+        },
+        {
+            'name': _('Signed Contracts'),
+            'value': signed_contracts
+        },
         {
             'name': _('Signature Pending Contracts'),
-            'value': uploaded_offers - signed_contracts,
+            'value': uploaded_offers - signed_contracts
         }
     ]
     if overdue_contracts:
-        max_overdue = overdue_contracts.aggregate(Min('warning_date'))['warning_date__min']
-        summary.append(
-            {'name': _('Overdue Signed Contracts'), 'value': overdue_contracts.count()})
-        summary.append({
+        max_overdue = overdue_contracts.aggregate(
+            Min('warning_date')
+        )['warning_date__min']
+        summary.extend([
+            {
+                'name': _('Overdue Signed Contracts'),
+                'value': overdue_contracts.count()
+            },
+            {
                 'name': _('Maximum Overdue Days'),
-                'value': (date.today() - max_overdue).days,
-            })
+                'value': (date.today() - max_overdue).days
+            }
+        ])
     return summary
+
 
 def construction_permits_summary(projects):
     pending_permits = projects.filter(status='signature').count()

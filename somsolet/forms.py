@@ -4,8 +4,7 @@ from crispy_forms.layout import Column, Field, Layout, Row, Submit
 from django import forms
 from django.contrib.auth.models import User
 
-from .models import (Client, Project, Technical_campaign,
-                     Technical_details)
+from .models import Client, Project, Technical_campaign, Technical_details
 
 
 class UserForm(forms.ModelForm):
@@ -439,6 +438,7 @@ class LegalizationForm(forms.ModelForm):
             'campaign',
             'client'
         ]
+
 
 class LegalRegistrationForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
