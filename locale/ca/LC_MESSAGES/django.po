@@ -15,8 +15,8 @@ msgstr ""
 ">\n"
 =======
 "POT-Creation-Date: 2020-02-17 11:22+0100\n"
-"PO-Revision-Date: 2020-04-02 08:41+0000\n"
-"Last-Translator: Joana Figueira <joana.figueira@somenergia.coop>\n"
+"PO-Revision-Date: 2020-04-03 10:28+0000\n"
+"Last-Translator: Pol Monsó Purtí <pol.monso@somenergia.coop>\n"
 "Language-Team: Catalan <http://traduccio.somenergia.coop/projects/som-solet/"
 "somsolet/ca/>\n"
 >>>>>>> Translated using Weblate (Catalan)
@@ -60,6 +60,8 @@ msgid ""
 "SOM SOLET us fa arribar els WARNINGS!                                "
 "d’aquesta setmana:"
 msgstr ""
+"SOM SOLET us fa arribar els WARNINGS!                            d’aquesta "
+"setmana:"
 
 #: scheduler_tasks.py:52
 msgid ""
@@ -270,7 +272,7 @@ msgstr ""
 
 #: somsolet/choices_options.py:3
 msgid "Initial"
-msgstr ""
+msgstr "Inicial"
 
 #: somsolet/choices_options.py:4
 msgid "Pre-Registered"
@@ -286,7 +288,7 @@ msgstr ""
 
 #: somsolet/choices_options.py:7
 msgid "Technical visit scheduled"
-msgstr ""
+msgstr "Visita tècnica programada"
 
 #: somsolet/choices_options.py:8
 msgid "Pre-Report review"
@@ -310,7 +312,7 @@ msgstr "Oferta d'Enginyeria"
 
 #: somsolet/choices_options.py:13
 msgid "offer Review"
-msgstr ""
+msgstr "Revisió de l'oferta"
 
 #: somsolet/choices_options.py:14
 msgid "Contract signature"
