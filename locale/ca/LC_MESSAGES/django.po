@@ -7,17 +7,25 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
+<<<<<<< HEAD
 "POT-Creation-Date: 2020-04-15 18:19+0200\n"
 "PO-Revision-Date: 2020-02-17 13:13+0000\n"
 "Last-Translator: Weblate Admin <admin@example.com>\n"
 "Language-Team: Catalan <http://example.com/projects/somsolet/git-somsolet/ca/"
 ">\n"
+=======
+"POT-Creation-Date: 2020-02-17 11:22+0100\n"
+"PO-Revision-Date: 2020-04-02 08:41+0000\n"
+"Last-Translator: Joana Figueira <joana.figueira@somenergia.coop>\n"
+"Language-Team: Catalan <http://traduccio.somenergia.coop/projects/som-solet/"
+"somsolet/ca/>\n"
+>>>>>>> Translated using Weblate (Catalan)
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.10.3\n"
+"X-Generator: Weblate 3.11.3\n"
 
 #: config/settings/base.py:109
 msgid "English"
@@ -1059,4 +1067,4 @@ msgstr ""
 
 #: somsolet/templates/somsolet/technical_visit.html:13
 msgid "Technical Visit"
-msgstr ""
+msgstr "Visita Tècnica"
