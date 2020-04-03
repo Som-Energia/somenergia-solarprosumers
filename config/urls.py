@@ -28,4 +28,5 @@ urlpatterns = [
     path('somsolet/', include('somsolet.urls')),
     path('admin/', admin.site.urls),
     path('django-rq/', include('django_rq.urls')),
+    path('rosetta/', include('rosetta.urls'))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

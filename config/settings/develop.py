@@ -1,5 +1,6 @@
-from .base import *
 import yaml
+
+from .base import *
 
 with open(os.path.join(BASE_DIR, 'settings/config.yaml')) as f:
     config = yaml.load(f.read())
