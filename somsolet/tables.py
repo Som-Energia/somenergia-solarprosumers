@@ -1,6 +1,7 @@
 import django_tables2 as tables
 from django.template.defaultfilters import slugify
 from django.utils.html import format_html
+from django.utils.translation import gettext_lazy as _
 from django_tables2.utils import A
 
 from .models import Campaign, Project
@@ -10,11 +11,11 @@ class CampaignTable(tables.Table):
     name = tables.LinkColumn(
         'project',
         args=[A('pk')],
-        verbose_name='Campaign',)
+        verbose_name=_('Campaign'),)
     technical_campaign = tables.TemplateColumn(
         template_name='somsolet/technical_campaign_update.html',
         extra_context={'record': A('pk'), 'technical_campaign': A('pk')},
-        verbose_name='Technical Details',)
+        verbose_name=_('Technical Details'),)
 
     class Meta:
         model = Campaign
@@ -33,7 +34,7 @@ class ProjectTable(tables.Table):
     upload_prereport = tables.LinkColumn(
         'prereport',
         args=[A('pk')],
-        verbose_name='Prereport',)
+        verbose_name=_('Prereport'),)
     date_technical_visit = tables.TemplateColumn(
         template_name='somsolet/date_technical_visit_column.html',
         extra_context={'record': A('pk'), 'date_technical_visit': A('pk')},)
@@ -64,7 +65,7 @@ class ProjectTable(tables.Table):
             'record': A('pk'),
             'technical_details': A('pk')
         },
-        verbose_name='Technical Details',)
+        verbose_name=_('Technical Details'),)
     download_cch = tables.TemplateColumn(
         template_name='somsolet/download_cch.html',
         extra_context={
@@ -72,7 +73,7 @@ class ProjectTable(tables.Table):
             'download_cch': A('pk'),
             'name': A('name')
         },
-        verbose_name='Download CCH',
+        verbose_name=_('Download CCH'),
         orderable=False)
 
     class Meta:

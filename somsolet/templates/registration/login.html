@@ -14,11 +14,11 @@
                 {% csrf_token %}
                 <h3 class="mb-3 font-weight-normal text-center">{% trans "Inicia sessió" %}</h3>
                 <div>
-                    <label for="{{ form.username.id_for_label }}" class="sr-only">Usuari</label>
+                    <label for="{{ form.username.id_for_label }}" class="sr-only">{% trans "User"%}</label>
                     <input type="text" class="form-control form-username" id="{{ form.username.html_name }}" name="{{ form.username.html_name }}" placeholder="Usuari" value="" />
                 </div>
                 <div>
-                    <label for="{{ form.password.id_for_label }}" class="sr-only">Password</label>
+                    <label for="{{ form.password.id_for_label }}" class="sr-only">{% trans "Password"%}</label>
                     <input type="password" class="form-control form-pass" id="{{ form.password.html_name }}" name="{{ form.password.html_name }}" placeholder="Password" value="" />
                 </div>
                 <div>

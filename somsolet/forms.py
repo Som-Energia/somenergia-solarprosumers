@@ -3,9 +3,9 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Column, Field, Layout, Row, Submit
 from django import forms
 from django.contrib.auth.models import User
+from django.utils.translation import gettext_lazy as _
 
-from .models import (Client, Project, Technical_campaign,
-                     Technical_details)
+from .models import Client, Project, Technical_campaign, Technical_details
 
 
 class UserForm(forms.ModelForm):
@@ -29,28 +29,28 @@ class ProjectForm(forms.ModelForm):
         self.helper.layout = Layout(
             Row(
                 Column(
-                    'campaign',
+                    _('campaign'),
                     css_class='form-group col-md-4 mb-0'),
                 Column(
-                    'client',
-                    css_class='form-group col-md-4 mb-0'),
-                css_class='form-row'
-            ),
-            Row(
-                Column(
-                    'is_invalid_prereport',
+                    _('client'),
                     css_class='form-group col-md-4 mb-0'),
                 css_class='form-row'
             ),
             Row(
                 Column(
-                    'status',
+                    _('is_invalid_prereport'),
+                    css_class='form-group col-md-4 mb-0'),
+                css_class='form-row'
+            ),
+            Row(
+                Column(
+                    _('status'),
                     css_class='form-group col-md-4 mb-0'),
                 Column(
-                    'warning',
+                    _('warning'),
                     css_class='form-group col-md-4 mb-0'),
                 Column(
-                    'is_cch_downloaded',
+                    _('is_cch_downloaded'),
                     css_class='form-group col-md-4 mb-0'),
                 css_class='form-row'
             ),
