@@ -18,3 +18,4 @@ django-rq
 django-anymail
 sendgrid
 pymongo
+django-rosetta==0.9.3

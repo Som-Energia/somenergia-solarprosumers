@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-02-17 11:22+0100\n"
+"POT-Creation-Date: 2020-04-03 15:36+0200\n"
 "PO-Revision-Date: 2020-02-17 13:13+0000\n"
 "Last-Translator: Weblate Admin <admin@example.com>\n"
 "Language-Team: Catalan <http://example.com/projects/somsolet/git-somsolet/ca/"
@@ -19,23 +19,23 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 3.10.3\n"
 
-#: config/settings/base.py:107
+#: config/settings/base.py:109
 msgid "English"
 msgstr ""
 
-#: config/settings/base.py:108
+#: config/settings/base.py:110
 msgid "Catalan"
 msgstr ""
 
-#: config/settings/base.py:109
+#: config/settings/base.py:111
 msgid "Spanish"
 msgstr ""
 
-#: config/settings/base.py:110
+#: config/settings/base.py:112
 msgid "Basque"
 msgstr ""
 
-#: config/settings/base.py:111
+#: config/settings/base.py:113
 msgid "Galician"
 msgstr ""
 
@@ -488,6 +488,32 @@ msgstr ""
 msgid "--- Warning ---"
 msgstr ""
 
+#: somsolet/forms.py:32
+msgid "campaign"
+msgstr ""
+
+#: somsolet/forms.py:35
+msgid "client"
+msgstr ""
+
+#: somsolet/forms.py:41
+#, fuzzy
+#| msgid "Invalid Prereport?"
+msgid "is_invalid_prereport"
+msgstr "Preinforme invàlid?"
+
+#: somsolet/forms.py:47
+msgid "status"
+msgstr ""
+
+#: somsolet/forms.py:50
+msgid "warning"
+msgstr ""
+
+#: somsolet/forms.py:53
+msgid "is_cch_downloaded"
+msgstr ""
+
 #: somsolet/models.py:42
 msgid "Closed Campaigns"
 msgstr ""
@@ -521,6 +547,7 @@ msgid "Total Penalties (€)"
 msgstr ""
 
 #: somsolet/models.py:144 somsolet/models.py:206 somsolet/models.py:412
+#: somsolet/tables.py:14
 msgid "Campaign"
 msgstr ""
 
@@ -664,6 +691,18 @@ msgstr ""
 msgid "next"
 msgstr ""
 
+#: somsolet/tables.py:18 somsolet/tables.py:68
+msgid "Technical Details"
+msgstr ""
+
+#: somsolet/tables.py:37 somsolet/templates/somsolet/prereport.html:9
+msgid "Prereport"
+msgstr ""
+
+#: somsolet/tables.py:76
+msgid "Download CCH"
+msgstr ""
+
 #: somsolet/templates/registration/login.html:6
 msgid "Your username and password didn't match. Please try again."
 msgstr ""
@@ -671,6 +710,16 @@ msgstr ""
 #: somsolet/templates/registration/login.html:15
 msgid "Inicia sessió"
 msgstr "Inicia la sessió"
+
+#: somsolet/templates/registration/login.html:17
+msgid "User"
+msgstr ""
+
+#: somsolet/templates/registration/login.html:21
+#, fuzzy
+#| msgid "Lost password?"
+msgid "Password"
+msgstr "T'has oblidat de la clau d'accés?"
 
 #: somsolet/templates/registration/login.html:27
 msgid "Lost password?"
@@ -682,6 +731,32 @@ msgstr ""
 
 #: somsolet/templates/registration/password_reset_complete.html:7
 msgid "Log in again?"
+msgstr ""
+
+#: somsolet/templates/registration/password_reset_confirm.html:8
+msgid "Please enter (and confirm) your new password."
+msgstr ""
+
+#: somsolet/templates/registration/password_reset_confirm.html:11
+#, fuzzy
+#| msgid "Lost password?"
+msgid "New password"
+msgstr "T'has oblidat de la clau d'accés?"
+
+#: somsolet/templates/registration/password_reset_confirm.html:14
+#, fuzzy
+#| msgid "Lost password?"
+msgid "Confirm password"
+msgstr "T'has oblidat de la clau d'accés?"
+
+#: somsolet/templates/registration/password_reset_confirm.html:24
+msgid "Password reset failed"
+msgstr ""
+
+#: somsolet/templates/registration/password_reset_confirm.html:25
+msgid ""
+"The password reset link was invalid, possibly because it has already been "
+"used. Please request a new password reset."
 msgstr ""
 
 #: somsolet/templates/registration/password_reset_done.html:6
@@ -721,6 +796,10 @@ msgstr ""
 msgid "Register"
 msgstr ""
 
+#: somsolet/templates/somsolet/client_detail.html:12
+msgid "Name"
+msgstr ""
+
 #: somsolet/templates/somsolet/construction_permit.html:9
 msgid "Construction Permit"
 msgstr ""
@@ -743,10 +822,6 @@ msgstr ""
 
 #: somsolet/templates/somsolet/offer.html:9
 msgid "Offer"
-msgstr ""
-
-#: somsolet/templates/somsolet/prereport.html:9
-msgid "Prereport"
 msgstr ""
 
 #: somsolet/templates/somsolet/project_update_column.html:2
