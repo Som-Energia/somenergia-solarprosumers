@@ -6,7 +6,8 @@ from yamlns import namespace as ns
 from .choices_options import (BATERY_BRAND, INVERSOR_BRAND, ITEM_ANGLES,
                               ITEM_COMMUNITY, ITEM_DISCARDED_TYPES,
                               ITEM_ORIENTATION, ITEM_STATUS, ITEM_WARNINGS,
-                              PANELS_BRAND, PANELS_TYPE, LANGUAGES)
+                              LANGUAGES, PANELS_BRAND, PANELS_TYPE)
+
 
 class LocalGroup(models.Model):
     name = models.CharField(
@@ -29,6 +30,7 @@ class LocalGroup(models.Model):
 
     def __str__(self):
         return self.name
+
 
 class Engineering(models.Model):
     user = models.OneToOneField(
@@ -79,6 +81,12 @@ class Engineering(models.Model):
     comments = models.CharField(
         blank=True,
         max_length=500)
+
+    language = models.CharField(
+        default='ca',
+        choices=LANGUAGES,
+        max_length=5,
+    )
 
     def __str__(self):
         return self.name
@@ -213,6 +221,12 @@ class Client(models.Model):
     email = models.CharField(
         blank=True,
         max_length=50)
+
+    language = models.CharField(
+        default='ca',
+        choices=LANGUAGES,
+        max_length=5,
+    )
 
     def __str__(self):
         return self.name
