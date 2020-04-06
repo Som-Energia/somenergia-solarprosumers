@@ -222,7 +222,7 @@ class ReportForm(forms.ModelForm):
 
     def report(self, date_upload_report, is_invalid_report):
         date_report = date_upload_report
-        if self.cleaned_data['is_invalid_report']:
+        if is_invalid_report:
             status = 'report review'
             warning = 'No Warn'
             return status, date_report, warning
@@ -276,7 +276,7 @@ class OfferForm(forms.ModelForm):
 
     def offer(self, date_upload_offer, is_invalid_offer):
         date_offer = date_upload_offer
-        if self.cleaned_data['is_invalid_offer']:
+        if is_invalid_offer:
             status = 'offer review'
             warning = 'No Warn'
             return status, date_offer, warning

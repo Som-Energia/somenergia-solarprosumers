@@ -369,6 +369,7 @@ def warranty_warning():
         else:
             logger.info("there are no warrings to send")
 
+
 def campaign_info(campaign):
     return {
         _('Summary date'): date.today().strftime("%d/%m/%Y"),
@@ -376,6 +377,7 @@ def campaign_info(campaign):
         _('Total inscriptions'): Project.objects.filter(
                 campaign=campaign).count(),
     }
+
 
 def prereport_summary(projects):
     sent_prereport = projects.filter(date_prereport__isnull=False).count()
