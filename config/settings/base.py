@@ -1,12 +1,16 @@
 import os
 
 import yaml
+from django.utils.translation import gettext_lazy as _
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 with open(os.path.join(BASE_DIR, 'settings/config.yaml')) as f:
     config = yaml.load(f.read())
 
+LOCALE_PATHS = (
+    os.path.join(BASE_DIR, 'locale'),
+)
 
 ALLOWED_HOSTS = []
 
@@ -32,11 +36,13 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'django',
     'jquery',
+    'rosetta',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -99,6 +105,13 @@ LOGOUT_REDIRECT_URL = 'login'
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
+LANGUAGES = (
+    ('en', _('English')),
+    ('ca', _('Catalan')),
+    ('es', _('Spanish')),
+    ('eu', _('Basque')),
+    ('gl', _('Galician')),
+)
 
 TIME_ZONE = 'Europe/Madrid'
 
@@ -108,6 +121,15 @@ USE_L10N = True
 
 USE_TZ = True
 
+LOCALE_PATHS = [
+    os.path.join((BASE_DIR), '../locale'),
+]
+
+
+# Rosetta conf
+ROSETTA_ENABLE_REFLANG = True
+ROSETTA_SHOW_AT_ADMIN_PANEL = True
+ROSETTA_LOGIN_URL = '/admin'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
