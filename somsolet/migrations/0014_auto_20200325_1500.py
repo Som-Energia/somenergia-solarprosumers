@@ -40,41 +40,6 @@ class Migration(migrations.Migration):
             name='warning',
             field=models.CharField(choices=[('No Warn', '---'), ('Not Payed', 'Warning: Not payed'), ('prereport', 'Warning: Waiting for prereport'), ('technical visit', 'Warning: Waiting for technical visit'), ('report', 'Warning: Waiting for report'), ('offer', 'Warning: Waiting for offer'), ('signature', 'Warning: Waiting for signature'), ('installation date', 'Warning: Waiting for installation date'), ('finish installation', 'Warning: Installation deadline has passed'), ('legal registration', 'Warning: Pending registration reciept'), ('legalization', 'Warning: Waiting for legalization certificates'), ('final payment', 'Warning: Pending engeneering payment'), ('warranty payment', 'Warning: Pending warranty payment')], default='No Warn', max_length=100),
         ),
-        migrations.AlterField(
-            model_name='technical_details',
-            name='inversor_brand',
-            field=models.CharField(choices=[('empty', '---'), ('SMA', 'SMA'), ('HUAWEI', 'HUAWEI'), ('FRONIUS', 'FRONIUS'), ('KOSTAL', 'KOSTAL'), ('VICTRON', 'VICTRON'), ('ENPHASE', 'ENPHASE')], default='empty', max_length=50),
-        ),
-        migrations.AlterField(
-            model_name='technical_details',
-            name='inversor_model',
-            field=models.CharField(blank=True, max_length=50, null=True),
-        ),
-        migrations.AlterField(
-            model_name='technical_details',
-            name='panel_brand',
-            field=models.CharField(choices=[('empty', '---'), ('REC', 'REC'), ('JA SOLAR', 'JA SOLAR'), ('JINKO', 'JINKO'), ('SOLARWATT', 'SOLARWATT'), ('PEIMAR', 'PEIMAR'), ('LUBI', 'LUBI'), ('ATERSA', 'ATERSA'), ('SUNPOWER', 'SUNPOWER'), ('C-SUN', 'C-SUN'), ('NOUSOL', 'NOUSOL'), ('SHARP', 'SHARP'), ('YINGLI', 'YINGLI')], default='empty', max_length=22),
-        ),
-        migrations.AlterField(
-            model_name='technical_details',
-            name='panel_model',
-            field=models.CharField(blank=True, max_length=22, null=True),
-        ),
-        migrations.AlterField(
-            model_name='technical_details',
-            name='panel_type',
-            field=models.CharField(choices=[('empty', '---'), ('CRISTAL', 'CRISTAL'), ('OTRO', 'OTRO')], default='empty', max_length=50),
-        ),
-        migrations.AlterField(
-            model_name='technical_details',
-            name='shadow_optimizer_brand',
-            field=models.CharField(blank=True, max_length=50, null=True),
-        ),
-        migrations.AlterField(
-            model_name='technical_details',
-            name='shadow_optimizer_model',
-            field=models.CharField(blank=True, max_length=22, null=True),
-        ),
         migrations.AddField(
             model_name='campaign',
             name='local_group',
