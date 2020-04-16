@@ -17,10 +17,8 @@
         <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-2 shadow">
           <a class="navbar-brand col-sm-3 col-md-2 mr-auto" href="#"><img src="https://www.somenergia.coop/wp-content/uploads/2014/07/logo.png" class="mr-2">
 Som Solet</a>
-          <div class="navbar-nav px-3">
-            {% include "languages/user_profile.html"%}
-          </div>
-          <ul class="navbar-nav px-3">
+          <ul class="right-navbar px-3">
+              <li class="nav-item text-nowrap">{% include "languages/user_profile.html"%}</li>
             {% if user.is_authenticated %}
               <li class="nav-item text-nowrap">
                 {% include "registration/logout.html" %}

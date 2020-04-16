@@ -6,7 +6,7 @@ from dateutil.relativedelta import relativedelta
 from django.core.mail import EmailMessage
 from django.db.models import Min, Q
 from django.template.loader import render_to_string
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy as _, override, get_language
 from somsolet.models import Campaign, Engineering, LocalGroup, Project
 
 logger = logging.getLogger('scheduler_tasks')
@@ -31,33 +31,35 @@ def send_email_tasks():
 
         engineering_data = Engineering.objects.filter(
             campaigns__name=campaign.name
-        ).values('name', 'email')
+        ).values('name', 'email', 'language')
 
         engineering_name = [engineering['name'] for engineering in engineering_data]
         engineering_email = [engineering['email'] for engineering in engineering_data]
+        engineering_language = [engineering['language'] for engineering in engineering_data][0]
 
         if engineering_warnings:
-            logger.info("engineering_warnings")
-            message_params = {
-                'result': list(engineering_warnings),
-                'header': _("Hola {},").format(", ".join(engineering_name)),
-                'intro': _("SOM SOLET us fa arribar els WARNINGS!\
-                            d’aquesta setmana:"),
-                'warning_type': 'Instalació',
-                'main': _("Us demanem que atengueu als diferents avisos\
-                          el més aviat possible. Si us trobeu davant d’alguna\
-                          incidència que us ho impedeixi, poseu-vos, siusplau,\
-                          en contacte amb nosaltres per intentar solucionar\
-                          l'inconvenient dels casos concrets."),
-                'ending': _("Salut i fins aviat,"),
-            }
-            send_email(
-                engineering_email,
-                campaign.name,
-                message_params,
-                'emails/message_subject.txt',
-                'emails/message_body.html',
-            )
+            with override(engineering_language):
+                logger.info("engineering_warnings")
+                message_params = {
+                    'result': list(engineering_warnings),
+                    'header': _("Hola {},").format(", ".join(engineering_name)),
+                    'intro': _("SOM SOLET us fa arribar els WARNINGS!\
+                                d’aquesta setmana:"),
+                    'warning_type': 'Instalació',
+                    'main': _("Us demanem que atengueu als diferents avisos\
+                              el més aviat possible. Si us trobeu davant d’alguna\
+                              incidència que us ho impedeixi, poseu-vos, siusplau,\
+                              en contacte amb nosaltres per intentar solucionar\
+                              l'inconvenient dels casos concrets."),
+                    'ending': _("Salut i fins aviat,"),
+                }
+                send_email(
+                    engineering_email,
+                    campaign.name,
+                    message_params,
+                    'emails/message_subject.txt',
+                    'emails/message_body.html',
+                )
         if som_warning_final_payment:
             message_params = {
                 'result': list(som_warning_final_payment),
@@ -111,42 +113,44 @@ def send_email_summary(toSomEnergia):
         if not toSomEnergia:
             local_group_info = LocalGroup.objects.filter(
                 campaigns__name=campaign.name
-                ).values('email')
+                ).values('email', 'language')
             email = [lg['email'] for lg in local_group_info]
+            languages = [lg['language'] for lg in local_group_info]
         else:
             email = BCC
 
         projects = Project.objects.filter(
             campaign=campaign).exclude(status='discarded')
-        message_params = {
-            'result': {
-                        _('Prereports'): prereport_summary(projects),
-                        _('Technical Visits'): technical_visit_summary(projects),
-                        _('Signed Contracts'): signature_summary(projects),
-                        _('Construction Permits'): construction_permits_summary(projects),
-                        _('Installations'): installation_summary(projects),
-                        _('legalization'): legalization_summary(projects),
-                        _('Discarded inscriptions'): discarded_summary(campaign),
-                    },
-            'campaign_info': campaign_info(campaign),
-            'header': _("Hola,"),
-            'intro': _("El SomSolet de Som Energia us envia un breu \
-                    informe de l’estat de la \
-                    compra col·lectiva {}".format(campaign)),
-            'main': _('Per qualsevol dubte o aportació podeu fer \
-                    un correu electrònic a auto@somenergia.coop'),
-            'ending': _('Salut i bona energia!'),
-        }
-        if toSomEnergia:
-            message_params['result'].update({_('Deposit'):[{'name':'To do', 'value':0}]})
+        with override(engineering_language):
+            message_params = {
+                'result': {
+                            _('Prereports'): prereport_summary(projects),
+                            _('Technical Visits'): technical_visit_summary(projects),
+                            _('Signed Contracts'): signature_summary(projects),
+                            _('Construction Permits'): construction_permits_summary(projects),
+                            _('Installations'): installation_summary(projects),
+                            _('legalization'): legalization_summary(projects),
+                            _('Discarded inscriptions'): discarded_summary(campaign),
+                        },
+                'campaign_info': campaign_info(campaign),
+                'header': _("Hola,"),
+                'intro': _("El SomSolet de Som Energia us envia un breu \
+                        informe de l’estat de la \
+                        compra col·lectiva {}".format(campaign)),
+                'main': _('Per qualsevol dubte o aportació podeu fer \
+                        un correu electrònic a auto@somenergia.coop'),
+                'ending': _('Salut i bona energia!'),
+            }
+            if toSomEnergia:
+                message_params['result'].update({_('Deposit'):[{'name':'To do', 'value':0}]})
 
-        send_email(
-            set(email),
-            campaign.name,
-            message_params,
-            'emails/message_summary_subject.txt',
-            'emails/message_summary_body.html',
-        )
+            send_email(
+                set(email),
+                campaign.name,
+                message_params,
+                'emails/message_summary_subject.txt',
+                'emails/message_summary_body.html',
+            )
 
 
 def send_email(to_email, subject, message_params, email_subject, email_template):

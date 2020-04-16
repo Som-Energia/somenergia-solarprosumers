@@ -45,7 +45,7 @@ h1 a {
 
 .form-filters label {
     margin-right: .5rem !important;
-    margin-bottom: .25rem !important;   
+    margin-bottom: .25rem !important;
 }
 
 .table-som a,
@@ -261,4 +261,30 @@ svg rect{
   margin-bottom: 1rem;
   border: 1px solid transparent;
   border-radius: .25rem;
+}
+
+.form-language {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-direction: row;
+}
+
+.right-navbar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-direction: row;
+  list-style: none;
+  margin-bottom: 0;
+}
+
+.form-language .custom-select {
+  min-width: 65px;
+  padding: 4px 12px;
+  font-size: 14px;
+  background: transparent;
+  border: 1px #ccc solid;
+  border-radius: 4px;
+  color: #ccc;
 }
