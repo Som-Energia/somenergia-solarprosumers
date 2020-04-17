@@ -3,7 +3,6 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
@@ -16,7 +15,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 3.11.3\n"
 
 #: config/settings/base.py:109
 msgid "English"
@@ -47,6 +47,8 @@ msgid ""
 "SOM SOLET us fa arribar els WARNINGS!                                "
 "d’aquesta setmana:"
 msgstr ""
+"SOM SOLET os hace llegar els WARNINGS!                            de esta "
+"semana:"
 
 #: scheduler_tasks.py:52
 msgid ""
