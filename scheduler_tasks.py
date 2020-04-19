@@ -43,14 +43,9 @@ def send_email_tasks():
                 message_params = {
                     'result': list(engineering_warnings),
                     'header': _("Hola {},").format(", ".join(engineering_name)),
-                    'intro': _("SOM SOLET us fa arribar els WARNINGS!\
-                                d’aquesta setmana:"),
-                    'warning_type': 'Instalació',
-                    'main': _("Us demanem que atengueu als diferents avisos\
-                              el més aviat possible. Si us trobeu davant d’alguna\
-                              incidència que us ho impedeixi, poseu-vos, siusplau,\
-                              en contacte amb nosaltres per intentar solucionar\
-                              l'inconvenient dels casos concrets."),
+                    'intro': _("SOM SOLET us fa arribar els WARNINGS! d’aquesta setmana:"),
+                    'warning_type': _('Instalació'),
+                    'main': _("Us demanem que atengueu als diferents avisos el més aviat possible. Si us trobeu davant d’alguna incidència que us ho impedeixi, poseu-vos, siusplau, en contacte amb nosaltres per intentar solucionar l'inconvenient dels casos concrets."),
                     'ending': _("Salut i fins aviat,"),
                 }
                 send_email(
@@ -64,10 +59,8 @@ def send_email_tasks():
             message_params = {
                 'result': list(som_warning_final_payment),
                 'header': _('Hola {},').format(", ".join(engineering_name)),
-                'intro': _("Us recordem que caldria omplir la informació\
-                          al document de 'fitxa tècnica' referent a cada\
-                          una de les instal·lacions."),
-                'warning_type': 'Project',
+                'intro': _("Us recordem que caldria omplir la informació al document de 'fitxa tècnica' referent a cada una de les instal·lacions."),
+                'warning_type': _('Project'),
                 'ending': _("Gràcies i fins aviat,"),
             }
             send_email(
@@ -87,12 +80,8 @@ def send_email_tasks():
             message_params = {
                 'result': campaign_warning,
                 'header': _("Hola {},").format(", ".join(engineering_name)),
-                'intro': _("Per tal de poder fer-vos el retorn de la garantia\
-                            disposada a l'inici de la campanya us demanem que\
-                            ens feu arribar un rebut a l'adreça\
-                            compres@somenergia.coop indicant el número de\
-                            compte on fer la transferència."),
-                'warning_type': 'Campaign',
+                'intro': _("Per tal de poder fer-vos el retorn de la garantia disposada a l'inici de la campanya us demanem que ens feu arribar un rebut a l'adreça compres@somenergia.coop indicant el número de compte on fer la transferència."),
+                'warning_type': _('Campaign'),
                 'ending': _('Gràcies i fins aviat,'),
             }
             send_email(
@@ -134,11 +123,8 @@ def send_email_summary(toSomEnergia):
                         },
                 'campaign_info': campaign_info(campaign),
                 'header': _("Hola,"),
-                'intro': _("El SomSolet de Som Energia us envia un breu \
-                        informe de l’estat de la \
-                        compra col·lectiva {}".format(campaign)),
-                'main': _('Per qualsevol dubte o aportació podeu fer \
-                        un correu electrònic a auto@somenergia.coop'),
+                'intro': _("El SomSolet de Som Energia us envia un breu informe de l’estat de la compra col·lectiva {}".format(campaign)),
+                'main': _('Per qualsevol dubte o aportació podeu fer un correu electrònic a auto@somenergia.coop'),
                 'ending': _('Salut i bona energia!'),
             }
             if toSomEnergia:

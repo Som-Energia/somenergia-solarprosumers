@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-15 18:19+0200\n"
+"POT-Creation-Date: 2020-04-19 12:28+0200\n"
 "PO-Revision-Date: 2020-02-17 13:13+0000\n"
 "Last-Translator: Weblate Admin <admin@example.com>\n"
 "Language-Team: Catalan <http://example.com/projects/somsolet/git-somsolet/ca/"
@@ -39,226 +39,237 @@ msgstr ""
 msgid "Galician"
 msgstr ""
 
-#: scheduler_tasks.py:43
-msgid "test paraula"
-msgstr ""
-
-#: scheduler_tasks.py:48 scheduler_tasks.py:69 scheduler_tasks.py:92
+#: scheduler_tasks.py:45 scheduler_tasks.py:61 scheduler_tasks.py:82
 msgid "Hola {},"
 msgstr "Hola {},"
 
-#: scheduler_tasks.py:49
-msgid ""
-"SOM SOLET us fa arribar els WARNINGS!                                "
-"d’aquesta setmana:"
+#: scheduler_tasks.py:46
+#, fuzzy
+#| msgid ""
+#| "SOM SOLET us fa arribar els WARNINGS!                                "
+#| "d’aquesta setmana:"
+msgid "SOM SOLET us fa arribar els WARNINGS! d’aquesta setmana:"
 msgstr ""
 "SOM SOLET us fa arribar els WARNINGS!                            d’aquesta "
 "setmana:"
 
-#: scheduler_tasks.py:52
+#: scheduler_tasks.py:47
+msgid "Instalació"
+msgstr ""
+
+#: scheduler_tasks.py:48
 msgid ""
-"Us demanem que atengueu als diferents avisos                              el "
-"més aviat possible. Si us trobeu davant "
-"d’alguna                              incidència que us ho impedeixi, poseu-"
-"vos, siusplau,                              en contacte amb nosaltres per "
-"intentar solucionar                              l'inconvenient dels casos "
+"Us demanem que atengueu als diferents avisos el més aviat possible. Si us "
+"trobeu davant d’alguna incidència que us ho impedeixi, poseu-vos, siusplau, "
+"en contacte amb nosaltres per intentar solucionar l'inconvenient dels casos "
 "concrets."
 msgstr ""
 
-#: scheduler_tasks.py:57
+#: scheduler_tasks.py:49
 msgid "Salut i fins aviat,"
 msgstr ""
 
-#: scheduler_tasks.py:70
+#: scheduler_tasks.py:62
+#, fuzzy
+#| msgid ""
+#| "Us recordem que caldria omplir la informació                          al "
+#| "document de 'fitxa tècnica' referent a cada                          una "
+#| "de les instal·lacions."
 msgid ""
-"Us recordem que caldria omplir la informació                          al "
-"document de 'fitxa tècnica' referent a cada                          una de "
-"les instal·lacions."
+"Us recordem que caldria omplir la informació al document de 'fitxa tècnica' "
+"referent a cada una de les instal·lacions."
 msgstr ""
 "Us recordem que caldria omplir la informació                          al "
 "document de 'fitxa tècnica' referent a cada                          una de "
 "les instal·lacions."
 
-#: scheduler_tasks.py:74 scheduler_tasks.py:99
+#: scheduler_tasks.py:63 somsolet/models.py:454
+msgid "Project"
+msgstr ""
+
+#: scheduler_tasks.py:64 scheduler_tasks.py:85
 msgid "Gràcies i fins aviat,"
 msgstr ""
 
-#: scheduler_tasks.py:93
+#: scheduler_tasks.py:83
 msgid ""
-"Per tal de poder fer-vos el retorn de la garantia                            "
-"disposada a l'inici de la campanya us demanem que                            "
-"ens feu arribar un rebut a l'adreça                            "
-"compres@somenergia.coop indicant el número de                            "
-"compte on fer la transferència."
+"Per tal de poder fer-vos el retorn de la garantia disposada a l'inici de la "
+"campanya us demanem que ens feu arribar un rebut a l'adreça "
+"compres@somenergia.coop indicant el número de compte on fer la transferència."
 msgstr ""
 
-#: scheduler_tasks.py:128
+#: scheduler_tasks.py:84 somsolet/models.py:178 somsolet/models.py:246
+#: somsolet/models.py:461 somsolet/tables.py:14
+msgid "Campaign"
+msgstr ""
+
+#: scheduler_tasks.py:116
 #, fuzzy
 #| msgid "Invalid Prereport?"
 msgid "Prereports"
 msgstr "Preinforme invàlid?"
 
-#: scheduler_tasks.py:129
+#: scheduler_tasks.py:117
 msgid "Technical Visits"
 msgstr ""
 
-#: scheduler_tasks.py:130 scheduler_tasks.py:460
+#: scheduler_tasks.py:118 scheduler_tasks.py:445
 msgid "Signed Contracts"
 msgstr ""
 
-#: scheduler_tasks.py:131
+#: scheduler_tasks.py:119
 msgid "Construction Permits"
 msgstr ""
 
-#: scheduler_tasks.py:132
+#: scheduler_tasks.py:120
 msgid "Installations"
 msgstr ""
 
-#: scheduler_tasks.py:133
+#: scheduler_tasks.py:121
 msgid "legalization"
 msgstr ""
 
-#: scheduler_tasks.py:134
+#: scheduler_tasks.py:122
 msgid "Discarded inscriptions"
 msgstr ""
 
-#: scheduler_tasks.py:137
+#: scheduler_tasks.py:125
 #, fuzzy
 #| msgid "Hola {},"
 msgid "Hola,"
 msgstr "Hola {},"
 
-#: scheduler_tasks.py:138
+#: scheduler_tasks.py:126
 msgid ""
-"El SomSolet de Som Energia us envia un breu                     informe de "
-"l’estat de la                     compra col·lectiva {}"
+"El SomSolet de Som Energia us envia un breu informe de l’estat de la compra "
+"col·lectiva {}"
 msgstr ""
 
-#: scheduler_tasks.py:141
+#: scheduler_tasks.py:127
 msgid ""
-"Per qualsevol dubte o aportació podeu fer                     un correu "
-"electrònic a auto@somenergia.coop"
+"Per qualsevol dubte o aportació podeu fer un correu electrònic a "
+"auto@somenergia.coop"
 msgstr ""
 
-#: scheduler_tasks.py:143
+#: scheduler_tasks.py:128
 msgid "Salut i bona energia!"
 msgstr ""
 
-#: scheduler_tasks.py:146
+#: scheduler_tasks.py:131
 msgid "Deposit"
 msgstr ""
 
-#: scheduler_tasks.py:380
+#: scheduler_tasks.py:365
 msgid "Summary date"
 msgstr ""
 
-#: scheduler_tasks.py:381
+#: scheduler_tasks.py:366
 msgid "Date inscriptions start"
 msgstr ""
 
-#: scheduler_tasks.py:382
+#: scheduler_tasks.py:367
 msgid "Total inscriptions"
 msgstr ""
 
-#: scheduler_tasks.py:392
+#: scheduler_tasks.py:377
 #, fuzzy
 #| msgid "Invalid Prereport?"
 msgid "Sent Prereports"
 msgstr "Preinforme invàlid?"
 
-#: scheduler_tasks.py:393
+#: scheduler_tasks.py:378
 #, fuzzy
 #| msgid "Invalid Prereport?"
 msgid "Unsent Prereports"
 msgstr "Preinforme invàlid?"
 
-#: scheduler_tasks.py:402
+#: scheduler_tasks.py:387
 #, fuzzy
 #| msgid "Invalid Prereport?"
 msgid "Overdue Prereports"
 msgstr "Preinforme invàlid?"
 
-#: scheduler_tasks.py:406 scheduler_tasks.py:579 scheduler_tasks.py:597
+#: scheduler_tasks.py:391 scheduler_tasks.py:564 scheduler_tasks.py:582
 msgid "Maximum overdue days"
 msgstr ""
 
-#: scheduler_tasks.py:421
+#: scheduler_tasks.py:406
 msgid "Technical Visits Pending"
 msgstr ""
 
-#: scheduler_tasks.py:425
+#: scheduler_tasks.py:410
 msgid "Technical Visits Calendarized"
 msgstr ""
 
-#: scheduler_tasks.py:429
+#: scheduler_tasks.py:414
 msgid "Technical Visits Done"
 msgstr ""
 
-#: scheduler_tasks.py:438
+#: scheduler_tasks.py:423
 msgid "Overdue Technical Visits"
 msgstr ""
 
-#: scheduler_tasks.py:442 scheduler_tasks.py:478
+#: scheduler_tasks.py:427 scheduler_tasks.py:463
 msgid "Maximum Overdue Days"
 msgstr ""
 
-#: scheduler_tasks.py:456
+#: scheduler_tasks.py:441
 msgid "Submitted Offers"
 msgstr ""
 
-#: scheduler_tasks.py:464
+#: scheduler_tasks.py:449
 msgid "Signature Pending Contracts"
 msgstr ""
 
-#: scheduler_tasks.py:474
+#: scheduler_tasks.py:459
 msgid "Overdue Signed Contracts"
 msgstr ""
 
-#: scheduler_tasks.py:491
+#: scheduler_tasks.py:476
 msgid "Construction Permits Pending"
 msgstr ""
 
-#: scheduler_tasks.py:495
+#: scheduler_tasks.py:480
 msgid "Accepted Construction Permits"
 msgstr ""
 
-#: scheduler_tasks.py:516
+#: scheduler_tasks.py:501
 msgid "Scheduled installations"
 msgstr ""
 
-#: scheduler_tasks.py:520
+#: scheduler_tasks.py:505
 msgid "Incompleted installations"
 msgstr ""
 
-#: scheduler_tasks.py:524
+#: scheduler_tasks.py:509
 msgid "Finished installations"
 msgstr ""
 
-#: scheduler_tasks.py:534
+#: scheduler_tasks.py:519
 msgid "Overdue installations by more than five days"
 msgstr ""
 
-#: scheduler_tasks.py:554
+#: scheduler_tasks.py:539
 msgid "Installations pending registration"
 msgstr ""
 
-#: scheduler_tasks.py:558
+#: scheduler_tasks.py:543
 msgid "Registered installations pending approval"
 msgstr ""
 
-#: scheduler_tasks.py:562
+#: scheduler_tasks.py:547
 msgid "Legalized installations"
 msgstr ""
 
-#: scheduler_tasks.py:575 scheduler_tasks.py:593
+#: scheduler_tasks.py:560 scheduler_tasks.py:578
 msgid "Overdue pending registration"
 msgstr ""
 
-#: scheduler_tasks.py:610
+#: scheduler_tasks.py:595
 msgid "Technical"
 msgstr ""
 
-#: scheduler_tasks.py:611
+#: scheduler_tasks.py:596
 msgid "Voluntary"
 msgstr ""
 
@@ -900,6 +911,14 @@ msgstr ""
 
 #: somsolet/tables.py:79
 msgid "Download CCH"
+msgstr ""
+
+#: somsolet/templates/emails/message_body.html:28
+msgid "Warning"
+msgstr ""
+
+#: somsolet/templates/emails/message_body.html:31
+msgid "Date"
 msgstr ""
 
 #: somsolet/templates/registration/login.html:6
