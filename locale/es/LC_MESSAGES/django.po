@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-19 12:28+0200\n"
+"POT-Creation-Date: 2020-04-19 16:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -40,7 +40,7 @@ msgstr ""
 
 #: scheduler_tasks.py:45 scheduler_tasks.py:61 scheduler_tasks.py:82
 msgid "Hola {},"
-msgstr ""
+msgstr "Hola {},"
 
 #: scheduler_tasks.py:46
 msgid "SOM SOLET us fa arribar els WARNINGS! d’aquesta setmana:"
@@ -48,7 +48,7 @@ msgstr "SOM SOLET os hace llegar els WARNINGS! de esta semana:"
 
 #: scheduler_tasks.py:47
 msgid "Instalació"
-msgstr ""
+msgstr "Instalación"
 
 #: scheduler_tasks.py:48
 msgid ""
@@ -57,7 +57,6 @@ msgid ""
 "en contacte amb nosaltres per intentar solucionar l'inconvenient dels casos "
 "concrets."
 msgstr ""
-
 
 #: scheduler_tasks.py:49
 msgid "Salut i fins aviat,"
@@ -75,7 +74,7 @@ msgstr ""
 
 #: scheduler_tasks.py:64 scheduler_tasks.py:85
 msgid "Gràcies i fins aviat,"
-msgstr ""
+msgstr "Gracias y hasta pronto,"
 
 #: scheduler_tasks.py:83
 msgid ""
@@ -103,7 +102,7 @@ msgstr "Visita Técnica"
 
 #: scheduler_tasks.py:118 scheduler_tasks.py:445
 msgid "Signed Contracts"
-msgstr ""
+msgstr "COntratos firmados"
 
 #: scheduler_tasks.py:119
 msgid "Construction Permits"
@@ -111,7 +110,7 @@ msgstr ""
 
 #: scheduler_tasks.py:120
 msgid "Installations"
-msgstr ""
+msgstr "Instalaciones"
 
 #: scheduler_tasks.py:121
 msgid "legalization"
@@ -123,7 +122,7 @@ msgstr ""
 
 #: scheduler_tasks.py:125
 msgid "Hola,"
-msgstr ""
+msgstr "Hola,"
 
 #: scheduler_tasks.py:126
 msgid ""
@@ -136,10 +135,12 @@ msgid ""
 "Per qualsevol dubte o aportació podeu fer un correu electrònic a "
 "auto@somenergia.coop"
 msgstr ""
+"Para cualquier duda o aportación puede hacer un correo electrónico a "
+"auto@somenergia.coop"
 
 #: scheduler_tasks.py:128
 msgid "Salut i bona energia!"
-msgstr ""
+msgstr "Salud y buena energía!"
 
 #: scheduler_tasks.py:131
 msgid "Deposit"
@@ -147,15 +148,15 @@ msgstr ""
 
 #: scheduler_tasks.py:365
 msgid "Summary date"
-msgstr ""
+msgstr "Fecha del informe"
 
 #: scheduler_tasks.py:366
 msgid "Date inscriptions start"
-msgstr ""
+msgstr "Fecha apertura inscripciones"
 
 #: scheduler_tasks.py:367
 msgid "Total inscriptions"
-msgstr ""
+msgstr "Total inscripciones"
 
 #: scheduler_tasks.py:377
 #, fuzzy
@@ -183,19 +184,19 @@ msgstr ""
 #, fuzzy
 #| msgid "Technical Visit"
 msgid "Technical Visits Pending"
-msgstr "Visita Técnica"
+msgstr "Visitas técnicas pendientes"
 
 #: scheduler_tasks.py:410
 #, fuzzy
 #| msgid "Technical Visit"
 msgid "Technical Visits Calendarized"
-msgstr "Visita Técnica"
+msgstr "Visitas técnicas calendarizadas"
 
 #: scheduler_tasks.py:414
 #, fuzzy
 #| msgid "Technical Visit"
 msgid "Technical Visits Done"
-msgstr "Visita Técnica"
+msgstr "Visitas técnicas realizadas"
 
 #: scheduler_tasks.py:423
 #, fuzzy
@@ -205,7 +206,7 @@ msgstr "Visita Técnica"
 
 #: scheduler_tasks.py:427 scheduler_tasks.py:463
 msgid "Maximum Overdue Days"
-msgstr ""
+msgstr "Máximo días atraso:"
 
 #: scheduler_tasks.py:441
 msgid "Submitted Offers"
@@ -213,47 +214,47 @@ msgstr ""
 
 #: scheduler_tasks.py:449
 msgid "Signature Pending Contracts"
-msgstr ""
+msgstr "Casos atrasados"
 
 #: scheduler_tasks.py:459
 msgid "Overdue Signed Contracts"
-msgstr ""
+msgstr "Máximo días atraso"
 
 #: scheduler_tasks.py:476
 msgid "Construction Permits Pending"
-msgstr ""
+msgstr "Permisos de obra pendientes"
 
 #: scheduler_tasks.py:480
 msgid "Accepted Construction Permits"
-msgstr ""
+msgstr "Permisos de obra aceptados"
 
 #: scheduler_tasks.py:501
 msgid "Scheduled installations"
-msgstr ""
+msgstr "Obras programadas"
 
 #: scheduler_tasks.py:505
 msgid "Incompleted installations"
-msgstr ""
+msgstr "Obras pendientes de finalizar"
 
 #: scheduler_tasks.py:509
 msgid "Finished installations"
-msgstr ""
+msgstr "Obras finalizadas"
 
 #: scheduler_tasks.py:519
 msgid "Overdue installations by more than five days"
-msgstr ""
+msgstr "Obras retrasadas más de 5 días"
 
 #: scheduler_tasks.py:539
 msgid "Installations pending registration"
-msgstr ""
+msgstr "Instalaciones pendientes de ser registradas"
 
 #: scheduler_tasks.py:543
 msgid "Registered installations pending approval"
-msgstr ""
+msgstr "Instalación ciones registradas pendientes de aprobación"
 
 #: scheduler_tasks.py:547
 msgid "Legalized installations"
-msgstr ""
+msgstr "Instalaciones legalizadas"
 
 #: scheduler_tasks.py:560 scheduler_tasks.py:578
 msgid "Overdue pending registration"
@@ -263,11 +264,11 @@ msgstr ""
 #, fuzzy
 #| msgid "Technical Visit"
 msgid "Technical"
-msgstr "Visita Técnica"
+msgstr "Técnicas"
 
 #: scheduler_tasks.py:596
 msgid "Voluntary"
-msgstr ""
+msgstr "Voluntarias"
 
 #: somsolet/choices_options.py:3
 msgid "Initial"
@@ -748,11 +749,6 @@ msgstr ""
 msgid "Total Penalties (€)"
 msgstr ""
 
-#: somsolet/models.py:178 somsolet/models.py:246 somsolet/models.py:461
-#: somsolet/tables.py:14
-msgid "Campaign"
-msgstr "Campaña"
-
 #: somsolet/models.py:183
 msgid "Monofasic Fixed Price (€)"
 msgstr ""
@@ -839,10 +835,6 @@ msgstr ""
 
 #: somsolet/models.py:393
 msgid "Upload legal certificate"
-msgstr ""
-
-#: somsolet/models.py:454
-msgid "Project"
 msgstr ""
 
 #: somsolet/models.py:519

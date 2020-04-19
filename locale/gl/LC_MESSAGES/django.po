@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-19 12:28+0200\n"
+"POT-Creation-Date: 2020-04-19 16:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -725,11 +725,6 @@ msgstr ""
 msgid "Total Penalties (€)"
 msgstr ""
 
-#: somsolet/models.py:178 somsolet/models.py:246 somsolet/models.py:461
-#: somsolet/tables.py:14
-msgid "Campaign"
-msgstr ""
-
 #: somsolet/models.py:183
 msgid "Monofasic Fixed Price (€)"
 msgstr ""
@@ -816,10 +811,6 @@ msgstr ""
 
 #: somsolet/models.py:393
 msgid "Upload legal certificate"
-msgstr ""
-
-#: somsolet/models.py:454
-msgid "Project"
 msgstr ""
 
 #: somsolet/models.py:519

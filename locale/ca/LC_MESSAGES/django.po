@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-19 12:28+0200\n"
+"POT-Creation-Date: 2020-04-19 16:43+0200\n"
 "PO-Revision-Date: 2020-02-17 13:13+0000\n"
 "Last-Translator: Weblate Admin <admin@example.com>\n"
 "Language-Team: Catalan <http://example.com/projects/somsolet/git-somsolet/ca/"
@@ -161,61 +161,55 @@ msgstr ""
 
 #: scheduler_tasks.py:365
 msgid "Summary date"
-msgstr ""
+msgstr "Data de l’informe"
 
 #: scheduler_tasks.py:366
 msgid "Date inscriptions start"
-msgstr ""
+msgstr "Data obertura inscripcions"
 
 #: scheduler_tasks.py:367
 msgid "Total inscriptions"
-msgstr ""
+msgstr "Total inscripcions"
 
 #: scheduler_tasks.py:377
-#, fuzzy
-#| msgid "Invalid Prereport?"
 msgid "Sent Prereports"
-msgstr "Preinforme invàlid?"
+msgstr "Preinformes enviats"
 
 #: scheduler_tasks.py:378
-#, fuzzy
-#| msgid "Invalid Prereport?"
 msgid "Unsent Prereports"
-msgstr "Preinforme invàlid?"
+msgstr "Preinformes pendents"
 
 #: scheduler_tasks.py:387
-#, fuzzy
-#| msgid "Invalid Prereport?"
 msgid "Overdue Prereports"
-msgstr "Preinforme invàlid?"
+msgstr "Casos endarrerits"
 
 #: scheduler_tasks.py:391 scheduler_tasks.py:564 scheduler_tasks.py:582
 msgid "Maximum overdue days"
-msgstr ""
+msgstr "Màxim dies endarreriment"
 
 #: scheduler_tasks.py:406
 msgid "Technical Visits Pending"
-msgstr ""
+msgstr "Visites tècniques pendents de calendaritzar"
 
 #: scheduler_tasks.py:410
 msgid "Technical Visits Calendarized"
-msgstr ""
+msgstr "Visites tècniques pendents de calendaritzar"
 
 #: scheduler_tasks.py:414
 msgid "Technical Visits Done"
-msgstr ""
+msgstr "Visites tècniques realitzades"
 
 #: scheduler_tasks.py:423
 msgid "Overdue Technical Visits"
-msgstr ""
+msgstr "Casos endarrerits"
 
 #: scheduler_tasks.py:427 scheduler_tasks.py:463
 msgid "Maximum Overdue Days"
-msgstr ""
+msgstr "Màxim dies endarreriment"
 
 #: scheduler_tasks.py:441
 msgid "Submitted Offers"
-msgstr ""
+msgstr "Ofertes presentades"
 
 #: scheduler_tasks.py:449
 msgid "Signature Pending Contracts"
@@ -223,31 +217,31 @@ msgstr ""
 
 #: scheduler_tasks.py:459
 msgid "Overdue Signed Contracts"
-msgstr ""
+msgstr "Casos endarrerits"
 
 #: scheduler_tasks.py:476
 msgid "Construction Permits Pending"
-msgstr ""
+msgstr "Permisos d’obra pendents"
 
 #: scheduler_tasks.py:480
 msgid "Accepted Construction Permits"
-msgstr ""
+msgstr "Permisos d’obra acceptats"
 
 #: scheduler_tasks.py:501
 msgid "Scheduled installations"
-msgstr ""
+msgstr "Obres programades"
 
 #: scheduler_tasks.py:505
 msgid "Incompleted installations"
-msgstr ""
+msgstr "Obres pendents de finalitzar"
 
 #: scheduler_tasks.py:509
 msgid "Finished installations"
-msgstr ""
+msgstr "Obres finalitzades"
 
 #: scheduler_tasks.py:519
 msgid "Overdue installations by more than five days"
-msgstr ""
+msgstr "Obres endarrerides més de 5 dies"
 
 #: scheduler_tasks.py:539
 msgid "Installations pending registration"
@@ -255,23 +249,23 @@ msgstr ""
 
 #: scheduler_tasks.py:543
 msgid "Registered installations pending approval"
-msgstr ""
+msgstr "Instal·lacions pendents de ser registrades"
 
 #: scheduler_tasks.py:547
 msgid "Legalized installations"
-msgstr ""
+msgstr "Instal·lacions legalitzades"
 
 #: scheduler_tasks.py:560 scheduler_tasks.py:578
 msgid "Overdue pending registration"
-msgstr ""
+msgstr "Casos endarrerits pendents de ser registrades"
 
 #: scheduler_tasks.py:595
 msgid "Technical"
-msgstr ""
+msgstr "Tècniques"
 
 #: scheduler_tasks.py:596
 msgid "Voluntary"
-msgstr ""
+msgstr "Voluntàries"
 
 #: somsolet/choices_options.py:3
 msgid "Initial"
@@ -752,11 +746,6 @@ msgstr ""
 msgid "Total Penalties (€)"
 msgstr ""
 
-#: somsolet/models.py:178 somsolet/models.py:246 somsolet/models.py:461
-#: somsolet/tables.py:14
-msgid "Campaign"
-msgstr ""
-
 #: somsolet/models.py:183
 msgid "Monofasic Fixed Price (€)"
 msgstr ""
@@ -843,10 +832,6 @@ msgstr ""
 
 #: somsolet/models.py:393
 msgid "Upload legal certificate"
-msgstr ""
-
-#: somsolet/models.py:454
-msgid "Project"
 msgstr ""
 
 #: somsolet/models.py:519
