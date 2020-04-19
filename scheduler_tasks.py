@@ -104,13 +104,13 @@ def send_email_summary(toSomEnergia):
                 campaigns__name=campaign.name
                 ).values('email', 'language')
             email = [lg['email'] for lg in local_group_info]
-            languages = [lg['language'] for lg in local_group_info]
+            languages = [lg['language'] for lg in local_group_info][0]
         else:
             email = BCC
-
+        print('email',email)
         projects = Project.objects.filter(
             campaign=campaign).exclude(status='discarded')
-        with override(engineering_language):
+        with override(languages):
             message_params = {
                 'result': {
                             _('Prereports'): prereport_summary(projects),
@@ -123,15 +123,14 @@ def send_email_summary(toSomEnergia):
                         },
                 'campaign_info': campaign_info(campaign),
                 'header': _("Hola,"),
-                'intro': _("El SomSolet de Som Energia us envia un breu informe de l’estat de la compra col·lectiva {}".format(campaign)),
+                'intro': _("El SomSolet de Som Energia us envia un breu informe de l’estat de la compra col·lectiva {}").format(campaign),
                 'main': _('Per qualsevol dubte o aportació podeu fer un correu electrònic a auto@somenergia.coop'),
                 'ending': _('Salut i bona energia!'),
             }
             if toSomEnergia:
                 message_params['result'].update({_('Deposit'):[{'name':'To do', 'value':0}]})
-
             send_email(
-                set(email),
+                list(set(email)),
                 campaign.name,
                 message_params,
                 'emails/message_summary_subject.txt',
