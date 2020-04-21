@@ -1,15 +1,57 @@
 import logging
+import os
 from datetime import date, datetime, timedelta
 
+from config.settings import base
 from config.settings.base import BCC
 from dateutil.relativedelta import relativedelta
 from django.core.mail import EmailMessage
 from django.db.models import Min, Q
 from django.template.loader import render_to_string
-from django.utils.translation import gettext_lazy as _, override, get_language
-from somsolet.models import Campaign, Engineering, LocalGroup, Project
+from django.utils.translation import gettext_lazy as _
+from django.utils.translation import override
+from somsolet.models import (Campaign, Client, ClientFile, Engineering,
+                             LocalGroup, Project)
 
 logger = logging.getLogger('scheduler_tasks')
+
+
+def send_email_general_conditions():
+    logger.info("send general conditions email")
+    client_information = Project.objects.filter(
+        status='empty status',
+        client__sent_general_conditions=False
+    ).values('client__membership_number', 'client__dni')
+    try:
+        for info in client_information:
+            client = Client.objects.get(
+                membership_number=info['client__membership_number'],
+                dni=info['client__dni']
+            )
+            filename = ClientFile.objects.get(
+                name='General Conditions',
+                language=client.language
+            )
+            with override(client.language):
+                message_params = {
+                    'header': _("Hola {},").format(client.name),
+                    'ending': _("Salut i bona energia,"),
+                }
+                send_email(
+                    [client.email],
+                    _('Confirmació d’Inscripció a la Compra Col·lectiva Som Energia'),
+                    message_params,
+                    'emails/message_body_general_conditions.html',
+                    str(os.path.join(base.MEDIA_ROOT, str(filename.file)))
+                )
+                client.sent_general_conditions = True
+                client.save()
+                logger.info("General conditions email sent to all clients")
+
+    except Exception as e:
+        msg = "An error occured while sending general conditions email: %s"
+        logger.error(msg, e)
+        raise e
 
 
 def send_email_tasks():

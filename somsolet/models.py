@@ -201,6 +201,29 @@ class Technical_campaign(models.Model):
         return self.campaign.name
 
 
+class ClientFile(models.Model):
+    name = models.CharField(
+        blank=True,
+        max_length=100,
+        verbose_name=_('Filename')
+    )
+    file = models.FileField(
+        upload_to='uploaded_files_som/general_conditions',
+        null=True,
+        blank=True,
+        verbose_name=_('Upload general conditions')
+    )
+    language = models.CharField(
+        default='ca',
+        choices=LANGUAGES,
+        max_length=5,
+        verbose_name=_('Language')
+    )
+
+    def __str__(self):
+        return self.name
+
+
 class Client(models.Model):
     name = models.CharField(
         blank=True,
@@ -226,6 +249,17 @@ class Client(models.Model):
         default='ca',
         choices=LANGUAGES,
         max_length=5,
+    )
+
+    sent_general_conditions = models.BooleanField(
+        default=False,
+        verbose_name=_('General conditions sent')
+    )
+
+    file = models.ManyToManyField(
+        ClientFile,
+        related_name='clients',
+        verbose_name=_('File')
     )
 
     def __str__(self):
