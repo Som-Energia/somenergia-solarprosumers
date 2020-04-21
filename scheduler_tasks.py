@@ -92,9 +92,11 @@ def send_email_tasks():
                 }
                 send_email(
                     engineering_email,
-                    campaign.name,
+                    render_to_string(
+                            'emails/message_subject.txt',
+                            {'campaign': campaign.name}
+                    ),
                     message_params,
-                    'emails/message_subject.txt',
                     'emails/message_body.html',
                 )
         if som_warning_final_payment:
@@ -107,9 +109,11 @@ def send_email_tasks():
             }
             send_email(
                 engineering_email,
-                campaign.name,
+                render_to_string(
+                    'emails/message_subject.txt',
+                    {'campaign': campaign.name}
+                ),
                 message_params,
-                'emails/message_subject.txt',
                 'emails/message_body.html',
             )
         if som_warning_warranty:
@@ -128,9 +132,12 @@ def send_email_tasks():
             }
             send_email(
                 engineering_email,
+                render_to_string(
+                    'emails/message_subject.txt',
+                    {'campaign': campaign.name}
+                ),
                 campaign.name,
                 message_params,
-                'emails/message_subject.txt',
                 'emails/message_body.html',
             )
         logger.info("Emails sent to engineerings.")
@@ -144,12 +151,11 @@ def send_email_summary(toSomEnergia):
         if not toSomEnergia:
             local_group_info = LocalGroup.objects.filter(
                 campaigns__name=campaign.name
-                ).values('email', 'language')
+            ).values('email', 'language')
             email = [lg['email'] for lg in local_group_info]
             languages = [lg['language'] for lg in local_group_info][0]
         else:
             email = BCC
-        print('email',email)
         projects = Project.objects.filter(
             campaign=campaign).exclude(status='discarded')
         with override(languages):
@@ -170,23 +176,25 @@ def send_email_summary(toSomEnergia):
                 'ending': _('Salut i bona energia!'),
             }
             if toSomEnergia:
-                message_params['result'].update({_('Deposit'):[{'name':'To do', 'value':0}]})
+                message_params['result'].update(
+                    {
+                        _('Deposit'): [{'name': 'To do', 'value': 0}]
+                    }
+                )
             send_email(
                 list(set(email)),
-                campaign.name,
+                render_to_string(
+                    'emails/message_summary_subject.txt',
+                    {'campaign': campaign.name}
+                ),
                 message_params,
-                'emails/message_summary_subject.txt',
                 'emails/message_summary_body.html',
             )
 
 
-def send_email(to_email, subject, message_params, email_subject, email_template):
+def send_email(to_email, subject, message_params, email_template, filename=False):
     to_email = to_email
     logger.info(to_email)
-    subject = render_to_string(
-        email_subject,
-        {'campaign': subject}
-    )
     html_body = render_to_string(
         email_template,
         message_params
@@ -196,8 +204,10 @@ def send_email(to_email, subject, message_params, email_subject, email_template)
         html_body,
         '',
         to_email,
-        BCC
+        BCC,
     )
+    if filename:
+        msg.attach_file(filename)
     msg.content_subtype = "html"
     msg.send()
 
