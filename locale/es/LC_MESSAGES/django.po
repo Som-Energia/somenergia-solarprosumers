@@ -8,10 +8,11 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-19 16:43+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2020-04-23 07:28+0000\n"
+"Last-Translator: Carol Coll Marques <carol.coll@somenergia.coop>\n"
+"Language-Team: Spanish <http://traduccio.somenergia.coop/projects/som-solet/"
+"somsolet/es/>\n"
+"Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -20,23 +21,23 @@ msgstr ""
 
 #: config/settings/base.py:109
 msgid "English"
-msgstr ""
+msgstr "Inglés"
 
 #: config/settings/base.py:110 somsolet/choices_options.py:146
 msgid "Catalan"
-msgstr ""
+msgstr "Catalán"
 
 #: config/settings/base.py:111 somsolet/choices_options.py:145
 msgid "Spanish"
-msgstr ""
+msgstr "Castellano"
 
 #: config/settings/base.py:112
 msgid "Basque"
-msgstr ""
+msgstr "Euskera"
 
 #: config/settings/base.py:113 somsolet/choices_options.py:147
 msgid "Galician"
-msgstr ""
+msgstr "Gallego"
 
 #: scheduler_tasks.py:45 scheduler_tasks.py:61 scheduler_tasks.py:82
 msgid "Hola {},"
@@ -57,6 +58,9 @@ msgid ""
 "en contacte amb nosaltres per intentar solucionar l'inconvenient dels casos "
 "concrets."
 msgstr ""
+"Os pedimos que gestionéis los diferentes avisos lo antes posible. Si tenéis "
+"alguna incidencia que lo impida, por favor, contactad con nosotros para "
+"intentar solucionar la situación de cada caso concreto."
 
 #: scheduler_tasks.py:49
 msgid "Salut i fins aviat,"
@@ -70,7 +74,7 @@ msgstr ""
 
 #: scheduler_tasks.py:63 somsolet/models.py:454
 msgid "Project"
-msgstr ""
+msgstr "Proyecto"
 
 #: scheduler_tasks.py:64 scheduler_tasks.py:85
 msgid "Gràcies i fins aviat,"
