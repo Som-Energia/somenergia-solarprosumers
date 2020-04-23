@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-19 16:43+0200\n"
-"PO-Revision-Date: 2020-04-23 07:28+0000\n"
+"PO-Revision-Date: 2020-04-25 07:28+0000\n"
 "Last-Translator: Carol Coll Marques <carol.coll@somenergia.coop>\n"
 "Language-Team: Spanish <http://traduccio.somenergia.coop/projects/som-solet/"
 "somsolet/es/>\n"
@@ -71,6 +71,8 @@ msgid ""
 "Us recordem que caldria omplir la informació al document de 'fitxa tècnica' "
 "referent a cada una de les instal·lacions."
 msgstr ""
+"Os recordamos que es necesario cumplimentar la información en el documento "
+"de la ficha técnica de cada una de las instalaciones."
 
 #: scheduler_tasks.py:63 somsolet/models.py:454
 msgid "Project"
@@ -86,6 +88,9 @@ msgid ""
 "campanya us demanem que ens feu arribar un rebut a l'adreça "
 "compres@somenergia.coop indicant el número de compte on fer la transferència."
 msgstr ""
+"Para poder hacer la devolución del depósito de garantía abonado al inicio de "
+"la campaña, os pedimos que nos enviéis el recibo correspondiente a compres@"
+"somenergia.coop indicando el número de cuenta para realizar la transferencia."
 
 #: scheduler_tasks.py:84 somsolet/models.py:178 somsolet/models.py:246
 #: somsolet/models.py:461 somsolet/tables.py:14
@@ -110,7 +115,7 @@ msgstr "COntratos firmados"
 
 #: scheduler_tasks.py:119
 msgid "Construction Permits"
-msgstr ""
+msgstr "Permiso de obras"
 
 #: scheduler_tasks.py:120
 msgid "Installations"
@@ -118,11 +123,11 @@ msgstr "Instalaciones"
 
 #: scheduler_tasks.py:121
 msgid "legalization"
-msgstr ""
+msgstr "Legalización"
 
 #: scheduler_tasks.py:122
 msgid "Discarded inscriptions"
-msgstr ""
+msgstr "Inscripciones descartadas"
 
 #: scheduler_tasks.py:125
 msgid "Hola,"
@@ -133,6 +138,8 @@ msgid ""
 "El SomSolet de Som Energia us envia un breu informe de l’estat de la compra "
 "col·lectiva {}"
 msgstr ""
+"El Som Solet de Som Energia os envía el informe del estado de situación de "
+"la compra colectiva  {}"
 
 #: scheduler_tasks.py:127
 msgid ""
@@ -148,7 +155,7 @@ msgstr "Salud y buena energía!"
 
 #: scheduler_tasks.py:131
 msgid "Deposit"
-msgstr ""
+msgstr "Fianza"
 
 #: scheduler_tasks.py:365
 msgid "Summary date"
@@ -182,7 +189,7 @@ msgstr "Pre-informe"
 
 #: scheduler_tasks.py:391 scheduler_tasks.py:564 scheduler_tasks.py:582
 msgid "Maximum overdue days"
-msgstr ""
+msgstr "Máximo de días de retraso"
 
 #: scheduler_tasks.py:406
 #, fuzzy
@@ -214,7 +221,7 @@ msgstr "Máximo días atraso:"
 
 #: scheduler_tasks.py:441
 msgid "Submitted Offers"
-msgstr ""
+msgstr "Ofertas presentadas"
 
 #: scheduler_tasks.py:449
 msgid "Signature Pending Contracts"
@@ -262,7 +269,7 @@ msgstr "Instalaciones legalizadas"
 
 #: scheduler_tasks.py:560 scheduler_tasks.py:578
 msgid "Overdue pending registration"
-msgstr ""
+msgstr "Casos retrasados pendientes de registro"
 
 #: scheduler_tasks.py:595
 #, fuzzy
@@ -276,27 +283,27 @@ msgstr "Voluntarias"
 
 #: somsolet/choices_options.py:3
 msgid "Initial"
-msgstr ""
+msgstr "Inicial"
 
 #: somsolet/choices_options.py:4
 msgid "Pre-Registered"
-msgstr ""
+msgstr "Pre-registro"
 
 #: somsolet/choices_options.py:5
 msgid "Registered"
-msgstr ""
+msgstr "Registrado"
 
 #: somsolet/choices_options.py:6
 msgid "CCH data downloaded for analysis"
-msgstr ""
+msgstr "Curvas horarias descargadas"
 
 #: somsolet/choices_options.py:7
 msgid "Technical visit scheduled"
-msgstr ""
+msgstr "Visita técnica programada"
 
 #: somsolet/choices_options.py:8
 msgid "Pre-Report review"
-msgstr ""
+msgstr "Revisión del pre-informe"
 
 #: somsolet/choices_options.py:9
 msgid "Pre-Report uploaded"
