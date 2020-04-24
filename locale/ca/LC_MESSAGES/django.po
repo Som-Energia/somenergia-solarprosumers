@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-19 16:43+0200\n"
-"PO-Revision-Date: 2020-04-23 13:49+0000\n"
-"Last-Translator: Carol Coll Marques <carol.coll@somenergia.coop>\n"
+"PO-Revision-Date: 2020-04-25 07:28+0000\n"
+"Last-Translator: Joana Figueira <joana.figueira@somenergia.coop>\n"
 "Language-Team: Catalan <http://traduccio.somenergia.coop/projects/som-solet/"
 "somsolet/ca/>\n"
 "Language: ca\n"
@@ -288,7 +288,7 @@ msgstr "Revisió del preinforme"
 
 #: somsolet/choices_options.py:9
 msgid "Pre-Report uploaded"
-msgstr "Preinforme pujat"
+msgstr "Preinforme enviat"
 
 #: somsolet/choices_options.py:10
 msgid "Report review"
