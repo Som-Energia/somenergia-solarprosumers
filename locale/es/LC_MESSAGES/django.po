@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-19 16:43+0200\n"
-"PO-Revision-Date: 2020-04-25 07:28+0000\n"
+"PO-Revision-Date: 2020-04-28 07:29+0000\n"
 "Last-Translator: Carol Coll Marques <carol.coll@somenergia.coop>\n"
 "Language-Team: Spanish <http://traduccio.somenergia.coop/projects/som-solet/"
 "somsolet/es/>\n"
@@ -307,212 +307,212 @@ msgstr "Revisión del pre-informe"
 
 #: somsolet/choices_options.py:9
 msgid "Pre-Report uploaded"
-msgstr ""
+msgstr "Preinforme enviado"
 
 #: somsolet/choices_options.py:10
 msgid "Report review"
-msgstr ""
+msgstr "Revisión del informe"
 
 #: somsolet/choices_options.py:11
 msgid "Report uploaded"
-msgstr ""
+msgstr "Informe enviado"
 
 #: somsolet/choices_options.py:12
 msgid "Engeneering offer"
-msgstr ""
+msgstr "Oferta de ingeniería"
 
 #: somsolet/choices_options.py:13
 msgid "offer Review"
-msgstr ""
+msgstr "Revisión de la oferta"
 
 #: somsolet/choices_options.py:14
 msgid "Contract signature"
-msgstr ""
+msgstr "Firma del contrato"
 
 #: somsolet/choices_options.py:15
 msgid "Construction permit"
-msgstr ""
+msgstr "Permiso de obras"
 
 #: somsolet/choices_options.py:16
 msgid "Pending installation date"
-msgstr ""
+msgstr "Pendiente de la fecha de inicio de las obras"
 
 #: somsolet/choices_options.py:17
 msgid "Date installation set"
-msgstr ""
+msgstr "Fecha de obras definida"
 
 #: somsolet/choices_options.py:18
 msgid "Installation in progress"
-msgstr ""
+msgstr "Ejecución de obras"
 
 #: somsolet/choices_options.py:19
 msgid "End installation"
-msgstr ""
+msgstr "Instalación finalizada"
 
 #: somsolet/choices_options.py:20
 #: somsolet/templates/somsolet/legal_registration.html:9
 msgid "Legal Registration"
-msgstr ""
+msgstr "Registro de legalización"
 
 #: somsolet/choices_options.py:21
 #: somsolet/templates/somsolet/legalization.html:9
 msgid "Legalization"
-msgstr ""
+msgstr "Legalización"
 
 #: somsolet/choices_options.py:22
 msgid "Final payment"
-msgstr ""
+msgstr "Pago final"
 
 #: somsolet/choices_options.py:23
 msgid "Warranty payment"
-msgstr ""
+msgstr "Pago de la garantía"
 
 #: somsolet/choices_options.py:24
 msgid "Discarded"
-msgstr ""
+msgstr "Descartado"
 
 #: somsolet/choices_options.py:27 somsolet/choices_options.py:42
 #: somsolet/choices_options.py:47 somsolet/choices_options.py:69
 #: somsolet/choices_options.py:103 somsolet/choices_options.py:109
 #: somsolet/choices_options.py:124 somsolet/choices_options.py:129
 msgid "---"
-msgstr ""
+msgstr "---"
 
 #: somsolet/choices_options.py:28
 msgid "Warning: Not payed"
-msgstr ""
+msgstr "Aviso: impago"
 
 #: somsolet/choices_options.py:29
 msgid "Warning: Waiting for prereport"
-msgstr ""
+msgstr "Aviso: preinforme pendiente"
 
 #: somsolet/choices_options.py:30
 msgid "Warning: Waiting for technical visit"
-msgstr ""
+msgstr "Aviso: visita técnica pendiente"
 
 #: somsolet/choices_options.py:31
 msgid "Warning: Waiting for report"
-msgstr ""
+msgstr "Aviso: informe pendiente"
 
 #: somsolet/choices_options.py:32
 msgid "Warning: Waiting for offer"
-msgstr ""
+msgstr "Aviso: oferta pendiente"
 
 #: somsolet/choices_options.py:33
 msgid "Warning: Waiting for signature"
-msgstr ""
+msgstr "Aviso: firma pendiente"
 
 #: somsolet/choices_options.py:34
 msgid "Warning: Waiting for installation date"
-msgstr ""
+msgstr "Aviso: fecha de ejecución de la instalación pendiente"
 
 #: somsolet/choices_options.py:35
 msgid "Warning: Installation deadline has passed"
-msgstr ""
+msgstr "Aviso: superada la fecha límite de ejecución de las obras"
 
 #: somsolet/choices_options.py:36
 msgid "Warning: Pending registration reciept"
-msgstr ""
+msgstr "Aviso: pendiente del recibo de registro"
 
 #: somsolet/choices_options.py:37
 msgid "Warning: Waiting for legalization certificates"
-msgstr ""
+msgstr "Aviso: pendiente del certificado de legalización"
 
 #: somsolet/choices_options.py:38
 msgid "Warning: Pending engeneering payment"
-msgstr ""
+msgstr "Aviso: pago pendiente"
 
 #: somsolet/choices_options.py:39
 msgid "Warning: Pending warranty payment"
-msgstr ""
+msgstr "Aviso: pendiente del pago de la fianza"
 
 #: somsolet/choices_options.py:43
 msgid "technical"
-msgstr ""
+msgstr "técnico"
 
 #: somsolet/choices_options.py:44
 msgid "voluntary"
-msgstr ""
+msgstr "voluntario"
 
 #: somsolet/choices_options.py:48
 msgid "Andalucía"
-msgstr ""
+msgstr "Andalucía"
 
 #: somsolet/choices_options.py:49
 msgid "Aragón"
-msgstr ""
+msgstr "Aragón"
 
 #: somsolet/choices_options.py:50
 msgid "Principado Asturias"
-msgstr ""
+msgstr "Asturias"
 
 #: somsolet/choices_options.py:51
 msgid "Islas Baleares"
-msgstr ""
+msgstr "Islas Baleares"
 
 #: somsolet/choices_options.py:52
 msgid "Canarias"
-msgstr ""
+msgstr "Canarias"
 
 #: somsolet/choices_options.py:53
 msgid "Cantabria"
-msgstr ""
+msgstr "Camtabria"
 
 #: somsolet/choices_options.py:54
 msgid "Castilla-La Mancha"
-msgstr ""
+msgstr "Castilla La Mancha"
 
 #: somsolet/choices_options.py:55
 msgid "Castila y León"
-msgstr ""
+msgstr "Castilla y León"
 
 #: somsolet/choices_options.py:56
 msgid "Cataluña"
-msgstr ""
+msgstr "Cataluña"
 
 #: somsolet/choices_options.py:57
 msgid "Ceuta"
-msgstr ""
+msgstr "Ceuta"
 
 #: somsolet/choices_options.py:58
 msgid "Extremadura"
-msgstr ""
+msgstr "Extremadura"
 
 #: somsolet/choices_options.py:59
 msgid "Galicia"
-msgstr ""
+msgstr "Galicia"
 
 #: somsolet/choices_options.py:60
 msgid "Comunidad Valenciana"
-msgstr ""
+msgstr "Comunidad Valenciana"
 
 #: somsolet/choices_options.py:61
 msgid "Communidad de Madrid"
-msgstr ""
+msgstr "Comunidad de Madrid"
 
 #: somsolet/choices_options.py:62
 msgid "Melilla"
-msgstr ""
+msgstr "Melilla"
 
 #: somsolet/choices_options.py:63
 msgid "Región de Murcia"
-msgstr ""
+msgstr "Región de Murcia"
 
 #: somsolet/choices_options.py:64
 msgid "Comunidad Foral de Navarra"
-msgstr ""
+msgstr "Comunidad Floral de Navarra"
 
 #: somsolet/choices_options.py:65
 msgid "La Rioja"
-msgstr ""
+msgstr "La Rioja"
 
 #: somsolet/choices_options.py:66
 msgid "País Vasco"
-msgstr ""
+msgstr "País Vasco"
 
 #: somsolet/choices_options.py:70
 msgid "North"
-msgstr ""
+msgstr "Norte"
 
 #: somsolet/choices_options.py:71
 msgid "North-northeast"
