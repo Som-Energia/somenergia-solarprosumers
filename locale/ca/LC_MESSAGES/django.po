@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-19 16:43+0200\n"
-"PO-Revision-Date: 2020-04-29 05:22+0000\n"
-"Last-Translator: Carol Coll Marques <carol.coll@somenergia.coop>\n"
+"PO-Revision-Date: 2020-04-29 05:24+0000\n"
+"Last-Translator: Manel Sastre Angulo <manel.sastre@somenergia.coop>\n"
 "Language-Team: Catalan <http://traduccio.somenergia.coop/projects/som-solet/"
 "somsolet/ca/>\n"
 "Language: ca\n"
@@ -797,7 +797,7 @@ msgstr "Informe visita tècnica invàlid?"
 
 #: somsolet/models.py:318
 msgid "Upload Report"
-msgstr "Informe enviat"
+msgstr "Informe visita tècnica enviat"
 
 #: somsolet/models.py:326
 msgid "Invalid Offer?"
@@ -805,7 +805,7 @@ msgstr "Oferta invàlida?"
 
 #: somsolet/models.py:334
 msgid "Upload Offer"
-msgstr "Oferta pujada"
+msgstr "Oferta enviada"
 
 #: somsolet/models.py:346
 msgid "Upload Signed Contract"
