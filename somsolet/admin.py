@@ -1,10 +1,19 @@
+import logging
+import os
+
+from config.settings import base
 from django.contrib import admin
+from django.utils.translation import gettext_lazy as _
+from django.utils.translation import override
 from import_export import fields, resources
 from import_export.admin import ImportExportModelAdmin
 from import_export.widgets import ForeignKeyWidget
+from scheduler_tasks import send_email
 
 from .models import (Campaign, Client, ClientFile, Engineering, LocalGroup,
                      Project, Technical_campaign, Technical_details)
+
+logger = logging.getLogger('admin')
 
 
 class ProjectResource(resources.ModelResource):
@@ -148,15 +157,41 @@ class ClientResource(resources.ModelResource):
     email = fields.Field(
         attribute='email',
         column_name='Correu electrònic')
+    language = fields.Field(
+        attribute='language',
+        column_name='Idioma')
 
     class Meta:
         model = Client
         import_id_fields = ('name', 'membership_number', 'dni')
-        exclude = ('id', )
+        exclude = ('id', 'sent_general_conditions', 'file')
 
     def before_import_row(self, row, **kwargs):
         row['Nom i cognoms'] = row['Nom i cognoms'].title()
         row['Número de DNI'] = row['Número de DNI'].upper()
+        row['Nom i cognoms'] = row['Nom i cognoms'].title()
+
+    def after_save_instance(self, instance, using_transactions=True, dry_run=False):
+        if not dry_run:
+            filename = ClientFile.objects.get(
+                name='General Conditions',
+                language=instance.language
+            )
+            with override(instance.language):
+                message_params = {
+                    'header': _("Hola {},").format(instance.name),
+                    'ending': _("Salut i bona energia,"),
+                }
+                send_email(
+                    [instance.email],
+                    _('Confirmació d’Inscripció a la Compra Col·lectiva Som Energia'),
+                    message_params,
+                    'emails/message_body_general_conditions.html',
+                    str(os.path.join(base.MEDIA_ROOT, str(filename.file)))
+                )
+                instance.sent_general_conditions = True
+                instance.save()
+                logger.info("General conditions email sent to imported clients")
 
 
 @admin.register(Client)
