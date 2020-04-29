@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-19 16:43+0200\n"
-"PO-Revision-Date: 2020-04-29 05:27+0000\n"
-"Last-Translator: Carol Coll Marques <carol.coll@somenergia.coop>\n"
+"PO-Revision-Date: 2020-04-30 06:28+0000\n"
+"Last-Translator: Manel Sastre Angulo <manel.sastre@somenergia.coop>\n"
 "Language-Team: Catalan <http://traduccio.somenergia.coop/projects/som-solet/"
 "somsolet/ca/>\n"
 "Language: ca\n"
@@ -825,7 +825,7 @@ msgstr "Certificat tramitació registre autoconsum pujat"
 
 #: somsolet/models.py:393
 msgid "Upload legal certificate"
-msgstr "Certificat de legalització enviat"
+msgstr "Certificat legalització completada pujat"
 
 #: somsolet/models.py:519
 msgid "Anual Consumption (kWh)"
@@ -833,19 +833,19 @@ msgstr "Consum anual (kWh)"
 
 #: somsolet/models.py:524
 msgid "Solar Panels"
-msgstr "Plaques fotovoltàiques"
+msgstr "Plaques Solars FV"
 
 #: somsolet/models.py:529
 msgid "Installation Power (kW)"
-msgstr "Potència instal·lada (kW)"
+msgstr "Potència instal·lada (kWp)"
 
 #: somsolet/models.py:599
 msgid "Batery Power (kW)"
-msgstr "Potència de la bateria (kW)"
+msgstr "Potència bateria (kW)"
 
 #: somsolet/models.py:604
 msgid "Batery Capacity (kWh)"
-msgstr "Capacitat d'emmagatzematge (kWh)"
+msgstr "Capacitat Bateria (kWh)"
 
 #: somsolet/models.py:623
 msgid "Shadow Optimizer (€)"
@@ -853,23 +853,23 @@ msgstr "Optimitzador d'ombres (€)"
 
 #: somsolet/models.py:628
 msgid "Panel Peak Power (Wp)"
-msgstr "Potència pic de la placa (Wp)"
+msgstr "Potència placa solar fv (Wp)"
 
 #: somsolet/models.py:658
 msgid "Nominal Inversor Power (Wn)"
-msgstr "Potència nominal de l'inversor (Wn)"
+msgstr "Potència nominal inversor (Wn)"
 
 #: somsolet/models.py:671
 msgid "Charger manager (€)"
-msgstr "Gestor de càrrega (€)"
+msgstr "Gestor de càrregues (€)"
 
 #: somsolet/models.py:684
 msgid "Electric Car Charger Power (kW)"
-msgstr "Potència del carregador de vehicle elèctric (kW)"
+msgstr "Potència carregador cotxe elèctric (kW)"
 
 #: somsolet/models.py:689
 msgid "Electric Car Charger (€)"
-msgstr "Carregador de vehicle elèctric (€)"
+msgstr "Carregador cotxe elèctric (€)"
 
 #: somsolet/static/html/bootstrap4-som.html:66
 msgid "previous"
@@ -889,7 +889,7 @@ msgstr "Preinforme"
 
 #: somsolet/tables.py:79
 msgid "Download CCH"
-msgstr "Descàrrega de corbes horàries"
+msgstr "Descàrrega CCH"
 
 #: somsolet/templates/emails/message_body.html:28
 msgid "Warning"
@@ -901,7 +901,7 @@ msgstr "Data"
 
 #: somsolet/templates/registration/login.html:6
 msgid "Your username and password didn't match. Please try again."
-msgstr "El nom d'usuari i clau d'accés no coincideixen. Torna-ho a intentar."
+msgstr "El nom d'usuari i clau de pas no coincideixen. Torna-ho a provar."
 
 #: somsolet/templates/registration/login.html:15
 msgid "Inicia sessió"
@@ -913,15 +913,15 @@ msgstr "Usuari"
 
 #: somsolet/templates/registration/login.html:21
 msgid "Password"
-msgstr "Clau d'accés"
+msgstr "Clau de pas"
 
 #: somsolet/templates/registration/login.html:27
 msgid "Lost password?"
-msgstr "T'has oblidat de la clau d'accés?"
+msgstr "Has oblidat la teva clau pas?"
 
 #: somsolet/templates/registration/password_reset_complete.html:6
 msgid "The password has been changed!"
-msgstr "S'ha canviat la clau d'accés!"
+msgstr "S'ha canviat la clau de pas!"
 
 #: somsolet/templates/registration/password_reset_complete.html:7
 msgid "Log in again?"
@@ -929,26 +929,26 @@ msgstr "Tornar a iniciar la sessió?"
 
 #: somsolet/templates/registration/password_reset_confirm.html:8
 msgid "Please enter (and confirm) your new password."
-msgstr "Introdueix (i confirma) la nova clau d'accés."
+msgstr "Introdueix (i confirma) la nova clau de pas."
 
 #: somsolet/templates/registration/password_reset_confirm.html:11
 msgid "New password"
-msgstr "Has oblidat de la clau d'accés?"
+msgstr "Nova clau de pas"
 
 #: somsolet/templates/registration/password_reset_confirm.html:14
 msgid "Confirm password"
-msgstr "Confirmació de la clau d'accés"
+msgstr "Confirma clau de pas"
 
 #: somsolet/templates/registration/password_reset_confirm.html:24
 msgid "Password reset failed"
-msgstr "El restabliment de la clau d'accés ha fallat."
+msgstr "El restabliment de la clau de pas ha fallat."
 
 #: somsolet/templates/registration/password_reset_confirm.html:25
 msgid ""
 "The password reset link was invalid, possibly because it has already been "
 "used. Please request a new password reset."
 msgstr ""
-"L’enllaç de restabliment de la clau d'accés no és vàlid, possiblement perquè "
+"L’enllaç de restabliment de la clau de pas no és vàlid, possiblement per què "
 "ja s’ha utilitzat. Sol·licita un nou enllaç."
 
 #: somsolet/templates/registration/password_reset_done.html:6
@@ -957,7 +957,7 @@ msgid ""
 "arrived in a few minutes, check your spam folder."
 msgstr ""
 "T'hem enviat un correu electrònic amb les instruccions per definir la clau "
-"d'accés. Pot trigar uns pocs minuts. Si no el reps, revisa la carpeta de "
+"de pas. Pot trigar uns pocs minuts. Si no el reps, revisa la carpeta de "
 "correu brossa."
 
 #: somsolet/templates/registration/password_reset_email.html:4
@@ -970,13 +970,12 @@ msgid ""
 "accediu o heu sol·licitat un restabliment de la contrasenya per al vostre "
 "compte d’usuari a "
 msgstr ""
-"Reps aquest correu electrònic perquè és la primera vegada que accedeixes o "
-"has sol·licitat un restabliment de la clau d'accés per al teu compte d’"
-"usuari a "
+"Has rebut aquest correu electrònic perquè és la primera vegada que "
+"accedeixes o has sol·licitat un restabliment de la clau de pas pel teu usuari"
 
 #: somsolet/templates/registration/password_reset_email.html:8
 msgid "Prem el següent enllaç per activar l'accés i triar la teva contrasenya:"
-msgstr "Prem el següent enllaç per establir la clau d'accés:"
+msgstr "Prem el següent enllaç per establir la clau de pas:"
 
 #: somsolet/templates/registration/password_reset_email.html:12
 msgid "Recordeu que el vostre nom d’usuari d’inici de sessió és: "
@@ -1008,7 +1007,7 @@ msgstr "Correu electrònic"
 
 #: somsolet/templates/somsolet/client_detail.html:24
 msgid "Membership number"
-msgstr "Nombre d'usuari"
+msgstr "Codi d'usuari"
 
 #: somsolet/templates/somsolet/client_detail.html:28
 msgid "Phone number"
@@ -1020,7 +1019,7 @@ msgstr "Anterior"
 
 #: somsolet/templates/somsolet/construction_permit.html:9
 msgid "Construction Permit"
-msgstr "Permís d'obra"
+msgstr "Llicència d'obra"
 
 #: somsolet/templates/somsolet/delivery_certificate.html:9
 msgid "Delivery Certificate"
@@ -1048,7 +1047,7 @@ msgstr "Obert"
 
 #: somsolet/templates/somsolet/report.html:9
 msgid "Report"
-msgstr "Informe"
+msgstr "Informe visita tècnica"
 
 #: somsolet/templates/somsolet/signed_contract.html:9
 msgid "Contract"
