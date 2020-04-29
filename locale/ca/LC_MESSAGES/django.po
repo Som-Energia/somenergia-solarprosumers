@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-19 16:43+0200\n"
 "PO-Revision-Date: 2020-04-29 05:25+0000\n"
-"Last-Translator: Manel Sastre Angulo <manel.sastre@somenergia.coop>\n"
+"Last-Translator: Carol Coll Marques <carol.coll@somenergia.coop>\n"
 "Language-Team: Catalan <http://traduccio.somenergia.coop/projects/som-solet/"
 "somsolet/ca/>\n"
 "Language: ca\n"
@@ -817,7 +817,7 @@ msgstr "Llicència d'obra pujada"
 
 #: somsolet/models.py:375
 msgid "Upload delivery certificate"
-msgstr "Acta de recepció signada i enviada"
+msgstr "Certificat de lliurament enviat"
 
 #: somsolet/models.py:384
 msgid "Upload legal registration certificate"
