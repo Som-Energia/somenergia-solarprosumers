@@ -9,7 +9,7 @@ ITEM_STATUS = (
               ('prereport', _('Pre-Report uploaded')),
               ('report review', _('Report review')),
               ('report', _('Report uploaded')),
-              ('offer', _('Engeneering offer')),
+              ('offer', _('Engineering offer')),
               ('offer review', _('offer Review')),
               ('signature', _('Contract signature')),
               ('construction permit', _('Construction permit')),
@@ -35,7 +35,7 @@ ITEM_WARNINGS = (
                 ('finish installation', _('Warning: Installation deadline has passed')),
                 ('legal registration', _('Warning: Pending registration reciept')),
                 ('legalization', _('Warning: Waiting for legalization certificates')),
-                ('final payment', _('Warning: Pending engeneering payment')),
+                ('final payment', _('Warning: Pending engineering payment')),
                 ('warranty payment', _('Warning: Pending warranty payment')),)
 
 ITEM_DISCARDED_TYPES = (
