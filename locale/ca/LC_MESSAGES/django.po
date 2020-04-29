@@ -797,7 +797,7 @@ msgstr "Informe visita tècnica invàlid?"
 
 #: somsolet/models.py:318
 msgid "Upload Report"
-msgstr "Informe visita tècnica enviat"
+msgstr "Informe enviat"
 
 #: somsolet/models.py:326
 msgid "Invalid Offer?"
