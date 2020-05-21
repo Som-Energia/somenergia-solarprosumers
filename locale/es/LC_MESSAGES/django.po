@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-05-20 17:06+0200\n"
-"PO-Revision-Date: 2020-04-30 06:28+0000\n"
+"PO-Revision-Date: 2020-05-22 08:28+0000\n"
 "Last-Translator: Manel Sastre Angulo <manel.sastre@somenergia.coop>\n"
 "Language-Team: Spanish <http://traduccio.somenergia.coop/projects/som-solet/"
 "somsolet/es/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.11.3\n"
+"X-Generator: Weblate 4.0.4\n"
 
 #: config/settings/base.py:109
 msgid "English"
@@ -45,8 +45,9 @@ msgid "Hola {},"
 msgstr "Hola {},"
 
 #: scheduler_tasks.py:50
+#, fuzzy
 msgid "SOM SOLET us fa arribar els WARNINGS! d’aquesta setmana:"
-msgstr "SOM SOLET os hace llegar els WARNINGS! de esta semana:"
+msgstr "SOM SOLET os hace llegar los WARNINGS! de esta semana:"
 
 #: scheduler_tasks.py:51
 msgid "Instalació"
@@ -104,7 +105,7 @@ msgstr "Campaña"
 #, fuzzy
 #| msgid "Prereport"
 msgid "Prereports"
-msgstr "Pre-informe"
+msgstr "Preinforme"
 
 #: scheduler_tasks.py:127
 #, fuzzy
@@ -145,11 +146,12 @@ msgstr ""
 "la compra colectiva  {}"
 
 #: scheduler_tasks.py:137
+#, fuzzy
 msgid ""
 "Per qualsevol dubte o aportació podeu fer un correu electrònic a "
 "auto@somenergia.coop"
 msgstr ""
-"Para cualquier duda o aportación puede hacer un correo electrónico a "
+"Para cualquier duda o aportación puedes hacer un correo electrónico a "
 "auto@somenergia.coop"
 
 #: scheduler_tasks.py:138
