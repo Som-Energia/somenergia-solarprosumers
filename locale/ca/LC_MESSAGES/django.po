@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-05-20 17:06+0200\n"
-"PO-Revision-Date: 2020-05-22 08:28+0000\n"
+"PO-Revision-Date: 2020-05-25 14:43+0000\n"
 "Last-Translator: Manel Sastre Angulo <manel.sastre@somenergia.coop>\n"
 "Language-Team: Catalan <http://traduccio.somenergia.coop/projects/som-solet/"
 "somsolet/ca/>\n"
@@ -46,7 +46,7 @@ msgstr "Hola {},"
 
 #: scheduler_tasks.py:50
 msgid "SOM SOLET us fa arribar els WARNINGS! d’aquesta setmana:"
-msgstr "SOM SOLET us fa arribar els AVISOS! d’aquesta setmana:"
+msgstr "SOM SOLET us fa arribar les ALARMES! d’aquesta setmana:"
 
 #: scheduler_tasks.py:51
 msgid "Instalació"
@@ -59,7 +59,7 @@ msgid ""
 "en contacte amb nosaltres per intentar solucionar l'inconvenient dels casos "
 "concrets."
 msgstr ""
-"Us demanem que atengueu els diferents avisos el més aviat possible. Si us "
+"Us demanem que atengueu les diferents ALARMES! el més aviat possible. Si us "
 "trobeu davant d’alguna incidència que us ho impedeixi, poseu-vos, si us "
 "plau, en contacte amb nosaltres per intentar solucionar l'inconvenient quan "
 "abans millor."
@@ -394,29 +394,27 @@ msgstr "Avís: contracte pendent de signar"
 
 #: somsolet/choices_options.py:34
 msgid "Warning: Waiting for installation date"
-msgstr "Avís: pendent programar data d'obra"
+msgstr "Alarma! Pendent programar data d'obra"
 
 #: somsolet/choices_options.py:35
 msgid "Warning: Installation deadline has passed"
-msgstr "Avís: superada la data límit d'execució d'obra"
+msgstr "Alarma! Superada la data límit d'execució d'obra"
 
 #: somsolet/choices_options.py:36
 msgid "Warning: Pending registration reciept"
-msgstr "Avís: pendent del rebut de registre"
+msgstr "Alarma! Pendent del certificat del registre"
 
 #: somsolet/choices_options.py:37
 msgid "Warning: Waiting for legalization certificates"
-msgstr "Avís: pendent certificat de legalització"
+msgstr "Alarma! Pendent certificat de legalització"
 
 #: somsolet/choices_options.py:38
-#, fuzzy
-#| msgid "Warning: Pending engeneering payment"
 msgid "Warning: Pending engineering payment"
-msgstr "Avís: pendent pagament enginyeria"
+msgstr "Alarma! Pendent pagament enginyeria"
 
 #: somsolet/choices_options.py:39
 msgid "Warning: Pending warranty payment"
-msgstr "Avís: pendent retorn de la garantia"
+msgstr "Alarma! Pendent retorn de la garantia"
 
 #: somsolet/choices_options.py:43
 msgid "technical"
@@ -688,7 +686,7 @@ msgstr "--- Estat ---"
 
 #: somsolet/filters.py:20
 msgid "--- Warning ---"
-msgstr "--- Avís ---"
+msgstr "--- Alarma! ---"
 
 #: somsolet/forms.py:32
 msgid "campaign"
@@ -708,7 +706,7 @@ msgstr "estat"
 
 #: somsolet/forms.py:50
 msgid "warning"
-msgstr "avís"
+msgstr "alarma!"
 
 #: somsolet/forms.py:53
 msgid "is_cch_downloaded"
@@ -879,11 +877,11 @@ msgstr "sense estat"
 
 #: somsolet/models.py:364
 msgid "No Warn"
-msgstr "Sense avisos"
+msgstr "Sense ALARMES!"
 
 #: somsolet/models.py:370
 msgid "Warning date"
-msgstr "Data d'Avís"
+msgstr "Data d'Alarma!"
 
 #: somsolet/models.py:376
 msgid "Preregistration Date"
@@ -1239,7 +1237,7 @@ msgstr "Descàrrega CCH"
 
 #: somsolet/templates/emails/message_body.html:28
 msgid "Warning"
-msgstr "Avís"
+msgstr "Alarma!"
 
 #: somsolet/templates/emails/message_body.html:31
 msgid "Date"
