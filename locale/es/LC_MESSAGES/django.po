@@ -45,7 +45,6 @@ msgid "Hola {},"
 msgstr "Hola {},"
 
 #: scheduler_tasks.py:50
-#, fuzzy
 msgid "SOM SOLET us fa arribar els WARNINGS! d’aquesta setmana:"
 msgstr "SOM SOLET os hace llegar las ALARMAS de esta semana:"
 
@@ -54,7 +53,6 @@ msgid "Instalació"
 msgstr "Instalación"
 
 #: scheduler_tasks.py:52
-#, fuzzy
 msgid ""
 "Us demanem que atengueu als diferents avisos el més aviat possible. Si us "
 "trobeu davant d’alguna incidència que us ho impedeixi, poseu-vos, siusplau, "
@@ -102,14 +100,10 @@ msgid "Campaign"
 msgstr "Campaña"
 
 #: scheduler_tasks.py:126
-#, fuzzy
-#| msgid "Prereport"
 msgid "Prereports"
 msgstr "Preinforme"
 
 #: scheduler_tasks.py:127
-#, fuzzy
-#| msgid "Technical Visit"
 msgid "Technical Visits"
 msgstr "Visita Técnica"
 
@@ -146,7 +140,6 @@ msgstr ""
 "la compra colectiva  {}"
 
 #: scheduler_tasks.py:137
-#, fuzzy
 msgid ""
 "Per qualsevol dubte o aportació podeu fer un correu electrònic a "
 "auto@somenergia.coop"
@@ -187,25 +180,18 @@ msgid "Overdue Prereports"
 msgstr "Preinformes atrasados"
 
 #: scheduler_tasks.py:404 scheduler_tasks.py:577 scheduler_tasks.py:595
-#, fuzzy
 msgid "Maximum overdue days"
 msgstr "Días màximos de retraso"
 
 #: scheduler_tasks.py:419
-#, fuzzy
-#| msgid "Technical Visit"
 msgid "Technical Visits Pending"
 msgstr "Visitas técnicas pendientes"
 
 #: scheduler_tasks.py:423
-#, fuzzy
-#| msgid "Technical Visit"
 msgid "Technical Visits Calendarized"
 msgstr "Visitas técnicas programadas"
 
 #: scheduler_tasks.py:427
-#, fuzzy
-#| msgid "Technical Visit"
 msgid "Technical Visits Done"
 msgstr "Visitas técnicas realizadas"
 
@@ -226,7 +212,6 @@ msgid "Signature Pending Contracts"
 msgstr "Casos atrasados"
 
 #: scheduler_tasks.py:472
-#, fuzzy
 msgid "Overdue Signed Contracts"
 msgstr "Contratos para firmar atrasados"
 
@@ -259,7 +244,6 @@ msgid "Installations pending registration"
 msgstr "Instalaciones pendientes de ser registradas"
 
 #: scheduler_tasks.py:556
-#, fuzzy
 msgid "Registered installations pending approval"
 msgstr "Instalaciones legalización en trámite"
 
@@ -272,8 +256,6 @@ msgid "Overdue pending registration"
 msgstr "Casos retrasados pendientes de registro"
 
 #: scheduler_tasks.py:608
-#, fuzzy
-#| msgid "Technical Visit"
 msgid "Technical"
 msgstr "Técnicas"
 
@@ -282,8 +264,6 @@ msgid "Voluntary"
 msgstr "Voluntarias"
 
 #: somsolet/admin.py:183
-#, fuzzy
-#| msgid "Salut i bona energia!"
 msgid "Salut i bona energia,"
 msgstr "¡Salud y buena energía!"
 
@@ -312,7 +292,6 @@ msgid "Technical visit scheduled"
 msgstr "Visita técnica programada"
 
 #: somsolet/choices_options.py:8
-#, fuzzy
 msgid "Pre-Report review"
 msgstr "Revisión del preinforme"
 
@@ -321,28 +300,22 @@ msgid "Pre-Report uploaded"
 msgstr "Preinforme enviado"
 
 #: somsolet/choices_options.py:10
-#, fuzzy
 msgid "Report review"
 msgstr "Revisión informe visita tècnica"
 
 #: somsolet/choices_options.py:11
-#, fuzzy
 msgid "Report uploaded"
 msgstr "Informe visita técnica enviado"
 
 #: somsolet/choices_options.py:12
-#, fuzzy
-#| msgid "Engeneering offer"
 msgid "Engineering offer"
 msgstr "Oferta enviada"
 
 #: somsolet/choices_options.py:13
-#, fuzzy
 msgid "offer Review"
 msgstr "Revisión oferta"
 
 #: somsolet/choices_options.py:14
-#, fuzzy
 msgid "Contract signature"
 msgstr "Contrato llave en mano firmado"
 
@@ -351,7 +324,6 @@ msgid "Construction permit"
 msgstr "Permiso de obras"
 
 #: somsolet/choices_options.py:16
-#, fuzzy
 msgid "Pending installation date"
 msgstr "Pendiente programar fecha de obra"
 
@@ -360,24 +332,20 @@ msgid "Date installation set"
 msgstr "Fecha de obras definida"
 
 #: somsolet/choices_options.py:18
-#, fuzzy
 msgid "Installation in progress"
 msgstr "Obra en progreso"
 
 #: somsolet/choices_options.py:19
-#, fuzzy
 msgid "End installation"
 msgstr "Obra finalizada"
 
 #: somsolet/choices_options.py:20
 #: somsolet/templates/somsolet/legal_registration.html:9
-#, fuzzy
 msgid "Legal Registration"
 msgstr "Registro de legalización en progreso"
 
 #: somsolet/choices_options.py:21
 #: somsolet/templates/somsolet/legalization.html:9
-#, fuzzy
 msgid "Legalization"
 msgstr "Legalización completada"
 
@@ -409,53 +377,42 @@ msgid "Warning: Waiting for prereport"
 msgstr "¡Alarma! Preinforme pendiente"
 
 #: somsolet/choices_options.py:30
-#, fuzzy
 msgid "Warning: Waiting for technical visit"
 msgstr "Alarma: visita técnica pendiente"
 
 #: somsolet/choices_options.py:31
-#, fuzzy
 msgid "Warning: Waiting for report"
 msgstr "Alarma: informe visita técnica pendiente"
 
 #: somsolet/choices_options.py:32
-#, fuzzy
 msgid "Warning: Waiting for offer"
 msgstr "Alarma: envío oferta pendiente"
 
 #: somsolet/choices_options.py:33
-#, fuzzy
 msgid "Warning: Waiting for signature"
 msgstr "Alarma: contrato llave en mano pendiente de firmar"
 
 #: somsolet/choices_options.py:34
-#, fuzzy
 msgid "Warning: Waiting for installation date"
 msgstr "Alarma: pendiente programar fecha de obra"
 
 #: somsolet/choices_options.py:35
-#, fuzzy
 msgid "Warning: Installation deadline has passed"
 msgstr "Alarma: superada la fecha límite de finalización de obra"
 
 #: somsolet/choices_options.py:36
-#, fuzzy
 msgid "Warning: Pending registration reciept"
 msgstr "¡Alarma! Pendiente del recibo de registro"
 
 #: somsolet/choices_options.py:37
-#, fuzzy
 msgid "Warning: Waiting for legalization certificates"
 msgstr "Alarma: pendiente certificado de legalización"
 
 #: somsolet/choices_options.py:38
-#, fuzzy
-#| msgid "Warning: Pending engeneering payment"
 msgid "Warning: Pending engineering payment"
 msgstr "¡Alarma! Pago pendiente"
 
 #: somsolet/choices_options.py:39
-#, fuzzy
 msgid "Warning: Pending warranty payment"
 msgstr "Alarma: pendiente pago de la fianza"
 
@@ -532,7 +489,6 @@ msgid "Región de Murcia"
 msgstr "Región de Murcia"
 
 #: somsolet/choices_options.py:64
-#, fuzzy
 msgid "Comunidad Foral de Navarra"
 msgstr "Comunidad Foral de Navarra"
 
@@ -545,7 +501,6 @@ msgid "País Vasco"
 msgstr "País Vasco"
 
 #: somsolet/choices_options.py:70
-#, fuzzy
 msgid "North"
 msgstr "Norte (N)"
 
@@ -554,87 +509,70 @@ msgid "North-northeast"
 msgstr "Nornordeste (NNE)"
 
 #: somsolet/choices_options.py:72
-#, fuzzy
 msgid "Northeast"
 msgstr "Nordeste (NE)"
 
 #: somsolet/choices_options.py:73
-#, fuzzy
 msgid "East-northeast"
 msgstr "Estenordeste (ENE)"
 
 #: somsolet/choices_options.py:74
-#, fuzzy
 msgid "East"
 msgstr "Este (E)"
 
 #: somsolet/choices_options.py:75
-#, fuzzy
 msgid "East-southeast"
 msgstr "Estesudeste (ESE)"
 
 #: somsolet/choices_options.py:76
-#, fuzzy
 msgid "Southeast"
 msgstr "Sureste (SE)"
 
 #: somsolet/choices_options.py:77
-#, fuzzy
 msgid "South-southeast"
 msgstr "Sudsudeste (SSE)"
 
 #: somsolet/choices_options.py:78
-#, fuzzy
 msgid "South"
 msgstr "Sur (S)"
 
 #: somsolet/choices_options.py:79
-#, fuzzy
 msgid "South-southwest"
 msgstr "Sudsudoeste (SSO)"
 
 #: somsolet/choices_options.py:80
-#, fuzzy
 msgid "Southwest"
 msgstr "Sudoeste (SO)"
 
 #: somsolet/choices_options.py:81
-#, fuzzy
 msgid "West-southwest"
 msgstr "Oestesudoeste (OSO)"
 
 #: somsolet/choices_options.py:82
-#, fuzzy
 msgid "West"
 msgstr "Oeste (O)"
 
 #: somsolet/choices_options.py:83
-#, fuzzy
 msgid "West-northwest"
 msgstr "Oestenoroeste (ONO)"
 
 #: somsolet/choices_options.py:84
-#, fuzzy
 msgid "Northwest"
 msgstr "Noroeste (NO)"
 
 #: somsolet/choices_options.py:85
-#, fuzzy
 msgid "North-northwest"
 msgstr "Nornoroeste (NNO)"
 
 #: somsolet/choices_options.py:104
-#, fuzzy
 msgid "single-phase"
 msgstr "monofásico"
 
 #: somsolet/choices_options.py:105
-#, fuzzy
 msgid "two-phase"
 msgstr "bifásico"
 
 #: somsolet/choices_options.py:106
-#, fuzzy
 msgid "three-phase"
 msgstr "trifásico"
 
@@ -739,7 +677,6 @@ msgid "TESLA"
 msgstr "TESLA"
 
 #: somsolet/choices_options.py:148
-#, fuzzy
 msgid "Euskara"
 msgstr "Euskara"
 
@@ -748,13 +685,10 @@ msgid "--- Status ---"
 msgstr "--- Estado ---"
 
 #: somsolet/filters.py:20
-#, fuzzy
 msgid "--- Warning ---"
 msgstr "--- ¡Alarma! ---"
 
 #: somsolet/forms.py:32
-#, fuzzy
-#| msgid "Campaign"
 msgid "campaign"
 msgstr "campaña"
 
@@ -763,7 +697,6 @@ msgid "client"
 msgstr "Cliente"
 
 #: somsolet/forms.py:41
-#, fuzzy
 msgid "is_invalid_prereport"
 msgstr "preinforme inválido: descartado técnico"
 
@@ -772,7 +705,6 @@ msgid "status"
 msgstr "estado"
 
 #: somsolet/forms.py:50
-#, fuzzy
 msgid "warning"
 msgstr "¡Alarma!"
 
@@ -786,8 +718,6 @@ msgid "Name"
 msgstr "Nombre"
 
 #: somsolet/models.py:21 somsolet/models.py:77 somsolet/models.py:306
-#, fuzzy
-#| msgid "Phone number"
 msgid "Telephone number"
 msgstr "Teléfono"
 
@@ -834,7 +764,6 @@ msgid "Comments"
 msgstr "Comentarios"
 
 #: somsolet/models.py:131
-#, fuzzy
 msgid "Engineering"
 msgstr "Empresa instaladora"
 
@@ -851,8 +780,6 @@ msgid "date call for inscriptions"
 msgstr "Fecha apertura inscripciones"
 
 #: somsolet/models.py:153
-#, fuzzy
-#| msgid "Date inscriptions start"
 msgid "Date inscriptions closed"
 msgstr "Fecha cierre inscripciones"
 
@@ -885,7 +812,6 @@ msgid "Pending Warranty (€)"
 msgstr "Garantía pendiente (€)"
 
 #: somsolet/models.py:202
-#, fuzzy
 msgid "Payed Warranty (€)"
 msgstr "Garantía devuelta (€)"
 
@@ -898,22 +824,18 @@ msgid "Total Penalties (€)"
 msgstr "Sanciones totales (€)"
 
 #: somsolet/models.py:234
-#, fuzzy
 msgid "Monofasic Fixed Price (€)"
 msgstr "Precio fijo monofásico (€)"
 
 #: somsolet/models.py:240
-#, fuzzy
 msgid "Monofasic Variable Price (€/Wp)"
 msgstr "Precio variable monofásico (€/Wp)"
 
 #: somsolet/models.py:246
-#, fuzzy
 msgid "Trifasic Fixed Price (€)"
 msgstr "Precio fijo trifásico (€)"
 
 #: somsolet/models.py:252
-#, fuzzy
 msgid "Trifasic Variable Price (€/Wp)"
 msgstr "Precio variable trifásico (€/Wp)"
 
@@ -926,7 +848,6 @@ msgid "Upload general conditions"
 msgstr "Condiciones generales cargadas"
 
 #: somsolet/models.py:294 somsolet/templates/somsolet/client_detail.html:24
-#, fuzzy
 msgid "Membership number"
 msgstr "Código de usuario"
 
@@ -951,17 +872,14 @@ msgid "Client"
 msgstr "Cliente"
 
 #: somsolet/models.py:359
-#, fuzzy
 msgid "empty status"
 msgstr "Sin estado"
 
 #: somsolet/models.py:364
-#, fuzzy
 msgid "No Warn"
 msgstr "Sin ¡Alarmas!"
 
 #: somsolet/models.py:370
-#, fuzzy
 msgid "Warning date"
 msgstr "Fecha de Alarma"
 
@@ -974,8 +892,6 @@ msgid "Payed Preregistration"
 msgstr "Paga y señal pagada"
 
 #: somsolet/models.py:385
-#, fuzzy
-#| msgid "Preregistration Date"
 msgid "Registration date"
 msgstr "Fecha de registro"
 
@@ -996,7 +912,6 @@ msgid "Invalid Prereport?"
 msgstr "Preinforme: descartado técnico?"
 
 #: somsolet/models.py:412
-#, fuzzy
 msgid "Upload Prereport"
 msgstr "Preinforme entregado"
 
@@ -1009,12 +924,10 @@ msgid "Date report"
 msgstr "Fecha informe"
 
 #: somsolet/models.py:429
-#, fuzzy
 msgid "Invalid Report?"
 msgstr "¿Informe visita técnica inválido?"
 
 #: somsolet/models.py:434
-#, fuzzy
 msgid "Upload Report"
 msgstr "Informe visita técnica entregado"
 
@@ -1031,7 +944,6 @@ msgid "Offer accepted?"
 msgstr "¿Oferta aceptada?"
 
 #: somsolet/models.py:455
-#, fuzzy
 msgid "Upload Offer"
 msgstr "Oferta entregada"
 
@@ -1044,7 +956,6 @@ msgid "Signed contract?"
 msgstr "Contratos firmados"
 
 #: somsolet/models.py:471
-#, fuzzy
 msgid "Upload Signed Contract"
 msgstr "Contrato firmado entregado"
 
@@ -1053,7 +964,6 @@ msgid "Date permit"
 msgstr "Fecha tramitación permiso de obra"
 
 #: somsolet/models.py:482
-#, fuzzy
 msgid "Upload Permit"
 msgstr "Permiso de obra tramitado"
 
@@ -1062,8 +972,6 @@ msgid "Discarded type"
 msgstr "Tipo de descartado"
 
 #: somsolet/models.py:494
-#, fuzzy
-#| msgid "Date installation set"
 msgid "Date start installation"
 msgstr "Fecha de inicio de obra"
 
@@ -1076,32 +984,26 @@ msgid "Installation in progress?"
 msgstr "¿Obra en progreso?"
 
 #: somsolet/models.py:510
-#, fuzzy
 msgid "Upload delivery certificate"
 msgstr "Acta de recepción firmada y entregada"
 
 #: somsolet/models.py:515
-#, fuzzy
 msgid "Date delivery certificate"
 msgstr "Fecha acta de recepción firmada"
 
 #: somsolet/models.py:521
-#, fuzzy
 msgid "Upload legal registration certificate"
 msgstr "Certificado legalización en trámite"
 
 #: somsolet/models.py:526
-#, fuzzy
 msgid "Date legal registration certificate"
 msgstr "Fecha certificado legalización en trámite"
 
 #: somsolet/models.py:532
-#, fuzzy
 msgid "Upload legal certificate"
 msgstr "Certificado legalización completada entregado"
 
 #: somsolet/models.py:537
-#, fuzzy
 msgid "Date legal certificate"
 msgstr "Fecha certificado legalización completada"
 
@@ -1150,7 +1052,6 @@ msgid "Roof orientation"
 msgstr "Orientación cubierta"
 
 #: somsolet/models.py:640
-#, fuzzy
 msgid "Solar models angle"
 msgstr "Ángulo placas solares"
 
@@ -1167,12 +1068,10 @@ msgid "Anual Consumption (kWh)"
 msgstr "Consumo anual (kWh)"
 
 #: somsolet/models.py:663
-#, fuzzy
 msgid "Solar Panels"
 msgstr "Paneles Solares FV"
 
 #: somsolet/models.py:668
-#, fuzzy
 msgid "Installation Power (kW)"
 msgstr "Potencia instalada (kWp)"
 
@@ -1237,17 +1136,14 @@ msgid "batery model"
 msgstr "Modelo batería"
 
 #: somsolet/models.py:760
-#, fuzzy
 msgid "Batery Power (kW)"
 msgstr "Potencia de la batería (kW)"
 
 #: somsolet/models.py:765
-#, fuzzy
 msgid "Batery Capacity (kWh)"
 msgstr "Capacidad batería (kWh)"
 
 #: somsolet/models.py:770
-#, fuzzy
 msgid "Batery (€)"
 msgstr "Batería (€)"
 
@@ -1264,7 +1160,6 @@ msgid "Shadow Optimizer (€)"
 msgstr "Optimizador de sombras (€)"
 
 #: somsolet/models.py:793
-#, fuzzy
 msgid "Panel Peak Power (Wp)"
 msgstr "Potencia pico panel solar (Wp)"
 
@@ -1289,7 +1184,6 @@ msgid "Inversor model"
 msgstr "Modelo inversor"
 
 #: somsolet/models.py:831
-#, fuzzy
 msgid "Nominal Inversor Power (Wn)"
 msgstr "Potencia nominal inversor (Wn)"
 
@@ -1302,7 +1196,6 @@ msgid "Charger manager model"
 msgstr "Modelo gestor de carga"
 
 #: somsolet/models.py:848
-#, fuzzy
 msgid "Charger manager (€)"
 msgstr "Gestor de carga (€)"
 
@@ -1315,12 +1208,10 @@ msgid "Electric car charger model"
 msgstr "Modelo cargador coche eléctrico"
 
 #: somsolet/models.py:865
-#, fuzzy
 msgid "Electric Car Charger Power (kW)"
 msgstr "Potencia cargador coche eléctrico (kW)"
 
 #: somsolet/models.py:870
-#, fuzzy
 msgid "Electric Car Charger (€)"
 msgstr "Cargador coche eléctrico (€)"
 
@@ -1345,7 +1236,6 @@ msgid "Download CCH"
 msgstr "Descarga CCH"
 
 #: somsolet/templates/emails/message_body.html:28
-#, fuzzy
 msgid "Warning"
 msgstr "¡Alarma!"
 
@@ -1434,7 +1324,6 @@ msgid "L'equip de Som Energia"
 msgstr "El equipo de Som Energia"
 
 #: somsolet/templates/registration/login.html:6
-#, fuzzy
 msgid "Your username and password didn't match. Please try again."
 msgstr "El nombre de usuario y contraseña no coinciden. Vuelve a intentarlo."
 
@@ -1443,8 +1332,6 @@ msgid "Inicia sessió"
 msgstr "Iniciar sesión"
 
 #: somsolet/templates/registration/login.html:21
-#, fuzzy
-#| msgid "Lost password?"
 msgid "Password"
 msgstr "Contraseña"
 
@@ -1453,7 +1340,6 @@ msgid "Lost password?"
 msgstr "¿Has olvidado tu contraseña?"
 
 #: somsolet/templates/registration/password_reset_complete.html:6
-#, fuzzy
 msgid "The password has been changed!"
 msgstr "Has cambiado tu contraseña."
 
@@ -1462,29 +1348,22 @@ msgid "Log in again?"
 msgstr "¿Quieres volver a iniciar la sesión?"
 
 #: somsolet/templates/registration/password_reset_confirm.html:8
-#, fuzzy
 msgid "Please enter (and confirm) your new password."
 msgstr "Introduce y confirma la nueva contraseña."
 
 #: somsolet/templates/registration/password_reset_confirm.html:11
-#, fuzzy
-#| msgid "Lost password?"
 msgid "New password"
 msgstr "Nueva contraseña"
 
 #: somsolet/templates/registration/password_reset_confirm.html:14
-#, fuzzy
-#| msgid "Lost password?"
 msgid "Confirm password"
 msgstr "Confirma la contraseña"
 
 #: somsolet/templates/registration/password_reset_confirm.html:24
-#, fuzzy
 msgid "Password reset failed"
 msgstr "El restablecimiento de la contraseña ha fallado."
 
 #: somsolet/templates/registration/password_reset_confirm.html:25
-#, fuzzy
 msgid ""
 "The password reset link was invalid, possibly because it has already been "
 "used. Please request a new password reset."
@@ -1493,7 +1372,6 @@ msgstr ""
 "porque ya se ha utilizado. Solicita un nuevo enlace."
 
 #: somsolet/templates/registration/password_reset_done.html:6
-#, fuzzy
 msgid ""
 "We've emailed you instructions for setting your password. If they haven't "
 "arrived in a few minutes, check your spam folder."
@@ -1507,7 +1385,6 @@ msgid "Hola"
 msgstr "Hola"
 
 #: somsolet/templates/registration/password_reset_email.html:6
-#, fuzzy
 msgid ""
 "Esteu rebent aquest correu electrònic perquè és la primera vegada que "
 "accediu o heu sol·licitat un restabliment de la contrasenya per al vostre "
@@ -1517,7 +1394,6 @@ msgstr ""
 "solicitado restablecer tu contraseña"
 
 #: somsolet/templates/registration/password_reset_email.html:8
-#, fuzzy
 msgid "Prem el següent enllaç per activar l'accés i triar la teva contrasenya:"
 msgstr "Accede al siguiente enlace para establecer la contraseña:"
 
@@ -1546,7 +1422,6 @@ msgid "Go Back"
 msgstr "Anterior"
 
 #: somsolet/templates/somsolet/construction_permit.html:9
-#, fuzzy
 msgid "Construction Permit"
 msgstr "Licencia de obra"
 
@@ -1575,7 +1450,6 @@ msgid "Open"
 msgstr "Abierto"
 
 #: somsolet/templates/somsolet/report.html:9
-#, fuzzy
 msgid "Report"
 msgstr "Informe visita técnica"
 
