@@ -169,7 +169,9 @@ class TechnicalVisitForm(forms.ModelForm):
             'client'
         ]
         widgets = {
-            'date_technical_visit': DatePickerInput(),
+            'date_technical_visit': DatePickerInput(
+                format='%Y-%m-%d',
+            ),
         }
 
     def set_technical_visit(self, date_set_technical_visit):
@@ -512,7 +514,9 @@ class InstallationDateForm(forms.ModelForm):
             'client'
         ]
         widgets = {
-            'date_start_installation': DatePickerInput(),
+            'date_start_installation': DatePickerInput(
+                format='%Y-%m-%d',
+            ),
         }
 
     def set_date_installation(self, date_installation):
