@@ -745,6 +745,7 @@ class Technical_details(models.Model):
     bateries_brand = models.CharField(
         choices=BATERY_BRAND,
         max_length=50,
+        default='empty',
         verbose_name=_('batery brand'),
     )
 

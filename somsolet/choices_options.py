@@ -135,6 +135,7 @@ INVERSOR_BRAND = (
                  ('ENPHASE', _('ENPHASE')),)
 
 BATERY_BRAND = (
+               ('empty', _('---')),
                ('SONNEN', _('SONNEN')),
                ('BYD', _('BYD')),
                ('AMPERE', _('AMPERE')),
