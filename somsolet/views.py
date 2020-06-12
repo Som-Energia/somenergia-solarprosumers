@@ -14,10 +14,10 @@ from django_tables2 import RequestConfig
 
 from .filters import CampaignListFilter, ProjectListFilter
 from .forms import (ConstructionPermitForm, DeliveryCertificateForm,
-                    InstallationDateForm, LegalizationForm, LegalRegistrationForm, OfferForm,
-                    PrereportForm, ReportForm, SignedContractForm,
-                    TechnicalCampaignsForm, TechnicalDetailsForm,
-                    TechnicalVisitForm, UserForm)
+                    InstallationDateForm, LegalizationForm,
+                    LegalRegistrationForm, OfferForm, PrereportForm,
+                    ReportForm, SignedContractForm, TechnicalCampaignsForm,
+                    TechnicalDetailsForm, TechnicalVisitForm, UserForm)
 from .models import (Campaign, Client, Project, Technical_campaign,
                      Technical_details)
 from .tables import CampaignTable, ProjectTable
@@ -111,7 +111,7 @@ class PrereportView(SomsoletProjectView):
     form_class = PrereportForm
     template_name = 'somsolet/prereport.html'
     model = Project
-    status_condition = ('empty status', 'data downloaded',
+    status_condition = ('registered','empty status', 'data downloaded',
                         'prereport review', 'prereport')
 
     def __init__(self):

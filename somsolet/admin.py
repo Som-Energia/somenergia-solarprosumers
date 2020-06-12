@@ -1,5 +1,6 @@
 import logging
 import os
+from datetime import datetime
 
 from config.settings import base
 from django.contrib import admin
@@ -33,6 +34,12 @@ class ProjectResource(resources.ModelResource):
         model = Project
         import_id_fields = ('name', 'campaign', 'client')
         exclude = ('id', )
+
+    def after_save_instance(self, instance, using_transactions=True, dry_run=False):
+        if not dry_run:
+            instance.status = 'registered'
+            instance.preregistration_date = datetime.now()
+            instance.save()
 
 
 @admin.register(Project)

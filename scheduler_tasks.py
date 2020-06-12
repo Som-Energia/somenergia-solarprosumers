@@ -194,10 +194,9 @@ def prereport_warning():
     installations = Project.objects.filter(
         campaign__active=True,
         date_prereport__isnull=True,
-        is_cch_downloaded=True,
-        status='data downloaded',
-        date_cch_download__lte=datetime.now() - timedelta(days=10)
-    )
+        status='registered',
+        preregistration_date__lte=datetime.now() - timedelta(days=10)
+    ).exclude(warning='prereport')
 
     for installation in installations:
         installation.warning = 'prereport'
