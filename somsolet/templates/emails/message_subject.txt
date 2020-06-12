@@ -1,1 +1,3 @@
-Warnings Campanya {{ campaign }}
+{% load i18n %}
+
+{% trans "Warnings Campanya" %} {{ campaign }}

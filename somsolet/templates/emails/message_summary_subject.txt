@@ -1,1 +1,3 @@
-INFORME D'EVOLUCIÓ Campanya {{ campaign }} - Som Energia
+{% load i18n %}
+
+{% trans "INFORME D'EVOLUCIÓ Campanya" %} {{ campaign }} - Som Energia

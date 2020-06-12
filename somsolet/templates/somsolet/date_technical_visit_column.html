@@ -1,7 +1,11 @@
+{% load i18n %}
+
+{% trans "insert date" as insert_date %}
+
 <a href="{% url 'technical_visit' record.pk %}">
     {% if record.date_technical_visit %}
         {{ record.date_technical_visit }} 
     {% else %}
-        {{'insert date'}}
+        {{ insert_date }}
     {% endif %}
 </a>

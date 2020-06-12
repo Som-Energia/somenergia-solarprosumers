@@ -1,3 +1,7 @@
+{% load i18n %}
+
+{% trans  "Check details" as  details%}
+
 <a href="{% url 'technical_campaign' record.pk %}">
-        {{'Check details'}}
+        {{ details}}
 </a>
