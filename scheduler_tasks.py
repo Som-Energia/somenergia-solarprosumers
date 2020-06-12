@@ -105,44 +105,30 @@ def send_email_tasks():
         logger.info("Emails sent to engineerings.")
 
 
-def send_email_summary(toSomEnergia):
+def send_email_summary(toSomEnergia, toEngineering):
     active_campaigns = Campaign.objects.filter(active=True)
     logger.info("send_email_summary")
 
     for campaign in active_campaigns:
-        if not toSomEnergia:
+        if toSomEnergia:
+            email = BCC
+            message_params = stats_report(toSomEnergia, campaign, 'ca')
+        if toEngineering:
+            engineering_info = Engineering.objects.filter(
+                campaigns__name=campaign.name
+            ).values('email', 'language')
+            email = [eng['email'] for eng in engineering_info]
+            language = [eng['language'] for eng in engineering_info][0]
+            message_params = stats_report(toSomEnergia, campaign, language)
+        else:
             local_group_info = LocalGroup.objects.filter(
                 campaigns__name=campaign.name
             ).values('email', 'language')
             email = [lg['email'] for lg in local_group_info]
-            languages = [lg['language'] for lg in local_group_info][0]
-        else:
-            email = BCC
-        projects = Project.objects.filter(
-            campaign=campaign).exclude(status='discarded')
-        with override(languages):
-            message_params = {
-                'result': {
-                            _('Prereports'): prereport_summary(projects),
-                            _('Technical Visits'): technical_visit_summary(projects),
-                            _('Signed Contracts'): signature_summary(projects),
-                            _('Construction Permits'): construction_permits_summary(projects),
-                            _('Installations'): installation_summary(projects),
-                            _('legalization'): legalization_summary(projects),
-                            _('Discarded inscriptions'): discarded_summary(campaign),
-                        },
-                'campaign_info': campaign_info(campaign),
-                'header': _("Hola,"),
-                'intro': _("El SomSolet de Som Energia us envia un breu informe de l’estat de la compra col·lectiva {}").format(campaign),
-                'main': _('Per qualsevol dubte o aportació podeu fer un correu electrònic a auto@somenergia.coop'),
-                'ending': _('Salut i bona energia!'),
-            }
-            if toSomEnergia:
-                message_params['result'].update(
-                    {
-                        _('Deposit'): [{'name': 'To do', 'value': 0}]
-                    }
-                )
+            language = [lg['language'] for lg in local_group_info][0]
+            message_params = stats_report(toSomEnergia, campaign, language)
+        with override(language):
+            print(message_params)
             send_email(
                 list(set(email)),
                 render_to_string(
@@ -154,8 +140,37 @@ def send_email_summary(toSomEnergia):
             )
 
 
+def stats_report(toSomEnergia, campaign, language):
+    projects = Project.objects.filter(
+        campaign=campaign).exclude(status='discarded')
+    logger.info('language')
+    message_params = {
+        'result':
+            {
+                _('Prereports'): prereport_summary(projects),
+                _('Technical Visits'): technical_visit_summary(projects),
+                _('Signed Contracts'): signature_summary(projects),
+                _('Construction Permits'): construction_permits_summary(projects),
+                _('Installations'): installation_summary(projects),
+                _('legalization'): legalization_summary(projects),
+                _('Discarded inscriptions'): discarded_summary(campaign),
+            },
+        'campaign_info': campaign_info(campaign),
+        'header': _("Hola,"),
+        'intro': _("El SomSolet de Som Energia us envia un breu informe de l’estat de la compra col·lectiva."),
+        'main': _('Per qualsevol dubte o aportació podeu fer un correu electrònic a auto@somenergia.coop'),
+        'ending': _('Salut i bona energia!'),
+    }
+    if toSomEnergia:
+        message_params['result'].update(
+            {
+                _('Deposit'): [{'name': 'To do', 'value': 0}]
+            }
+        )
+    return message_params
+
+
 def send_email(to_email, subject, message_params, email_template, filename=False):
-    to_email = to_email
     logger.info(to_email)
     html_body = render_to_string(
         email_template,
