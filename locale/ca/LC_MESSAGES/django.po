@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-12 16:47+0200\n"
-"PO-Revision-Date: 2020-06-12 12:15-0015\n"
+"POT-Creation-Date: 2020-06-12 17:53+0200\n"
+"PO-Revision-Date: 2020-06-12 17:41-0015\n"
 "Last-Translator: b'  <sistemes@somenergia.coop>'\n"
 "Language-Team: Catalan <http://traduccio.somenergia.coop/projects/som-solet/"
 "somsolet/ca/>\n"
@@ -133,16 +133,12 @@ msgid "Hola,"
 msgstr "Hola,"
 
 #: scheduler_tasks.py:160
-#, fuzzy
-#| msgid ""
-#| "El SomSolet de Som Energia us envia un breu informe de l’estat de la "
-#| "compra col·lectiva {}"
 msgid ""
 "El SomSolet de Som Energia us envia un breu informe de l’estat de la compra "
 "col·lectiva."
 msgstr ""
 "El SomSolet de Som Energia us envia l'informe de l’estat de la compra "
-"col·lectiva {}"
+"col·lectiva."
 
 #: scheduler_tasks.py:161
 msgid ""
@@ -883,7 +879,7 @@ msgstr "sense estat"
 
 #: somsolet/models.py:364
 msgid "No Warn"
-msgstr "Sense ALARMES!"
+msgstr "---"
 
 #: somsolet/models.py:370
 msgid "Warning date"
