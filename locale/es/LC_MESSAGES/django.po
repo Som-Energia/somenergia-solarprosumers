@@ -911,7 +911,7 @@ msgstr "Fecha preinforme"
 
 #: somsolet/models.py:406
 msgid "Invalid Prereport?"
-msgstr "Preinforme: descartado técnico?"
+msgstr "¿Preinforme invàlido?"
 
 #: somsolet/models.py:412
 msgid "Upload Prereport"
