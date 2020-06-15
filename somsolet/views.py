@@ -3,6 +3,7 @@ import logging
 from datetime import datetime
 
 import pymongo
+from django.db import transaction
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse, HttpResponseRedirect
@@ -18,7 +19,7 @@ from .forms import (ConstructionPermitForm, DeliveryCertificateForm,
                     LegalRegistrationForm, OfferForm, PrereportForm,
                     ReportForm, SignedContractForm, TechnicalCampaignsForm,
                     TechnicalDetailsForm, TechnicalVisitForm, UserForm)
-from .models import (Campaign, Client, Project, Technical_campaign,
+from .models import (Campaign, Client, Mailing, Project, Technical_campaign,
                      Technical_details)
 from .tables import CampaignTable, ProjectTable
 
@@ -106,6 +107,15 @@ class SomsoletProjectView(LoginRequiredMixin, View):
                 'project',
                 args=[proj_inst.campaign.pk]))
 
+    def client_mailing(self, proj_inst):
+        mailing, _ = Mailing.objects.get_or_create(
+            project=proj_inst,
+            notification_status=proj_inst.status,
+            sent=False
+        )
+
+        return mailing
+
 
 class PrereportView(SomsoletProjectView):
     form_class = PrereportForm
@@ -118,8 +128,10 @@ class PrereportView(SomsoletProjectView):
         self.form = 'prereportform'
         self.url_path = 'prereport'
 
+    @transaction.atomic
     def post(self, request, pk):
         form = self.form_class(request.POST, request.FILES)
+
         proj_inst = get_object_or_404(Project, pk=pk)
         if form.is_valid():
             if request.FILES:
@@ -134,6 +146,8 @@ class PrereportView(SomsoletProjectView):
                 proj_inst.is_invalid_prereport = prereport_invalid
                 proj_inst.upload_prereport = form.cleaned_data['upload_prereport']
                 proj_inst.date_prereport = date_prereport
+                self.client_mailing(proj_inst)
+
             return self.button_options(request, pk, proj_inst)
 
         return render(

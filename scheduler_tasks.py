@@ -11,7 +11,7 @@ from django.template.loader import render_to_string
 from django.utils.translation import gettext_lazy as _
 from django.utils.translation import override
 from somsolet.models import (Campaign, Client, ClientFile, Engineering,
-                             LocalGroup, Project)
+                             LocalGroup, Mailing, Project)
 
 logger = logging.getLogger('scheduler_tasks')
 
@@ -103,6 +103,38 @@ def send_email_tasks():
                 'emails/message_body.html',
             )
         logger.info("Emails sent to engineerings.")
+
+
+def send_prereport_notification():
+    notifications_to_send = Mailing.objects.filter(
+        notification_status='prereport',
+        sent=False
+    )
+    for noti in notifications_to_send:
+        send_notification_report(
+            noti,
+            _('Prereport notification'),
+            'templates/emails/prereport.html',
+            noti.project.upload_prereport
+        )
+
+
+def send_notification_report(notification, subject, template, attachment=False):
+
+    with override(notification.project.client.language):
+        message_params = {
+            'header': _("Hola {},").format(notification.project.client.name),
+            'ending': _("Salut i bona energia,"),
+        }
+        send_email(
+            [notification.project.client.email],
+            subject,
+            message_params,
+            template,
+            attachment
+        )
+        notification.sent = True
+        notification.save()
 
 
 def send_email_summary(toSomEnergia, toEngineering):
