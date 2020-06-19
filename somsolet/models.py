@@ -172,6 +172,12 @@ class Campaign(models.Model):
         verbose_name=_('Geographical region'),
     )
 
+    count_foreseen_installations = models.IntegerField(
+        null=True,
+        blank=True,
+        verbose_name=_('Number of planned installations'),
+    )
+
     count_completed_installations = models.IntegerField(
         null=True,
         blank=True,

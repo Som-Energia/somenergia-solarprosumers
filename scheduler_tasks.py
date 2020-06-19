@@ -110,22 +110,36 @@ def send_prereport_notification():
         notification_status='prereport',
         sent=False
     )
+    logger.info('sending prereort')
     for noti in notifications_to_send:
+        campaign_data = Campaign.objects.filter(name=noti.project.campaign).values(
+            'count_foreseen_installations',
+            'engineerings__name',
+            'engineerings__address',
+            'engineerings__email'
+        )
+
+        message_params = {
+            'header': _("Hola {},").format(noti.project.client.name),
+            'ending': _("Salut i bona energia,"),
+            'campaign': noti.project.campaign,
+            'address': [data['engineerings__address'] for data in campaign_data],
+            'engineering': [data['engineerings__name'] for data in campaign_data],
+            'installations': [data['count_foreseen_installations'] for data in campaign_data][0],
+            'email': [data['engineerings__email'] for data in campaign_data]
+        }
         send_notification_report(
             noti,
             _('Prereport notification'),
-            'templates/emails/prereport.html',
-            noti.project.upload_prereport
+            'emails/prereport.html',
+            message_params,
+            str(os.path.join(base.MEDIA_ROOT, str(noti.project.upload_prereport)))
         )
 
 
-def send_notification_report(notification, subject, template, attachment=False):
+def send_notification_report(notification, subject, template, message_params, attachment=False):
 
     with override(notification.project.client.language):
-        message_params = {
-            'header': _("Hola {},").format(notification.project.client.name),
-            'ending': _("Salut i bona energia,"),
-        }
         send_email(
             [notification.project.client.email],
             subject,
