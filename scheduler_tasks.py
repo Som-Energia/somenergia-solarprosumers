@@ -123,21 +123,23 @@ def send_prereport_notification():
             'header': _("Hola {},").format(noti.project.client.name),
             'ending': _("Salut i bona energia,"),
             'campaign': noti.project.campaign,
-            'address': [data['engineerings__address'] for data in campaign_data],
-            'engineering': [data['engineerings__name'] for data in campaign_data],
+            'address': [data['engineerings__address'] for data in campaign_data][0],
+            'engineering': [data['engineerings__name'] for data in campaign_data][0],
             'installations': [data['count_foreseen_installations'] for data in campaign_data][0],
-            'email': [data['engineerings__email'] for data in campaign_data]
+            'email': [data['engineerings__email'] for data in campaign_data][0]
         }
+
         send_notification_report(
             noti,
-            _('Prereport notification'),
+            _(f'PREINFORME - {noti.project.campaign}, compra col·lectiva de Som Energia'),
             'emails/prereport.html',
             message_params,
-            str(os.path.join(base.MEDIA_ROOT, str(noti.project.upload_prereport)))
+            str(os.path.join(base.MEDIA_ROOT, str(noti.project.upload_prereport))),
+            message_params['email'],
         )
 
 
-def send_notification_report(notification, subject, template, message_params, attachment=False):
+def send_notification_report(notification, subject, template, message_params, attachment=False, from_email=''):
 
     with override(notification.project.client.language):
         send_email(
@@ -145,7 +147,8 @@ def send_notification_report(notification, subject, template, message_params, at
             subject,
             message_params,
             template,
-            attachment
+            attachment,
+            from_email,
         )
         notification.sent = True
         notification.save()
@@ -216,7 +219,7 @@ def stats_report(toSomEnergia, campaign, language):
     return message_params
 
 
-def send_email(to_email, subject, message_params, email_template, filename=False):
+def send_email(to_email, subject, message_params, email_template, filename=False, from_email=''):
     logger.info(to_email)
     html_body = render_to_string(
         email_template,
@@ -225,7 +228,7 @@ def send_email(to_email, subject, message_params, email_template, filename=False
     msg = EmailMessage(
         subject,
         html_body,
-        '',
+        from_email,
         to_email,
         BCC,
     )
