@@ -11,7 +11,7 @@ from django.template.loader import render_to_string
 from django.utils.translation import gettext_lazy as _
 from django.utils.translation import override
 from somsolet.models import (Campaign, Client, ClientFile, Engineering,
-                             LocalGroup, Project)
+                             LocalGroup, Mailing, Project)
 
 logger = logging.getLogger('scheduler_tasks')
 
@@ -105,6 +105,55 @@ def send_email_tasks():
         logger.info("Emails sent to engineerings.")
 
 
+def send_prereport_notification():
+    notifications_to_send = Mailing.objects.filter(
+        notification_status='prereport',
+        sent=False
+    )
+    logger.info('sending prereort')
+    for noti in notifications_to_send:
+        campaign_data = Campaign.objects.filter(name=noti.project.campaign).values(
+            'count_foreseen_installations',
+            'engineerings__name',
+            'engineerings__address',
+            'engineerings__email'
+        )
+
+        message_params = {
+            'header': _("Hola {},").format(noti.project.client.name),
+            'ending': _("Salut i bona energia,"),
+            'campaign': noti.project.campaign,
+            'address': [data['engineerings__address'] for data in campaign_data][0],
+            'engineering': [data['engineerings__name'] for data in campaign_data][0],
+            'installations': [data['count_foreseen_installations'] for data in campaign_data][0],
+            'email': [data['engineerings__email'] for data in campaign_data][0]
+        }
+
+        send_notification_report(
+            noti,
+            _(f'PREINFORME - {noti.project.campaign}, compra col·lectiva de Som Energia'),
+            'emails/prereport.html',
+            message_params,
+            str(os.path.join(base.MEDIA_ROOT, str(noti.project.upload_prereport))),
+            message_params['email'],
+        )
+
+
+def send_notification_report(notification, subject, template, message_params, attachment=False, from_email=''):
+
+    with override(notification.project.client.language):
+        send_email(
+            [notification.project.client.email],
+            subject,
+            message_params,
+            template,
+            attachment,
+            from_email,
+        )
+        notification.sent = True
+        notification.save()
+
+
 def send_email_summary(toSomEnergia, toEngineering):
     active_campaigns = Campaign.objects.filter(active=True)
     logger.info("send_email_summary")
@@ -170,7 +219,7 @@ def stats_report(toSomEnergia, campaign, language):
     return message_params
 
 
-def send_email(to_email, subject, message_params, email_template, filename=False):
+def send_email(to_email, subject, message_params, email_template, filename=False, from_email=''):
     logger.info(to_email)
     html_body = render_to_string(
         email_template,
@@ -179,7 +228,7 @@ def send_email(to_email, subject, message_params, email_template, filename=False
     msg = EmailMessage(
         subject,
         html_body,
-        '',
+        from_email,
         to_email,
         BCC,
     )

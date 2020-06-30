@@ -172,6 +172,12 @@ class Campaign(models.Model):
         verbose_name=_('Geographical region'),
     )
 
+    count_foreseen_installations = models.IntegerField(
+        null=True,
+        blank=True,
+        verbose_name=_('Number of planned installations'),
+    )
+
     count_completed_installations = models.IntegerField(
         null=True,
         blank=True,
@@ -872,3 +878,26 @@ class Technical_details(models.Model):
 
     def __str__(self):
         return self.project.name
+
+
+class Mailing(models.Model):
+
+    project = models.ForeignKey(
+        Project,
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE,
+        verbose_name=_('Project')
+    )
+
+    notification_status = models.CharField(
+        choices=ITEM_STATUS,
+        default=_('empty status'),
+        max_length=50
+    )
+
+    sent = models.BooleanField(
+        default=False,
+        verbose_name=_('Sent'),
+        help_text=_('True if an email was sent')
+    )
