@@ -314,8 +314,9 @@ msgid "Report uploaded"
 msgstr "Informe visita tècnica enviat"
 
 #: somsolet/choices_options.py:12
+#, fuzzy
 msgid "Engineering offer"
-msgstr "Oferta enviada"
+msgstr "Oferta"
 
 #: somsolet/choices_options.py:13
 msgid "offer Review"

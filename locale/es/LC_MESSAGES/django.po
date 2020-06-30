@@ -7,7 +7,6 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-30 18:08+0200\n"
 "PO-Revision-Date: 2020-06-12 17:39-0015\n"
 "Last-Translator: b'  <sistemes@somenergia.coop>'\n"
 "Language-Team: Spanish <http://traduccio.somenergia.coop/projects/som-solet/"
@@ -315,7 +314,7 @@ msgstr "Informe visita técnica enviado"
 
 #: somsolet/choices_options.py:12
 msgid "Engineering offer"
-msgstr "Oferta enviada"
+msgstr "Oferta"
 
 #: somsolet/choices_options.py:13
 msgid "offer Review"
