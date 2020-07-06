@@ -1,15 +1,28 @@
 databases:
   develop:
-    name: name
+    name: database_name
     host: host
-    port: 5432
+    port: port
     user: user
     password: password
   test:
-    name: name
+    name: database_name
     host: host
-    port: 5432
+    port: port
     user: user
-    password: password
+    password: passwrod
 
+mongodb:
+  host: host
+  port: port
+  user: user
+  password: passwd
+  name: colectioname
+ 
 secret_key: super_secret_key
+
+sendgrid_api_key: api_key
+
+email:
+  default_from: email@domain.coop
+  bcc: email@domain.coop
