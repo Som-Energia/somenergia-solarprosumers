@@ -1,6 +1,8 @@
 from django.urls import path
 
+from somrenkonto import views as somrenkonto_views
 from . import views
+
 
 urlpatterns = [
     path(
@@ -81,5 +83,11 @@ urlpatterns = [
         'legal_registration/<int:pk>/',
         views.LegalRegistrationView.as_view(),
         name='legal_registration'
+    ),
+    # Som Renkonto
+    path(
+        'somrenkonto/',
+        somrenkonto_views.CalendarView.as_view(),
+        name='somrenkonto',
     ),
 ]

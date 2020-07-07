@@ -12,10 +12,18 @@ class CampaignTable(tables.Table):
         'project',
         args=[A('pk')],
         verbose_name=_('Campaign'),)
+
     technical_campaign = tables.TemplateColumn(
         template_name='somsolet/technical_campaign_update.html',
         extra_context={'record': A('pk'), 'technical_campaign': A('pk')},
         verbose_name=_('Technical Details'),)
+
+    calendar = tables.Column(
+        linkify={
+            'viewname': 'somrenkonto',
+            'verbose_name': _('Calendar'),
+        },
+        default='somrenkonto',)
 
     class Meta:
         model = Campaign
