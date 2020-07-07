@@ -6,7 +6,7 @@ from django.utils.translation import gettext_lazy as _
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 with open(os.path.join(BASE_DIR, 'settings/config.yaml')) as f:
-    config = yaml.load(f.read())
+    config = yaml.load(f.read(), yaml.Loader)
 
 LOCALE_PATHS = (
     os.path.join(BASE_DIR, 'locale'),
