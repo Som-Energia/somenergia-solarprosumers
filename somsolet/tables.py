@@ -20,16 +20,18 @@ class CampaignTable(tables.Table):
 
     calendar = tables.Column(
         linkify={
-            'viewname': 'somrenkonto',
-            'verbose_name': _('Calendar'),
+            "viewname": "somrenkonto",
         },
-        default='somrenkonto',)
+        orderable=False,
+        empty_values=(),
+        verbose_name=_('Calendar'),
+        )
 
     class Meta:
         model = Campaign
         fields = [
             'name',
-            'active'
+            'active',
         ]
 
 
