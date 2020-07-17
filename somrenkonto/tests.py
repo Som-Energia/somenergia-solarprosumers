@@ -7,7 +7,6 @@ from .views import CalendarView
 
 client = Client()
 
-
 def test__calendar_view(client):
     url = reverse('somrenkonto')
     response = client.get(url)

@@ -2,10 +2,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-from .choices_options import (BATERY_BRAND, INVERSOR_BRAND, ITEM_ANGLES,
-                              ITEM_COMMUNITY, ITEM_DISCARDED_TYPES,
-                              ITEM_ORIENTATION, ITEM_STATUS, ITEM_WARNINGS,
-                              LANGUAGES, PANELS_BRAND, PANELS_TYPE)
+from .choices_options import LANGUAGES
 
 
 class LocalGroup(models.Model):

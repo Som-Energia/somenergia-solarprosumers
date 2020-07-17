@@ -4,6 +4,7 @@ from django.utils.translation import gettext_lazy as _
 from .choices_options import ITEM_STATUS
 from .project import Project
 
+
 class Mailing(models.Model):
 
     project = models.ForeignKey(
