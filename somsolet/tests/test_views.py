@@ -1,24 +1,34 @@
+from unittest.mock import patch
 
 import pytest
 from django.contrib.auth.models import AnonymousUser, User
 from django.test import RequestFactory
 from django.urls import reverse
-from factories import ProjectFactory
-from mixer.backend.django import mixer
-from mock import patch
 from parameterized import parameterized
+
 from somsolet.views import (PrereportView, ProjectView, TechnicalVisitView,
                             ReportView, OfferView, SignatureView,
                             ConstructionPermitView, InstallationDateView,
                             DeliveryCertificateView, LegalRegistrationView,
                             LegalizationView)
 
+from .factories import ProjectFactory, UserFactory
+
+from .conftest import campaing__solar_paco, technical_details
 
 def custom_name_func(testcase_func, param_num, param):
     return "%s_%s" % (
         testcase_func.__name__,
         param.args[0].__name__,
     )
+
+
+class TestHomeView:
+    
+    def test__engineering_home_view(self):
+        path = reverse('home')
+        request = RequestFactory().get(path)
+        request.user = UserFactory()
 
 
 @pytest.mark.django_db
@@ -48,7 +58,7 @@ class TestViews:
     def test_project_detail_unauthenticated(self):
         path = reverse('project', kwargs={'pk': 2})
         request = RequestFactory().get(path)
-        request.user = AnonymousUser()
+        reqauest.user = AnonymousUser()
 
         response = ProjectView.as_view()(request, pk=2)
         assert 'auth/login' in response.url

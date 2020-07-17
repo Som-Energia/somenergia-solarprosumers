@@ -3,6 +3,8 @@ import pytest
 from django.db import connections
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 
+from .factories import CampaignFactory, TechnicalDetailsFactory, UserFactory
+
 
 def run_sql(sql):
     conn = psycopg2.connect(database='postgres')
@@ -27,3 +29,18 @@ def django_db_setup():
         connection.close()
 
     run_sql('DROP DATABASE somsolet4test_db')
+
+
+@pytest.fixture
+def campaing__solar_paco(db):
+    return CampaignFactory()
+
+
+@pytest.fixture
+def technical_details(db):
+    return TechnicalDetailsFactory()
+
+
+@pytest.fixture
+def ingenieering_user(db):
+    return UserFactory
