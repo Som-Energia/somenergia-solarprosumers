@@ -1,10 +1,5 @@
 from .base import *
 
-SECRET_KEY = config['secret_key']
-
-ALLOWED_HOSTS = [
-    'somsolet-demo.somenergia.local'
-]
 
 DATABASES = {
     'default': {
