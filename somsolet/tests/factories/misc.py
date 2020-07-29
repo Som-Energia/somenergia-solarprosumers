@@ -8,7 +8,7 @@ class MailingFactory(DjangoModelFactory):
 
     class Meta:
         model = 'somsolet.Mailing'
-    
+
     project = RelatedFactory(ProjectFactory)
     notification_status = 'empty status'
     sent = False

@@ -54,9 +54,9 @@ class ProjectFactory(DjangoModelFactory):
 
 
 class TechnicalDetailsFactory(DjangoModelFactory):
-    
+
     class Meta:
-        model = 'somsolet.Technical_details'    
+        model = 'somsolet.Technical_details'
 
     project = factory.RelatedFactory(ProjectFactory)
     campaign = factory.RelatedFactory(CampaignFactory)

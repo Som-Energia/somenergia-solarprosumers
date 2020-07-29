@@ -2,9 +2,11 @@ from datetime import datetime
 
 import factory
 import pytest
-from factories import ProjectFactory
+
 from scheduler_tasks import prereport_summary
 from somsolet.models import Project
+
+from .factories import ProjectFactory
 
 
 @pytest.mark.django_db

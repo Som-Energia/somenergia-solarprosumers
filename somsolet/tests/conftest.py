@@ -3,7 +3,8 @@ import pytest
 from django.db import connections
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 
-from .factories import CampaignFactory, TechnicalDetailsFactory, UserFactory
+from .factories import (CampaignFactory, EngineeringFactory,
+                        TechnicalDetailsFactory, UserFactory)
 
 
 def run_sql(sql):
@@ -14,21 +15,14 @@ def run_sql(sql):
     conn.close()
 
 
-@pytest.yield_fixture(scope='session')
-def django_db_setup():
-    from django.conf import settings
+@pytest.fixture
+def engenieering_user(db):
+    return UserFactory()
 
-    settings.DATABASES['default']['NAME'] = 'somsolet4test_db'
 
-    run_sql('DROP DATABASE IF EXISTS somsolet4test_db')
-    run_sql('CREATE DATABASE somsolet4test_db TEMPLATE somsolet_db')
-
-    yield
-
-    for connection in connections.all():
-        connection.close()
-
-    run_sql('DROP DATABASE somsolet4test_db')
+@pytest.fixture
+def engenieering(db):
+    return EngineeringFactory()
 
 
 @pytest.fixture
@@ -39,8 +33,3 @@ def campaing__solar_paco(db):
 @pytest.fixture
 def technical_details(db):
     return TechnicalDetailsFactory()
-
-
-@pytest.fixture
-def ingenieering_user(db):
-    return UserFactory

@@ -13,7 +13,7 @@ class CampaignFactory(DjangoModelFactory):
     local_group = RelatedFactory(LocalGroupFactory)
     date_call_for_engineerings = '2020-01-01'
     date_call_for_inscriptions = '2020-02-02'
-    date_inscriptions_closed = None 
+    date_inscriptions_closed = None
     date_completed_installations = None
     autonomous_community = 'Parroquia de Christ Church'
     geographical_region = 'Barbados'
@@ -32,7 +32,6 @@ class TechnicalCampaignFactory(DjangoModelFactory):
 
     class Meta:
         model = 'somsolet.Technical_campaign'
-
 
     campaign = RelatedFactory(CampaignFactory)
     price_mono_fixed = '0.5'

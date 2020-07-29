@@ -1,5 +1,6 @@
 from .base import *
 
+SECRET_KEY = config['secret_key']
 
 DATABASES = {
     'default': {

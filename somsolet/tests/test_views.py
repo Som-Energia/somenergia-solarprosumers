@@ -6,15 +6,16 @@ from django.test import RequestFactory
 from django.urls import reverse
 from parameterized import parameterized
 
-from somsolet.views import (PrereportView, ProjectView, TechnicalVisitView,
-                            ReportView, OfferView, SignatureView,
-                            ConstructionPermitView, InstallationDateView,
-                            DeliveryCertificateView, LegalRegistrationView,
-                            LegalizationView)
+from somsolet.views import (CampaignSetView, ConstructionPermitView,
+                            DeliveryCertificateView, InstallationDateView,
+                            LegalizationView, LegalRegistrationView, OfferView,
+                            PrereportView, ProjectView, ReportView,
+                            SignatureView, TechnicalVisitView)
 
+from .conftest import (campaing__solar_paco, engenieering, engenieering_user,
+                       technical_details)
 from .factories import ProjectFactory, UserFactory
 
-from .conftest import campaing__solar_paco, technical_details
 
 def custom_name_func(testcase_func, param_num, param):
     return "%s_%s" % (
@@ -23,12 +24,26 @@ def custom_name_func(testcase_func, param_num, param):
     )
 
 
+@pytest.mark.django_db
 class TestHomeView:
-    
-    def test__engineering_home_view(self):
+
+    def test__engineering_home_view__whitout_campaings(
+            self,
+            engenieering_user, engenieering
+    ):
+        engenieering.user = engenieering_user
         path = reverse('home')
         request = RequestFactory().get(path)
-        request.user = UserFactory()
+        request.user = engenieering_user
+
+        response = CampaignSetView.as_view()(request)
+
+        assert response.status_code == 200
+        content = response.content.decode()
+        assert 'Campaign' in content and \
+            'Active' in content and \
+            'Technical Details' in content and \
+            'Calendar' in content
 
 
 @pytest.mark.django_db
@@ -45,20 +60,22 @@ class TestViews:
             'campaign_pk': 123  # random
         }
 
-    @pytest.mark.skip(reason="WIP: must use mock")
-    def test_project_detail_authenticated(self):
-        path = reverse('project', kwargs={'pk': 2})
+    def test_project_detail_authenticated(
+            self,
+            campaing__solar_paco, ingenieering_user
+    ):
+        path = reverse('project', kwargs={'pk': campaing__solar_paco.pk})
         request = RequestFactory().get(path)
-        request.user = mixer.blend(User)
+        request.user = ingenieering_user
 
-        response = ProjectView.as_view()(request, pk=2)
+        response = ProjectView.as_view()(request, pk=campaing__solar_paco.pk)
         assert response.status_code == 200
 
     @pytest.mark.skip(reason="WIP: must use mock")
     def test_project_detail_unauthenticated(self):
         path = reverse('project', kwargs={'pk': 2})
         request = RequestFactory().get(path)
-        reqauest.user = AnonymousUser()
+        request.user = AnonymousUser()
 
         response = ProjectView.as_view()(request, pk=2)
         assert 'auth/login' in response.url
@@ -85,7 +102,7 @@ class TestViews:
         ):
             path = reverse(url_name, kwargs={'pk': 1})
             request = RequestFactory().get(path)
-            request.user = mixer.blend(User)
+            # request.user = mixer.blend(User)
 
             response = view.as_view()(request, pk=1)
             assert response.status_code == 200
@@ -112,7 +129,7 @@ class TestViews:
         ):
             path = reverse(url_name, kwargs={'pk': 1})
             request = RequestFactory().get(path)
-            request.user = mixer.blend(User)
+            # request.user = mixer.blend(User)
 
             response = view.as_view()(request, pk=1)
             assert 'project' in response.url
