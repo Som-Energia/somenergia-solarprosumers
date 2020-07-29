@@ -12,7 +12,7 @@ from somsolet.views import (CampaignSetView, ConstructionPermitView,
                             PrereportView, ProjectView, ReportView,
                             SignatureView, TechnicalVisitView)
 
-from .conftest import (campaing__solar_paco, engenieering, engenieering_user,
+from .fixtures import (campaing__solar_paco, engenieering, engenieering_user,
                        technical_details)
 from .factories import ProjectFactory, UserFactory
 
@@ -29,11 +29,12 @@ class TestHomeView:
 
     def test__engineering_home_view__whitout_campaings(
             self,
+            rf,
             engenieering_user, engenieering
     ):
         engenieering.user = engenieering_user
         path = reverse('home')
-        request = RequestFactory().get(path)
+        request = rf.get(path)
         request.user = engenieering_user
 
         response = CampaignSetView.as_view()(request)
