@@ -1,7 +1,7 @@
 from unittest.mock import patch
 
 import pytest
-from django.contrib.auth.models import AnonymousUser, User
+from django.contrib.auth.models import AnonymousUser
 from django.test import RequestFactory
 from django.urls import reverse
 from parameterized import parameterized
@@ -12,9 +12,9 @@ from somsolet.views import (CampaignSetView, ConstructionPermitView,
                             PrereportView, ProjectView, ReportView,
                             SignatureView, TechnicalVisitView)
 
-from .fixtures import (campaing__solar_paco, engenieering, engenieering_user,
-                       technical_details)
 from .factories import ProjectFactory, UserFactory
+from .fixtures import (campaing__solar_paco, client, engenieering,
+                       engenieering_user, project, technical_details)
 
 
 def custom_name_func(testcase_func, param_num, param):
@@ -63,13 +63,14 @@ class TestViews:
 
     def test_project_detail_authenticated(
             self,
-            campaing__solar_paco, ingenieering_user
+            rf,
+            project, engenieering_user, campaing__solar_paco, client
     ):
-        path = reverse('project', kwargs={'pk': campaing__solar_paco.pk})
-        request = RequestFactory().get(path)
-        request.user = ingenieering_user
+        path = reverse('project', kwargs={'pk': project.pk})
+        request = rf.get(path)
+        request.user = engenieering_user
 
-        response = ProjectView.as_view()(request, pk=campaing__solar_paco.pk)
+        response = ProjectView.as_view()(request, pk=project.pk)
         assert response.status_code == 200
 
     @pytest.mark.skip(reason="WIP: must use mock")
