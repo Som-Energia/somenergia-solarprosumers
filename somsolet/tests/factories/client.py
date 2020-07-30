@@ -23,4 +23,4 @@ class ClientFactory(DjangoModelFactory):
     email = 'montse@somenergia.coop'
     language = 'ca'
     sent_general_conditions = True
-    file = factory.RelatedFactory(ClientFileFactory)
+    file = factory.SubFactory(ClientFileFactory)

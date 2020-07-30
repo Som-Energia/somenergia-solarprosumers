@@ -1,4 +1,5 @@
 from datetime import datetime
+
 import factory
 from factory.django import DjangoModelFactory
 
@@ -13,7 +14,7 @@ class ProjectFactory(DjangoModelFactory):
 
     name = 'Instalació plaques Montserrat Escayola'
     campaign = factory.RelatedFactory(CampaignFactory)
-    client = factory.RelatedFactory(ClientFactory)
+    client = factory.SubFactory(ClientFactory)
     status = 'empty status'
     warning = 'No Warn'
     warning_date = None

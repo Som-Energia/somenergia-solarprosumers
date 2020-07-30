@@ -1,7 +1,7 @@
 import pytest
 
 from .factories import (CampaignFactory, ClientFactory, EngineeringFactory,
-                        ProjectFactory, TechnicalDetailsFactory, UserFactory)
+                        ProjectFactory, TechnicalDetailsFactory, UserFactory, LocalGroupFactory)
 
 
 @pytest.fixture
@@ -10,7 +10,7 @@ def engenieering_user(db):
 
 
 @pytest.fixture
-def engenieering(db):
+def engineering(db):
     return EngineeringFactory()
 
 
@@ -32,3 +32,8 @@ def project(db):
 @pytest.fixture
 def client(db):
     return ClientFactory()
+
+
+@pytest.fixture
+def local_group(db):
+    return LocalGroupFactory()
