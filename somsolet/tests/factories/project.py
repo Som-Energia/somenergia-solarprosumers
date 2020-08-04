@@ -13,7 +13,7 @@ class ProjectFactory(DjangoModelFactory):
         model = 'somsolet.Project'
 
     name = 'Instalació plaques Montserrat Escayola'
-    campaign = factory.RelatedFactory(CampaignFactory)
+    campaign = factory.SubFactory(CampaignFactory)
     client = factory.SubFactory(ClientFactory)
     status = 'empty status'
     warning = 'No Warn'

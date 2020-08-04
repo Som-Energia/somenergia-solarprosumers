@@ -55,6 +55,7 @@ class SomsoletProjectView(LoginRequiredMixin, View):
 
     def get_initial(self, pk):
         proj_inst = get_object_or_404(Project, pk=pk)
+
         return {
             'campaign': proj_inst.campaign,
             'project': proj_inst.id,
