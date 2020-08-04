@@ -3,9 +3,14 @@ import pytest
 from .factories import (CampaignFactory, ClientFactory, EngineeringFactory,
                         ProjectFactory, TechnicalDetailsFactory, UserFactory, LocalGroupFactory)
 
+__all__ = (
+    'engineering_user', 'engineering', 'campaing__solar_paco', 
+    'technical_details', 'project', 'client', 'local_group'
+)
+
 
 @pytest.fixture
-def engenieering_user(db):
+def engineering_user(db):
     return UserFactory()
 
 

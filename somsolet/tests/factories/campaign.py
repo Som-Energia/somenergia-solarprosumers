@@ -33,7 +33,7 @@ class TechnicalCampaignFactory(DjangoModelFactory):
     class Meta:
         model = 'somsolet.Technical_campaign'
 
-    # campaign = RelatedFactory(CampaignFactory)
+    campaign = RelatedFactory(CampaignFactory)
     price_mono_fixed = '0.5'
     price_mono_var = '0.1'
     price_tri_fixed = '0.3'

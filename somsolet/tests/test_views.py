@@ -13,8 +13,7 @@ from somsolet.views import (CampaignSetView, ConstructionPermitView,
                             SignatureView, TechnicalVisitView)
 
 from .factories import ProjectFactory, UserFactory
-from .fixtures import (campaing__solar_paco, client, engineering,
-                       engenieering_user, project, technical_details, local_group)
+from .fixtures import *
 
 
 def custom_name_func(testcase_func, param_num, param):
@@ -30,12 +29,12 @@ class TestHomeView:
     def test__engineering_home_view__whitout_campaings(
             self,
             rf,
-            engenieering_user, engenieering
+            engineering_user, engineering
     ):
-        engenieering.user = engenieering_user
+        engineering.user = engineering_user
         path = reverse('home')
         request = rf.get(path)
-        request.user = engenieering_user
+        request.user = engineering_user
 
         response = CampaignSetView.as_view()(request)
 
@@ -62,22 +61,14 @@ class TestViews:
         }
 
     def test_project_detail_authenticated(
-            self,
-            rf,
-            project, engenieering_user, engineering, campaing__solar_paco, client, local_group
+        self, rf, project, engineering_user
     ):
-        # campaing__solar_paco.engineerings.set(engineering)
-        # campaing__solar_paco.local_group.set(local_group)
-        local_group.save()
-
         path = reverse('project', kwargs={'pk': project.pk})
         request = rf.get(path)
-        request.user = engenieering_user
+        request.user = engineering_user
 
         response = ProjectView.as_view()(request, pk=project.pk)
         assert response.status_code == 200
-
-        assert b'' == response.content
 
     @pytest.mark.skip(reason="WIP: must use mock")
     def test_project_detail_unauthenticated(self):
