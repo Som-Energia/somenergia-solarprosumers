@@ -118,3 +118,4 @@ config.yaml
 
 #files
 *.csv
+json4test.yaml

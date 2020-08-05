@@ -46,7 +46,7 @@ paths:
         schema:
           type: string
           example: 'Som GL'
-      - name: satus
+      - name: status
         in: query
         description: campaign status
         required: false
@@ -120,13 +120,6 @@ paths:
         schema:
           type: string
           example: 'Som Solar'
-      - name: projectId
-        in: query
-        description: find a campaign asociated with a specific project 
-        required: false
-        schema:
-          type: string
-          example: 'SS001'
       responses:
         200:
           description: successful operation
@@ -163,7 +156,7 @@ paths:
       description: Get
       operationId: server.get_project
       parameters:
-      - name: name
+      - name: campaignName
         in: query
         description: Filter by campaign name
         required: false
@@ -173,7 +166,7 @@ paths:
       - name: stageId
         in: query
         description: Get all projects in this stage
-        required: true
+        required: false
         schema:
           type: string
           example: 'SS001'
@@ -217,7 +210,7 @@ paths:
                       next:
                         type: string
                         description: url of next results. If null, you are in the last page
-                        example: "https://apinertgia.somenergia.coop/contracts?limit=5&cursor=dXNlcjpVMEc5V0ZYTlo"
+                        example: "https://somsolet-api.somenergia.coop/contracts?limit=5&cursor=dXNlcjpVMEc5V0ZYTlo"
         400:
           description: Invalid status value
           content: {}
@@ -237,14 +230,7 @@ paths:
         required: true
         schema:
           type: string
-          example: 'SS001'      
-      - name: name
-        in: query
-        description: Filter by campaign name
-        required: false
-        schema:
-          type: string
-          example: 'Som Solar'
+          example: 'SS001'
       responses:
         200:
           description: successful operation
@@ -267,7 +253,7 @@ paths:
                       next:
                         type: string
                         description: url of next results. If null, you are in the last page
-                        example: "https://apinertgia.somenergia.coop/contracts?limit=5&cursor=dXNlcjpVMEc5V0ZYTlo"
+                        example: "https://somsolet-api.somenergia.coop/contracts?limit=5&cursor=dXNlcjpVMEc5V0ZYTlo"
         400:
           description: Invalid status value
           content: {}
@@ -279,15 +265,8 @@ paths:
       - stage
       summary: Get all posible stages in a campaign
       description: Get a list with allowed stages
-      operationId: server.get_project_stages
-      parameters:
-      - name: name
-        in: query
-        description: Filter by campaign name
-        required: false
-        schema:
-          type: string
-          example: 'Som Solar'  
+      operationId: server.get_stages
+      parameters: 
       - name: limit
         in: query
         description: How many projects to return at one time
@@ -328,7 +307,7 @@ paths:
                       next:
                         type: string
                         description: url of next results. If null, you are in the last page
-                        example: "https://apinertgia.somenergia.coop/contracts?limit=5&cursor=dXNlcjpVMEc5V0ZYTlo"
+                        example: "https://somsolet-api.somenergia.coop/contracts?limit=5&cursor=dXNlcjpVMEc5V0ZYTlo"
         400:
           description: Invalid status value
           content: {}
@@ -389,10 +368,6 @@ components:
     campaign:
       type: object
       properties:
-        page_results:
-          type: integer
-          description: number of contracts per page
-          example: 100
         name:
           type: string
           description: campaign name
@@ -426,12 +401,12 @@ components:
               phoneNumber:
                 type: integer
           example:
-              {
+              [{
                 "name": "Som Enginnerings",
                 "address": "www.somengineerings.coop",
                 "email": "som.engineerings@somenergia.coop",
                 "phoneNumber": 1234567
-              }
+              },]
         localGroup:
           type: array
           description: local information
@@ -443,10 +418,10 @@ components:
               email:
                 type: string
           example:
-              {
+              [{
                 "name": "local group",
                 "email": "local.group@somenergia.coop",
-              }
+              },]
         region:
           type: object
           description: geographical region
@@ -521,18 +496,14 @@ components:
     project:
       type: object
       properties:
-        page_results:
-          type: integer
-          description: number of projects per page
-          example: 100
         name:
           type: string
           description: project name
           example: "SS001"
-        campaign:
+        campaignName:
           type: string
           description: campaign name
-          example: "Som Solar"
+          example: "Som Solar"      
         dateStart:
           type: string
           format: date-time
