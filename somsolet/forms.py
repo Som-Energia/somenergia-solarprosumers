@@ -172,10 +172,7 @@ class TechnicalVisitForm(forms.ModelForm):
         ]
         widgets = {
             'date_technical_visit': DatePickerInput(
-                format='%Y-%m-%d',
-                options={
-                    'minDate': str(datetime.now().date())
-                }
+                format='%Y-%m-%d'
             ),
         }
 
@@ -520,7 +517,7 @@ class InstallationDateForm(forms.ModelForm):
         ]
         widgets = {
             'date_start_installation': DatePickerInput(
-                format='%Y-%m-%d',
+                format='%Y-%m-%d'
             ),
         }
 
