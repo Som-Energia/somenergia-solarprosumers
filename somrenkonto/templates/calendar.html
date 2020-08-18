@@ -1,14 +1,75 @@
 {% extends 'somsolet/base_layout.html' %}
 {% load static %}
+{% load i18n %}
 
 {% block css %}
     {{ block.super }}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.css" type="text/css" media="all" rel="stylesheet">
     <link href="{% static 'fullcalendar/lib/main.min.css' %}" rel='stylesheet'/>
 {% endblock %}
 
 {% block content %}
 <div class="row">
   <div id="calendar" class="col">      
+  </div>
+  <div id="event-form" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form>
+                <div class="modal-header">
+                    <input class="form-control form-control-lg" type="text" placeholder="{% trans 'Title of the event' %}">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <input id="initial_date_picker" class="form-control form-control-sm" type="text" placeholder="{% trans 'Initial date' %}">    
+                        </div>
+                        <div class="form-group col">
+                            <input id="final_date_picker" class="form-control form-control-sm" type="text" placeholder="{% trans 'Final date' %}">
+                        </div>
+                    </div>
+                    <div class="form-row collapse show" id="to_event">
+                        <div class="form-group col">
+                            <input id="initial_hour_picker" class="form-control form-control-sm" type="text" placeholder="{% trans 'Initial hour' %}">
+                        </div>
+                        <div class="form-group col">
+                            <input id="final_hour_picker" class="form-control form-control-sm" type="text" placeholder="{% trans 'Final hour' %}">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" id="swicht_end_event">
+                                <label class="custom-control-label" for="swicht_end_event">{% trans 'All day' %}</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <input  class="form-control form-control-sm" type="text" placeholder="{% trans 'Campaing' %}">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <input  class="form-control form-control-sm" type="text" placeholder="{% trans 'Installation' %}">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <textarea class="form-control" rows="3" placeholder="{% trans 'Description' %}"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans 'Close' %} </button>
+                    <button type="button" class="btn btn-primary">{% trans 'Save changes' %}</button>
+                </div>
+            </form>
+        </div>
+    </div>
   </div>
 </div>
 
@@ -17,7 +78,25 @@
 {% block js %}
     {{ block.super }}
     <script src="{% static 'fullcalendar/lib/main.min.js' %}"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
     <script type="text/javascript">
+        function initialize_datepickers() {
+            $('#initial_date_picker').datetimepicker({
+                format: 'L'
+            });
+            $('#final_date_picker').datetimepicker({
+                format: 'L',
+                useCurrent: false
+            });
+            $('#initial_hour_picker').datetimepicker({
+                format: 'LT'
+            });
+            $('#final_hour_picker').datetimepicker({
+                format: 'LT'
+            });
+        }
+        
         document.addEventListener('DOMContentLoaded', function() {
             var calendarEl = document.getElementById('calendar');
             var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -39,9 +118,42 @@
                 initialView: 'dayGridMonth',
                 selectable: true,
                 editable: true,
-                unselectAuto: false
+                unselectAuto: false,
+                navLinks: true,
+                nowIndicator:true,
+                businessHours: [
+                    {
+                        daysOfWeek: [ 1, 2, 3 ], // Monday, Tuesday, Wednesday
+                        startTime: '08:00', // 8am
+                        endTime: '18:00' // 6pm
+                    }
+                ],
+                dateClick: function(info) {
+                    var eventFormModal = $('#event-form');
+                    var initial_event_picker = $('#initial_date_picker');
+                    var final_event_picker = $('#final_date_picker');
+                    final_event_picker.data("DateTimePicker").clear();
+                    
+                    eventFormModal.modal('show');
+                    initial_event_picker.data("DateTimePicker").date(info.date);
+                    
+                    initial_event_picker.on('dp.change', function(data) {
+                        final_event_picker.data("DateTimePicker").minDate(data.date);
+                    });
+                    final_event_picker.on('dp.change', function(data) {
+                        initial_event_picker.data("DateTimePicker").maxDate(data.date);
+                    });
+                },
             });
             calendar.render();
-      });
+        });
+        initialize_datepickers();
+
+        var collapseSwitch = $('#swicht_end_event');
+        collapseSwitch.on('click', function(){
+            var to_event = $('#to_event');
+            to_event.collapse('toggle');
+        });
+
     </script>
 {% endblock %}
