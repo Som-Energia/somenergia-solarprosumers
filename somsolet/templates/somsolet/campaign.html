@@ -1,15 +1,11 @@
 {% extends 'somsolet/base_layout.html' %}
 
-{% load i18n %}
-
 {% load django_tables2 %}
-{% load bootstrap4 %}
 
 {% block content %}
-	<div class="row">
-	  <div class="col-md-3"></div>
-	    <div class="col-md-6 table-campaign">
-	      {% render_table campaign %}
+	<div class="row justify-content-md-center">
+	   <div class="col-md-6 col-sm-6 table-campaign">
+	       {% render_table campaign %}
 	    </div>
 	</div>
 {% endblock content %}

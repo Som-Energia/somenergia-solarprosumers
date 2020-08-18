@@ -1,30 +1,32 @@
 {% load i18n %}
 {% load static %}
+{% load bootstrap4 %}
 <html>
     <head>
+        {% block css %}
+            {% bootstrap_css %}
+            <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+            <link rel="stylesheet" href="{% static 'css/gestor.css' %}">
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        {% endblock %}
         <title>Som Solet - Som Energia</title>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-        <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
-        <link rel="stylesheet" href="/static/css/gestor.css?v=20200527">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-        {% load bootstrap4 %}
-        {% bootstrap_css %}
-        {% bootstrap_javascript jquery='full' %}
-
         {{ form.media }}
     </head>
     <body>
         <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-2 shadow">
-          <a class="navbar-brand col-sm-3 col-md-2 mr-auto" href="#"><img src="https://www.somenergia.coop/wp-content/uploads/2014/07/logo.png" class="mr-2">
-Som Solet</a>
-          <ul class="right-navbar px-3">
-              <li class="nav-item text-nowrap">{% include "languages/user_profile.html"%}</li>
-            {% if user.is_authenticated %}
-              <li class="nav-item text-nowrap">
-                {% include "registration/logout.html" %}
-              </li>
-            {%endif%}
-          </ul>
+            <a class="navbar-brand col-sm-3 col-md-2 mr-auto" href="#">
+                <img src="https://www.somenergia.coop/wp-content/uploads/2014/07/logo.png" class="mr-2">Som Solet
+            </a>
+            <ul class="right-navbar px-3">
+                <li class="nav-item text-nowrap">
+                    {% include "languages/user_profile.html"%}
+                </li>
+                {% if user.is_authenticated %}
+                <li class="nav-item text-nowrap">
+                    {% include "registration/logout.html" %}
+                </li>
+                {%endif%}
+            </ul>
         </nav>
         <main role="main">
             <div class="content container-fluid">
@@ -39,8 +41,11 @@ Som Solet</a>
         {# The Footer #}
         <footer class="som-foot mt-auto pt-3">
             <div class="inner">
-            <p>Made with <i class="fa fa-heart" aria-hidden="true"></i> by Som Energia</p>
+                <p>Made with <i class="fa fa-heart" aria-hidden="true"></i> by Som Energia</p>
             </div>
         </footer>
     </body>
+    {% block js %}
+        {% bootstrap_javascript jquery='full' %}
+    {% endblock %}
 </html>
