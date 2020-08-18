@@ -93,17 +93,21 @@
     <script type="text/javascript">
         function initialize_datepickers() {
             $('#initial_date_picker').datetimepicker({
-                format: 'L'
+                format: 'L',
+                locale: '{{ lang.code|default:'ca'}}'
             });
             $('#final_date_picker').datetimepicker({
                 format: 'L',
+                locale: '{{ lang.code|default:'ca'}}',
                 useCurrent: false
             });
             $('#initial_hour_picker').datetimepicker({
-                format: 'LT'
+                format: 'LT',
+                locale: '{{ lang.code|default:'ca'}}'
             });
             $('#final_hour_picker').datetimepicker({
-                format: 'LT'
+                format: 'LT',
+                locale: '{{ lang.code|default:'ca'}}'
             });
         }
         
@@ -145,10 +149,11 @@
                     var eventFormModal = $('#event-form');
                     var initial_event_picker = $('#initial_date_picker');
                     var final_event_picker = $('#final_date_picker');
-                    final_event_picker.data("DateTimePicker").clear();
-                    
-                    eventFormModal.modal('show');
                     initial_event_picker.data("DateTimePicker").date(info.date);
+                    final_event_picker.data("DateTimePicker").clear();
+                    final_event_picker.data("DateTimePicker").minDate(info.date);
+
+                    eventFormModal.modal('show');
                     
                     initial_event_picker.on('dp.change', function(data) {
                         final_event_picker.data("DateTimePicker").minDate(data.date);
