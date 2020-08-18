@@ -13,7 +13,7 @@
     </head>
     <body>
         <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-2 shadow">
-            <a class="navbar-brand col-sm-3 col-md-2 mr-auto" href="#">
+            <a class="navbar-brand col-sm-3 col-md-2 mr-auto" href="{% url 'home' %}">
                 <img src="https://www.somenergia.coop/wp-content/uploads/2014/07/logo.png" class="mr-2">Som Solet
             </a>
             <ul class="right-navbar px-3">
@@ -21,10 +21,15 @@
                     {% include "languages/user_profile.html"%}
                 </li>
                 {% if user.is_authenticated %}
+
+                <li class="nav-item text-nowrap active">
+                    <p class="navbar-text disabled modal-footer" style="border-width: 0px" >{% trans 'Hola' %}, {{user.username}}! </p>
+                </li>
+
                 <li class="nav-item text-nowrap">
                     {% include "registration/logout.html" %}
                 </li>
-                {%endif%}
+                {% endif %}
             </ul>
         </nav>
         <main role="main">
