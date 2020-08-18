@@ -2,6 +2,13 @@
 {% load static %}
 {% load i18n %}
 
+{% get_current_language as LANGUAGE_CODE %}
+{% get_language_info for LANGUAGE_CODE as lang %}
+
+{% get_available_languages as LANGUAGES %}
+{% get_language_info_list for LANGUAGES as languages %}
+
+
 {% block css %}
     {{ block.super }}
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.css" type="text/css" media="all" rel="stylesheet">
@@ -78,6 +85,9 @@
 {% block js %}
     {{ block.super }}
     <script src="{% static 'fullcalendar/lib/main.min.js' %}"></script>
+    {% for language in languages %}
+         <script src='fullcalendar/lib/locales/{{languages.code}}.js'></script>
+    {% endfor %}
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
     <script type="text/javascript">
@@ -115,6 +125,8 @@
                     center: 'title',
                     right: 'dayGridMonth,timeGridWeek,timeGridDay configureCalendar'
                 },
+                locale: '{{ lang.code|default:'ca'}}',
+                firstDay: 1,
                 initialView: 'dayGridMonth',
                 selectable: true,
                 editable: true,

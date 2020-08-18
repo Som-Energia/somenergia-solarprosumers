@@ -46,5 +46,12 @@
     </body>
     {% block js %}
         {% bootstrap_javascript jquery='full' %}
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $('#language').on('change', function() {
+                    $('#form-language').submit();
+                });
+            });
+        </script>
     {% endblock %}
 </html>
