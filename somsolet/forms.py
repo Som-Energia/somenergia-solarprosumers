@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from bootstrap_datepicker_plus import DatePickerInput
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Column, Field, Layout, Row, Submit
@@ -171,6 +173,9 @@ class TechnicalVisitForm(forms.ModelForm):
         widgets = {
             'date_technical_visit': DatePickerInput(
                 format='%Y-%m-%d',
+                options={
+                    'minDate': str(datetime.now().date())
+                }
             ),
         }
 
