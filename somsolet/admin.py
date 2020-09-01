@@ -127,7 +127,7 @@ class Technical_detailsResource(resources.ModelResource):
         attribute='acquire_interest',
         column_name="Estic interessat en adquirir")
     client_comments = fields.Field(
-        attribute='comments',
+        attribute='client_comments',
         column_name="COMENTARIOS")
 
     class Meta:
