@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-06-12 17:39-0015\n"
-"Last-Translator: b'  <sistemes@somenergia.coop>'\n"
+"PO-Revision-Date: 2020-09-16 15:59+0000\n"
+"Last-Translator: Weblate Admin <incubadoracorreu@somenergia.coop>\n"
 "Language-Team: Spanish <http://traduccio.somenergia.coop/projects/som-solet/"
 "somsolet/es/>\n"
 "Language: es\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.0.4\n"
+"X-Generator: Weblate 4.1.1\n"
 "X-Translated-Using: django-rosetta 0.9.3\n"
 
 #: config/settings/base.py:111
@@ -896,6 +896,7 @@ msgid "Warning date"
 msgstr "Fecha de Alarma"
 
 #: somsolet/models.py:382
+#, fuzzy
 msgid "Preregistration Date"
 msgstr "Fecha de registro"
 
