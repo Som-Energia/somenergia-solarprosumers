@@ -386,27 +386,6 @@ components:
           format: date-time
           description: end date of a campaign (all projects are completed)
           example: "2022-10-11"
-        engineering:
-          type: array
-          description: engineering information
-          items:
-            type: object
-            properties:
-              name:
-                type: string
-              address:
-                type: string
-              email:
-                type: string
-              phoneNumber:
-                type: integer
-          example:
-              [{
-                "name": "Som Enginnerings",
-                "address": "www.somengineerings.coop",
-                "email": "som.engineerings@somenergia.coop",
-                "phoneNumber": 1234567
-              },]
         localGroup:
           type: array
           description: local information
@@ -503,7 +482,28 @@ components:
         campaignName:
           type: string
           description: campaign name
-          example: "Som Solar"      
+          example: "Som Solar"
+        engineering:
+          type: array
+          description: engineering information
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              address:
+                type: string
+              email:
+                type: string
+              phoneNumber:
+                type: integer
+          example:
+              [{
+                "name": "Som Enginnerings",
+                "address": "www.somengineerings.coop",
+                "email": "som.engineerings@somenergia.coop",
+                "phoneNumber": 1234567
+              },]      
         dateStart:
           type: string
           format: date-time

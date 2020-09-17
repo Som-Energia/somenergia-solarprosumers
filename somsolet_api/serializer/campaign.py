@@ -9,7 +9,6 @@ class CampaignSerializer(serializers.HyperlinkedModelSerializer):
     campaignId = serializers.CharField(source='id')
     dateStart = serializers.DateField(source='date_inscriptions_closed')
     dateEnd = serializers.DateField(source='date_completed_installations')
-    engineerings = serializers.SerializerMethodField('get_engineerings')
     localGroups = serializers.SerializerMethodField('get_localGroups')
     region = serializers.SerializerMethodField('get_region')
     installationsStatus = serializers.SerializerMethodField('get_installations_status_summary')
@@ -20,24 +19,13 @@ class CampaignSerializer(serializers.HyperlinkedModelSerializer):
         fields = (
             'name', 
             'campaignId', 
-            'dateStart', 'dateEnd', 
-            'engineerings', 
+            'dateStart',
+            'dateEnd', 
             'localGroups', 
             'region',
             'installationsStatus',
             'productionSummary',
             )
-
-
-    def get_engineerings(self, obj):
-        return [
-            {
-                'name': e.name,
-                'address': e.address,
-                'email': e.email,
-                'phoneNumber': e.phone_number,
-            } for e in obj.engineerings.all()
-            ]
 
     def get_localGroups(self, obj):
         return [
