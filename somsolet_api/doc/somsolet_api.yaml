@@ -99,7 +99,7 @@ paths:
                       next:
                         type: string
                         description: url of next results. If null, you are in the last page
-                        example: "https://apinertgia.somenergia.coop/contracts?limit=5&cursor=dXNlcjpVMEc5V0ZYTlo"
+                        example: "https://somsolet-api.somenergia.coop/campaign?limit=5&cursor=dXNlcjpVMEc5V0ZYTlo"
         400:
           description: Invalid status value
           content: {}
@@ -142,7 +142,7 @@ paths:
                       next:
                         type: string
                         description: url of next results. If null, you are in the last page
-                        example: "https://apinertgia.somenergia.coop/contracts?limit=5&cursor=dXNlcjpVMEc5V0ZYTlo"
+                        example: "https://somsolet-api.somenergia.coop/contracts?limit=5&cursor=dXNlcjpVMEc5V0ZYTlo"
         400:
           description: Invalid status value
           content: {}

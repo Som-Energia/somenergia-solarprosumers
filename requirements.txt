@@ -21,3 +21,4 @@ pymongo
 django-rosetta==0.9.3
 connexion
 python-jose
+djangorestframework
