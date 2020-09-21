@@ -186,6 +186,37 @@
                         final_hour_picker.data("DateTimePicker").minDate(data.date);
                     });
                 },
+                select: function(info){
+                    var eventFormModal = $('#event-form');
+                    var initial_date_picker = $('#initial_date_picker');
+                    var initial_hour_picker = $('#initial_hour_picker');
+                    var final_date_picker = $('#final_date_picker');
+                    var final_hour_picker = $('#final_hour_picker');
+                    var event_hours = $('#event_hours');
+                    var switch_event_hours = document.getElementById('switch_event_hours');
+
+                    if (info.allDay) {
+                        event_hours.collapse('hide');
+                        switch_event_hours.checked = true;
+
+                    } else {
+                        event_hours.collapse('show');
+                        switch_event_hours.checked = false;
+                    }
+                    initial_date_picker.data("DateTimePicker").clear();
+                    initial_hour_picker.data("DateTimePicker").clear();
+                    final_date_picker.data("DateTimePicker").clear();
+                    final_hour_picker.data("DateTimePicker").clear();
+
+                    initial_date_picker.data("DateTimePicker").date(info.start);
+                    initial_hour_picker.data("DateTimePicker").date(info.start);
+                    final_date_picker.data("DateTimePicker").minDate(info.start);
+                    var final_datetime = moment(info.endStr).subtract(1, 'days');
+                    final_date_picker.data("DateTimePicker").date(final_datetime);
+                    final_hour_picker.data("DateTimePicker").date(final_datetime);
+
+                    eventFormModal.modal('show');
+                }
             });
             calendar.render();
         });
