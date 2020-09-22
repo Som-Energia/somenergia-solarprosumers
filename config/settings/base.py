@@ -201,6 +201,10 @@ LOGGING = {
             'handlers': ['console'],
             'level': 'INFO'
         },
+        'somrenkonto': {
+            'handlers': ['console'],
+            'level': 'DEBUG'
+        },
         "scheduler_tasks": {
             "handlers": ["console", "file"],
             "level": "DEBUG"
