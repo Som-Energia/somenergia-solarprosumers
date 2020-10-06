@@ -1,7 +1,6 @@
 from rest_framework import viewsets
-
-from somsolet_api.serializer import CampaignSerializer
 from somsolet.models import Campaign
+from somsolet_api.serializer import CampaignSerializer
 
 
 class CampaignViewSet(viewsets.ModelViewSet):

@@ -714,7 +714,6 @@ components:
           example:
             {
               "date": "2020-03-02",
-              "invalid": false,
               "file": "https://somsolet.somenergia.coop/construction_permit/permit_ss001.pdf"
             }
         installation:
@@ -755,8 +754,8 @@ components:
           example:
             {
               "date": "2020-05-02",
+              "file": "https://somsolet.somenergia.coop/delivery_certificate/dc_ss001.pdf"
               "action": "https://signme.somenergia.coop",
-              "inProgress": true,
             }
         legalRegistration:
           type: object

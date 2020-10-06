@@ -1,8 +1,6 @@
 from rest_framework import serializers
-
-from somsolet.models import Campaign, Project
-
 from somsolet.choices_options import ITEM_COMMUNITY
+from somsolet.models import Campaign, Project
 
 
 class CampaignSerializer(serializers.HyperlinkedModelSerializer):
@@ -17,15 +15,15 @@ class CampaignSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Campaign
         fields = (
-            'name', 
-            'campaignId', 
+            'name',
+            'campaignId',
             'dateStart',
-            'dateEnd', 
-            'localGroups', 
+            'dateEnd',
+            'localGroups',
             'region',
             'installationsStatus',
             'productionSummary',
-            )
+        )
 
     def get_localGroups(self, obj):
         return [
@@ -33,7 +31,7 @@ class CampaignSerializer(serializers.HyperlinkedModelSerializer):
                 'name': lg.name,
                 'email': lg.email,
             } for lg in obj.local_group.all()
-            ]
+        ]
 
     def get_region(self, obj):
         return {
@@ -47,23 +45,22 @@ class CampaignSerializer(serializers.HyperlinkedModelSerializer):
             'ongoing': Project.objects.filter(
                 campaign__name=obj.name,
                 registration_date__isnull=False
-                ).exclude(status='discarded').count(),
+            ).exclude(status='discarded').count(),
             'completed': obj.count_completed_installations,
-            'inscriptions':  Project.objects.filter(
+            'inscriptions': Project.objects.filter(
                 campaign__name=obj.name,
                 registration_date__isnull=False
-                ).count(),
+            ).count(),
         }
 
     def get_production_summary(self, obj):
-        ongoing_installations =  Project.objects.filter(
-                campaign__name=obj.name,
-                registration_date__isnull=False
-                ).exclude(status='discarded').count()
+        ongoing_installations = Project.objects.filter(
+            campaign__name=obj.name,
+            registration_date__isnull=False
+        ).exclude(status='discarded').count()
         return {
             'kWpInstalled': ongoing_installations * 3,
             'kWpPerYear': ongoing_installations * 1450,
             'GWhPerYear': ongoing_installations * 1450 * 0.000001,
             'GWhOverSom': ongoing_installations * 1450 * 0.000001 * 100 / 17.,
         }       
-   
