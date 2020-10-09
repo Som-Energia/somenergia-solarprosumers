@@ -42,6 +42,21 @@ h1 a {
     background-color: #bac92a;
     border-color: #bac92a;
 }
+.custom-control-input:checked~.custom-control-label::before {
+    color: #fff;
+    background-color: #bac92a;
+    border-color: #bac92a;
+}
+
+.autoComplete_result:hover{
+    border-left: 2px solid #bac92a;
+    border-right: 2px solid #bac92a;
+    background-color: #bac92a29;
+}
+
+.autoComplete_highlighted {
+    color: #bac92a !important;
+}
 
 .form-filters label {
     margin-right: .5rem !important;

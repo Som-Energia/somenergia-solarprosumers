@@ -10,6 +10,7 @@
 
 
 {% block css %}
+    <link href="{% static 'autocomplete/autoComplete.min.css' %}" rel='stylesheet'/>
     {{ block.super }}
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.css" type="text/css" media="all" rel="stylesheet">
     <link href="{% static 'fullcalendar/lib/main.min.css' %}" rel='stylesheet'/>
@@ -70,12 +71,12 @@
                     </div>
                     <div class="form-row">
                         <div class="form-group col">
-                            <input  class="form-control form-control-sm" type="text" placeholder="{% trans 'Campaing' %}">
+                            <input  class="form-control form-control-sm" id="campaings_id" type="text" tabindex="1" placeholder="{% trans 'Campaing' %}">
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col">
-                            <input  class="form-control form-control-sm" type="text" placeholder="{% trans 'Installation' %}">
+                            <input  class="form-control form-control-sm" id="installations_id" type="text" placeholder="{% trans 'Installation' %}">
                         </div>
                     </div>
                     <div class="form-row">
@@ -100,10 +101,103 @@
     {{ block.super }}
     <script src="{% static 'fullcalendar/lib/main.min.js' %}"></script>
     {% for language in languages %}
-         <script src='fullcalendar/lib/locales/{{languages.code}}.js'></script>
+         <script src="{% static 'fullcalendar/lib/locales/{{languages.code}}.js' %}"></script>
     {% endfor %}
+
+    <script src="{% static 'autocomplete/autoComplete.min.js' %}"></script>
+
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript">
+
+     function set_selection_value(element, value) {
+         document.querySelector(element).value = value;
+         document
+			       .querySelector("#campaings_id")
+			       .setAttribute("placeholder", value);
+     }
+
+     const autocomplete_campaing = new autoComplete({
+         data: {
+             key: ['name'],
+             cache: true,
+             src: [
+                 {
+                     name: 'Infierno Solar'
+                 },
+                 {
+                     name: 'Sol i Sol'
+                 }
+             ]
+         },
+         placeHolder: "{% trans 'Type to search a campaing' %}",
+         selector: '#campaings_id',
+         threshold: 1,
+         searchEngine: 'loose',
+         resultsList: {
+             render: true,
+             container: function(source) {
+                 console.log(source);
+                 source.setAttribute("id", "campaings_list");
+             },
+             destination: document.querySelector("#campaings_id"),
+             position: "afterend",
+             element: "ul"
+         },
+         resultItem: {
+             content: function(data, source) {
+                 source.innerHTML = data.match;
+             },
+             element: "li"
+         },
+         highlight: true,
+         onSelection: function(feedback) {
+             set_selection_value('#campaings_id', feedback.selection.value.name);
+         }
+     });
+
+     const autocomplete_installation = new autoComplete({
+         data: {
+             key: ['name'],
+             cache: true,
+             src: [
+                 {
+                     name: 'Dolores se llamaba Lola'
+                 },
+                 {
+                     name: 'Sebastien pinya'
+                 }
+             ]
+         },
+         placeHolder: "{% trans 'Type to search a campaing' %}",
+         selector: '#installations_id',
+         threshold: 1,
+         searchEngine: 'loose',
+         resultsList: {
+             render: true,
+             container: function(source) {
+                 console.log(source);
+                 source.setAttribute("id", "campaings_list");
+             },
+             destination: document.querySelector("#installations_id"),
+             position: "afterend",
+             element: "ul"
+         },
+         resultItem: {
+             content: function(data, source) {
+                 console.log(data);
+                 console.log(source);
+                 source.innerHTML = data.match;
+             },
+             element: "li"
+         },
+         highlight: true,
+         onSelection: function(feedback) {
+             set_selection_value('#installations_id', feedback.selection.value.name);
+         }
+     });
+    </script>
+
     <script type="text/javascript">
         function initialize_datepickers() {
             $('#initial_date_picker').datetimepicker({
