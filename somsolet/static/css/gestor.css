@@ -31,10 +31,20 @@ h1 a {
     border-color: #bac92a !important;
 }
 
+.btn-primary.active {
+    color: #fff !important;
+    background-color: #bac92a !important;
+    border-color: #bac92a !important;
+}
+
 .btn-primary:hover {
     color: #fff !important;
     background-color: #bac92a !important;
     border-color: #bac92a !important;
+}
+
+.btn-primary:focus .btn-primary.focus {
+    box-shadow: 0 0 0 0.2rem #bac92a29;
 }
 
 .btn-outline-primary:hover {
@@ -61,6 +71,11 @@ h1 a {
 .form-filters label {
     margin-right: .5rem !important;
     margin-bottom: .25rem !important;
+}
+
+.form-control:focus {
+    border-color: #bac92a;
+    box-shadow: 0 0 0 0.2rem #bac92a29;
 }
 
 .table-som a,
