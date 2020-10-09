@@ -133,8 +133,8 @@
          resultsList: {
              render: true,
              container: function(source) {
-                 console.log(source);
-                 source.setAttribute("id", "campaings_list");
+                 source.setAttribute("class", "autoComplete_resultlist");
+                 source.setAttribute("id", "campaings_resultlist");
              },
              destination: document.querySelector("#campaings_id"),
              position: "afterend",
@@ -172,8 +172,8 @@
          resultsList: {
              render: true,
              container: function(source) {
-                 console.log(source);
-                 source.setAttribute("id", "campaings_list");
+                 source.setAttribute("class", "autoComplete_resultlist");
+                 source.setAttribute("id", "installations_resultlist");
              },
              destination: document.querySelector("#installations_id"),
              position: "afterend",

@@ -58,12 +58,25 @@ h1 a {
     border-color: #bac92a;
 }
 
-.autoComplete_result:hover{
-    border-left: 2px solid #bac92a;
-    border-right: 2px solid #bac92a;
-    background-color: #bac92a29;
+.autoComplete_resultlist {
+    padding-left: 0;
 }
 
+.autoComplete_result {
+    margin: inherit;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.autoComplete_selected,
+.autoComplete_result:hover {
+    border-left: 2px solid #bac92a;
+    border-right: 2px solid #bac92a;
+    border-bottom: 2px solid #bac92a;
+    background-color: #bac92a29;
+}
 .autoComplete_highlighted {
     color: #bac92a !important;
 }
