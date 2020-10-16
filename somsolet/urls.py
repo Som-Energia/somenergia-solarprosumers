@@ -84,10 +84,16 @@ urlpatterns = [
         views.LegalRegistrationView.as_view(),
         name='legal_registration'
     ),
+
     # Som Renkonto
     path(
         'somrenkonto/',
         somrenkonto_views.CalendarView.as_view(),
         name='somrenkonto',
     ),
+    path(
+        'somrenkonto/events',
+        somrenkonto_views.SomRenkontoEventView.as_view(),
+        name='new_event'
+    )
 ]

@@ -23,67 +23,64 @@
   <div id="event-form" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form>
+            <form class="form" action="{% url 'new_event' %}" method="post">
+                {% csrf_token %}
                 <div class="modal-header">
-                    <input class="form-control form-control-lg" type="text" placeholder="{% trans 'Title of the event' %}">
+                    <input class="form-control form-control-lg" type="text" name="{{ event_form.title.html_name }}" placeholder="{% trans 'Title of the event' %}" required >
                 </div>
                 <div class="modal-body">
                     <div class="form-row">
                         <div class="form-group col form-check btn-group-toggle" data-toggle="buttons">
+                            {% for event_type in event_form.event_type.field.choices %}
                             <label class="btn btn-primary btn-block ">
-                                <input type="radio" id="inlineCheckbox1" value="option1" name="event_type" autocomplete="off">{% trans "Appointment" %}
+                                <input type="radio" id="{{ event_form.event_type.id_for_label}}" value="{{ event_type.0 }}" name="{{ event_form.event_type.html_name}}" autocomplete="off">{{ event_type.1 }}
                             </label>
-                            <label class="btn btn-primary btn-block">
-                                <input type="radio" id="inlineCheckbox2" value="option2" name="event_type" autocomplete="off">{% trans "Unavailability" %}
-                            </label>
-                            <label class="btn btn-primary btn-block">
-                                <input type="radio" id="inlineCheckbox3" value="option3" name="event_type" autocomplete="off">{% trans "Availability hours" %}
-                            </label>
+                            {% endfor %}
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col">
-                            <input id="initial_date_picker" class="form-control form-control-sm" type="text" placeholder="{% trans 'Initial date' %}">
+                            <input id="{{ event_form.start_date.id_for_label }}" class="form-control form-control-sm" type="text" name="{{ event_form.start_date.html_name }}" placeholder="{% trans 'Initial date' %}">
                         </div>
                         <div class="form-group col">
-                            <input id="final_date_picker" class="form-control form-control-sm" type="text" placeholder="{% trans 'Final date' %}">
+                            <input id="{{ event_form.end_date.id_for_label }}" class="form-control form-control-sm" type="text" name="{{ event_form.end_date.html_name }}" placeholder="{% trans 'Final date' %}">
                         </div>
                     </div>
                     <div class="form-row collapse" id="event_hours">
                         <div class="form-group col">
-                            <input id="initial_hour_picker" class="form-control form-control-sm" type="text" placeholder="{% trans 'Initial hour' %}">
+                            <input id="{{ event_form.start_time.id_for_label }}" class="form-control form-control-sm" type="text" name="{{ event_form.start_time.html_name }}" placeholder="{% trans 'Initial hour' %}">
                         </div>
                         <div class="form-group col">
-                            <input id="final_hour_picker" class="form-control form-control-sm" type="text" placeholder="{% trans 'Final hour' %}">
+                            <input id="{{ event_form.end_time.id_for_label }}" class="form-control form-control-sm" type="text" name="{{ event_form.end_time.html_name}}" placeholder="{% trans 'Final hour' %}">
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col">
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="switch_event_hours">
-                                <label class="custom-control-label" for="switch_event_hours">{% trans 'All day' %}</label>
+                                <input type="checkbox" class="custom-control-input" id="{{ event_form.all_day.id_for_label }}" name="{{ event_form.all_day.html_name }}">
+                                <label class="custom-control-label" for="{{ event_form.all_day.id_for_label }}" >{% trans 'All day' %}</label>
                             </div>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col">
-                            <input  class="form-control form-control-sm" id="campaings_id" type="text" tabindex="1" placeholder="{% trans 'Campaing' %}">
+                            <input  class="form-control form-control-sm" id="{{ event_form.campaing.id_for_label }}" type="text" tabindex="1" name="{{ event_form.campaing.html_name }}" placeholder="{% trans 'Campaing' %}">
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col">
-                            <input  class="form-control form-control-sm" id="installations_id" type="text" placeholder="{% trans 'Installation' %}">
+                            <input  class="form-control form-control-sm" id="{{ event_form.installation.id_for_label }}" type="text" name="{{ event_form.installation.html_name }}" placeholder="{% trans 'Installation' %}">
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col">
-                            <textarea class="form-control" rows="3" placeholder="{% trans 'Description' %}"></textarea>
+                            <textarea class="form-control" id="{{ event_form.description.id_for_label }}" rows="3" name="{{ event_form.description.html_name }}" placeholder="{% trans 'Description' %}"></textarea>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans 'Close' %} </button>
-                    <button type="button" class="btn btn-primary">{% trans 'Save changes' %}</button>
+                    <button type="button submit" class="btn btn-primary">{% trans 'Save' %}</button>
                 </div>
             </form>
         </div>
@@ -127,7 +124,7 @@
              ]
          },
          placeHolder: "{% trans 'Type to search a campaing' %}",
-         selector: '#campaings_id',
+         selector: '#id_campaing',
          threshold: 1,
          searchEngine: 'loose',
          resultsList: {
@@ -136,7 +133,7 @@
                  source.setAttribute("class", "autoComplete_resultlist");
                  source.setAttribute("id", "campaings_resultlist");
              },
-             destination: document.querySelector("#campaings_id"),
+             destination: document.querySelector("#id_campaing"),
              position: "afterend",
              element: "ul"
          },
@@ -148,7 +145,7 @@
          },
          highlight: true,
          onSelection: function(feedback) {
-             set_selection_value('#campaings_id', feedback.selection.value.name);
+             set_selection_value('#id_campaing', feedback.selection.value.name);
          }
      });
 
@@ -166,7 +163,7 @@
              ]
          },
          placeHolder: "{% trans 'Type to search a campaing' %}",
-         selector: '#installations_id',
+         selector: '#id_installation',
          threshold: 1,
          searchEngine: 'loose',
          resultsList: {
@@ -175,7 +172,7 @@
                  source.setAttribute("class", "autoComplete_resultlist");
                  source.setAttribute("id", "installations_resultlist");
              },
-             destination: document.querySelector("#installations_id"),
+             destination: document.querySelector("#id_installation"),
              position: "afterend",
              element: "ul"
          },
@@ -189,7 +186,7 @@
          },
          highlight: true,
          onSelection: function(feedback) {
-             set_selection_value('#installations_id', feedback.selection.value.name);
+             set_selection_value('#id_installation', feedback.selection.value.name);
          }
      });
     </script>
@@ -310,7 +307,7 @@
                     } else {
                         event_hours.collapse('show');
                         switch_event_hours.checked = false;
-                        final_datetime = info.end
+                        final_datetime = info.end;
                     }
                     initial_date_picker.data("DateTimePicker").clear();
                     initial_hour_picker.data("DateTimePicker").clear();

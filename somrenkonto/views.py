@@ -7,7 +7,7 @@ from django.utils.text import slugify
 from django.views import View
 from schedule.models import Calendar
 
-from .forms import CalendarForm
+from .forms import CalendarForm, EventForm
 
 logger = logging.getLogger('somrenkonto')
 
@@ -28,12 +28,12 @@ class CalendarView(View):
         }
         return render(request, 'new_calendar.html', context)
 
-    def _show_calendar_view(self, request, calendar):
+    def _show_calendar_view(self, request, calendar, event_form):
         context = {
-            'calendar': calendar
+            'calendar': calendar,
+            'event_form': event_form,
         }
         return render(request, 'calendar.html', context)
-
 
     def get(self, request):
         try:
@@ -41,7 +41,11 @@ class CalendarView(View):
         except Calendar.DoesNotExist:
             return self._show_calendar_form(request)
 
-        return self._show_calendar_view(request, calendar=ing_calendar)
+        return self._show_calendar_view(
+            request,
+            calendar=ing_calendar,
+            event_form=EventForm()
+        )
 
     def post(self, request):
         calendar_form = CalendarForm(request.POST)
@@ -51,3 +55,11 @@ class CalendarView(View):
 
         return HttpResponseRedirect(reverse('somrenkonto'))
 
+
+class SomRenkontoEventView(View):
+
+    def post(self, request):
+        event_form = EventForm(request.POST)
+        logger.debug(event_form)
+
+        return HttpResponseRedirect(reverse('somrenkonto'))

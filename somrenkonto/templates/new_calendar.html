@@ -19,7 +19,7 @@
 <div class="modal fade" id="new_calendar_modal"  aria-labelledby="New Calendar" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form class="form" action="" method="post">
+            <form class="form" action="{% url 'somrenkonto' %}" method="post">
                 {% csrf_token %}
                 <div class="modal-header">
                     <h4> {% trans "New calendar" %}
