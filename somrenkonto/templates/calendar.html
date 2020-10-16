@@ -25,6 +25,8 @@
         <div class="modal-content">
             <form class="form" action="{% url 'new_event' %}" method="post">
                 {% csrf_token %}
+
+                <input type="hidden" name="{{ event_form.calendar.html_name }}" value="{{ calendar.id }}">
                 <div class="modal-header">
                     <input class="form-control form-control-lg" type="text" name="{{ event_form.title.html_name }}" placeholder="{% trans 'Title of the event' %}" required >
                 </div>
@@ -64,12 +66,12 @@
                     </div>
                     <div class="form-row">
                         <div class="form-group col">
-                            <input  class="form-control form-control-sm" id="{{ event_form.campaing.id_for_label }}" type="text" tabindex="1" name="{{ event_form.campaing.html_name }}" placeholder="{% trans 'Campaing' %}">
+                            <input  class="form-control form-control-sm" id="{{ event_form.campaing_name.id_for_label }}" type="text" tabindex="1" name="{{ event_form.campaing_name.html_name }}" placeholder="{% trans 'Campaing' %}">
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col">
-                            <input  class="form-control form-control-sm" id="{{ event_form.installation.id_for_label }}" type="text" name="{{ event_form.installation.html_name }}" placeholder="{% trans 'Installation' %}">
+                            <input  class="form-control form-control-sm" id="{{ event_form.installation_name.id_for_label }}" type="text" name="{{ event_form.installation_name.html_name }}" placeholder="{% trans 'Installation' %}">
                         </div>
                     </div>
                     <div class="form-row">

@@ -26,7 +26,7 @@ class EventFormChoices(object):
     ]
 
 
-class EventForm(forms.Form):
+class RenkontoEventForm(forms.Form):
 
     title = forms.CharField(
         max_length=256,
@@ -76,14 +76,21 @@ class EventForm(forms.Form):
         help_text=_('Type of the event')
     )
 
-    campaing = forms.CharField(
+    calendar = forms.IntegerField(
+        required=True,
+        help_text=_('Calendar ID for this event')
+    )
+
+    campaing_name = forms.CharField(
         max_length='256',
         required=True,
+        widget=forms.TextInput(attrs={'id': 'id_campaing'}),
         help_text=_('Asociated campaign of this event')
     )
 
-    installation = forms.CharField(
+    installation_name = forms.CharField(
         max_length='256',
         required=True,
+        widget=forms.TextInput(attrs={'id': 'id_installation'}),
         help_text=_('Asociated installation of this event')
     )

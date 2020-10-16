@@ -7,7 +7,8 @@ from django.utils.text import slugify
 from django.views import View
 from schedule.models import Calendar
 
-from .forms import CalendarForm, EventForm
+from .models import RenkontoEvent
+from .forms import CalendarForm, RenkontoEventForm
 
 logger = logging.getLogger('somrenkonto')
 
@@ -44,7 +45,7 @@ class CalendarView(View):
         return self._show_calendar_view(
             request,
             calendar=ing_calendar,
-            event_form=EventForm()
+            event_form=RenkontoEventForm()
         )
 
     def post(self, request):
@@ -59,7 +60,9 @@ class CalendarView(View):
 class SomRenkontoEventView(View):
 
     def post(self, request):
-        event_form = EventForm(request.POST)
-        logger.debug(event_form)
+        event_form = RenkontoEventForm(request.POST)
+        if event_form.is_valid():
+            renkonto_event = RenkontoEvent.create(**event_form.cleaned_data)
+            logger.debug(renkonto_event.__dict__)
 
         return HttpResponseRedirect(reverse('somrenkonto'))
