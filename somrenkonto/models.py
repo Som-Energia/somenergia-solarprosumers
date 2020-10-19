@@ -1,13 +1,30 @@
+import json
 from datetime import datetime, time
 
 from django.db import models
+from django.core import serializers
 from schedule.models import Calendar, Event
 
 from somsolet.models import Campaign, Project
 
 
 class RenkontoEventQuerySet(models.QuerySet):
-    pass
+
+    def all(self):
+        return self.all()
+
+    def to_json(self):
+        def event_encoder(field):
+            if isinstance(field, datetime):
+                return str(field)
+            if isinstance(field, models.base.ModelState):
+                pass
+
+        result = []
+        for event in self:
+            result.append(json.dumps(event.__dict__, default=event_encoder))
+
+        return '[{}]'.format(','.join(result))
 
 
 class RenkontoEvent(Event):
@@ -48,4 +65,3 @@ class RenkontoEvent(Event):
 
         self.save()
         return self
-

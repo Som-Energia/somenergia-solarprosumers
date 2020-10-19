@@ -103,6 +103,9 @@
 
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+
+    {{ calendar_events|json_script:"calendar_events" }}
+
     <script type="text/javascript">
 
      function set_selection_value(element, value) {
@@ -218,6 +221,10 @@
         }
 
         document.addEventListener('DOMContentLoaded', function() {
+            var events = JSON.parse(
+              JSON.parse(document.getElementById('calendar_events').textContent)
+            );
+
             var calendarEl = document.getElementById('calendar');
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 themeSystem: 'bootstrap',
@@ -251,6 +258,7 @@
                         endTime: '18:00' // 6pm
                     }
                 ],
+                events: events,
                 dateClick: function(info) {
                     var eventFormModal = $('#event-form');
                     var initial_date_picker = $('#initial_date_picker');

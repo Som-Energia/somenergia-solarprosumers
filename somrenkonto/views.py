@@ -29,10 +29,15 @@ class CalendarView(View):
         }
         return render(request, 'new_calendar.html', context)
 
-    def _show_calendar_view(self, request, calendar, event_form):
+    def _show_calendar_view(self, request, calendar):
+
+        event_form = RenkontoEventForm()
+        calendar_events = RenkontoEvent.events.all()
+
         context = {
             'calendar': calendar,
             'event_form': event_form,
+            'calendar_events': calendar_events.to_json()
         }
         return render(request, 'calendar.html', context)
 
@@ -44,8 +49,7 @@ class CalendarView(View):
 
         return self._show_calendar_view(
             request,
-            calendar=ing_calendar,
-            event_form=RenkontoEventForm()
+            calendar=ing_calendar
         )
 
     def post(self, request):
