@@ -219,7 +219,7 @@
                 useCurrent: false
             });
         }
-
+        var event_node;
         document.addEventListener('DOMContentLoaded', function() {
             var events = JSON.parse(
               JSON.parse(document.getElementById('calendar_events').textContent)
@@ -259,6 +259,16 @@
                     }
                 ],
                 events: events,
+                eventClick: function(info){
+                  if ($(".popover, .show").length >= 1) {
+                    console.log('hola k tal');
+                    $(info.el).popover('hide');
+                  } else {
+                    $(info.el).popover({
+                      'content': info.event.title
+                    }).popover('show');
+                  }
+                },
                 dateClick: function(info) {
                     var eventFormModal = $('#event-form');
                     var initial_date_picker = $('#initial_date_picker');
