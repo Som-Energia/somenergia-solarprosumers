@@ -22,6 +22,11 @@ class TestStages(TestCase):
         assert response.status_code == 200
         assert response_body.__class__ is list
 
+    def test_stages_user_unauthenticated(self):
+        response = self.client.get(self.base_url)
+
+        assert response.status_code == 403
+
 
 class TestCampaign(TestCase):
     
@@ -41,6 +46,11 @@ class TestCampaign(TestCase):
         assert response.status_code == 200
         assert response_body == []
 
+    def test_campaign_user_unauthenticated(self):
+        response = self.client.get(self.base_url)
+
+        assert response.status_code == 403
+
 
 class TestProject(TestCase):
     
@@ -59,3 +69,8 @@ class TestProject(TestCase):
         response_body = response.json()
         assert response.status_code == 200
         assert response_body == []
+
+    def test_campaign_user_unauthenticated(self):
+        response = self.client.get(self.base_url)
+
+        assert response.status_code == 403
