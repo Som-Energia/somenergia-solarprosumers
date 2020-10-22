@@ -282,17 +282,45 @@
                         endTime: '18:00' // 6pm
                     }
                 ],
-                events: events,
+                
+                eventSources: [{
+                    events: events,
+                    editable: false,
+                }],
+                eventTimeFormat: {
+                    month: 'long',
+                    year: 'numeric',
+                    day: 'numeric',
+                    },
+                displayEventTime: false,
                 eventClick: function(info) {
                     var event_node = $(info.el);
                     var is_popover_showed = $(info.el).data('bs.popover') && $(info.el).data('bs.popover').tip.hasAttributes('show');
-
+                    console.log(info.event);
                     if (is_popover_showed) {
                         event_node.popover('hide');
                     } else {
+                        var event_content = $('#event-content').html()
                         close_other_popovers();
+                        console.log(info.event.start.toString())
                         init_and_show_popover($(info.el), {
-                            content: info.event.title
+                            html: true,
+                            content: `<div class=row>
+                                <div class=col>
+                                    <h6> ${info.event.title} </h6> 
+                                </div>
+                            </div>
+                            <div class=row>
+                                <div class=col>
+                                    <p> Hour </p>
+                                    <br>
+                                    <p> ${info.event.extendedProps.description} </p>
+                                </div>
+                                <div class=col>
+                                    <p class="font-weight-light"> ${info.event.start} </p>
+                                </div>
+                            </div>`
+
                         });
                     }
                 },
