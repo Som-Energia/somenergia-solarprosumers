@@ -219,7 +219,31 @@
                 useCurrent: false
             });
         }
-        var event_node;
+
+        function close_other_popovers() {
+           if ($('.show[role="tooltip"]').length > 0) {
+               $('.show[role="tooltip"]').popover('hide');
+           }
+           $(window).off('click');
+        }
+
+        function closeOnOutsiteClick(element, target){
+            if( !element.get(0).contains(target) ){
+                close_other_popovers();
+            }
+        }
+
+        function init_and_show_popover(element, init_data) {
+          element.popover(init_data).popover('show');
+          
+          element.on('hidden.bs.popover', function () {
+              element.popover('dispose');
+          });
+          $(window).on('click', function(e){
+            closeOnOutsiteClick(element, e.target);
+          })
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             var events = JSON.parse(
               JSON.parse(document.getElementById('calendar_events').textContent)
@@ -259,15 +283,18 @@
                     }
                 ],
                 events: events,
-                eventClick: function(info){
-                  if ($(".popover, .show").length >= 1) {
-                    console.log('hola k tal');
-                    $(info.el).popover('hide');
-                  } else {
-                    $(info.el).popover({
-                      'content': info.event.title
-                    }).popover('show');
-                  }
+                eventClick: function(info) {
+                    var event_node = $(info.el);
+                    var is_popover_showed = $(info.el).data('bs.popover') && $(info.el).data('bs.popover').tip.hasAttributes('show');
+
+                    if (is_popover_showed) {
+                        event_node.popover('hide');
+                    } else {
+                        close_other_popovers();
+                        init_and_show_popover($(info.el), {
+                            content: info.event.title
+                        });
+                    }
                 },
                 dateClick: function(info) {
                     var eventFormModal = $('#event-form');
@@ -296,6 +323,7 @@
                     final_date_picker.data("DateTimePicker").minDate(info.date);
                     final_date_picker.data("DateTimePicker").date(info.date);
 
+                    close_other_popovers();
                     eventFormModal.modal('show');
 
                     initial_date_picker.on('dp.change', function(data) {
@@ -340,6 +368,7 @@
                     final_date_picker.data("DateTimePicker").date(final_datetime);
                     final_hour_picker.data("DateTimePicker").date(final_datetime);
 
+                    close_other_popovers();
                     eventFormModal.modal('show');
                 }
             });
