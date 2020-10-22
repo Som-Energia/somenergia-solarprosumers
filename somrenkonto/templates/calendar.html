@@ -287,40 +287,58 @@
                     events: events,
                     editable: false,
                 }],
-                eventTimeFormat: {
-                    month: 'long',
-                    year: 'numeric',
-                    day: 'numeric',
-                    },
                 displayEventTime: false,
                 eventClick: function(info) {
                     var event_node = $(info.el);
                     var is_popover_showed = $(info.el).data('bs.popover') && $(info.el).data('bs.popover').tip.hasAttributes('show');
-                    console.log(info.event);
+
                     if (is_popover_showed) {
                         event_node.popover('hide');
                     } else {
-                        var event_content = $('#event-content').html()
                         close_other_popovers();
-                        console.log(info.event.start.toString())
+                        var start_date = FullCalendar.formatDate(info.event.start, {
+                            month: 'long',
+                            day: 'numeric',
+                            locale: '{{ lang.code|default:"ca"}}'
+                        });
+                        var start_time = FullCalendar.formatDate(info.event.start, {
+                            hour: '2-digit',
+                            minute: '2-digit',
+                            hour12: false,
+                            
+                        });
                         init_and_show_popover($(info.el), {
                             html: true,
-                            content: `<div class=row>
-                                <div class=col>
+                            content: `
+                            <div class="row">
+                                <div class="col">
                                     <h6> ${info.event.title} </h6> 
                                 </div>
                             </div>
-                            <div class=row>
-                                <div class=col>
-                                    <p> Hour </p>
-                                    <br>
-                                    <p> ${info.event.extendedProps.description} </p>
+                            <div class="row">
+                                <div class="col-2">
+                                    <span style="font-size: 1em;"><i class="fa fa-align-justify fa-calendar fa-fw"></i></span>
                                 </div>
-                                <div class=col>
-                                    <p class="font-weight-light"> ${info.event.start} </p>
+                                <div class="col">
+                                    <p class="font-weight-light"> ${start_date} </p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-2">
+                                    <p><i class="fa fa-clock-o"></i></p>
+                                </div>
+                                <div class="col">
+                                    <p class="font-weight-light"> ${start_time} </p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-2">
+                                    <p><i class="fa fa-info-circle"></i></p>
+                                </div>
+                                <div class="col">
+                                   <p class="font-weight-light"> ${info.event.extendedProps.description} </p>
                                 </div>
                             </div>`
-
                         });
                     }
                 },
