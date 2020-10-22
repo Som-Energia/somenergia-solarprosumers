@@ -13,6 +13,8 @@ class SomsoletConfig(AppConfig):
             scheduler.cancel(job)
 
         import scheduler_tasks
+        '''
+        pending to uncomment until auto's ok
 
         scheduler.cron(
             "0 23 * * *",
@@ -20,32 +22,35 @@ class SomsoletConfig(AppConfig):
             repeat=1,
             queue_name='default',
         )
-
+        '''
         scheduler.cron(
-            "0 22 * * 6",
+            "1 * * * *",
+            #"0 22 * * 6",
             func=scheduler_tasks.send_email_tasks,
             repeat=1,
             queue_name='default',
         )
-
+        '''
+        pending to uncomment until auto's ok
         scheduler.cron(
-            "0 22 * * 6",
+            "0 22 1,15 * *",
             func=scheduler_tasks.send_email_summary,
-            args=[True, False],
+            args=[True, False, False],
+            repeat=1,
+            queue_name='default',
+        )
+        '''
+        scheduler.cron(
+            "0 22 1,15 * *",
+            func=scheduler_tasks.send_email_summary,
+            args=[False, True, False],
             repeat=1,
             queue_name='default',
         )
         scheduler.cron(
             "0 22 1,15 * *",
             func=scheduler_tasks.send_email_summary,
-            args=[False, True],
-            repeat=1,
-            queue_name='default',
-        )
-        scheduler.cron(
-            "0 22 1,15 * *",
-            func=scheduler_tasks.send_email_summary,
-            args=[False, False],
+            args=[False, False, True],
             repeat=1,
             queue_name='default',
         )
