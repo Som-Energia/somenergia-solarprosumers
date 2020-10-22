@@ -897,7 +897,7 @@ msgstr "Fecha de Alarma"
 
 #: somsolet/models.py:382
 msgid "Preregistration Date"
-msgstr "Fecha de registro"
+msgstr "Fecha de preregistro"
 
 #: somsolet/models.py:386
 msgid "Payed Preregistration"

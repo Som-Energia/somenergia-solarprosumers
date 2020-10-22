@@ -24,8 +24,7 @@ class SomsoletConfig(AppConfig):
         )
         '''
         scheduler.cron(
-            "1 * * * *",
-            #"0 22 * * 6",
+            "0 22 * * 6",
             func=scheduler_tasks.send_email_tasks,
             repeat=1,
             queue_name='default',
