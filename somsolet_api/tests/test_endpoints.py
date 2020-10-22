@@ -5,17 +5,37 @@ from django.urls import resolve, reverse
 from somsolet.models import (Campaign, Project)
 
 
+class TestAPI(TestCase):
+
+    def setUp(self):
+        self.user = User(username='aitor', password='1234')
+        self.user.set_password('1234')
+        self.user.save()
+
+    def tearDown(self):
+        self.user.delete()
+
+    def test_auth(self):
+        login_response = self.client.login(
+            username=self.user.username, password='1234'
+        )
+        assert login_response == True
+
+
 class TestStages(TestCase):
 
     def setUp(self):
         self.base_url = '/somsolet-api/stages/'
         self.user = User(username='aitor', password='1234')
+        self.user.set_password('1234')
         self.user.save()
 
     def tearDown(self):
         self.user.delete()
 
     def test_stages_base_case(self):
+        self.client.login(username=self.user.username, password='1234')
+
         response = self.client.get(self.base_url)
 
         response_body = response.json()
@@ -33,6 +53,7 @@ class TestCampaign(TestCase):
     def setUp(self):
         self.base_url = '/somsolet-api/campaign/'
         self.user = User(username='aitor', password='1234')
+        self.user.set_password('1234')
         self.user.save()
         # TODO: Create a test Campaign
 
@@ -57,6 +78,7 @@ class TestProject(TestCase):
     def setUp(self):
         self.base_url = '/somsolet-api/project/'
         self.user = User(username='aitor', password='1234')
+        self.user.set_password('1234')
         self.user.save()
         # TODO: Create a test Project
 
