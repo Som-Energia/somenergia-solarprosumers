@@ -1,4 +1,4 @@
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Permission
 from django.test import TestCase
 from django.urls import resolve, reverse
 
@@ -60,18 +60,28 @@ class TestCampaign(TestCase):
     def tearDown(self):
         self.user.delete()
 
-    def test_stages_base_case(self):
-        response = self.client.get(self.base_url)
-
-        response_body = response.json()
-        assert response.status_code == 200
-        assert response_body == []
-
     def test_campaign_user_unauthenticated(self):
         response = self.client.get(self.base_url)
 
         assert response.status_code == 403
 
+    def test_campaign_user_not_permitted(self):
+        self.client.login(username=self.user.username, password='1234')
+
+        response = self.client.get(self.base_url)
+
+        assert response.status_code == 403
+
+    def test_campaign_user_permitted(self):
+        self.client.login(username=self.user.username, password='1234')
+        permission = Permission.objects.get(codename='view_campaign')
+        self.user.user_permissions.add(permission)
+
+        response = self.client.get(self.base_url)
+
+        response_body = response.json()
+        assert response.status_code == 200
+        assert response_body == []
 
 class TestProject(TestCase):
     
@@ -85,14 +95,25 @@ class TestProject(TestCase):
     def tearDown(self):
         self.user.delete()
 
-    def test_project_base_case(self):
+    def test_project_user_unauthenticated(self):
+        response = self.client.get(self.base_url)
+
+        assert response.status_code == 403
+
+    def test_project_user_not_permitted(self):
+        self.client.login(username=self.user.username, password='1234')
+
+        response = self.client.get(self.base_url)
+
+        assert response.status_code == 403
+
+    def test_project_user_permitted(self):
+        self.client.login(username=self.user.username, password='1234')
+        permission = Permission.objects.get(codename='view_project')
+        self.user.user_permissions.add(permission)
+
         response = self.client.get(self.base_url)
 
         response_body = response.json()
         assert response.status_code == 200
         assert response_body == []
-
-    def test_campaign_user_unauthenticated(self):
-        response = self.client.get(self.base_url)
-
-        assert response.status_code == 403
