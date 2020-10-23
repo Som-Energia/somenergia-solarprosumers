@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-09-16 15:59+0000\n"
-"Last-Translator: Weblate Admin <incubadoracorreu@somenergia.coop>\n"
+"PO-Revision-Date: 2020-10-24 10:00+0000\n"
+"Last-Translator: Carol Coll Marques <carol.coll@somenergia.coop>\n"
 "Language-Team: Spanish <http://traduccio.somenergia.coop/projects/som-solet/"
 "somsolet/es/>\n"
 "Language: es\n"
@@ -896,7 +896,6 @@ msgid "Warning date"
 msgstr "Fecha de Alarma"
 
 #: somsolet/models.py:382
-#, fuzzy
 msgid "Preregistration Date"
 msgstr "Fecha de registro"
 
