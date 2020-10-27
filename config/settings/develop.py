@@ -26,3 +26,5 @@ DATABASES = {
         'NAME': config['mongodb']['name']
     }
 }
+
+CORS_ORIGIN_WHITELIST = config['whitelist']
