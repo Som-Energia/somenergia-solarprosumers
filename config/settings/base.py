@@ -2,6 +2,8 @@ import os
 
 import yaml
 from django.utils.translation import gettext_lazy as _
+from corsheaders.defaults import default_headers
+
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -213,3 +215,6 @@ ANYMAIL = {
 EMAIL_BACKEND = "anymail.backends.sendgrid.EmailBackend"
 DEFAULT_FROM_EMAIL = [config['email']['default_from']]
 BCC = [config['email']['bcc']]
+
+CORS_ORIGIN_WHITELIST = config['cors']['whitelist']
+CORS_ALLOW_HEADERS = list(default_headers) + config['cors']['allowed_headers']

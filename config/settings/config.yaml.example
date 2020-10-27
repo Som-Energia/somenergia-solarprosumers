@@ -27,5 +27,8 @@ email:
   default_from: mail@domain.coop
   bcc: mail@domain.coop
 
-whitelist:
-  - https://host:port
+cors:
+  whitelist:
+    - https://host:port
+  allowed:headers:
+    - allowed_header
