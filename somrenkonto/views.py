@@ -1,4 +1,5 @@
 import logging
+import json
 
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
@@ -7,6 +8,8 @@ from django.utils.text import slugify
 from django.views import View
 from schedule.models import Calendar
 
+
+from somsolet.models import Campaign, Project, Engineering
 from .models import RenkontoEvent
 from .forms import CalendarForm, RenkontoEventForm
 
@@ -15,6 +18,16 @@ logger = logging.getLogger('somrenkonto')
 
 class CalendarView(View):
 
+    def _get_campaigns(self, request):
+        eng = Engineering.objects.get(user=request.user)
+        campaigns = Campaign.objects.filter(
+            engineerings=eng
+        )
+        return {
+            campaign.name: list(Project.objects.filter(campaign=campaign).values('name'))
+            for campaign in campaigns
+        }
+        
     def _create_calendar(self, name):
         calendar = Calendar(
             name=name,
@@ -33,11 +46,13 @@ class CalendarView(View):
 
         event_form = RenkontoEventForm()
         calendar_events = RenkontoEvent.events.all()
+        campaigns = self._get_campaigns(request)
 
         context = {
             'calendar': calendar,
             'event_form': event_form,
-            'calendar_events': calendar_events.to_json()
+            'calendar_events': calendar_events.to_json(),
+            'campaigns': json.dumps(campaigns)
         }
         return render(request, 'calendar.html', context)
 
