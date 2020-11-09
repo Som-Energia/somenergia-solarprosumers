@@ -3,15 +3,20 @@ from datetime import datetime, time
 
 from django.db import models
 from django.core import serializers
+from django.utils.translation import gettext_lazy as _
 from schedule.models import Calendar, Event
 
 from somsolet.models import Campaign, Project
+from .common import Base
 
 
 class RenkontoEventQuerySet(models.QuerySet):
 
-    def all(self):
-        return self.all()
+    def user_events(self, user):
+        return self.filter(created_by=user)
+
+    def filter_events(self, filters):
+        return self.filter(*filters)
 
     def to_json(self):
         def event_encoder(field):
@@ -27,7 +32,7 @@ class RenkontoEventQuerySet(models.QuerySet):
         return '[{}]'.format(','.join(result))
 
 
-class RenkontoEvent(Event):
+class RenkontoEvent(Event, Base):
 
     campaign = models.ForeignKey(
         Campaign,

@@ -87,7 +87,7 @@ urlpatterns = [
 
     # Som Renkonto
     path(
-        'somrenkonto/',
+        'somrenkonto',
         somrenkonto_views.CalendarView.as_view(),
         name='somrenkonto',
     ),

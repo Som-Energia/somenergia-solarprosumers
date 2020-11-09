@@ -8,6 +8,7 @@ from . import factories
 
 client = Client()
 
+
 @pytest.mark.django_db
 def test__calendar_view(rf, ):
     User = get_user_model()
