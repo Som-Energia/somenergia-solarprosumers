@@ -68,5 +68,8 @@ class RenkontoEvent(Event, Base):
         self.campaign = Campaign.objects.get(name=campaing_name)
         self.project = Project.objects.get(name=installation_name)
 
+        self.created_by = get_current_authenticated_user()
+        self.modified_by = self.created_by
+
         self.save()
         return self

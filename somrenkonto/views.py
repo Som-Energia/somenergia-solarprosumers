@@ -99,10 +99,13 @@ class CalendarView(FilterViewMixin, View):
 
 class SomRenkontoEventView(View):
 
+    def _get_url_to_go(self, request, view_name):
+        return request.META.get('HTTP_REFERER') or reverse(view_name)
+
     def post(self, request):
         event_form = RenkontoEventForm(request.POST)
         if event_form.is_valid():
             renkonto_event = RenkontoEvent.create(**event_form.cleaned_data)
-            logger.debug(renkonto_event.__dict__)
 
-        return HttpResponseRedirect(reverse('somrenkonto'))
+        url_to_go = self._get_url_to_go(request, 'somrenkonto')
+        return HttpResponseRedirect(url_to_go)
