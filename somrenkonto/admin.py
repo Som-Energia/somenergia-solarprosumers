@@ -47,5 +47,19 @@ class RenkontoEventAdmin(admin.ModelAdmin):
                 ]
             },
         ),
+        (
+            'Meta',
+            {
+                "fields": [
+                    ("created_by", "modified_by"),
+                    ("created_at"),
+                    ("modified_at"),
+                    ("deleted_at"),
+                ]
+            }
+        ),
     )
+
+    readonly_fields = ("created_at", "modified_at")
+
     form = EventAdminForm

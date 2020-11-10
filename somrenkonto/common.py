@@ -17,7 +17,7 @@ class Base(models.Model):
         get_user_model(),
         on_delete=models.CASCADE,
         related_name='modified_events',
-        verbose_name=_('created_by'),
+        verbose_name=_('modified_by'),
         help_text=_('who modified this object')
     )
 
@@ -29,17 +29,16 @@ class Base(models.Model):
 
     modified_at = models.DateTimeField(
         auto_now=True,
-        verbose_name=_('created_by'),
-        help_text=_('last update of this object')
+        verbose_name=_('modified at'),
+        help_text=_('last time this object updated')
     )
 
     deleted_at = models.DateTimeField(
         null=True,
         blank=True,
-        verbose_name=_('created_by'),
+        verbose_name=_('deleted at'),
         help_text=_('when was deleted this object')
     )
 
     class Meta:
         abstract = True
-    
