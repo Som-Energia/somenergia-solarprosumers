@@ -1,6 +1,8 @@
 from django import forms
 from django.utils.translation import gettext_lazy as _
 
+from .models import EventChoices
+
 
 class CalendarForm(forms.Form):
 
@@ -9,21 +11,6 @@ class CalendarForm(forms.Form):
         required=True,
         help_text=_('Name of the calendar')
     )
-
-
-class EventFormChoices(object):
-
-    APPOINTMENT = 'APPO'
-
-    UNAVAILABILITY = 'UNAVAIL'
-
-    AVAILABILITY = 'AVAIL'
-
-    choices = [
-        (APPOINTMENT, _('Appointment')),
-        (UNAVAILABILITY, _('Unavailability')),
-        (AVAILABILITY, _('Availability hours'))
-    ]
 
 
 class RenkontoEventForm(forms.Form):
@@ -71,7 +58,7 @@ class RenkontoEventForm(forms.Form):
     )
 
     event_type = forms.ChoiceField(
-        choices=EventFormChoices.choices,
+        choices=EventChoices.choices,
         required=True,
         help_text=_('Type of the event')
     )

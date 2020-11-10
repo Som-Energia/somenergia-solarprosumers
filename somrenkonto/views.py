@@ -48,7 +48,7 @@ class CalendarView(FilterViewMixin, View):
         filters.append(Q(created_by=request.user))
         print(filters)
         return RenkontoEvent.events.filter_events(filters)
-        
+
     def _create_calendar(self, name):
         calendar = Calendar(
             name=name,
