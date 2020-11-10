@@ -5,6 +5,16 @@ from .admin import Engineering, LocalGroup
 from .choices_options import ITEM_COMMUNITY
 
 
+
+class CampaignQuerySet(models.QuerySet):
+
+    def user_campaigns(self, user):
+        user_campaigns_query = models.Q(
+            engineerings=Engineering.objects.get(user=user)
+        )
+        return self.filter(user_campaigns_query)
+
+
 class Campaign(models.Model):
     name = models.CharField(
         blank=True,
@@ -109,6 +119,10 @@ class Campaign(models.Model):
 
     active = models.BooleanField(
         default=True)
+
+    objects = models.Manager()
+
+    campaigns = CampaignQuerySet.as_manager()
 
     def __str__(self):
         return self.name

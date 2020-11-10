@@ -20,7 +20,7 @@ logger = logging.getLogger('somrenkonto')
 class FilterViewMixin(object):
 
     def get_filter_params(self, request):
-        filters =  [
+        filters = [
             Q(**{field: request.GET.get(field)})
             for field in self.FILTER_FIELDS if request.GET.get(field)
         ]
@@ -34,10 +34,7 @@ class CalendarView(FilterViewMixin, View):
     ]
 
     def _get_campaigns(self, request):
-        eng = Engineering.objects.get(user=request.user)
-        campaigns = Campaign.objects.filter(
-            engineerings=eng
-        )
+        campaigns = Campaign.campaigns.user_campaigns(request.user)
         return {
             campaign.name: list(Project.objects.filter(campaign=campaign).values('name'))
             for campaign in campaigns
@@ -45,8 +42,9 @@ class CalendarView(FilterViewMixin, View):
 
     def _get_calendar_events(self, request):
         filters = self.get_filter_params(request)
-        filters.append(Q(created_by=request.user))
-        print(filters)
+        filters.append(
+            Q(campaign__in=Campaign.campaigns.user_campaigns(request.user))
+        )
         return RenkontoEvent.events.filter_events(filters)
 
     def _create_calendar(self, name):

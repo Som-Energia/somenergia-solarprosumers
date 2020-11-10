@@ -75,6 +75,8 @@ class RenkontoEvent(Event, Base):
         help_text=_('Check if this event will last all day')
     )
 
+    objects = models.Manager()
+
     events = RenkontoEventQuerySet.as_manager()
 
     @classmethod
