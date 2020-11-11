@@ -38,7 +38,7 @@ class ProjectResource(resources.ModelResource):
     def after_save_instance(self, instance, using_transactions=True, dry_run=False):
         if not dry_run:
             instance.status = 'registered'
-            instance.preregistration_date = datetime.now()
+            instance.registration_date = datetime.now()
             instance.save()
 
 
