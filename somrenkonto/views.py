@@ -1,18 +1,17 @@
-import logging
 import json
+import logging
 
+from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
-from django.db.models import Q
 from django.utils.text import slugify
 from django.views import View
 from schedule.models import Calendar
+from somsolet.models import Campaign, Engineering, Project
 
-
-from somsolet.models import Campaign, Project, Engineering
-from .models import RenkontoEvent
 from .forms import CalendarForm, RenkontoEventForm
+from .models import RenkontoEvent
 
 logger = logging.getLogger('somrenkonto')
 
@@ -20,17 +19,28 @@ logger = logging.getLogger('somrenkonto')
 class FilterViewMixin(object):
 
     def get_filter_params(self, request):
-        filters = [
-            Q(**{field: request.GET.get(field)})
-            for field in self.FILTER_FIELDS if request.GET.get(field)
-        ]
-        return filters
+        query_dict = request.GET.copy()
+        filter_queries = []
+
+        params = {
+            field: [type_(value) for value in query_dict.get(field).split(',')]
+                for field, type_ in self.FILTER_FIELDS if field in query_dict
+        }
+        for field, value in params.items():
+            if len(value) == 1:
+                filter_queries.append(Q(**{field: value[0]}))
+            else:
+                filter_queries.append(Q(**{f'{field}__in': value}))
+
+        return filter_queries
 
 
 class CalendarView(FilterViewMixin, View):
 
     FILTER_FIELDS = [
-        'campaign_id', 'project_id', 'event_type'
+        ('campaign_id', int),
+        ('project_id', int),
+        ('event_type', str)
     ]
 
     def _get_campaigns(self, request):
