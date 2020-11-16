@@ -47,18 +47,18 @@
                     </div>
                     <div class="form-row">
                         <div class="form-group col">
-                            <input id="{{ event_form.start_date.id_for_label }}" class="form-control form-control-sm" type="text" name="{{ event_form.start_date.html_name }}" placeholder="{% trans 'Initial date' %}">
+                            <input id="{{ event_form.start_date.id_for_label }}" class="form-control form-control-sm" type="text" name="{{ event_form.start_date.html_name }}" placeholder="{% trans 'Initial date' %}" autocomplete="off">
                         </div>
                         <div class="form-group col">
-                            <input id="{{ event_form.end_date.id_for_label }}" class="form-control form-control-sm" type="text" name="{{ event_form.end_date.html_name }}" placeholder="{% trans 'Final date' %}">
+                            <input id="{{ event_form.end_date.id_for_label }}" class="form-control form-control-sm" type="text" name="{{ event_form.end_date.html_name }}" placeholder="{% trans 'Final date' %}" autocomplete="off">
                         </div>
                     </div>
                     <div class="form-row collapse" id="event_hours">
                         <div class="form-group col">
-                            <input id="{{ event_form.start_time.id_for_label }}" class="form-control form-control-sm" type="text" name="{{ event_form.start_time.html_name }}" placeholder="{% trans 'Initial hour' %}">
+                            <input id="{{ event_form.start_time.id_for_label }}" class="form-control form-control-sm" type="text" name="{{ event_form.start_time.html_name }}" placeholder="{% trans 'Initial hour' %}" autocomplete="off">
                         </div>
                         <div class="form-group col">
-                            <input id="{{ event_form.end_time.id_for_label }}" class="form-control form-control-sm" type="text" name="{{ event_form.end_time.html_name}}" placeholder="{% trans 'Final hour' %}">
+                            <input id="{{ event_form.end_time.id_for_label }}" class="form-control form-control-sm" type="text" name="{{ event_form.end_time.html_name}}" placeholder="{% trans 'Final hour' %}" autocomplete="off">
                         </div>
                     </div>
                     <div class="form-row">
@@ -71,12 +71,12 @@
                     </div>
                     <div class="form-row">
                         <div class="form-group col">
-                            <input  class="form-control form-control-sm" id="{{ event_form.campaing_name.id_for_label }}" type="text" tabindex="1" name="{{ event_form.campaing_name.html_name }}" placeholder="{% trans 'Campaing' %}">
+                            <input  class="form-control form-control-sm" id="{{ event_form.campaing_name.id_for_label }}" type="text" tabindex="1" name="{{ event_form.campaing_name.html_name }}" placeholder="{% trans 'Campaing' %}" autocomplete="off">
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col">
-                            <input  class="form-control form-control-sm" id="{{ event_form.installation_name.id_for_label }}" type="text" name="{{ event_form.installation_name.html_name }}" placeholder="{% trans 'Installation' %}">
+                            <input  class="form-control form-control-sm" id="{{ event_form.installation_name.id_for_label }}" type="text" name="{{ event_form.installation_name.html_name }}" placeholder="{% trans 'Installation' %}" autocomplete="off">
                         </div>
                     </div>
                     <div class="form-row">
@@ -190,7 +190,6 @@
              highlight: true,
              onSelection: function(feedback) {
                  set_selection_value('#id_campaing', feedback.selection.value);
-
                  setup_installations_autocomplete(campaigns[feedback.selection.value], ['name']);
               }
         });
