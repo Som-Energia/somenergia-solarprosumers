@@ -1,0 +1,45 @@
+{% load i18n %}
+
+<div id="calendar_header" class="col fc fc-media-screen fc-direction-ltr fc-theme-bootstrap">
+    <div class="fc-header-toolbar fc-toolbar fc-toolbar-ltr">
+        <div class="fc-toolbar-chunk">
+            <div class="btn-group">
+                <button class="fc-prev-button btn btn-primary" type="button" aria-label="prev">
+                    <span class="fa fa-chevron-left"></span>
+                </button>
+                <button class="fc-next-button btn btn-primary" type="button" aria-label="next">
+                    <span class="fa fa-chevron-right"></span>
+                </button></div>
+                <button disabled="" class="fc-today-button btn btn-primary" type="button">{% trans 'today' %}</button>
+            </div>
+        <div class="fc-toolbar-chunk">
+            <h2 class="fc-toolbar-title"></h2>
+        </div>
+        <div class="fc-toolbar-chunk">
+            <div class="btn-group" role="group">
+                <button class="fc-dayGridMonth-button btn btn-primary active" type="button">{% trans 'month' %}</button>
+                <button class="fc-timeGridWeek-button btn btn-primary" type="button">{% trans 'week' %}</button>
+                <button class="fc-timeGridDay-button btn btn-primary" type="button">{% trans 'day' %}</button>
+                
+                <div class="btn-group" role="group">
+                    <button id="filterEeventsDropdownButton" class="fc-filterEvents-button btn btn-primary dropdown-toggle" type="button" aria-label="filterEvents" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="fa fa-filter"></span>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-left">
+                        <h6 class="dropdown-header"> {% trans 'Campaigns' %} </h6>
+                        
+                        <h6 class="dropdown-header"> {% trans 'Installations' %} </h6>
+                        <h6 class="dropdown-header"> {% trans 'Event type' %} </h6>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">{% trans 'Apply filters' %}</a>
+                        <a class="dropdown-item" href="#">{% trans 'Reset filters' %}</a>
+                    </div>
+                </div>
+                
+            </div>
+            <button class="fc-configureCalendar-button btn btn-primary" type="button" aria-label="configureCalendar">
+                <span class="fa fa-cogs"></span>
+            </button>
+        </div>
+    </div>
+</div>

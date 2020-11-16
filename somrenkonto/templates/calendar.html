@@ -17,6 +17,11 @@
 {% endblock %}
 
 {% block content %}
+
+<div class="row">
+    {% include 'calendar_header.html' %}    
+</div> 
+
 <div class="row">
   <div id="calendar" class="col">
   </div>
@@ -109,86 +114,86 @@
 
     <script type="text/javascript">
 
-      var campaigns = JSON.parse(
+        var campaigns = JSON.parse(
           JSON.parse(document.getElementById('campaigns').textContent)
         );
 
-     function set_selection_value(element, value) {
+        function set_selection_value(element, value) {
          document.querySelector(element).value = value;
          document
              .querySelector(element)
              .setAttribute("placeholder", value);
-     }
+        }
 
-     function setup_installations_autocomplete(data_elements, search_keys) {
+        function setup_installations_autocomplete(data_elements, search_keys) {
 
-       const autocomplete_installation = new autoComplete({
-           data: {
-             cache: true,
-             src: data_elements,
-             key: search_keys
-           },
-           placeHolder: "{% trans 'Type to search a installation' %}",
-           selector: '#id_installation',
-           threshold: 1,
-           searchEngine: 'loose',
-           resultsList: {
-               render: true,
-               container: function(source) {
-                   source.setAttribute("class", "autoComplete_resultlist");
-                   source.setAttribute("id", "installations_resultlist");
+            const autocomplete_installation = new autoComplete({
+               data: {
+                 cache: true,
+                 src: data_elements,
+                 key: search_keys
                },
-               destination: document.querySelector("#id_installation"),
-               position: "afterend",
-               element: "ul"
-           },
-           resultItem: {
-               content: function(data, source) {
-                   console.log(data);
-                   console.log(source);
-                   source.innerHTML = data.match;
+               placeHolder: "{% trans 'Type to search a installation' %}",
+               selector: '#id_installation',
+               threshold: 1,
+               searchEngine: 'loose',
+               resultsList: {
+                   render: true,
+                   container: function(source) {
+                       source.setAttribute("class", "autoComplete_resultlist");
+                       source.setAttribute("id", "installations_resultlist");
+                   },
+                   destination: document.querySelector("#id_installation"),
+                   position: "afterend",
+                   element: "ul"
                },
-               element: "li"
-           },
-           highlight: true,
-           onSelection: function(feedback) {
-               set_selection_value('#id_installation', feedback.selection.value.name);
-           }
-       });
-     }
+               resultItem: {
+                   content: function(data, source) {
+                       console.log(data);
+                       console.log(source);
+                       source.innerHTML = data.match;
+                   },
+                   element: "li"
+               },
+               highlight: true,
+               onSelection: function(feedback) {
+                   set_selection_value('#id_installation', feedback.selection.value.name);
+               }
+            });
+        }
 
-     const autocomplete_campaing = new autoComplete({
-         data: {
-             cache: true,
-             src: Object.keys(campaigns)
-         },
-         placeHolder: "{% trans 'Type to search a campaing' %}",
-         selector: '#id_campaing',
-         threshold: 1,
-         searchEngine: 'loose',
-         resultsList: {
-             render: true,
-             container: function(source) {
-                 source.setAttribute("class", "autoComplete_resultlist");
-                 source.setAttribute("id", "campaings_resultlist");
+        const autocomplete_campaing = new autoComplete({
+            data: {
+                 cache: true,
+                 src: Object.keys(campaigns)
              },
-             destination: document.querySelector("#id_campaing"),
-             position: "afterend",
-             element: "ul"
-         },
-         resultItem: {
-             content: function(data, source) {
-                 source.innerHTML = data.match;
+             placeHolder: "{% trans 'Type to search a campaing' %}",
+             selector: '#id_campaing',
+             threshold: 1,
+             searchEngine: 'loose',
+             resultsList: {
+                 render: true,
+                 container: function(source) {
+                     source.setAttribute("class", "autoComplete_resultlist");
+                     source.setAttribute("id", "campaings_resultlist");
+                 },
+                 destination: document.querySelector("#id_campaing"),
+                 position: "afterend",
+                 element: "ul"
              },
-             element: "li"
-         },
-         highlight: true,
-         onSelection: function(feedback) {
-             set_selection_value('#id_campaing', feedback.selection.value);
+             resultItem: {
+                 content: function(data, source) {
+                     source.innerHTML = data.match;
+                 },
+                 element: "li"
+             },
+             highlight: true,
+             onSelection: function(feedback) {
+                 set_selection_value('#id_campaing', feedback.selection.value);
 
-             setup_installations_autocomplete(campaigns[feedback.selection.value], ['name']);
-          }
-     });
+                 setup_installations_autocomplete(campaigns[feedback.selection.value], ['name']);
+              }
+        });
     </script>
 
     <script type="text/javascript">
@@ -239,6 +244,61 @@
           })
         }
 
+        function updateMonthTitle(calendar){
+            var date = calendar.formatDate(calendar.getDate(), {
+                    month: 'long',
+                    year: 'numeric'
+                });
+
+            $('.fc-toolbar-title').text(date);
+        }
+
+        function updateTodayButton(calendar) {
+            var today = calendar.getCurrentData().dateProfileGenerator.nowDate
+            const currentDateProfile = calendar.getCurrentData().dateProfile.activeRange;
+
+            if (currentDateProfile.start <= today && today <= currentDateProfile.end) {
+                $('.fc-today-button').prop("disabled", true);
+            } else {
+                $('.fc-today-button').prop("disabled", false);
+            }
+        }
+
+        function navegateTo(calendar, action) {
+            calendar[action]();
+            updateMonthTitle(calendar);
+            updateTodayButton(calendar);
+        }
+
+        function updateCalendarView(calendar, viewName, elem) {
+            if ($('div .active')[0] !== elem.currentTarget) {
+                    $('div .active').removeClass('active');
+                    $(elem.currentTarget).addClass('active');
+                    calendar.changeView(viewName);
+                }
+        }
+
+        function setNavegationActions(calendar) {
+            for (let action of ['prev', 'next', 'today']) {
+                $('.fc-' + action + '-button').click(function() {
+                    navegateTo(calendar, action);
+                });
+            }
+        }
+
+        function setCalendarViews(calendar) {
+            for (let viewName of ['dayGridMonth', 'timeGridWeek', 'timeGridDay']) {
+                $('.fc-' + viewName + '-button').click(function (elem) {
+                    updateCalendarView(calendar, viewName, elem);
+                });
+            }
+        }
+
+        function set_calendar_header_actions(calendar) {
+            setNavegationActions(calendar);
+            setCalendarViews(calendar);
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             var events = JSON.parse(
               JSON.parse(document.getElementById('calendar_events').textContent)
@@ -247,20 +307,7 @@
             var calendarEl = document.getElementById('calendar');
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 themeSystem: 'bootstrap',
-                customButtons: {
-                    configureCalendar: {
-                        text: 'Configuration',
-                        icon: 'fa-cogs'
-                    }
-                },
-                bootstrapFontAwesome: {
-                    configureCalendar: 'fa-cogs'
-                },
-                headerToolbar: {
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: 'dayGridMonth,timeGridWeek,timeGridDay configureCalendar'
-                },
+                headerToolbar: false,
                 locale: '{{ lang.code|default:'ca'}}',
                 firstDay: 1,
                 initialView: 'dayGridMonth',
@@ -277,7 +324,6 @@
                         endTime: '18:00' // 6pm
                     }
                 ],
-
                 eventSources: [{
                     events: events,
                     editable: false,
@@ -420,6 +466,8 @@
                     eventFormModal.modal('show');
                 }
             });
+            updateMonthTitle(calendar);
+            set_calendar_header_actions(calendar);
             calendar.render();
         });
         initialize_datepickers();
