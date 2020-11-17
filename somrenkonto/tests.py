@@ -5,7 +5,7 @@ from django.test import Client
 from django.urls import reverse
 
 from . import factories
-from .views import CalendarView, FilterViewMixin
+from .views import CalendarView, EditCalendarView, FilterViewMixin
 
 client = Client()
 
@@ -83,3 +83,29 @@ class TestFilterViewMixin:
         assert filter_params == [
             Q(campaign_id__in=[1,2]), Q(event_type__in=['APPO', 'UNAVAIL'])
         ]
+
+
+@pytest.mark.django_db
+class TestCalendarView:
+   
+    def test__edit_calendar_conf(self, rf):
+       calendar_conf_id = 1
+       url = reverse('edit_calendar', kwargs={'pk': calendar_conf_id})
+       request = rf.get(url)
+
+       response = EditCalendarView.as_view()(request, pk=calendar_conf_id)
+
+       assert response.status_code == 200
+    
+    @pytest.mark.skip
+    def test__edit_calendar_conf__button_in_calendar_view(self, rf):
+        User = get_user_model()
+        url = reverse('somrenkonto')
+        calendar_conf_id = 1
+        request = rf.get(url)
+        request.user = User.objects.first()
+        
+        response = CalendarView.as_view()(request)
+        conf_calendar_url = reverse('edit_calendar', kwargs={'pk': calendar_conf_id})
+
+        assert conf_calendar_url in response.content.decode()

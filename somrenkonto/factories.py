@@ -1,10 +1,10 @@
 from factory.django import DjangoModelFactory
 from schedule.models import Calendar
-
 from somsolet.tests.factories import UserFactory
 
 
 class CalendarFactory(DjangoModelFactory):
+    
     class Meta:
         model = Calendar
 

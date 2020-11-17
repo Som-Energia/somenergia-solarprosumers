@@ -1,7 +1,7 @@
 from django import forms
 from django.utils.translation import gettext_lazy as _
 
-from .models import EventChoices
+from .models import CalendarConfig, EventChoices
 
 
 class CalendarForm(forms.Form):
@@ -81,3 +81,10 @@ class RenkontoEventForm(forms.Form):
         widget=forms.TextInput(attrs={'id': 'id_installation'}),
         help_text=_('Asociated installation of this event')
     )
+
+
+class CalendarConfigForm(forms.ModelForm):
+
+    class Meta():
+        model = CalendarConfig
+        fields = ['calendar', 'default_calendar_view']

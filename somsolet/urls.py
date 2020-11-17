@@ -95,5 +95,10 @@ urlpatterns = [
         'somrenkonto/events',
         somrenkonto_views.SomRenkontoEventView.as_view(),
         name='new_event'
+    ),
+    path(
+        'somrenkonto/calendar/<int:pk>',
+        somrenkonto_views.EditCalendarView.as_view(),
+        name='edit_calendar'
     )
 ]

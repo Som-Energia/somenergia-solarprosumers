@@ -10,8 +10,8 @@ from django.views import View
 from schedule.models import Calendar
 from somsolet.models import Campaign, Engineering, Project
 
-from .forms import CalendarForm, RenkontoEventForm
-from .models import RenkontoEvent
+from .forms import CalendarForm, CalendarConfigForm, RenkontoEventForm
+from .models import RenkontoEvent, CalendarConfig
 
 logger = logging.getLogger('somrenkonto')
 
@@ -103,6 +103,15 @@ class CalendarView(FilterViewMixin, View):
             calendar.create_relation(request.user)
 
         return HttpResponseRedirect(reverse('somrenkonto'))
+
+
+class EditCalendarView(View):
+    def get(self, request, pk):
+        context = {
+            'calendar_config': CalendarConfig.objects.get(calendar__id=pk),
+            'config_form': CalendarConfigForm()
+        }
+        return render(request, 'edit_calendar.html', context=context)
 
 
 class SomRenkontoEventView(View):

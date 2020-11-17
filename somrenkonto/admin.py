@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.forms.widgets import Input
 from django.forms import ModelForm
 
-from .models import RenkontoEvent
+from .models import CalendarConfig, RenkontoEvent
 
 
 class ColorInput(Input):
@@ -63,3 +63,7 @@ class RenkontoEventAdmin(admin.ModelAdmin):
     readonly_fields = ("created_at", "modified_at")
 
     form = EventAdminForm
+
+@admin.register(CalendarConfig)
+class CalendarConfigAdmin(admin.ModelAdmin):
+    pass

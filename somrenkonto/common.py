@@ -8,7 +8,7 @@ class Base(models.Model):
     created_by = models.ForeignKey(
         get_user_model(),
         on_delete=models.CASCADE,
-        related_name='created_events',
+        related_name='%(class)s_created',
         verbose_name=_('created_by'),
         help_text=_('who created this object')
     )
@@ -16,7 +16,7 @@ class Base(models.Model):
     modified_by = models.ForeignKey(
         get_user_model(),
         on_delete=models.CASCADE,
-        related_name='modified_events',
+        related_name='%(class)s_modified',
         verbose_name=_('modified_by'),
         help_text=_('who modified this object')
     )

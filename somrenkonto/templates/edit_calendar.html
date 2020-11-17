@@ -1,0 +1,36 @@
+{% extends 'somsolet/base_layout.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block content %}
+<div class="row">
+    <div class="col">
+        <form class="form" action="{% url 'edit_calendar' calendar_config.calendar.id %}" method="post">
+            {% csrf_token %}
+            <h3>
+                {% trans 'Visualization options' %} <br>
+                <small class="text-muted">{% trans 'How do you see your calendar' %}</small>
+            </h3>
+            <div class="form-group col-3">
+                <label for="{{ config_form.fields.default_calendar_view.id_for_label }}">{% trans 'Default Calendar View' %}</label>
+                <select class="form-control" id="{{ config_form.fields.default_calendar_view.id_for_label }}">
+                    {% for option_view in config_form.fields.default_calendar_view.choices %}
+                    <option value={{ option_view.1}}> {{option_view.0 }}</option>
+                    {% endfor %}
+                </select>
+              </div>
+    
+            <h3>
+                {% trans 'Business Hours' %} <br>
+                <small class="text-muted">{% trans 'Define when you are available' %}</small>
+            </h3>
+            <div class="form-group col-3">
+                <a type="button" class="btn btn-secondary" href="{{ request.META.HTTP_REFERER }}">{% trans 'Back' %} </a>
+                <button type="button submit" class="btn btn-primary">{% trans 'Save' %}</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+{% endblock content %}

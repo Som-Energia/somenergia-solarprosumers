@@ -103,3 +103,36 @@ class RenkontoEvent(Event, Base):
 
         self.save()
         return self
+
+
+class CalendarViewChoices(object):
+    MONTH_VIEW = 'dayGridMonth'
+    
+    TIMEGRID_VIEW = 'timeGridWeek'
+
+    LIST_VIEW = 'listWeek'
+
+    DAYGRID_VIEW = 'timeGridDay'
+
+    choices = [
+        (_('Month View'), MONTH_VIEW),
+        (_('Week View'), TIMEGRID_VIEW),
+        (_('Agenda View'), LIST_VIEW),
+        (_('Daily View'), DAYGRID_VIEW),
+    ]
+
+
+class CalendarConfig(Base):
+
+    calendar = models.ForeignKey(
+        to=Calendar,
+        on_delete=models.CASCADE
+    )
+
+    default_calendar_view = models.CharField(
+        max_length=64,
+        choices=CalendarViewChoices.choices,
+        default=CalendarViewChoices.MONTH_VIEW,
+        verbose_name=_('Default calendar View'),
+        help_text=_('What will be the default view of the calendar')
+    )
