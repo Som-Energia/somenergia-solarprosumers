@@ -3,34 +3,60 @@
 {% load i18n %}
 
 {% block content %}
-<div class="row">
-    <div class="col">
-        <form class="form" action="{% url 'edit_calendar' calendar_config.calendar.id %}" method="post">
-            {% csrf_token %}
-            <h3>
-                {% trans 'Visualization options' %} <br>
-                <small class="text-muted">{% trans 'How do you see your calendar' %}</small>
-            </h3>
-            <div class="form-group col-3">
-                <label for="{{ config_form.fields.default_calendar_view.id_for_label }}">{% trans 'Default Calendar View' %}</label>
-                <select class="form-control" id="{{ config_form.fields.default_calendar_view.id_for_label }}">
-                    {% for option_view in config_form.fields.default_calendar_view.choices %}
-                    <option value={{ option_view.1}}> {{option_view.0 }}</option>
-                    {% endfor %}
-                </select>
-              </div>
-    
-            <h3>
-                {% trans 'Business Hours' %} <br>
-                <small class="text-muted">{% trans 'Define when you are available' %}</small>
-            </h3>
-            <div class="form-group col-3">
-                <a type="button" class="btn btn-secondary" href="{{ request.META.HTTP_REFERER }}">{% trans 'Back' %} </a>
-                <button type="button submit" class="btn btn-primary">{% trans 'Save' %}</button>
+<div class="row p-5 m-5">
+    <form class="form" action="{% url 'edit_calendar' calendar_config.calendar.id %}" method="post">
+        {% csrf_token %}
+
+        <div class="row mb-2">
+            <div class="col">
+                <h3>
+                    {% trans 'Visualization options' %} <br>
+                    <small class="text-muted">{% trans 'How do you see your calendar' %}</small>
+                </h3>
+                <div class="form-group">
+                    <label for="{{ config_form.default_calendar_view.id_for_label }}">{% trans 'Default Calendar View' %}</label>
+                    <select class="form-control" id="{{ config_form.default_calendar_view.id_for_label }}">
+                        {% for option_view in config_form.fields.default_calendar_view.choices %}
+                        <option value={{ option_view.1}} name="{{ config_form.default_calendar_view.html_name }}"> {{option_view.0 }}</option>
+                        {% endfor %}
+                    </select>
+                  </div>
             </div>
-        </form>
-    </div>
+        </div>
+
+        <div class="row mb-2">
+            <div class="col mb-2">
+                <h3>
+                    {% trans 'Business Hours' %} <br>
+                    <small class="text-muted">{% trans 'Define when you are available' %}</small>
+                </h3>
+                <div class="form-group">
+                    {% for working_day in config_form.working_days.field.choices %}
+                    <div class="form-row business-day-row">
+                        <div class="form-group col-3 form-check btn-group-toggle" data-toggle="buttons">
+                            <label class="btn btn-primary btn-block ">
+                                <input type="checkbox" id="{{ config_form.working_days.id_for_label}}" value="{{ working_day.0 }}" name="{{ config_form.working_days.html_name}}" autocomplete="off">{{ working_day.1 }}
+                            </label>
+                        </div>
+                        <div class="col business-day-available-hour ml-5">
+                            <input id="" class="form-control form-control-sm mr-2" type="text" name="" placeholder="{% trans 'Initial hour' %}" autocomplete="off">
+                            <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+                            <input id="" class="form-control form-control-sm ml-2" type="text" name="" placeholder="{% trans 'Final hour' %}" autocomplete="off">
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-2">
+            <div class="col">
+                <div class="form-group">
+                    <a type="button" class="btn btn-secondary" href="{{ request.META.HTTP_REFERER }}">{% trans 'Back' %} </a>
+                    <button type="button submit" class="btn btn-primary">{% trans 'Save' %}</button>
+                </div>
+            </div>
+        </div>
+    </form>
 </div>
-
-
 {% endblock content %}

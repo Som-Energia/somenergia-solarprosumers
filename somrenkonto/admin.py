@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.forms.widgets import Input
 from django.forms import ModelForm
 
-from .models import CalendarConfig, RenkontoEvent
+from .models import CalendarConfig, RenkontoEvent, WorkingDay
 
 
 class ColorInput(Input):
@@ -64,6 +64,12 @@ class RenkontoEventAdmin(admin.ModelAdmin):
 
     form = EventAdminForm
 
+
 @admin.register(CalendarConfig)
 class CalendarConfigAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(WorkingDay)
+class WorkingDayAdmin(admin.ModelAdmin):
     pass

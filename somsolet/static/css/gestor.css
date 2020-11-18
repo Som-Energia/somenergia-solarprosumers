@@ -353,3 +353,13 @@ svg rect{
   border-radius: 4px;
   color: #ccc;
 }
+
+.business-day-row {
+    display: flex;
+    align-items: baseline;
+}
+
+.business-day-available-hour {
+    display: flex;
+    align-items: center;
+}

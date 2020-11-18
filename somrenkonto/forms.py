@@ -1,7 +1,7 @@
 from django import forms
 from django.utils.translation import gettext_lazy as _
 
-from .models import CalendarConfig, EventChoices
+from .models import CalendarConfig, EventChoices, WeekDays
 
 
 class CalendarForm(forms.Form):
@@ -85,6 +85,11 @@ class RenkontoEventForm(forms.Form):
 
 class CalendarConfigForm(forms.ModelForm):
 
+    working_days = forms.ChoiceField(
+        choices=WeekDays.choices,
+        help_text=_('Type of the event')
+    )
+
     class Meta():
         model = CalendarConfig
-        fields = ['calendar', 'default_calendar_view']
+        fields = ['calendar', 'default_calendar_view', 'working_days']

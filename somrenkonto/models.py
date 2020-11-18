@@ -136,3 +136,51 @@ class CalendarConfig(Base):
         verbose_name=_('Default calendar View'),
         help_text=_('What will be the default view of the calendar')
     )
+
+
+class WeekDays(object):
+
+    MO = 'monday'
+    TU = 'tuesday'
+    WE = "wednesday"
+    TH = 'thursday'
+    FR = 'friday'
+    SA = 'saturday'
+    SU = 'sunday'
+
+    choices = [
+        (_('monday'), MO),
+        (_('tuesday'), TU),
+        (_('wendnesday'), WE),
+        (_('thursday'), TH),
+        (_('friday'), FR),
+        (_('saturday'), SA),
+        (_('sunday'), SU),
+    ]
+
+class WorkingDay(Base):
+
+    calendar_config = models.ForeignKey(
+        to=CalendarConfig,
+        on_delete=models.CASCADE,
+        related_name='available_days',
+        verbose_name=_('Calendar Config'),
+        help_text=_('Calendar configuration associated whit this AvailableDay')
+    )
+
+    day = models.CharField(
+        max_length=64,
+        choices=WeekDays.choices,
+        verbose_name=_('Day'),
+        help_text=_('Calendar configuration associated whit this AvailableDay')
+    )
+
+    start = models.TimeField(
+        verbose_name=_('Start'),
+        help_text=_('At what time starts your work journey')
+    )
+    
+    end = models.TimeField(
+        verbose_name=_('End'),
+        help_text=_('At what time ends your work journey'),
+    )
