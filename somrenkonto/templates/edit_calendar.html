@@ -11,10 +11,9 @@
             <div class="col">
                 <h3>
                     {% trans 'Visualization options' %} <br>
-                    <small class="text-muted">{% trans 'How do you see your calendar' %}</small>
+                    <small class="text-muted">{% trans 'How do you want to see your calendar?' %}</small>
                 </h3>
                 <div class="form-group">
-                    <label for="{{ config_form.default_calendar_view.id_for_label }}">{% trans 'Default Calendar View' %}</label>
                     <select class="form-control" id="{{ config_form.default_calendar_view.id_for_label }}">
                         {% for option_view in config_form.fields.default_calendar_view.choices %}
                         <option value={{ option_view.1}} name="{{ config_form.default_calendar_view.html_name }}"> {{option_view.0 }}</option>
