@@ -253,15 +253,6 @@ h1 a {
     color: var(--color11)
 }
 
-.som-foot p {
-    text-align: center;
-    font-weight: 500;
-}
-
-.som-foot .fa-heart {
-    color: #bac92a;
-}
-
 .page-item.active .page-link {
     z-index: 1;
     color: #fff;
@@ -363,3 +354,31 @@ svg rect{
     display: flex;
     align-items: center;
 }
+
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+body {
+    margin-bottom: 60px; /* Margin bottom by footer height */
+}
+
+.som-foot p {
+    text-align: center;
+    font-weight: 500;
+}
+
+.som-foot .fa-heart {
+    color: #bac92a;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 60px; /* Set the fixed height of the footer here */
+    line-height: 60px; /* Vertically center the text there */
+    justify-content: center;
+}
+  
