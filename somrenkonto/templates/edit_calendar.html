@@ -32,12 +32,12 @@
                 <div class="form-group">
                     {% for working_day in config_form.working_days.field.choices %}
                     <div class="form-row business-day-row">
-                        <div class="form-group col-3 form-check btn-group-toggle" data-toggle="buttons">
+                        <div class="form-group col-3 form-check btn-group-toggle" data-toggle="buttons" data-target="date-{{ forloop.counter }}" data-name="business-day-button">
                             <label class="btn btn-primary btn-block ">
                                 <input type="checkbox" id="{{ config_form.working_days.id_for_label}}" value="{{ working_day.0 }}" name="{{ config_form.working_days.html_name}}" autocomplete="off">{{ working_day.1 }}
                             </label>
                         </div>
-                        <div class="col business-day-available-hour ml-5">
+                        <div id="date-{{ forloop.counter }}" class="col business-day-available-hour ml-5 collapse">
                             <input id="" class="form-control form-control-sm mr-2" type="text" name="" placeholder="{% trans 'Initial hour' %}" autocomplete="off">
                             <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
                             <input id="" class="form-control form-control-sm ml-2" type="text" name="" placeholder="{% trans 'Final hour' %}" autocomplete="off">
@@ -59,3 +59,21 @@
     </form>
 </div>
 {% endblock content %}
+
+{% block js %}
+    {{ block.super }}
+    <script type="text/javascript">
+
+        function setCollapaseInAvailableHours(businessDayChecks) {
+            for (let businessDay of businessDayChecks) {
+                $(businessDay).click(function(elem) {
+                    let target = $(elem.currentTarget).attr('data-target');
+                    $('#'+target).collapse('toggle');
+                });
+            }
+        }
+        
+        var businessDayChecks = $('[data-name="business-day-button"]');
+        setCollapaseInAvailableHours(businessDayChecks);
+    </script>
+{% endblock %}
