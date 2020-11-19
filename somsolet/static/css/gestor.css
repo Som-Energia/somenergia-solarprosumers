@@ -373,6 +373,10 @@ body {
     color: #bac92a;
 }
 
+.icon-green {
+    color: #bac92a;
+}
+
 .footer {
     position: absolute;
     bottom: 0;
@@ -385,4 +389,30 @@ body {
 .collapse:not(.show) {
     visibility: hidden;
     display: flex;
+}
+
+.dropdown-menu {
+    font-size: 0.5rem;
+}
+
+.bootstrap-datetimepicker-widget .timepicker-hour, .bootstrap-datetimepicker-widget .timepicker-minute, .bootstrap-datetimepicker-widget .timepicker-second {
+    font-size: 1em;
+    color: #5b5b5f;
+}
+
+.bootstrap-datetimepicker-widget table td span {
+    width: unset;
+    height: unset;
+    line-height: unset;
+}
+
+.bootstrap-datetimepicker-widget table td {
+    height: unset;
+    line-height: unset;
+    width: unset;
+}
+
+.bootstrap-datetimepicker-widget table td, .bootstrap-datetimepicker-widget table th {
+    width: auto;
+    height: auto;
 }

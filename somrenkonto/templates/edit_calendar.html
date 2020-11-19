@@ -2,6 +2,14 @@
 {% load static %}
 {% load i18n %}
 
+{% get_current_language as LANGUAGE_CODE %}
+{% get_language_info for LANGUAGE_CODE as lang %}
+
+{% block css%}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.css" type="text/css" media="all" rel="stylesheet">
+    {{ block.super }}
+{% endblock%}
+
 {% block content %}
 <div class="row p-5 m-5">
     <form class="form" action="{% url 'edit_calendar' calendar_config.calendar.id %}" method="post">
@@ -38,9 +46,9 @@
                             </label>
                         </div>
                         <div id="date-{{ forloop.counter }}" class="col business-day-available-hour ml-5 collapse">
-                            <input id="" class="form-control form-control-sm mr-2" type="text" name="" placeholder="{% trans 'Initial hour' %}" autocomplete="off">
+                            <input id="" class="form-control form-control-sm mr-2" type="text" name="" data-name="business-day-initial-hour" placeholder="{% trans 'Initial hour' %}" autocomplete="off">
                             <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
-                            <input id="" class="form-control form-control-sm ml-2" type="text" name="" placeholder="{% trans 'Final hour' %}" autocomplete="off">
+                            <input id="" class="form-control form-control-sm ml-2" type="text" name="" data-name="business-day-final-hour" placeholder="{% trans 'Final hour' %}" autocomplete="off">
                         </div>
                     </div>
                     {% endfor %}
@@ -62,8 +70,10 @@
 
 {% block js %}
     {{ block.super }}
-    <script type="text/javascript">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
 
+    <script type="text/javascript">
         function setCollapaseInAvailableHours(businessDayChecks) {
             for (let businessDay of businessDayChecks) {
                 $(businessDay).click(function(elem) {
@@ -75,5 +85,32 @@
         
         var businessDayChecks = $('[data-name="business-day-button"]');
         setCollapaseInAvailableHours(businessDayChecks);
+    </script>
+    <script type="text/javascript">
+        var initialHourTimePickers = $('[data-name="business-day-initial-hour"]');
+        var finalHourTimePickers = $('[data-name="business-day-final-hour"]');
+
+        var base_config = {
+            format: 'LT',
+            locale: '{{ lang.code|default:'ca'}}',
+            useCurrent: true,
+            icons: {
+                up: 'fa fa-chevron-up icon-green',
+                down: 'fa fa-chevron-down icon-green'
+            }
+        }
+
+        function initBusinessDayTimePickers(initialHourTimePicker, finalHourTimePickers) {
+            for (let initialHourTime of initialHourTimePickers) {
+                $(initialHourTime).datetimepicker(base_config)
+            }
+            for (let finallHourTime of finalHourTimePickers) {
+                $(finallHourTime).datetimepicker(base_config)
+            }
+        }
+        initBusinessDayTimePickers(initialHourTimePickers, finalHourTimePickers);
+        picker = initialHourTimePickers[0];
+        $(picker).show();
+
     </script>
 {% endblock %}
