@@ -46,9 +46,11 @@
                             </label>
                         </div>
                         <div id="date-{{ forloop.counter }}" class="col business-day-available-hour ml-5 collapse">
-                            <input id="" class="form-control form-control-sm mr-2" type="text" name="" data-name="business-day-initial-hour" placeholder="{% trans 'Initial hour' %}" autocomplete="off">
+                            <input id="" class="form-control form-control-sm mr-2" type="text" name="" data-name="business-day-initial-hour" timepicker-target="picker-{{ forloop.counter }}" placeholder="{% trans 'Initial hour' %}" autocomplete="off">
+                            
                             <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
-                            <input id="" class="form-control form-control-sm ml-2" type="text" name="" data-name="business-day-final-hour" placeholder="{% trans 'Final hour' %}" autocomplete="off">
+                            
+                            <input id="picker-{{ forloop.counter }}" class="form-control form-control-sm ml-2" type="text" name="" data-name="business-day-final-hour" placeholder="{% trans 'Final hour' %}" autocomplete="off">
                         </div>
                     </div>
                     {% endfor %}
@@ -82,7 +84,7 @@
                 });
             }
         }
-        
+
         var businessDayChecks = $('[data-name="business-day-button"]');
         setCollapaseInAvailableHours(businessDayChecks);
     </script>
@@ -102,15 +104,19 @@
 
         function initBusinessDayTimePickers(initialHourTimePicker, finalHourTimePickers) {
             for (let initialHourTime of initialHourTimePickers) {
-                $(initialHourTime).datetimepicker(base_config)
+                let initialHourTimePicker = $(initialHourTime); 
+                initialHourTimePicker.datetimepicker(base_config);
+
+                initialHourTimePicker.on('dp.change', function(data) {
+                    let finalHourTimePicker = $('#' + $(data.currentTarget).attr('timepicker-target'));
+                    finalHourTimePicker.data("DateTimePicker").minDate(data.date);
+                });
             }
             for (let finallHourTime of finalHourTimePickers) {
                 $(finallHourTime).datetimepicker(base_config)
             }
         }
         initBusinessDayTimePickers(initialHourTimePickers, finalHourTimePickers);
-        picker = initialHourTimePickers[0];
-        $(picker).show();
 
     </script>
 {% endblock %}
