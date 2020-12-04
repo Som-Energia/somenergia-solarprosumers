@@ -3,53 +3,54 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-06-30 18:08+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2020-12-05 16:00+0000\n"
+"Last-Translator: Iria Taibo <iriataibo@iriataibo.com>\n"
+"Language-Team: Galician <http://traduccio.somenergia.coop/projects/som-solet/"
+"somsolet/gl/>\n"
+"Language: gl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.1.1\n"
 
 #: config/settings/base.py:111
 msgid "English"
-msgstr ""
+msgstr "Inglés"
 
 #: config/settings/base.py:112 somsolet/choices_options.py:147
 msgid "Catalan"
-msgstr ""
+msgstr "Catalán"
 
 #: config/settings/base.py:113 somsolet/choices_options.py:146
 msgid "Spanish"
-msgstr ""
+msgstr "Castelán"
 
 #: config/settings/base.py:114
 msgid "Basque"
-msgstr ""
+msgstr "Vasco"
 
 #: config/settings/base.py:115 somsolet/choices_options.py:148
 msgid "Galician"
-msgstr ""
+msgstr "Galego"
 
 #: scheduler_tasks.py:49 scheduler_tasks.py:67 scheduler_tasks.py:90
 #: scheduler_tasks.py:123 somsolet/admin.py:184
 msgid "Hola {},"
-msgstr ""
+msgstr "Ola, {}:"
 
 #: scheduler_tasks.py:50
 msgid "SOM SOLET us fa arribar els WARNINGS! d’aquesta setmana:"
-msgstr ""
+msgstr "SOM SOLET faivos chegar as ALARMAS! desta semana:"
 
 #: scheduler_tasks.py:51
 msgid "Instalació"
-msgstr ""
+msgstr "Instalación"
 
 #: scheduler_tasks.py:52
 msgid ""
@@ -58,24 +59,29 @@ msgid ""
 "en contacte amb nosaltres per intentar solucionar l'inconvenient dels casos "
 "concrets."
 msgstr ""
+"Pedímosvos que xestionedes as diferentes ALARMAS! canto antes. Se tedes "
+"algunha incidencia que o impida, poñédevos en contato connosco para tentar "
+"solucionar a situación o antes posíbel."
 
 #: scheduler_tasks.py:53
 msgid "Salut i fins aviat,"
-msgstr ""
+msgstr "Saúdos e até pronto!"
 
 #: scheduler_tasks.py:68
 msgid ""
 "Us recordem que caldria omplir la informació al document de 'fitxa tècnica' "
 "referent a cada una de les instal·lacions."
 msgstr ""
+"Lembrámosvos que é preciso cubrir a información no documento da ficha "
+"técnica referente a cada unha das instalacións."
 
 #: scheduler_tasks.py:69 somsolet/models.py:579 somsolet/models.py:890
 msgid "Project"
-msgstr ""
+msgstr "Proxecto"
 
 #: scheduler_tasks.py:70 scheduler_tasks.py:93
 msgid "Gràcies i fins aviat,"
-msgstr ""
+msgstr "Grazas e até pronto!"
 
 #: scheduler_tasks.py:91
 msgid ""
@@ -83,15 +89,18 @@ msgid ""
 "campanya us demanem que ens feu arribar un rebut a l'adreça "
 "compres@somenergia.coop indicant el número de compte on fer la transferència."
 msgstr ""
+"Para poder facervos a devolución do depósito de garantía aboado no inicio da "
+"campaña, pedímosvos que nos enviedes o recibo correspondente a compres@"
+"somenergia.coop, indicando o número de conta para realizar a transferencia."
 
 #: scheduler_tasks.py:92 somsolet/models.py:234 somsolet/models.py:354
 #: somsolet/models.py:586 somsolet/tables.py:14
 msgid "Campaign"
-msgstr ""
+msgstr "Campaña"
 
 #: scheduler_tasks.py:124 somsolet/admin.py:185
 msgid "Salut i bona energia,"
-msgstr ""
+msgstr "Saúde e boa enerxía!"
 
 #: scheduler_tasks.py:134
 #, python-brace-format
@@ -100,1016 +109,1021 @@ msgstr ""
 
 #: scheduler_tasks.py:199
 msgid "Prereports"
-msgstr ""
+msgstr "Preinforme"
 
 #: scheduler_tasks.py:200
 msgid "Technical Visits"
-msgstr ""
+msgstr "Visita técnica"
 
 #: scheduler_tasks.py:201 scheduler_tasks.py:521
 msgid "Signed Contracts"
-msgstr ""
+msgstr "Contratos asinados"
 
 #: scheduler_tasks.py:202
 msgid "Construction Permits"
-msgstr ""
+msgstr "Permiso de obra"
 
 #: scheduler_tasks.py:203
 msgid "Installations"
-msgstr ""
+msgstr "Instalacións"
 
 #: scheduler_tasks.py:204
 msgid "legalization"
-msgstr ""
+msgstr "Legalización"
 
 #: scheduler_tasks.py:205
 msgid "Discarded inscriptions"
-msgstr ""
+msgstr "Inscricións descartadas"
 
 #: scheduler_tasks.py:208
 msgid "Hola,"
-msgstr ""
+msgstr "Ola:"
 
 #: scheduler_tasks.py:209
 msgid ""
 "El SomSolet de Som Energia us envia un breu informe de l’estat de la compra "
 "col·lectiva."
 msgstr ""
+"O SomSolet de Som Energia envíavos o informe do estado de situación da "
+"compra colectiva."
 
 #: scheduler_tasks.py:210
 msgid ""
 "Per qualsevol dubte o aportació podeu fer un correu electrònic a "
 "auto@somenergia.coop"
 msgstr ""
+"Para calquera dúbida ou achega, podes enviar un correo electrónico a "
+"auto@somenergia.coop"
 
 #: scheduler_tasks.py:211
 msgid "Salut i bona energia!"
-msgstr ""
+msgstr "Saúde e boa enerxía!"
 
 #: scheduler_tasks.py:216
 msgid "Deposit"
-msgstr ""
+msgstr "Fianza"
 
 #: scheduler_tasks.py:441
 msgid "Summary date"
-msgstr ""
+msgstr "Data do relatorio"
 
 #: scheduler_tasks.py:442
 msgid "Date inscriptions start"
-msgstr ""
+msgstr "Data abertura inscricións"
 
 #: scheduler_tasks.py:443
 msgid "Total inscriptions"
-msgstr ""
+msgstr "Inscricións totais"
 
 #: scheduler_tasks.py:453
 msgid "Sent Prereports"
-msgstr ""
+msgstr "Preinformes enviados"
 
 #: scheduler_tasks.py:454
 msgid "Unsent Prereports"
-msgstr ""
+msgstr "Preinformes pendentes"
 
 #: scheduler_tasks.py:463
 msgid "Overdue Prereports"
-msgstr ""
+msgstr "Preinformes atrasados"
 
 #: scheduler_tasks.py:467 scheduler_tasks.py:640 scheduler_tasks.py:658
 msgid "Maximum overdue days"
-msgstr ""
+msgstr "Días máximos de atraso"
 
 #: scheduler_tasks.py:482
 msgid "Technical Visits Pending"
-msgstr ""
+msgstr "Visitas técnicas pendentes"
 
 #: scheduler_tasks.py:486
 msgid "Technical Visits Calendarized"
-msgstr ""
+msgstr "Visitas técnicas programadas"
 
 #: scheduler_tasks.py:490
 msgid "Technical Visits Done"
-msgstr ""
+msgstr "Visitas técnicas realizadas"
 
 #: scheduler_tasks.py:499
 msgid "Overdue Technical Visits"
-msgstr ""
+msgstr "Visitas técnicas atrasadas"
 
 #: scheduler_tasks.py:503 scheduler_tasks.py:539
 msgid "Maximum Overdue Days"
-msgstr ""
+msgstr "Máximo días atraso"
 
 #: scheduler_tasks.py:517
 msgid "Submitted Offers"
-msgstr ""
+msgstr "Ofertas presentadas"
 
 #: scheduler_tasks.py:525
 msgid "Signature Pending Contracts"
-msgstr ""
+msgstr "Casos atrasados"
 
 #: scheduler_tasks.py:535
 msgid "Overdue Signed Contracts"
-msgstr ""
+msgstr "Contratos para asinar atrasados"
 
 #: scheduler_tasks.py:552
 msgid "Construction Permits Pending"
-msgstr ""
+msgstr "Permisos de obra pendentes"
 
 #: scheduler_tasks.py:556
 msgid "Accepted Construction Permits"
-msgstr ""
+msgstr "Permisos de obra aceptados"
 
 #: scheduler_tasks.py:577
 msgid "Scheduled installations"
-msgstr ""
+msgstr "Obras programadas"
 
 #: scheduler_tasks.py:581
 msgid "Incompleted installations"
-msgstr ""
+msgstr "Obras pendentes de finalizar"
 
 #: scheduler_tasks.py:585
 msgid "Finished installations"
-msgstr ""
+msgstr "Obras finalizadas"
 
 #: scheduler_tasks.py:595
 msgid "Overdue installations by more than five days"
-msgstr ""
+msgstr "Obras atrasadas por máis de 5 días"
 
 #: scheduler_tasks.py:615
 msgid "Installations pending registration"
-msgstr ""
+msgstr "Instalacións pendentes de se rexistraren"
 
 #: scheduler_tasks.py:619
 msgid "Registered installations pending approval"
-msgstr ""
+msgstr "Instalacións legalización en trámite"
 
 #: scheduler_tasks.py:623
 msgid "Legalized installations"
-msgstr ""
+msgstr "Instalacións legalizadas"
 
 #: scheduler_tasks.py:636 scheduler_tasks.py:654
 msgid "Overdue pending registration"
-msgstr ""
+msgstr "Casos atrasados pendentes de rexistro"
 
 #: scheduler_tasks.py:671
 msgid "Technical"
-msgstr ""
+msgstr "Técnicas"
 
 #: scheduler_tasks.py:672
 msgid "Voluntary"
-msgstr ""
+msgstr "Voluntarias"
 
 #: somsolet/admin.py:189
 msgid "Confirmació d’Inscripció a la Compra Col·lectiva Som Energia"
-msgstr ""
+msgstr "Confirmación de inscrición na compra colectiva de Som Energia"
 
 #: somsolet/choices_options.py:3
 msgid "Initial"
-msgstr ""
+msgstr "Inicial"
 
 #: somsolet/choices_options.py:4
 msgid "Pre-Registered"
-msgstr ""
+msgstr "Pre-rexistro"
 
 #: somsolet/choices_options.py:5
 msgid "Registered"
-msgstr ""
+msgstr "Rexistrado"
 
 #: somsolet/choices_options.py:6
 msgid "CCH data downloaded for analysis"
-msgstr ""
+msgstr "Curvas horarias descargadas"
 
 #: somsolet/choices_options.py:7
 msgid "Technical visit scheduled"
-msgstr ""
+msgstr "Visita técnica programada"
 
 #: somsolet/choices_options.py:8
 msgid "Pre-Report review"
-msgstr ""
+msgstr "Revisión do preinforme"
 
 #: somsolet/choices_options.py:9
 msgid "Pre-Report uploaded"
-msgstr ""
+msgstr "Preinforme enviado"
 
 #: somsolet/choices_options.py:10
 msgid "Report review"
-msgstr ""
+msgstr "Revisión informe visita técnica"
 
 #: somsolet/choices_options.py:11
 msgid "Report uploaded"
-msgstr ""
+msgstr "Informe visita técnica enviado"
 
 #: somsolet/choices_options.py:12
 msgid "Engineering offer"
-msgstr ""
+msgstr "Oferta"
 
 #: somsolet/choices_options.py:13
 msgid "offer Review"
-msgstr ""
+msgstr "Revisión oferta"
 
 #: somsolet/choices_options.py:14
 msgid "Contract signature"
-msgstr ""
+msgstr "Contrato chave en man asinado"
 
 #: somsolet/choices_options.py:15
 msgid "Construction permit"
-msgstr ""
+msgstr "Permiso de obra"
 
 #: somsolet/choices_options.py:16
 msgid "Pending installation date"
-msgstr ""
+msgstr "Pendente programar data de obra"
 
 #: somsolet/choices_options.py:17
 msgid "Date installation set"
-msgstr ""
+msgstr "Data de obra definida"
 
 #: somsolet/choices_options.py:18
 msgid "Installation in progress"
-msgstr ""
+msgstr "Obra en progreso"
 
 #: somsolet/choices_options.py:19
 msgid "End installation"
-msgstr ""
+msgstr "Obra rematada"
 
 #: somsolet/choices_options.py:20
 #: somsolet/templates/somsolet/legal_registration.html:9
 msgid "Legal Registration"
-msgstr ""
+msgstr "Rexistro de legalización en progreso"
 
 #: somsolet/choices_options.py:21
 #: somsolet/templates/somsolet/legalization.html:9
 msgid "Legalization"
-msgstr ""
+msgstr "Legalización completada"
 
 #: somsolet/choices_options.py:22 somsolet/models.py:566
 msgid "Final payment"
-msgstr ""
+msgstr "Pagamento final"
 
 #: somsolet/choices_options.py:23
 msgid "Warranty payment"
-msgstr ""
+msgstr "Pagamento da garantía"
 
 #: somsolet/choices_options.py:24
 msgid "Discarded"
-msgstr ""
+msgstr "Descartado"
 
 #: somsolet/choices_options.py:27 somsolet/choices_options.py:42
 #: somsolet/choices_options.py:47 somsolet/choices_options.py:69
 #: somsolet/choices_options.py:103 somsolet/choices_options.py:109
 #: somsolet/choices_options.py:124 somsolet/choices_options.py:129
 #: somsolet/choices_options.py:138
+#, fuzzy
 msgid "---"
-msgstr ""
+msgstr "---"
 
 #: somsolet/choices_options.py:28
 msgid "Warning: Not payed"
-msgstr ""
+msgstr "Aviso: impagado"
 
 #: somsolet/choices_options.py:29
 msgid "Warning: Waiting for prereport"
-msgstr ""
+msgstr "Aviso: Preinforme pendente"
 
 #: somsolet/choices_options.py:30
 msgid "Warning: Waiting for technical visit"
-msgstr ""
+msgstr "Aviso: visita técnica pendente"
 
 #: somsolet/choices_options.py:31
 msgid "Warning: Waiting for report"
-msgstr ""
+msgstr "Aviso: informe visita técnica pendente"
 
 #: somsolet/choices_options.py:32
 msgid "Warning: Waiting for offer"
-msgstr ""
+msgstr "Aviso: envío oferta pendente"
 
 #: somsolet/choices_options.py:33
 msgid "Warning: Waiting for signature"
-msgstr ""
+msgstr "Aviso: contrato chave en man pendente de asinar"
 
 #: somsolet/choices_options.py:34
 msgid "Warning: Waiting for installation date"
-msgstr ""
+msgstr "Aviso: pendente de programar data de obra"
 
 #: somsolet/choices_options.py:35
 msgid "Warning: Installation deadline has passed"
-msgstr ""
+msgstr "Aviso: superada a data límite de finalización de obra"
 
 #: somsolet/choices_options.py:36
 msgid "Warning: Pending registration reciept"
-msgstr ""
+msgstr "Aviso: pendente do recibo de rexistro"
 
 #: somsolet/choices_options.py:37
 msgid "Warning: Waiting for legalization certificates"
-msgstr ""
+msgstr "Aviso: pendente certificado de legalización"
 
 #: somsolet/choices_options.py:38
 msgid "Warning: Pending engineering payment"
-msgstr ""
+msgstr "Aviso: pagamento pendente"
 
 #: somsolet/choices_options.py:39
 msgid "Warning: Pending warranty payment"
-msgstr ""
+msgstr "Aviso: pendente pagamento da fianza"
 
 #: somsolet/choices_options.py:43
 msgid "technical"
-msgstr ""
+msgstr "técnico"
 
 #: somsolet/choices_options.py:44
 msgid "voluntary"
-msgstr ""
+msgstr "voluntario"
 
 #: somsolet/choices_options.py:48
 msgid "Andalucía"
-msgstr ""
+msgstr "Andalucía"
 
 #: somsolet/choices_options.py:49
 msgid "Aragón"
-msgstr ""
+msgstr "Aragón"
 
 #: somsolet/choices_options.py:50
 msgid "Principado Asturias"
-msgstr ""
+msgstr "Asturias"
 
 #: somsolet/choices_options.py:51
 msgid "Islas Baleares"
-msgstr ""
+msgstr "Illas Baleares"
 
 #: somsolet/choices_options.py:52
 msgid "Canarias"
-msgstr ""
+msgstr "Canarias"
 
 #: somsolet/choices_options.py:53
 msgid "Cantabria"
-msgstr ""
+msgstr "Cantabria"
 
 #: somsolet/choices_options.py:54
 msgid "Castilla-La Mancha"
-msgstr ""
+msgstr "Castela-A Mancha"
 
 #: somsolet/choices_options.py:55
 msgid "Castila y León"
-msgstr ""
+msgstr "Castela e León"
 
 #: somsolet/choices_options.py:56
 msgid "Cataluña"
-msgstr ""
+msgstr "Cataluña"
 
 #: somsolet/choices_options.py:57
 msgid "Ceuta"
-msgstr ""
+msgstr "Ceuta"
 
 #: somsolet/choices_options.py:58
 msgid "Extremadura"
-msgstr ""
+msgstr "Estremadura"
 
 #: somsolet/choices_options.py:59
 msgid "Galicia"
-msgstr ""
+msgstr "Galicia"
 
 #: somsolet/choices_options.py:60
 msgid "Comunidad Valenciana"
-msgstr ""
+msgstr "Comunidade Valenciana"
 
 #: somsolet/choices_options.py:61
 msgid "Communidad de Madrid"
-msgstr ""
+msgstr "Comunidade de Madrid"
 
 #: somsolet/choices_options.py:62
 msgid "Melilla"
-msgstr ""
+msgstr "Melilla"
 
 #: somsolet/choices_options.py:63
 msgid "Región de Murcia"
-msgstr ""
+msgstr "Rexión de Murcia"
 
 #: somsolet/choices_options.py:64
 msgid "Comunidad Foral de Navarra"
-msgstr ""
+msgstr "Comunidade Foral de Navarra"
 
 #: somsolet/choices_options.py:65
 msgid "La Rioja"
-msgstr ""
+msgstr "A Rioxa"
 
 #: somsolet/choices_options.py:66
 msgid "País Vasco"
-msgstr ""
+msgstr "País Vasco"
 
 #: somsolet/choices_options.py:70
 msgid "North"
-msgstr ""
+msgstr "Norte (N)"
 
 #: somsolet/choices_options.py:71
 msgid "North-northeast"
-msgstr ""
+msgstr "Nor-nordeste (NNE)"
 
 #: somsolet/choices_options.py:72
 msgid "Northeast"
-msgstr ""
+msgstr "Nordeste (NE)"
 
 #: somsolet/choices_options.py:73
 msgid "East-northeast"
-msgstr ""
+msgstr "Les-nordeste (LNE)"
 
 #: somsolet/choices_options.py:74
 msgid "East"
-msgstr ""
+msgstr "Este (E)"
 
 #: somsolet/choices_options.py:75
 msgid "East-southeast"
-msgstr ""
+msgstr "Les-sueste (LSE)"
 
 #: somsolet/choices_options.py:76
 msgid "Southeast"
-msgstr ""
+msgstr "Sueste (SE)"
 
 #: somsolet/choices_options.py:77
 msgid "South-southeast"
-msgstr ""
+msgstr "Sur-sueste (SSE)"
 
 #: somsolet/choices_options.py:78
 msgid "South"
-msgstr ""
+msgstr "Sur (S)"
 
 #: somsolet/choices_options.py:79
 msgid "South-southwest"
-msgstr ""
+msgstr "Sur-suroeste (SSO)"
 
 #: somsolet/choices_options.py:80
 msgid "Southwest"
-msgstr ""
+msgstr "Suroeste (SO)"
 
 #: somsolet/choices_options.py:81
 msgid "West-southwest"
-msgstr ""
+msgstr "Oeste-sudoeste (OSO)"
 
 #: somsolet/choices_options.py:82
 msgid "West"
-msgstr ""
+msgstr "Oeste (O)"
 
 #: somsolet/choices_options.py:83
 msgid "West-northwest"
-msgstr ""
+msgstr "Oeste-noroeste (ONO)"
 
 #: somsolet/choices_options.py:84
 msgid "Northwest"
-msgstr ""
+msgstr "Noroeste (NO)"
 
 #: somsolet/choices_options.py:85
 msgid "North-northwest"
-msgstr ""
+msgstr "Nor-noroeste (NNO)"
 
 #: somsolet/choices_options.py:104
 msgid "single-phase"
-msgstr ""
+msgstr "monofásico"
 
 #: somsolet/choices_options.py:105
 msgid "two-phase"
-msgstr ""
+msgstr "bifásico"
 
 #: somsolet/choices_options.py:106
 msgid "three-phase"
-msgstr ""
+msgstr "trifásico"
 
 #: somsolet/choices_options.py:110
 msgid "REC"
-msgstr ""
+msgstr "REC"
 
 #: somsolet/choices_options.py:111
 msgid "JA SOLAR"
-msgstr ""
+msgstr "JA SOLAR"
 
 #: somsolet/choices_options.py:112
 msgid "JINKO"
-msgstr ""
+msgstr "JINKO"
 
 #: somsolet/choices_options.py:113
 msgid "SOLARWATT"
-msgstr ""
+msgstr "SOLARWATT"
 
 #: somsolet/choices_options.py:114
 msgid "PEIMAR"
-msgstr ""
+msgstr "PEIMAR"
 
 #: somsolet/choices_options.py:115
 msgid "LUBI"
-msgstr ""
+msgstr "LUBI"
 
 #: somsolet/choices_options.py:116
 msgid "ATERSA"
-msgstr ""
+msgstr "ATERSA"
 
 #: somsolet/choices_options.py:117
 msgid "SUNPOWER"
-msgstr ""
+msgstr "SUNPOWER"
 
 #: somsolet/choices_options.py:118
 msgid "C-SUN"
-msgstr ""
+msgstr "C-SUN"
 
 #: somsolet/choices_options.py:119
 msgid "NOUSOL"
-msgstr ""
+msgstr "NOUSOL"
 
 #: somsolet/choices_options.py:120
 msgid "SHARP"
-msgstr ""
+msgstr "SHARP"
 
 #: somsolet/choices_options.py:121
 msgid "YINGLI"
-msgstr ""
+msgstr "YINGLI"
 
 #: somsolet/choices_options.py:125
 msgid "CRISTAL"
-msgstr ""
+msgstr "CRISTAL"
 
 #: somsolet/choices_options.py:126
 msgid "OTRO"
-msgstr ""
+msgstr "OUTRO"
 
 #: somsolet/choices_options.py:130
 msgid "SMA"
-msgstr ""
+msgstr "SMA"
 
 #: somsolet/choices_options.py:131
 msgid "HUAWEI"
-msgstr ""
+msgstr "HUAWEI"
 
 #: somsolet/choices_options.py:132
 msgid "FRONIUS"
-msgstr ""
+msgstr "FRONIUS"
 
 #: somsolet/choices_options.py:133
 msgid "KOSTAL"
-msgstr ""
+msgstr "KOSTAL"
 
 #: somsolet/choices_options.py:134
 msgid "VICTRON"
-msgstr ""
+msgstr "VICTRON"
 
 #: somsolet/choices_options.py:135
 msgid "ENPHASE"
-msgstr ""
+msgstr "ENPHASE"
 
 #: somsolet/choices_options.py:139
 msgid "SONNEN"
-msgstr ""
+msgstr "SONNEN"
 
 #: somsolet/choices_options.py:140
 msgid "BYD"
-msgstr ""
+msgstr "BYD"
 
 #: somsolet/choices_options.py:141
 msgid "AMPERE"
-msgstr ""
+msgstr "AMPERE"
 
 #: somsolet/choices_options.py:142
 msgid "LG"
-msgstr ""
+msgstr "LG"
 
 #: somsolet/choices_options.py:143
 msgid "TESLA"
-msgstr ""
+msgstr "TESLA"
 
 #: somsolet/choices_options.py:149
 msgid "Euskara"
-msgstr ""
+msgstr "Éuscaro"
 
 #: somsolet/filters.py:16
 msgid "--- Status ---"
-msgstr ""
+msgstr "--- Estado ---"
 
 #: somsolet/filters.py:20
 msgid "--- Warning ---"
-msgstr ""
+msgstr "--- Aviso ---"
 
 #: somsolet/forms.py:39
 msgid "campaign"
-msgstr ""
+msgstr "campaña"
 
 #: somsolet/forms.py:42
 msgid "client"
-msgstr ""
+msgstr "cliente"
 
 #: somsolet/forms.py:48
 msgid "is_invalid_prereport"
-msgstr ""
+msgstr "preinforme inválido: descartado técnico"
 
 #: somsolet/forms.py:54
 msgid "status"
-msgstr ""
+msgstr "estado"
 
 #: somsolet/forms.py:57
 msgid "warning"
-msgstr ""
+msgstr "Aviso!"
 
 #: somsolet/forms.py:60
 msgid "is_cch_downloaded"
-msgstr ""
+msgstr "CCH descargadas"
 
 #: somsolet/models.py:15 somsolet/models.py:53 somsolet/models.py:125
 #: somsolet/models.py:294 somsolet/templates/somsolet/client_detail.html:12
 msgid "Name"
-msgstr ""
+msgstr "Nome"
 
 #: somsolet/models.py:21 somsolet/models.py:77 somsolet/models.py:312
 msgid "Telephone number"
-msgstr ""
+msgstr "Teléfono"
 
 #: somsolet/models.py:27 somsolet/models.py:71 somsolet/models.py:318
 #: somsolet/templates/somsolet/client_detail.html:20
 msgid "Email"
-msgstr ""
+msgstr "Correo electrónico"
 
 #: somsolet/models.py:34 somsolet/models.py:114 somsolet/models.py:283
 #: somsolet/models.py:325
 msgid "Language"
-msgstr ""
+msgstr "Idioma"
 
 #: somsolet/models.py:47 somsolet/templates/registration/login.html:17
 msgid "User"
-msgstr ""
+msgstr "Usuario"
 
 #: somsolet/models.py:59
 msgid "Tax identification number"
-msgstr ""
+msgstr "Código de identificación da taxa"
 
 #: somsolet/models.py:65
 msgid "Address"
-msgstr ""
+msgstr "Enderezo"
 
 #: somsolet/models.py:83
 msgid "Closed Campaigns"
-msgstr ""
+msgstr "Campañas rematadas"
 
 #: somsolet/models.py:89
 msgid "Open Campaigns"
-msgstr ""
+msgstr "Campañas activas"
 
 #: somsolet/models.py:95
 msgid "Closed Installations"
-msgstr ""
+msgstr "Instalacións finalizadas"
 
 #: somsolet/models.py:101
 msgid "Total kWp installed"
-msgstr ""
+msgstr "kWp total instalados"
 
 #: somsolet/models.py:107
 msgid "Comments"
-msgstr ""
+msgstr "Comentarios"
 
 #: somsolet/models.py:131
 msgid "Engineering"
-msgstr ""
+msgstr "Empresa instaladora"
 
 #: somsolet/models.py:136
 msgid "LocalGroup"
-msgstr ""
+msgstr "Grupo Local"
 
 #: somsolet/models.py:141
 msgid "Date call for engineerings"
-msgstr ""
+msgstr "Data de alta empresa instaladora"
 
 #: somsolet/models.py:147
 msgid "date call for inscriptions"
-msgstr ""
+msgstr "Data abertura inscricións"
 
 #: somsolet/models.py:153
 msgid "Date inscriptions closed"
-msgstr ""
+msgstr "Data peche inscricións"
 
 #: somsolet/models.py:159
 msgid "Date completed installations"
-msgstr ""
+msgstr "Data finalización instalacións"
 
 #: somsolet/models.py:166
 msgid "Autonomous community"
-msgstr ""
+msgstr "Comunidade autónoma"
 
 #: somsolet/models.py:172
 msgid "Geographical region"
-msgstr ""
+msgstr "Región xeográfica"
 
 #: somsolet/models.py:178
 msgid "Number of planned installations"
-msgstr ""
+msgstr "Data finalización instalacións"
 
 #: somsolet/models.py:184
 msgid "Count completed installations"
-msgstr ""
+msgstr "Instalacións finalizadas"
 
 #: somsolet/models.py:190
 msgid "kWp installed"
-msgstr ""
+msgstr "kWp instalados"
 
 #: somsolet/models.py:196
 msgid "Date warranty payment"
-msgstr ""
+msgstr "Data pagamento garantía"
 
 #: somsolet/models.py:202
 msgid "Pending Warranty (€)"
-msgstr ""
+msgstr "Garantía pendente (€)"
 
 #: somsolet/models.py:208
 msgid "Payed Warranty (€)"
-msgstr ""
+msgstr "Garantía devolta (€)"
 
 #: somsolet/models.py:214
 msgid "Total Penalties (days)"
-msgstr ""
+msgstr "Sancións totais (días)"
 
 #: somsolet/models.py:220
 msgid "Total Penalties (€)"
-msgstr ""
+msgstr "Sancións totais (€)"
 
 #: somsolet/models.py:240
 msgid "Monofasic Fixed Price (€)"
-msgstr ""
+msgstr "Prezo fixo monofásico (€)"
 
 #: somsolet/models.py:246
 msgid "Monofasic Variable Price (€/Wp)"
-msgstr ""
+msgstr "Prezo variábel monofásico (€/Wp)"
 
 #: somsolet/models.py:252
 msgid "Trifasic Fixed Price (€)"
-msgstr ""
+msgstr "Prezo fixo trifásico (€)"
 
 #: somsolet/models.py:258
 msgid "Trifasic Variable Price (€/Wp)"
-msgstr ""
+msgstr "Prezo variábel trifásico (€/Wp)"
 
 #: somsolet/models.py:269
 msgid "Filename"
-msgstr ""
+msgstr "Nome do ficheiro"
 
 #: somsolet/models.py:276
 msgid "Upload general conditions"
-msgstr ""
+msgstr "Condicións xerais cargadas"
 
 #: somsolet/models.py:300 somsolet/templates/somsolet/client_detail.html:24
 msgid "Membership number"
-msgstr ""
+msgstr "Código de usuario"
 
 #: somsolet/models.py:306 somsolet/templates/somsolet/client_detail.html:16
 msgid "DNI"
-msgstr ""
+msgstr "DNI"
 
 #: somsolet/models.py:330
 msgid "General conditions sent"
-msgstr ""
+msgstr "Condicións xerais enviadas"
 
 #: somsolet/models.py:336
 msgid "File"
-msgstr ""
+msgstr "Ficheiro"
 
 #: somsolet/models.py:347
 msgid "Installation"
-msgstr ""
+msgstr "Instalación"
 
 #: somsolet/models.py:361 somsolet/models.py:593
 msgid "Client"
-msgstr ""
+msgstr "Cliente"
 
 #: somsolet/models.py:365 somsolet/models.py:895
 msgid "empty status"
-msgstr ""
+msgstr "Sen estado"
 
 #: somsolet/models.py:370
 msgid "No Warn"
-msgstr ""
+msgstr "---"
 
 #: somsolet/models.py:376
 msgid "Warning date"
-msgstr ""
+msgstr "Data do aviso!"
 
 #: somsolet/models.py:382
 msgid "Preregistration Date"
-msgstr ""
+msgstr "Data de prerrexistro"
 
 #: somsolet/models.py:386
 msgid "Payed Preregistration"
-msgstr ""
+msgstr "Adianto pagado"
 
 #: somsolet/models.py:391
 msgid "Registration date"
-msgstr ""
+msgstr "Data de rexistro"
 
 #: somsolet/models.py:396
 msgid "CCH downloaded"
-msgstr ""
+msgstr "CCH descargadas"
 
 #: somsolet/models.py:401
 msgid "Date CCH downloaded"
-msgstr ""
+msgstr "CCH descargadas"
 
 #: somsolet/models.py:407
 msgid "Date prereport"
-msgstr ""
+msgstr "Data preinforme"
 
 #: somsolet/models.py:412
 msgid "Invalid Prereport?"
-msgstr ""
+msgstr "Preinforme inválido?"
 
 #: somsolet/models.py:418
 msgid "Upload Prereport"
-msgstr ""
+msgstr "Preinforme entregado"
 
 #: somsolet/models.py:424
 msgid "Date technical visit"
-msgstr ""
+msgstr "Data visita técnica"
 
 #: somsolet/models.py:430
 msgid "Date report"
-msgstr ""
+msgstr "Data informe"
 
 #: somsolet/models.py:435
 msgid "Invalid Report?"
-msgstr ""
+msgstr "Informe visita técnica inválido?"
 
 #: somsolet/models.py:440
 msgid "Upload Report"
-msgstr ""
+msgstr "Informe visita técnica entregado"
 
 #: somsolet/models.py:445
 msgid "Date offer"
-msgstr ""
+msgstr "Data oferta"
 
 #: somsolet/models.py:450
 msgid "Invalid Offer?"
-msgstr ""
+msgstr "Oferta inválida?"
 
 #: somsolet/models.py:455
 msgid "Offer accepted?"
-msgstr ""
+msgstr "Oferta aceptada?"
 
 #: somsolet/models.py:461
 msgid "Upload Offer"
-msgstr ""
+msgstr "Oferta entregada"
 
 #: somsolet/models.py:466
 msgid "Date signature"
-msgstr ""
+msgstr "Data sinatura contrato chave en man"
 
 #: somsolet/models.py:471
 msgid "Signed contract?"
-msgstr ""
+msgstr "Contratos asinados"
 
 #: somsolet/models.py:477
 msgid "Upload Signed Contract"
-msgstr ""
+msgstr "Contrato asinado entregado"
 
 #: somsolet/models.py:482
 msgid "Date permit"
-msgstr ""
+msgstr "Data tramitación permiso de obra"
 
 #: somsolet/models.py:488
 msgid "Upload Permit"
-msgstr ""
+msgstr "Permiso de obra tramitado"
 
 #: somsolet/models.py:494
 msgid "Discarded type"
-msgstr ""
+msgstr "Tipo de descartado"
 
 #: somsolet/models.py:500
 msgid "Date start installation"
-msgstr ""
+msgstr "Data de inicio de obra"
 
 #: somsolet/models.py:505
 msgid "Installtion date set?"
-msgstr ""
+msgstr "Data de inicio de obra establecida?"
 
 #: somsolet/models.py:510
 msgid "Installation in progress?"
-msgstr ""
+msgstr "Obra en progreso?"
 
 #: somsolet/models.py:516
 msgid "Upload delivery certificate"
-msgstr ""
+msgstr "Acta de recepción asinada e entregada"
 
 #: somsolet/models.py:521
 msgid "Date delivery certificate"
-msgstr ""
+msgstr "Data acta de recepción asinada"
 
 #: somsolet/models.py:527
 msgid "Upload legal registration certificate"
-msgstr ""
+msgstr "Certificado legalización en trámite"
 
 #: somsolet/models.py:532
 msgid "Date legal registration certificate"
-msgstr ""
+msgstr "Data certificado legalización en trámite"
 
 #: somsolet/models.py:538
 msgid "Upload legal certificate"
-msgstr ""
+msgstr "Certificado legalización completada entregado"
 
 #: somsolet/models.py:543
 msgid "Date legal certificate"
-msgstr ""
+msgstr "Data certificado legalización completada"
 
 #: somsolet/models.py:548
 msgid "Payment done?"
-msgstr ""
+msgstr "Pagamento realizado?"
 
 #: somsolet/models.py:554
 msgid "Date payment Som Energia"
-msgstr ""
+msgstr "Data pagamento Som Energia"
 
 #: somsolet/models.py:560
 msgid "Payment pending"
-msgstr ""
+msgstr "Pagamento pendente"
 
 #: somsolet/models.py:598
 msgid "Administrative division"
-msgstr ""
+msgstr "Comarca"
 
 #: somsolet/models.py:604
 msgid "Municipality"
-msgstr ""
+msgstr "Concello"
 
 #: somsolet/models.py:610
 msgid "Street"
-msgstr ""
+msgstr "Rúa"
 
 #: somsolet/models.py:616
 msgid "Town"
-msgstr ""
+msgstr "Localidade"
 
 #: somsolet/models.py:622
 msgid "Postal code"
-msgstr ""
+msgstr "Código postal"
 
 #: somsolet/models.py:628
 msgid "Contract number"
-msgstr ""
+msgstr "Número de contrato Som Energia"
 
 #: somsolet/models.py:633
 msgid "CUPS"
-msgstr ""
+msgstr "CUPS"
 
 #: somsolet/models.py:640
 msgid "Roof orientation"
-msgstr ""
+msgstr "Orientación cuberta"
 
 #: somsolet/models.py:646
 msgid "Solar models angle"
-msgstr ""
+msgstr "Ángulo placas solares"
 
 #: somsolet/models.py:652
 msgid "voltage"
-msgstr ""
+msgstr "Potencia contratada"
 
 #: somsolet/models.py:658
 msgid "tariff"
-msgstr ""
+msgstr "Tarifa de acceso"
 
 #: somsolet/models.py:664
 msgid "Anual Consumption (kWh)"
-msgstr ""
+msgstr "Consumo anual (kWh)"
 
 #: somsolet/models.py:669
 msgid "Solar Panels"
-msgstr ""
+msgstr "Paneis Solares FV"
 
 #: somsolet/models.py:674
 msgid "Installation Power (kW)"
-msgstr ""
+msgstr "Potencia instalada (kWp)"
 
 #: somsolet/models.py:683
 msgid "installation singlephase model"
-msgstr ""
+msgstr "Modelo monofásico"
 
 #: somsolet/models.py:689
 msgid "installation threephase model"
-msgstr ""
+msgstr "Modelo trifásico"
 
 #: somsolet/models.py:694
 msgid "shadow optimizer"
-msgstr ""
+msgstr "Optimizador de sombras"
 
 #: somsolet/models.py:700
 msgid "count shadow optimizer"
-msgstr ""
+msgstr "Número de optimizador de sombras"
 
 #: somsolet/models.py:705
 msgid "homemanager"
-msgstr ""
+msgstr "Xestor de cargas"
 
 #: somsolet/models.py:710
 msgid "electric car"
-msgstr ""
+msgstr "Coche eléctrico"
 
 #: somsolet/models.py:715
 msgid "charger brand"
-msgstr ""
+msgstr "Marca cargador coche eléctrico"
 
 #: somsolet/models.py:720
 msgid "charger manager"
-msgstr ""
+msgstr "Xestor de carga"
 
 #: somsolet/models.py:725
 msgid "electric car charger"
-msgstr ""
+msgstr "Cargador de coche eléctrico"
 
 #: somsolet/models.py:730
 msgid "power meter"
-msgstr ""
+msgstr "Medidor de enerxía"
 
 #: somsolet/models.py:736
 msgid "acquire interest"
@@ -1117,99 +1131,99 @@ msgstr ""
 
 #: somsolet/models.py:742
 msgid "client comments"
-msgstr ""
+msgstr "Comentarios persoa inscrita"
 
 #: somsolet/models.py:748
 msgid "engineering comments"
-msgstr ""
+msgstr "Comentario empresa instaladora"
 
 #: somsolet/models.py:755
 msgid "batery brand"
-msgstr ""
+msgstr "Marca batería"
 
 #: somsolet/models.py:761
 msgid "batery model"
-msgstr ""
+msgstr "Modelo batería"
 
 #: somsolet/models.py:767
 msgid "Batery Power (kW)"
-msgstr ""
+msgstr "Potencia da batería (kW)"
 
 #: somsolet/models.py:772
 msgid "Batery Capacity (kWh)"
-msgstr ""
+msgstr "Capacidade batería (kWh)"
 
 #: somsolet/models.py:777
 msgid "Batery (€)"
-msgstr ""
+msgstr "Batería (€)"
 
 #: somsolet/models.py:783
 msgid "Shadow optimizer brand"
-msgstr ""
+msgstr "Marca optimizador de sombras"
 
 #: somsolet/models.py:789
 msgid "Shadow optimizer model"
-msgstr ""
+msgstr "Modelo optimizador de sombras"
 
 #: somsolet/models.py:795
 msgid "Shadow Optimizer (€)"
-msgstr ""
+msgstr "Optimizador de sombras (€)"
 
 #: somsolet/models.py:800
 msgid "Panel Peak Power (Wp)"
-msgstr ""
+msgstr "Potencia pico panel solar (Wp)"
 
 #: somsolet/models.py:806
 msgid "Panel brand"
-msgstr ""
+msgstr "Marca panel FV"
 
 #: somsolet/models.py:813
 msgid "Panel type"
-msgstr ""
+msgstr "Tipo panel FV"
 
 #: somsolet/models.py:819
 msgid "Panel model"
-msgstr ""
+msgstr "Modelo panel FV"
 
 #: somsolet/models.py:826
 msgid "Inversor brand"
-msgstr ""
+msgstr "Marca inversor"
 
 #: somsolet/models.py:832
 msgid "Inversor model"
-msgstr ""
+msgstr "Modelo inversor"
 
 #: somsolet/models.py:838
 msgid "Nominal Inversor Power (Wn)"
-msgstr ""
+msgstr "Potencia nominal inversor (Wn)"
 
 #: somsolet/models.py:843
 msgid "Charger manager brand"
-msgstr ""
+msgstr "Marca xestor de carga"
 
 #: somsolet/models.py:849
 msgid "Charger manager model"
-msgstr ""
+msgstr "Modelo xestor de carga"
 
 #: somsolet/models.py:855
 msgid "Charger manager (€)"
-msgstr ""
+msgstr "Xestor de carga (€)"
 
 #: somsolet/models.py:860
 msgid "Electric car charger brand"
-msgstr ""
+msgstr "Marca cargador coche eléctrico"
 
 #: somsolet/models.py:866
 msgid "Electric car charger model"
-msgstr ""
+msgstr "Modelo cargador coche eléctrico"
 
 #: somsolet/models.py:872
 msgid "Electric Car Charger Power (kW)"
-msgstr ""
+msgstr "Potencia cargador coche eléctrico (kW)"
 
 #: somsolet/models.py:877
 msgid "Electric Car Charger (€)"
-msgstr ""
+msgstr "Cargador coche eléctrico (€)"
 
 #: somsolet/models.py:901
 msgid "Sent"
@@ -1221,31 +1235,31 @@ msgstr ""
 
 #: somsolet/static/html/bootstrap4-som.html:66
 msgid "previous"
-msgstr ""
+msgstr "anterior"
 
 #: somsolet/static/html/bootstrap4-som.html:86
 msgid "next"
-msgstr ""
+msgstr "seguinte"
 
 #: somsolet/tables.py:18 somsolet/tables.py:71
 msgid "Technical Details"
-msgstr ""
+msgstr "Detalles técnicos"
 
 #: somsolet/tables.py:37 somsolet/templates/somsolet/prereport.html:9
 msgid "Prereport"
-msgstr ""
+msgstr "Preinforme"
 
 #: somsolet/tables.py:79
 msgid "Download CCH"
-msgstr ""
+msgstr "Descarga CCH"
 
 #: somsolet/templates/emails/message_body.html:28
 msgid "Warning"
-msgstr ""
+msgstr "Aviso!"
 
 #: somsolet/templates/emails/message_body.html:31
 msgid "Date"
-msgstr ""
+msgstr "Data"
 
 #: somsolet/templates/emails/message_body_general_conditions.html:17
 msgid ""
@@ -1255,6 +1269,11 @@ msgid ""
 "del teu ús d'electricitat i et facin arribar un preinforme de com seria la "
 "teva autoproducció en base al kit escollit"
 msgstr ""
+"Confirmámosche que recibimos correctamente a túa solicitude para participar "
+"na compra colectiva organizada por Som Energia e acabamos de facilitar os "
+"teus datos á empresa instaladora. O seguinte paso é que esta empresa faga un "
+"estudo do teu uso eléctrico e che fagan chegar un preinforme de como sería a "
+"túa autoprodución en base ao kit escollido."
 
 #: somsolet/templates/emails/message_body_general_conditions.html:18
 msgid ""
@@ -1263,34 +1282,41 @@ msgid ""
 "seguir amb els següents passos i que davant de qualsevol dubte et posis en "
 "contacte amb nosaltres."
 msgstr ""
+"Adxunto a este correo atoparás o documento PDF das condicións xerais da "
+"compra colectiva. Recomendámosche que as leas atentamente antes de seguir "
+"cos seguintes pasos e que ante calquera dúbida te poñas en contacto connosco."
 
 #: somsolet/templates/emails/message_body_general_conditions.html:19
 msgid "Així mateix, t’informem que"
-msgstr ""
+msgstr "Do mesmo xeito, informámoste de que"
 
 #: somsolet/templates/emails/message_body_general_conditions.html:19
 msgid ""
 "disposes de 14 dies naturals des de la data complementació del formulari "
 "d’inscripció per desistir de la seva participació a la compra col·lectiva"
 msgstr ""
+"dispós de 14 días naturais desde a data en que cubriches o formulario de "
+"inscrición para desistir da túa participación na compra colectiva"
 
 #: somsolet/templates/emails/message_body_general_conditions.html:19
 msgid ""
 "En cas que vulguis desistir, és necessari que ens notifiquis la teva decisió "
 "per correu electrònic a"
 msgstr ""
+"En caso de que queiras desistir, é preciso que nolo notifiques por correo "
+"electrónico a"
 
 #: somsolet/templates/emails/message_body_general_conditions.html:19
 msgid "o per correu postal a"
-msgstr ""
+msgstr "ou por correo postal a"
 
 #: somsolet/templates/emails/message_body_general_conditions.html:25
 msgid "Si vols, pots utilitzar el text de desistiment que tens en aquesta"
-msgstr ""
+msgstr "Se queres, podes utilizar o texto de desistencia que tes neste"
 
 #: somsolet/templates/emails/message_body_general_conditions.html:25
 msgid "plantilla"
-msgstr ""
+msgstr "modelo"
 
 #: somsolet/templates/emails/message_body_general_conditions.html:26
 msgid ""
@@ -1299,22 +1325,26 @@ msgid ""
 "ens comuniquem la teva decisió. Efectuarem el reemborsament, al número de "
 "compte que ens indiquis en el moment de fer el desistiment."
 msgstr ""
+"En caso de desistir, devolverémosche os 150 € achegados no momento da "
+"inscrición, como moi tarde en 14 días naturais a partir da data en que nolo "
+"comuniques. Efectuaremos o reembolso no número de conta que nos indiques no "
+"momento de facer a desistencia."
 
 #: somsolet/templates/emails/message_body_general_conditions.html:28
 msgid "Per a qualsevol dubte o aclariment ens pots escriure a"
-msgstr ""
+msgstr "Para calquera dúbida podes escribirnos a"
 
 #: somsolet/templates/emails/message_body_general_conditions.html:38
 msgid "L'equip de Som Energia"
-msgstr ""
+msgstr "O equipo de Som Energia"
 
 #: somsolet/templates/emails/message_subject.txt:3
 msgid "Warnings Campanya"
-msgstr ""
+msgstr "Avisos Campaña"
 
 #: somsolet/templates/emails/message_summary_subject.txt:3
 msgid "INFORME D'EVOLUCIÓ Campanya"
-msgstr ""
+msgstr "INFORME DE EVOLUCIÓN Campaña"
 
 #: somsolet/templates/emails/prereport.html:17
 msgid "Moltes gràcies per participar de la compra col·lectiva"
@@ -1384,59 +1414,64 @@ msgstr ""
 
 #: somsolet/templates/registration/login.html:6
 msgid "Your username and password didn't match. Please try again."
-msgstr ""
+msgstr "O nome de usuario e o contrasinal non coinciden. Volve tentalo."
 
 #: somsolet/templates/registration/login.html:15
 msgid "Inicia sessió"
-msgstr ""
+msgstr "Iniciar sesión"
 
 #: somsolet/templates/registration/login.html:21
 msgid "Password"
-msgstr ""
+msgstr "Contrasinal"
 
 #: somsolet/templates/registration/login.html:27
 msgid "Lost password?"
-msgstr ""
+msgstr "Esqueciches o teu contrasinal?"
 
 #: somsolet/templates/registration/password_reset_complete.html:6
 msgid "The password has been changed!"
-msgstr ""
+msgstr "Cambiaches o teu contrasinal!"
 
 #: somsolet/templates/registration/password_reset_complete.html:7
 msgid "Log in again?"
-msgstr ""
+msgstr "Queres volver iniciar a sesión?"
 
 #: somsolet/templates/registration/password_reset_confirm.html:8
 msgid "Please enter (and confirm) your new password."
-msgstr ""
+msgstr "Introduce e confirma o novo contrasinal."
 
 #: somsolet/templates/registration/password_reset_confirm.html:11
 msgid "New password"
-msgstr ""
+msgstr "Novo contrasinal"
 
 #: somsolet/templates/registration/password_reset_confirm.html:14
 msgid "Confirm password"
-msgstr ""
+msgstr "Confirma o contrasinal"
 
 #: somsolet/templates/registration/password_reset_confirm.html:24
 msgid "Password reset failed"
-msgstr ""
+msgstr "O restablecemento do contrasinal fallou."
 
 #: somsolet/templates/registration/password_reset_confirm.html:25
 msgid ""
 "The password reset link was invalid, possibly because it has already been "
 "used. Please request a new password reset."
 msgstr ""
+"A ligazón de restablecemento do contrasional non é válida, posibelmente "
+"porque xa se utilizara. Solicita unha nova ligazón."
 
 #: somsolet/templates/registration/password_reset_done.html:6
 msgid ""
 "We've emailed you instructions for setting your password. If they haven't "
 "arrived in a few minutes, check your spam folder."
 msgstr ""
+"Enviámosche un correo electrónico coas instrucións para definir o "
+"contrasinal. Pode tardar uns poucos minutos en chegar. Se non o recibes, "
+"revisa a carpeta de correo lixo."
 
 #: somsolet/templates/registration/password_reset_email.html:4
 msgid "Hola"
-msgstr ""
+msgstr "Ola"
 
 #: somsolet/templates/registration/password_reset_email.html:6
 msgid ""
@@ -1444,88 +1479,90 @@ msgid ""
 "accediu o heu sol·licitat un restabliment de la contrasenya per al vostre "
 "compte d’usuari a "
 msgstr ""
+"Recibes este correo electrónico porque é a primeira vez que accedes ou "
+"solicitaches restablecer o teu contrasinal"
 
 #: somsolet/templates/registration/password_reset_email.html:8
 msgid "Prem el següent enllaç per activar l'accés i triar la teva contrasenya:"
-msgstr ""
+msgstr "Accede á seguinte ligazón para establecer o contrasinal:"
 
 #: somsolet/templates/registration/password_reset_email.html:12
 msgid "Recordeu que el vostre nom d’usuari d’inici de sessió és: "
-msgstr ""
+msgstr "Lembra que o teu nome de usuario de inicio de sesión é: "
 
 #: somsolet/templates/registration/password_reset_email.html:14
 msgid "Salutacions,"
-msgstr ""
+msgstr "Saúdos,"
 
 #: somsolet/templates/registration/password_reset_form.html:14
 msgid "Quin és el teu correu electrònic?"
-msgstr ""
+msgstr "Cal é o teu correo electrónico?"
 
 #: somsolet/templates/registration/registration.html:8
 msgid "Register"
-msgstr ""
+msgstr "Rexístrate"
 
 #: somsolet/templates/somsolet/client_detail.html:28
 msgid "Phone number"
-msgstr ""
+msgstr "Teléfono"
 
 #: somsolet/templates/somsolet/client_detail.html:33
 msgid "Go Back"
-msgstr ""
+msgstr "Anterior"
 
 #: somsolet/templates/somsolet/construction_permit.html:9
 msgid "Construction Permit"
-msgstr ""
+msgstr "Licencia de obra"
 
 #: somsolet/templates/somsolet/date_start_installation_column.html:3
 #: somsolet/templates/somsolet/date_technical_visit_column.html:3
 msgid "insert date"
-msgstr ""
+msgstr "inserir data"
 
 #: somsolet/templates/somsolet/delivery_certificate.html:9
 msgid "Delivery Certificate"
-msgstr ""
+msgstr "Acta de recepción"
 
 #: somsolet/templates/somsolet/inscription.html:6
 msgid "Fill in the inscription form"
-msgstr ""
+msgstr "Enche o formulario de inscrición"
 
 #: somsolet/templates/somsolet/inscription.html:9
 msgid "Save"
-msgstr ""
+msgstr "Gardar"
 
 #: somsolet/templates/somsolet/installation_date.html:13
 msgid "Installation Date"
-msgstr ""
+msgstr "Data de instalación"
 
 #: somsolet/templates/somsolet/offer.html:9
 msgid "Offer"
-msgstr ""
+msgstr "Oferta"
 
 #: somsolet/templates/somsolet/project_update_column.html:3
 msgid "Open"
-msgstr ""
+msgstr "Aberto"
 
 #: somsolet/templates/somsolet/report.html:9
 msgid "Report"
-msgstr ""
+msgstr "Relatorio visita técnica"
 
 #: somsolet/templates/somsolet/signed_contract.html:9
 msgid "Contract"
-msgstr ""
+msgstr "Contrato"
 
 #: somsolet/templates/somsolet/technical_campaign_update.html:3
 msgid "Check details"
-msgstr ""
+msgstr "Detalles técnicos"
 
 #: somsolet/templates/somsolet/technical_details.html:9
 msgid "Technical data"
-msgstr ""
+msgstr "Datos técnicos"
 
 #: somsolet/templates/somsolet/technical_details_update.html:3
 msgid "update technical details"
-msgstr ""
+msgstr "Detalles técnicos"
 
 #: somsolet/templates/somsolet/technical_visit.html:13
 msgid "Technical Visit"
-msgstr ""
+msgstr "Visita técnica"
