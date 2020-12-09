@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from somsolet.choices_options import ITEM_COMMUNITY
+from somsolet.models.choices_options import ITEM_COMMUNITY
 from somsolet.models import Campaign, Project
 
 
