@@ -3,9 +3,9 @@ import logging
 from datetime import datetime
 
 import pymongo
-from django.db import transaction
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db import transaction
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
@@ -55,6 +55,7 @@ class SomsoletProjectView(LoginRequiredMixin, View):
 
     def get_initial(self, pk):
         proj_inst = get_object_or_404(Project, pk=pk)
+
         return {
             'campaign': proj_inst.campaign,
             'project': proj_inst.id,
