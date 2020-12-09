@@ -158,6 +158,7 @@ class WeekDays(object):
         (_('sunday'), SU),
     ]
 
+
 class WorkingDay(Base):
 
     calendar_config = models.ForeignKey(

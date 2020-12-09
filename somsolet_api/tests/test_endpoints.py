@@ -83,6 +83,7 @@ class TestCampaign(TestCase):
         assert response.status_code == 200
         assert response_body == []
 
+
 class TestProject(TestCase):
     
     def setUp(self):

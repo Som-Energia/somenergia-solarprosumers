@@ -313,7 +313,26 @@ paths:
           content: {}
       security:
         - jwt: []
- 
+
+  /events/{engineering_id}:
+    get:
+      tags:
+        - events
+        - somrenkonto
+      summary: Get all engineering events from an campaign or instalation
+      operationId: server.get_events
+      parameters:
+      - name: engineering_id
+        in: path
+        required: true
+        schema: int
+        example: 3
+      responses:
+        200:
+          description: Events from an engineering
+          
+
+
   /auth:
     post:
       tags:
