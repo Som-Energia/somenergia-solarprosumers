@@ -42,6 +42,7 @@ THIRD_PART_APPS = [
     'jquery',
     'rosetta',
     'rest_framework',
+    'rest_framework.authtoken',
     'corsheaders',
     'schedule',
 ]
@@ -116,6 +117,13 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LOGIN_REDIRECT_URL = '/somsolet/profile_engineering/'
 LOGOUT_REDIRECT_URL = 'login'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ]
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
