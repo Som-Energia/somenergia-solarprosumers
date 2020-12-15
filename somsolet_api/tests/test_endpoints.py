@@ -60,17 +60,23 @@ class TestCampaign(TestCase):
     def tearDown(self):
         self.user.delete()
 
-    def test_campaign_user_unauthenticated(self):
+    def test_campaign_user_unauthenticated_permitted(self):
         response = self.client.get(self.base_url)
+
+        assert response.status_code == 200
+        assert response.json() == []
+
+    def test_campaign_user_unauthenticated_post_forbidden(self):
+        response = self.client.post(self.base_url, {})
 
         assert response.status_code == 403
 
-    def test_campaign_user_not_permitted(self):
+    def test_campaign_authenticated_user(self):
         self.client.login(username=self.user.username, password='1234')
 
         response = self.client.get(self.base_url)
 
-        assert response.status_code == 403
+        assert response.status_code == 200
 
     def test_campaign_user_permitted(self):
         self.client.login(username=self.user.username, password='1234')
@@ -79,9 +85,8 @@ class TestCampaign(TestCase):
 
         response = self.client.get(self.base_url)
 
-        response_body = response.json()
         assert response.status_code == 200
-        assert response_body == []
+        assert response.json() == []
 
 
 class TestProject(TestCase):
