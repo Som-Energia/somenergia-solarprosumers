@@ -1,17 +1,14 @@
-openapi: 3.0.1
+openapi: 3.0.3
 info:
   title: Som Energia Som Solet API
   description: 'API for exchange Som Solet information'
   termsOfService: https://www.somenergia.coop/ca/avis-legal/
   contact:
-    email: it@somenergia.coop
+    email: info@somenergia.coop
   license:
     name: AGPL-3.0
     url: https://www.gnu.org/licenses/agpl-3.0.en.html
-  version: 0.0.0
-externalDocs:
-  description: ''
-  url: ''
+  version: 0.1.0
 servers:
 - url: http://localhost:8090
 tags:
@@ -325,14 +322,41 @@ paths:
       - name: engineering_id
         in: path
         required: true
-        schema: int
+        schema:
+          type: integer
+          format: int32
         example: 3
       responses:
         200:
           description: Events from an engineering
-          
-
-
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    description: number of results
+                    example: 234
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/event'
+                  links:
+                    $ref: '#/components/schemas/links_response'
+        400:
+          description: ''
+        401:
+          description: ''
+        403:
+          description: ''
+        404:
+          description: ''
+        429:
+          description: ''
+      security:
+      - jwt: []
+      
   /auth:
     post:
       tags:
@@ -364,26 +388,6 @@ paths:
           content: {}
 components:
   schemas:
-    User:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        username:
-          type: string
-        firstName:
-          type: string
-        lastName:
-          type: string
-        email:
-          type: string
-        password:
-          type: string
-        token:
-          type: string
-        active:
-          type: boolean
     campaign:
       type: object
       properties:
@@ -773,7 +777,7 @@ components:
           example:
             {
               "date": "2020-05-02",
-              "file": "https://somsolet.somenergia.coop/delivery_certificate/dc_ss001.pdf"
+              "file": "https://somsolet.somenergia.coop/delivery_certificate/dc_ss001.pdf",
               "action": "https://signme.somenergia.coop",
             }
         legalRegistration:
@@ -863,24 +867,31 @@ components:
           },
           
         ]
-    Error:
+    event:
       type: object
-      required:
-        - code
-        - message
       properties:
-        code:
-          type: integer
-          format: int32
-          example: 1
-        message:
+        date_start:
           type: string
-          example: Example error
+          format: date-time
+        date_end:
+          type: string
+          format: date-time
+        all_day:
+          type: boolean
+      example:
+        event_example:
+          date_start: "2020-12-29T10:15"
+          date_end: "2020-12-29T11:30"
+          all_day: false
+    
+    links_response:
+      type: object
+      properties:
+        next:
+          type: string
+          description: url of next results. If null, you are in the last page
+          example: "https://somsolet-api.somenergia.coop/contracts?limit=5&cursor=dXNlcjpVMEc5V0ZYTlo"
   securitySchemes:
-    somsolet_auth:
-      type: http
-      scheme: basic
-      x-basicInfoFunc: server.basic_auth
     jwt:
       type: http
       scheme: bearer
