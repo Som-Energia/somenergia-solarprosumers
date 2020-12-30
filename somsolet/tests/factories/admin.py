@@ -6,6 +6,7 @@ class UserFactory(DjangoModelFactory):
 
     class Meta:
         model = get_user_model()
+        django_get_or_create = ('username',)
 
     username = 'N8215601I'
     email = 'info@pacoinvents.coop'

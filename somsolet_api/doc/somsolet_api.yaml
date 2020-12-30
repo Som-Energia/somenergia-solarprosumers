@@ -18,6 +18,8 @@ tags:
   description: All information about a project.
 - name: stage
   description: All existing stages
+- name: events
+  description: Engineering events
 - name: user
   description: Logs user into the system 
 paths:
@@ -310,12 +312,10 @@ paths:
           content: {}
       security:
         - jwt: []
-
   /events/{engineering_id}:
     get:
       tags:
         - events
-        - somrenkonto
       summary: Get all engineering events from an campaign or instalation
       operationId: server.get_events
       parameters:

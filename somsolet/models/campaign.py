@@ -5,7 +5,6 @@ from .admin import Engineering, LocalGroup
 from .choices_options import ITEM_COMMUNITY
 
 
-
 class CampaignQuerySet(models.QuerySet):
 
     def user_campaigns(self, user):
