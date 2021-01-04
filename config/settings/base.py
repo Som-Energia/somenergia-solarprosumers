@@ -2,11 +2,13 @@ import os
 
 import yaml
 from django.utils.translation import gettext_lazy as _
+from corsheaders.defaults import default_headers
+
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 with open(os.path.join(BASE_DIR, 'settings/config.yaml')) as f:
-    config = yaml.load(f.read())
+    config = yaml.load(f.read(), yaml.FullLoader)
 
 LOCALE_PATHS = (
     os.path.join(BASE_DIR, 'locale'),
@@ -37,12 +39,15 @@ INSTALLED_APPS = [
     'django',
     'jquery',
     'rosetta',
+    'rest_framework',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -210,3 +215,6 @@ ANYMAIL = {
 EMAIL_BACKEND = "anymail.backends.sendgrid.EmailBackend"
 DEFAULT_FROM_EMAIL = [config['email']['default_from']]
 BCC = [config['email']['bcc']]
+
+CORS_ORIGIN_WHITELIST = config['cors']['whitelist']
+CORS_ALLOW_HEADERS = list(default_headers) + config['cors']['allowed_headers']

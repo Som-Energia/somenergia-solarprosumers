@@ -3,7 +3,7 @@ import yaml
 from .base import *
 
 with open(os.path.join(BASE_DIR, 'settings/config.yaml')) as f:
-    config = yaml.load(f.read())
+    config = yaml.load(f.read(), yaml.FullLoader)
 
 SECRET_KEY = 'e2#ihl8s%jy2r4s1do0*z4jin222o^w%%ddn-(nr=3n*bygch^'
 

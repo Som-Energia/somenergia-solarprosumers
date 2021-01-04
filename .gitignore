@@ -114,7 +114,8 @@ venv.bak/
 
 #config
 
-*.yaml
+config.yaml
 
 #files
 *.csv
+json4test.yaml
