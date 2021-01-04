@@ -1,29 +1,30 @@
-import psycopg2
 import pytest
-from django.db import connections
-from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
+
+from . import factories
 
 
-def run_sql(sql):
-    conn = psycopg2.connect(database='postgres')
-    conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
-    cur = conn.cursor()
-    cur.execute(sql)
-    conn.close()
+# @pytest.fixture(scope='session')
+# def django_db_setup(django_db_setup, django_db_blocker):
+#     with django_db_blocker.unblock():
 
+#         engineering_user = factories.UserFactory()
+#         engineering_user.save()
+#         local_group = factories.LocalGroupFactory()
+#         local_group.save()
+#         engineering = factories.EngineeringFactory()
+#         engineering.save()
 
-@pytest.yield_fixture(scope='session')
-def django_db_setup():
-    from django.conf import settings
+        # campaign = factories.CampaignFactory()
+        # campaign.engineerings.set((engineering,))
+        # campaign.local_group.set((local_group,))
+        # campaign.save()
+        # technical_campaign = factories.TechnicalCampaignFactory()
+        # print(technical_campaign.__dict__)
+        # import pdb; pdb.set_trace()
 
-    settings.DATABASES['default']['NAME'] = 'somsolet4test_db'
+        # technical_campaign.campaign = campaign
+        # technical_campaign.save()
 
-    run_sql('DROP DATABASE IF EXISTS somsolet4test_db')
-    run_sql('CREATE DATABASE somsolet4test_db TEMPLATE somsolet_db')
-
-    yield
-
-    for connection in connections.all():
-        connection.close()
-
-    run_sql('DROP DATABASE somsolet4test_db')
+        # project = factories.ProjectFactory()
+        # project.campaign = campaign
+        # project.save()

@@ -31,10 +31,20 @@ h1 a {
     border-color: #bac92a !important;
 }
 
+.btn-primary.active {
+    color: #fff !important;
+    background-color: #bac92a !important;
+    border-color: #bac92a !important;
+}
+
 .btn-primary:hover {
     color: #fff !important;
     background-color: #bac92a !important;
     border-color: #bac92a !important;
+}
+
+.btn-primary:focus .btn-primary.focus {
+    box-shadow: 0 0 0 0.2rem #bac92a29;
 }
 
 .btn-outline-primary:hover {
@@ -42,10 +52,43 @@ h1 a {
     background-color: #bac92a;
     border-color: #bac92a;
 }
+.custom-control-input:checked~.custom-control-label::before {
+    color: #fff;
+    background-color: #bac92a;
+    border-color: #bac92a;
+}
+
+.autoComplete_resultlist {
+    padding-left: 0;
+}
+
+.autoComplete_result {
+    margin: inherit;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.autoComplete_selected,
+.autoComplete_result:hover {
+    border-left: 2px solid #bac92a;
+    border-right: 2px solid #bac92a;
+    border-bottom: 2px solid #bac92a;
+    background-color: #bac92a29;
+}
+.autoComplete_highlighted {
+    color: #bac92a !important;
+}
 
 .form-filters label {
     margin-right: .5rem !important;
     margin-bottom: .25rem !important;
+}
+
+.form-control:focus {
+    border-color: #bac92a;
+    box-shadow: 0 0 0 0.2rem #bac92a29;
 }
 
 .table-som a,
@@ -210,15 +253,6 @@ h1 a {
     color: var(--color11)
 }
 
-.som-foot p {
-    text-align: center;
-    font-weight: 500;
-}
-
-.som-foot .fa-heart {
-    color: #bac92a;
-}
-
 .page-item.active .page-link {
     z-index: 1;
     color: #fff;
@@ -309,4 +343,76 @@ svg rect{
   border: 1px #ccc solid;
   border-radius: 4px;
   color: #ccc;
+}
+
+.business-day-row {
+    display: flex;
+    align-items: baseline;
+}
+
+.business-day-available-hour {
+    display: flex;
+    align-items: center;
+}
+
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+body {
+    margin-bottom: 60px; /* Margin bottom by footer height */
+}
+
+.som-foot p {
+    text-align: center;
+    font-weight: 500;
+}
+
+.som-foot .fa-heart {
+    color: #bac92a;
+}
+
+.icon-green {
+    color: #bac92a;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 60px; /* Set the fixed height of the footer here */
+    line-height: 60px; /* Vertically center the text there */
+    justify-content: center;
+}
+
+.collapse:not(.show) {
+    visibility: hidden;
+    display: flex;
+}
+
+.dropdown-menu {
+    font-size: 0.5rem;
+}
+
+.bootstrap-datetimepicker-widget .timepicker-hour, .bootstrap-datetimepicker-widget .timepicker-minute, .bootstrap-datetimepicker-widget .timepicker-second {
+    font-size: 1em;
+    color: #5b5b5f;
+}
+
+.bootstrap-datetimepicker-widget table td span {
+    width: unset;
+    height: unset;
+    line-height: unset;
+}
+
+.bootstrap-datetimepicker-widget table td {
+    height: unset;
+    line-height: unset;
+    width: unset;
+}
+
+.bootstrap-datetimepicker-widget table td, .bootstrap-datetimepicker-widget table th {
+    width: auto;
+    height: auto;
 }

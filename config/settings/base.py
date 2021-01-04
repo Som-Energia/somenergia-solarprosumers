@@ -6,7 +6,7 @@ from django.utils.translation import gettext_lazy as _
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 with open(os.path.join(BASE_DIR, 'settings/config.yaml')) as f:
-    config = yaml.load(f.read())
+    config = yaml.load(f.read(), yaml.Loader)
 
 LOCALE_PATHS = (
     os.path.join(BASE_DIR, 'locale'),
@@ -16,14 +16,16 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
-INSTALLED_APPS = [
+DJANGO_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'somsolet.apps.SomsoletConfig',
+]
+
+THIRD_PART_APPS = [
     'crispy_forms',
     'django_tables2',
     'django_filters',
@@ -37,7 +39,15 @@ INSTALLED_APPS = [
     'django',
     'jquery',
     'rosetta',
+    'schedule',
 ]
+
+LOCAL_APPS = [
+    'somsolet.apps.SomsoletConfig',
+    'somrenkonto',
+]
+
+INSTALLED_APPS = DJANGO_APPS + THIRD_PART_APPS + LOCAL_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -48,6 +58,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_currentuser.middleware.ThreadLocalUserMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -190,6 +201,10 @@ LOGGING = {
         'somsolet': {
             'handlers': ['console'],
             'level': 'INFO'
+        },
+        'somrenkonto': {
+            'handlers': ['console'],
+            'level': 'DEBUG'
         },
         "scheduler_tasks": {
             "handlers": ["console", "file"],
