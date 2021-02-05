@@ -4,7 +4,6 @@ import pytest
 from django.contrib.auth.models import AnonymousUser
 from django.test import RequestFactory
 from django.urls import reverse
-from parameterized import parameterized
 
 from somsolet.views import (CampaignSetView, ConstructionPermitView,
                             DeliveryCertificateView, InstallationDateView,
@@ -71,11 +70,10 @@ class TestViews:
         response = ProjectView.as_view()(request, pk=project.pk)
         assert 'auth/login' in response.url
 
-    @parameterized.expand(
+    @pytest.mark.parametrize("view,url_name,status",
         [
             [PrereportView, 'prereport', 'registered']
-        ],
-        name_func=custom_name_func
+        ]
     )
     def test_auth_prereport_status_condition(
         self, view, url_name, status
@@ -88,7 +86,7 @@ class TestViews:
         response = view.as_view()(request, pk=project.pk)
         assert response.status_code == 200
 
-    @parameterized.expand(
+    @pytest.mark.parametrize("view,url_name,status",
         [
             [TechnicalVisitView, 'technical_visit', 'technical visit'],
             [ReportView, 'report', 'report'],
@@ -99,7 +97,7 @@ class TestViews:
             [DeliveryCertificateView, 'delivery_certificate', 'end installation'],
             [LegalRegistrationView, 'legal_registration', 'end installation'],
             [LegalizationView, 'legalization', 'legalization']
-        ], name_func=custom_name_func
+        ]
     )
     def test_auth_redirect_whith_invalid_status_condition(
         self, view, url_name, status        
@@ -112,7 +110,7 @@ class TestViews:
         response = view.as_view()(request, pk=project.pk)
         assert response.status_code == 302
 
-    @parameterized.expand(
+    @pytest.mark.parametrize("view,url_name",
         [
             [PrereportView, 'prereport'],
             [TechnicalVisitView, 'technical_visit'],
@@ -124,7 +122,7 @@ class TestViews:
             [DeliveryCertificateView, 'delivery_certificate'],
             [LegalRegistrationView, 'legal_registration'],
             [LegalizationView, 'legalization']
-        ], name_func=custom_name_func
+        ]
     )
     def test_unauthenticated(self, view, url_name):
         project = ProjectFactory()
