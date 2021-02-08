@@ -4,7 +4,9 @@ from django.db.models import Q
 from django.test import Client
 from django.urls import reverse
 
+from somsolet.models import Engineering
 from . import factories
+from .models import RenkontoEvent
 from .views import CalendarView, EditCalendarView, FilterViewMixin
 
 client = Client()
@@ -109,3 +111,20 @@ class TestCalendarView:
         conf_calendar_url = reverse('edit_calendar', kwargs={'pk': calendar_conf_id})
 
         assert conf_calendar_url in response.content.decode()
+
+
+@pytest.mark.django_db
+class TestRenkontoEventQuerySet:
+
+    def test__engineering_events(self, engineering_with_events):
+        # given
+        # an engineering with calendar events
+        engineering = Engineering.objects.first()
+
+        # when we search all events of that engineering
+        events = RenkontoEvent.events.engineering_events(engineering.id)
+
+        # then we have a list of that events
+        assert list(events) == list(RenkontoEvent.objects.filter(
+            engineering_id=engineering.id
+        ))

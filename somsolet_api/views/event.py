@@ -12,4 +12,3 @@ class RenkontoEventView(APIView):
     def get(self, request, engineering_id):
         response = []
         return Response(response)
-        

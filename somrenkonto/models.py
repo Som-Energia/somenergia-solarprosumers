@@ -6,7 +6,7 @@ from django.utils.translation import gettext_lazy as _
 from django_currentuser.middleware import get_current_authenticated_user
 from schedule.models import Calendar, Event
 
-from somsolet.models import Campaign, Project
+from somsolet.models import Campaign, Project, Engineering
 from .common import Base
 
 
@@ -32,6 +32,11 @@ class RenkontoEventQuerySet(models.QuerySet):
 
     def filter_events(self, filters):
         return self.filter(*filters)
+
+    def engineering_events(self, engineering_id):
+        return self.filter(
+            engineering__id=engineering_id
+        )
 
     def to_json(self):
         def event_encoder(field):
@@ -61,6 +66,13 @@ class RenkontoEvent(Event, Base):
         on_delete=models.CASCADE,
         verbose_name=_('Project'),
         help_text=_('Project of this event')
+    )
+
+    engineering = models.ForeignKey(
+        Engineering,
+        on_delete=models.CASCADE,
+        verbose_name=_('Engineering'),
+        help_text=_('Engineering related with this event')
     )
 
     event_type = models.CharField(
@@ -97,6 +109,7 @@ class RenkontoEvent(Event, Base):
 
         self.campaign = Campaign.objects.get(name=campaing_name)
         self.project = Project.objects.get(name=installation_name)
+        self.engineering = self.project.engineering
 
         self.created_by = get_current_authenticated_user()
         self.modified_by = self.created_by

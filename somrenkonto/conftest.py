@@ -1,7 +1,7 @@
 import pytest
 
+from somsolet_api.tests.fixtures import engineering_with_events
 from . import factories
-
 
 @pytest.fixture(scope='session')
 def django_db_setup(django_db_setup, django_db_blocker):

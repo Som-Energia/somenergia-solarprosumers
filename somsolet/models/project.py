@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from .campaign import Campaign
+from .admin import Engineering
 from .client import Client
 from .choices_options import (BATERY_BRAND, INVERSOR_BRAND, ITEM_ANGLES,
                               ITEM_DISCARDED_TYPES,
@@ -19,8 +20,17 @@ class Project(models.Model):
         Campaign,
         null=True,
         blank=True,
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
         verbose_name=_('Campaign'))
+
+    engineering = models.ForeignKey(
+        Engineering,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        verbose_name=_('Engineering'),
+        help_text=_('Engineering responsable of this project')
+    )
 
     client = models.ForeignKey(
         Client,

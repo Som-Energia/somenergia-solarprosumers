@@ -11,6 +11,7 @@ class CalendarFactory(factory.django.DjangoModelFactory):
     
     class Meta:
         model = Calendar
+        django_get_or_create = ('slug',)
 
     name = 'Calendario Obras Ingenieria Invents Paco i asociats'
     slug = 'cal-obras-ing'
