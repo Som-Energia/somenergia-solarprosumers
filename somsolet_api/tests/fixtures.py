@@ -4,7 +4,7 @@ import factory
 import pytest
 from django.utils import timezone
 
-from somsolet.tests.factories import UserFactory
+from somsolet.tests.factories import UserFactory, EngineeringFactory
 from somrenkonto.factories import RenkontoEventFactory, CalendarFactory, CampaignFactory, ProjectFactory
 
 from somrenkonto.models import EventChoices
@@ -36,3 +36,13 @@ def bounded_event():
     )
 
     return RenkontoEventFactory.build(**bounded_event_data)
+
+
+@pytest.fixture
+def authenticated_user():
+    return UserFactory.create()
+
+
+@pytest.fixture
+def engineering():
+    return EngineeringFactory.create()
