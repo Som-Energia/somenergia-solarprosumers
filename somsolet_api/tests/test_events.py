@@ -8,7 +8,7 @@ from somsolet_api.views import RenkontoEventView
 class TestRenkontoEventSerializer:
 
     @pytest.mark.django_db
-    def test_event_serializer(self, bounded_event):
+    def test__event_serializer(self, bounded_event):
         event_serializer = RenkontoEventSerializer(bounded_event)
 
         assert event_serializer.data == {
@@ -17,10 +17,11 @@ class TestRenkontoEventSerializer:
             'all_day': bounded_event.all_day
         }
 
+
+@pytest.mark.django_db
 class TestRenkontoEventView:
 
-    @pytest.mark.django_db
-    def test_get_engineering_events(
+    def test__get_engineering_events(
         self, authenticated_user, engineering_with_events, rf,
     ):
         # given
@@ -44,5 +45,26 @@ class TestRenkontoEventView:
             'data': {
                 'count': len(events),
                 'results': events
+            }
+        }
+
+    def test__get_engineering_events__enginieering_doesnotexists(
+            self, authenticated_user, rf
+    ):
+        # given
+        # an authenticated user
+        unregistered_engineering_id = 4567
+
+        # when the user requests for the events of that engineering
+        url = reverse('events', args=[unregistered_engineering_id])
+        request = rf.get(url)
+        request.user = authenticated_user
+        response = RenkontoEventView.as_view()(request, unregistered_engineering_id)
+
+        # then the user obtain an empty response
+        assert response.data == {
+            'data': {
+                'count': 0,
+                'results': []
             }
         }

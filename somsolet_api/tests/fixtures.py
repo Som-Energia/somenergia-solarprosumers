@@ -8,10 +8,11 @@ from django.utils import timezone
 from somrenkonto.factories import (CalendarFactory, CampaignFactory,
                                    ProjectFactory, RenkontoEventFactory)
 from somrenkonto.models import EventChoices
-from somsolet.tests.factories import (InventsPacoFactory,
-                                      InventsPacoEngineeringFactory,
+from somsolet.tests.factories import (InventsPacoEngineeringFactory,
+                                      InventsPacoFactory,
                                       SolarWindPowerEngineeringFactory,
                                       SolarWindPowerFactory)
+
 
 @pytest.fixture
 def authenticated_user():
@@ -57,7 +58,7 @@ def engineering():
 @pytest.fixture
 def engineering_with_events():
     engineering = InventsPacoEngineeringFactory.create()
-    
+
     bounded_event_data = dict(
         title=factory.Iterator([
             'Super urgent meet',

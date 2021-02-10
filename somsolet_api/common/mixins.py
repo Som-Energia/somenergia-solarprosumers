@@ -12,3 +12,12 @@ class MakeResponseMixin:
             }
         })
         return response
+
+    def make_empty_response(self):
+        response = Response({
+            'data': {
+                'count': 0,
+                'results': []
+            }
+        })
+        return response

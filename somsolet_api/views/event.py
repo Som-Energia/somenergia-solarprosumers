@@ -13,11 +13,16 @@ class RenkontoEventView(MakeResponseMixin, APIView):
     serializer_class = RenkontoEventSerializer
 
     def get(self, request, engineering_id):
-        engineering = Engineering.engineerings.get_engineering_by_id(engineering_id)
-        if not engineering:
-            return Response([])
+        if not self._engineering_exists(engineering_id):
+            return self.make_empty_response()
 
-        events = RenkontoEvent.events.engineering_events(engineering_id)
+        events = self._get_engineering_events(engineering_id)
 
         response = self.make_response(events)
         return response
+
+    def _engineering_exists(self, engineering_id):
+        return Engineering.engineerings.get_engineering_by_id(engineering_id) is not None
+
+    def _get_engineering_events(self, engineering_id):
+        return RenkontoEvent.events.engineering_events(engineering_id)
