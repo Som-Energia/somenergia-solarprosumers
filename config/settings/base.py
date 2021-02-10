@@ -64,6 +64,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_currentuser.middleware.ThreadLocalUserMiddleware',
+    'somsolet_api.common.middleware.ResponseStateMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'

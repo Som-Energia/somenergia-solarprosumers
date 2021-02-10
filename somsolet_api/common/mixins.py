@@ -4,7 +4,6 @@ from rest_framework.response import Response
 class MakeResponseMixin:
     def make_response(self, results_query):
         response = Response({
-            'state': True,
             'data': {
                 'count': results_query.count(),
                 'results': [
