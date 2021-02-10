@@ -144,10 +144,16 @@ class TestEvents:
         # then the user obtain a succesfull response and a list with the events of the engineering
         assert response.status_code == 200
         events = [
-            RenkontoEventSerializer(event)
+            RenkontoEventSerializer(event).data
             for event in RenkontoEvent.objects.filter(
                 engineering__id=engineering_with_events.id
             )
         ]
-        assert response.data == events 
+        assert response.data == {
+            'state': True,
+            'data': {
+                'count': len(events),
+                'results': events
+            }
+        }
 
