@@ -1,8 +1,8 @@
 from django.contrib.auth import get_user_model
-from factory.django import DjangoModelFactory
+import factory
 
 
-class UserFactory(DjangoModelFactory):
+class UserFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = get_user_model()
@@ -13,7 +13,7 @@ class UserFactory(DjangoModelFactory):
     first_name = 'Invents Paco i asociats'
 
 
-class LocalGroupFactory(DjangoModelFactory):
+class LocalGroupFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = 'somsolet.LocalGroup'
@@ -24,20 +24,19 @@ class LocalGroupFactory(DjangoModelFactory):
     language = 'ca'
 
 
-class EngineeringFactory(DjangoModelFactory):
+class EngineeringFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = 'somsolet.Engineering'
+        django_get_or_create = ('user',)
 
+    user = factory.SubFactory(UserFactory)
     name = 'Invents Paco i asociats'
     tin = 'N8215601I'
     address = 'Carrer del Vapor Nº 24, baixos'
     email = 'info@pacoinvents.coop'
     phone_number = '961877377'
-    # count_closed_campaings = 0
-    # count_open_campains = 1
     count_closed_projects = 1
     total_kwp_installed = 12450
     comments = 'Ingenieria de referencia en el àmbit de la autoproducció '\
                'solar fotovoltaica'
-    # languague = 'ca'

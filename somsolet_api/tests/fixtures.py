@@ -49,8 +49,9 @@ def engineering():
 
 
 @pytest.fixture
-def engineering_with_events():
-    created_by = factory.SubFactory(UserFactory)
+def engineering_with_events(authenticated_user, engineering):
+    created_by = authenticated_user
+
     bounded_event_data = dict(
         title=factory.Iterator([
             'Super urgent meet',
@@ -78,7 +79,7 @@ def engineering_with_events():
         calendar=factory.SubFactory(CalendarFactory),
         campaign=factory.SubFactory(CampaignFactory),
         project=factory.SubFactory(ProjectFactory),
-        engineering=factory.SubFactory(EngineeringFactory),
+        engineering=engineering,
         created_by=created_by,
         modified_by=created_by
     )

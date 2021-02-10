@@ -125,6 +125,7 @@ class TestRenkontoEventQuerySet:
         events = RenkontoEvent.events.engineering_events(engineering.id)
 
         # then we have a list of that events
+        assert len(events) > 0
         assert list(events) == list(RenkontoEvent.objects.filter(
             engineering_id=engineering.id
         ))
