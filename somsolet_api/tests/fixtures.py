@@ -16,7 +16,7 @@ from somsolet.tests.factories import (InventsPacoFactory,
 @pytest.fixture
 def authenticated_user():
     user = InventsPacoFactory.create()
-    user_authenticated = authenticate(username=user.username, password=user.password)
+    user_authenticated = authenticate(username=user.username, password="1234")
     return user_authenticated
 
 

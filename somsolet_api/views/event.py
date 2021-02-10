@@ -1,14 +1,14 @@
+from rest_framework import permissions
 from rest_framework.views import APIView
 
 from somrenkonto.models import RenkontoEvent
 from somsolet.models import Engineering
 from somsolet_api.serializer import RenkontoEventSerializer
 from somsolet_api.common.mixins import MakeResponseMixin
-from somsolet_api.common.permissions import SomsoletAPIModelPermissions
 
 
 class RenkontoEventView(MakeResponseMixin, APIView):
-    # permission_classes = [SomsoletAPIModelPermissions]
+    permission_classes = [permissions.IsAuthenticated]
 
     serializer_class = RenkontoEventSerializer
 

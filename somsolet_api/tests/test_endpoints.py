@@ -137,6 +137,7 @@ class TestEvents:
 
         # when the user requests for the events of an engineering
         url = reverse('events', args=[engineering_with_events.id])
+        client.login(username=authenticated_user.username, password='1234')
         response = client.get(url)
 
         # then the user obtain a succesfull response and a list with the events of the engineering
