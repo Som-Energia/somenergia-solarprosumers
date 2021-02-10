@@ -1,6 +1,6 @@
 import pytest
 
-from somsolet_api.tests.fixtures import engineering, engineering_with_events, authenticated_user
+from somsolet_api.tests.fixtures import engineering, engineering_with_events
 from . import factories
 
 @pytest.fixture(scope='session')

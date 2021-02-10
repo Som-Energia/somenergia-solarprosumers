@@ -4,14 +4,18 @@ import factory
 import pytest
 from django.utils import timezone
 
-from somsolet.tests.factories import UserFactory, EngineeringFactory
-from somrenkonto.factories import RenkontoEventFactory, CalendarFactory, CampaignFactory, ProjectFactory
-
+from somrenkonto.factories import (CalendarFactory, CampaignFactory,
+                                   ProjectFactory, RenkontoEventFactory)
 from somrenkonto.models import EventChoices
+from somsolet.tests.factories import (InventsPacoFactory,
+                                      InventsPacoEngineeringFactory,
+                                      SolarWindPowerEngineeringFactory,
+                                      SolarWindPowerFactory)
+
 
 @pytest.fixture
 def bounded_event():
-    created_by = factory.SubFactory(UserFactory)
+    created_by = factory.SubFactory(InventsPacoFactory)
     bounded_event_data = dict(
         title='Super urgent meet',
         description='Meet with Durruti and Bakunin to plan some revolutions',
@@ -31,26 +35,22 @@ def bounded_event():
         calendar=factory.SubFactory(CalendarFactory),
         campaign=factory.SubFactory(CampaignFactory),
         project=factory.SubFactory(ProjectFactory),
+        engineering=factory.SubFactory(InventsPacoEngineeringFactory),
         created_by=created_by,
         modified_by=created_by
     )
-
     return RenkontoEventFactory.build(**bounded_event_data)
 
 
 @pytest.fixture
-def authenticated_user():
-    return UserFactory.create()
-
-
-@pytest.fixture
 def engineering():
-    return EngineeringFactory.create()
+    return SolarWindPowerEngineeringFactory.create()
 
 
 @pytest.fixture
-def engineering_with_events(authenticated_user, engineering):
-
+def engineering_with_events():
+    engineering = InventsPacoEngineeringFactory.create()
+    
     bounded_event_data = dict(
         title=factory.Iterator([
             'Super urgent meet',
@@ -79,8 +79,8 @@ def engineering_with_events(authenticated_user, engineering):
         campaign=factory.SubFactory(CampaignFactory),
         project=factory.SubFactory(ProjectFactory),
         engineering=engineering,
-        created_by=authenticated_user,
-        modified_by=authenticated_user
+        created_by=factory.SubFactory(InventsPacoFactory),
+        modified_by=factory.SubFactory(InventsPacoFactory)
     )
 
     RenkontoEventFactory.create_batch(
