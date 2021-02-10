@@ -50,7 +50,6 @@ def engineering():
 
 @pytest.fixture
 def engineering_with_events(authenticated_user, engineering):
-    created_by = authenticated_user
 
     bounded_event_data = dict(
         title=factory.Iterator([
@@ -80,10 +79,12 @@ def engineering_with_events(authenticated_user, engineering):
         campaign=factory.SubFactory(CampaignFactory),
         project=factory.SubFactory(ProjectFactory),
         engineering=engineering,
-        created_by=created_by,
-        modified_by=created_by
+        created_by=authenticated_user,
+        modified_by=authenticated_user
     )
 
     RenkontoEventFactory.create_batch(
         size=5, **bounded_event_data
     )
+
+    return engineering

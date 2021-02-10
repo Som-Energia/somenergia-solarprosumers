@@ -119,13 +119,24 @@ class TestRenkontoEventQuerySet:
     def test__engineering_events(self, engineering_with_events):
         # given
         # an engineering with calendar events
-        engineering = Engineering.objects.first()
+        engineering_id = engineering_with_events.id
 
-        # when we search all events of that engineering
-        events = RenkontoEvent.events.engineering_events(engineering.id)
+        # when we search all events by id of that engineering
+        events = RenkontoEvent.events.engineering_events(engineering_id)
 
-        # then we have a list of that events
+       # then we have a list of that events
         assert len(events) > 0
         assert list(events) == list(RenkontoEvent.objects.filter(
-            engineering_id=engineering.id
+            engineering__id=engineering_id
         ))
+
+    def test__engineering_without_events(self, engineering):
+        # given
+        # an engineering without events
+
+        # when we search all events by id of that engineering
+        events = RenkontoEvent.events.engineering_events(engineering.id)
+
+        # then we haven't events
+        assert len(events) == 0
+
