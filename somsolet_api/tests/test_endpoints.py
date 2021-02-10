@@ -54,7 +54,7 @@ class TestStages(TestCase):
 
 
 class TestCampaign(TestCase):
-    
+
     def setUp(self):
         self.base_url = '/somsolet-api/campaign/'
         self.user = User(username='aitor', password='1234')
