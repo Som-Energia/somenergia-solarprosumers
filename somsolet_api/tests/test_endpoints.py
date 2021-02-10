@@ -7,6 +7,7 @@ from django.urls import reverse
 from somsolet.models import (Campaign, Project)
 from somrenkonto.models import RenkontoEvent
 from somsolet_api.views import RenkontoEventView
+from somsolet_api.serializer import RenkontoEventSerializer
 
 
 class TestAPI(TestCase):
@@ -127,18 +128,26 @@ class TestProject(TestCase):
 class TestEvents:
 
     @pytest.mark.django_db
-    def test_get_engineering_events(self, authenticated_user, engineering, rf):
+    def test_get_engineering_events(
+        self, authenticated_user, engineering_with_events, rf
+    ):
         # given
         # an authenticated_user
         # an engineering with events
 
         # when the user requests for the events of an engineering
-        url = reverse('events', args=[engineering.id])
+        url = reverse('events', args=[engineering_with_events.id])
         request = rf.get(url)
         request.user = authenticated_user
-        response = RenkontoEventView.as_view()(request, engineering.id)
+        response = RenkontoEventView.as_view()(request, engineering_with_events.id)
 
         # then the user obtain a succesfull response and a list with the events of the engineering
         assert response.status_code == 200
-        assert response.data == []
+        events = [
+            RenkontoEventSerializer(event)
+            for event in RenkontoEvent.objects.filter(
+                engineering__id=engineering_with_events.id
+            )
+        ]
+        assert response.data == events 
 

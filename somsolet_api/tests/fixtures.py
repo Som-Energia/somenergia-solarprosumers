@@ -2,6 +2,7 @@ from datetime import datetime
 
 import factory
 import pytest
+from django.contrib.auth import authenticate
 from django.utils import timezone
 
 from somrenkonto.factories import (CalendarFactory, CampaignFactory,
@@ -11,6 +12,12 @@ from somsolet.tests.factories import (InventsPacoFactory,
                                       InventsPacoEngineeringFactory,
                                       SolarWindPowerEngineeringFactory,
                                       SolarWindPowerFactory)
+
+@pytest.fixture
+def authenticated_user():
+    user = InventsPacoFactory.create()
+    user_authenticated = authenticate(username=user.username, password=user.password)
+    return user_authenticated
 
 
 @pytest.fixture

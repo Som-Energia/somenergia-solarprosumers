@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.contrib.auth.hashers import make_password
 import factory
 
 
@@ -14,6 +15,7 @@ class UserFactory(factory.django.DjangoModelFactory):
 class InventsPacoFactory(UserFactory):
 
     username = 'N8215601I'
+    password = factory.LazyAttribute(lambda o: make_password('1234'))
     email = 'info@pacoinvents.coop'
     first_name = 'Invents Paco i asociats'
 
@@ -21,6 +23,7 @@ class InventsPacoFactory(UserFactory):
 class SolarWindPowerFactory(UserFactory):
 
     username = 'V00861641'
+    password = factory.LazyAttribute(lambda o: make_password('4321'))
     email = 'info@solarwindpower.coop'
     first_name = 'Solar Wind Power'
 
