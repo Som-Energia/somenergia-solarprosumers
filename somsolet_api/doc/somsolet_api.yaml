@@ -334,14 +334,22 @@ paths:
               schema:
                 type: object
                 properties:
-                  count:
-                    type: integer
-                    description: number of results
-                    example: 234
+                  state:
+                    type: boolean
+                    description: Specifies if the requests goes well
+                    example: true
                   data:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/event'
+                    type: object
+                    description: Result of the events request
+                    properties:
+                      count:
+                        type: integer
+                        description: number of results
+                        example: 234
+                      results:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/event'
                   links:
                     $ref: '#/components/schemas/links_response'
         400:
@@ -879,7 +887,6 @@ components:
         all_day:
           type: boolean
       example:
-        event_example:
           date_start: "2020-12-29T10:15"
           date_end: "2020-12-29T11:30"
           all_day: false
