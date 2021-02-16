@@ -1,31 +1,43 @@
 body {
-    padding-top: 3.5rem;
+  font-family: 'Roboto', sans-serif;
+  padding-top: 0;
+  color: #4d4d4d;
+}
+
+:root {
+  --primary: #bac92a;
+  --secondary: #4d4d4d;
 }
 
 h1 a {
     color: #FCA205;
 }
 
-.navbar-dark .navbar-brand {
-    color: #bac92a;
+.navbar-brand {
+    text-transform: uppercase;
+    font-size: 18px;
+    font-weight: 500;
+    color: #4d4d4d;
 }
 
-.bg-dark {
-    background-color: #444 !important;
+.navbar-brand img {
+    width: 60px;
+    margin-right: 16px;
+    padding-bottom: 8px;    
 }
 
-.btn-outline-primary {
+.btn-primary-- {
+  color: #fff !important;
+  background-color: #5b5b5f !important;
+  border-color: #5b5b5f !important;
+}
+
+.btn-outline-primary-- {
     color: #bac92a !important;
     border-color: #bac92a !important;
 }
 
-.btn-primary {
-    color: #fff !important;
-    background-color: #5b5b5f !important;
-    border-color: #5b5b5f !important;
-}
-
-.btn-logout {
+.btn-logout:hover {
     color: #5b5b5f !important;
     background-color: #bac92a !important;
     border-color: #bac92a !important;
@@ -243,10 +255,6 @@ h1 a {
     color: var(--color7)
 }
 
- {
-    color: var(--color7)
-}
-
 .table-som .status.discarded,
 .table-som .status.descartado,
 .table-som .status.descartat {
@@ -319,13 +327,6 @@ svg rect{
   border-radius: .25rem;
 }
 
-.form-language {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  flex-direction: row;
-}
-
 .right-navbar {
   display: flex;
   align-items: center;
@@ -335,14 +336,14 @@ svg rect{
   margin-bottom: 0;
 }
 
-.form-language .custom-select {
-  min-width: 65px;
-  padding: 4px 12px;
-  font-size: 14px;
-  background: transparent;
-  border: 1px #ccc solid;
-  border-radius: 4px;
-  color: #ccc;
+.right-navbar .nav-item p,
+.right-navbar .nav-item form {
+  margin-bottom: 0;
+}
+
+.right-navbar .modal-footer {
+    padding-top: 0;
+    padding-bottom: 0;
 }
 
 .business-day-row {
@@ -381,8 +382,8 @@ body {
     position: absolute;
     bottom: 0;
     width: 100%;
-    height: 60px; /* Set the fixed height of the footer here */
-    line-height: 60px; /* Vertically center the text there */
+    height: 64px; /* Set the fixed height of the footer here */
+    line-height: 64px; /* Vertically center the text there */
     justify-content: center;
 }
 
@@ -391,8 +392,8 @@ body {
     display: flex;
 }
 
-.dropdown-menu {
-    font-size: 0.5rem;
+.dropdown-item {
+  color: var(--secondary);
 }
 
 .bootstrap-datetimepicker-widget .timepicker-hour, .bootstrap-datetimepicker-widget .timepicker-minute, .bootstrap-datetimepicker-widget .timepicker-second {
@@ -415,4 +416,19 @@ body {
 .bootstrap-datetimepicker-widget table td, .bootstrap-datetimepicker-widget table th {
     width: auto;
     height: auto;
+}
+
+.fc-toolbar-title::before {
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;    
+    font: normal normal normal 24px/1 FontAwesome;
+    content: "\f073";
+    margin-right: 12px;
+}
+
+.fc-toolbar-title {
+  font-size: 1.6rem;
+  font-weight: 400;
 }

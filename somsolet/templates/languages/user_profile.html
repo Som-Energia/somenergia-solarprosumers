@@ -7,7 +7,7 @@
 	  {% csrf_token %}
     <div class="modal-footer" style="border-width: 0px">
         <input name="next" type="hidden" value="{{ redirect_to }}">
-        <select id="language" name="language" class="custom-select" >
+        <select id="language" name="language" class="custom-select custom-select-sm" >
         {% for language in languages %}
             <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
                 {{ language.name_local | capfirst }}
