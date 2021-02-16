@@ -63,6 +63,9 @@ class CalendarView(FilterViewMixin, View):
             slug=slugify(name)
         )
         calendar.save()
+        CalendarConfig.object.get_or_create(
+            calendar=calendar
+        )
         return calendar
 
     def _show_calendar_form(self, request, template):
