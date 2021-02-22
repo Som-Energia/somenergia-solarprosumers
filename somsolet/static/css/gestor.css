@@ -72,6 +72,7 @@ h1 a {
 
 .autoComplete_resultlist {
     padding-left: 0;
+    margin-bottom: 0;
 }
 
 .autoComplete_result {
@@ -103,6 +104,43 @@ h1 a {
     box-shadow: 0 0 0 0.2rem #bac92a29;
 }
 
+.modal-header h5 {
+    margin-bottom: 0;
+}
+
+.modal-footer {
+    padding-bottom: 0;
+}
+
+/* TABLES */
+
+.table-campaign .table-bordered thead th {
+    padding: 12px 8px;
+    background-color: #fff;
+}
+
+.table-campaign td {
+    padding: 8px;    
+}
+
+.table-som table {
+    display: block;
+    max-width: 1110px;
+    margin: 0 auto;   
+    overflow: scroll;
+    overflow: auto;    
+}
+
+.table-som table th {
+    padding: 12px 8px;
+    white-space: nowrap;    
+}
+
+.table-som table td {
+    padding: 8px;
+    white-space: nowrap;    
+}
+
 .table-som a,
 .table-campaign a {
     color: #212529 !important;
@@ -110,6 +148,7 @@ h1 a {
 
 .table-som a:hover {
     color: #bac92a !important;
+    text-decoration: none;
 }
 
 :root {
@@ -396,10 +435,11 @@ body {
 
 /* END FOOTER */
 
+/*
 .collapse:not(.show) {
     visibility: hidden;
     display: flex;
-}
+}*/
 
 .dropdown-item {
   color: var(--secondary);
@@ -437,7 +477,23 @@ body {
     margin-right: 12px;
 }
 
-.fc-toolbar-title {
-  font-size: 1.6rem;
-  font-weight: 400;
+.fc .fc-toolbar-title {
+    font-size: 1.5em !important;
+    font-weight: 300;
+}
+
+.type-btns {
+    width: 100%;
+}
+
+.type-btns .btn-group {
+    width: 100%;
+}
+
+.type-btns .form-check {
+    padding-left: 5px;
+}
+
+.type-btns .btn {
+    flex: 1;
 }

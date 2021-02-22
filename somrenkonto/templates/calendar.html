@@ -30,57 +30,89 @@
         <div class="modal-content">
             <form class="form" action="{% url 'new_event' %}" method="post">
                 {% csrf_token %}
-
-                <input type="hidden" name="{{ event_form.calendar.html_name }}" value="{{ calendar.id }}">
                 <div class="modal-header">
-                    <input class="form-control form-control-lg" type="text" name="{{ event_form.title.html_name }}" placeholder="{% trans 'Title of the event' %}" required >
+                    <h5>New event</h5>
                 </div>
                 <div class="modal-body">
+                    <input type="hidden" name="{{ event_form.calendar.html_name }}" value="{{ calendar.id }}">
                     <div class="form-row">
-                        <div class="form-group col form-check btn-group-toggle" data-toggle="buttons">
-                            {% for event_type in event_form.event_type.field.choices %}
-                            <label class="btn btn-primary btn-block ">
-                                <input type="radio" id="{{ event_form.event_type.id_for_label}}" value="{{ event_type.0 }}" name="{{ event_form.event_type.html_name}}" autocomplete="off">{{ event_type.1 }}
-                            </label>
-                            {% endfor %}
+                        <div class="form-group type-btns">
+                            <div class="col form-check btn-group btn-group-toggle" data-toggle="buttons">
+                                {% for event_type in event_form.event_type.field.choices %}
+                                <label class="btn btn-sm btn-outline-secondary {% if forloop.counter0 == 0 %} active {% endif %}">
+                                    <input type="radio" id="{{ event_form.event_type.id_for_label}}" value="{{ event_type.0 }}" name="{{ event_form.event_type.html_name}}" autocomplete="off">{{ event_type.1 }}
+                                </label>
+                                {% endfor %}
+                            </div>    
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col">
-                            <input id="{{ event_form.start_date.id_for_label }}" class="form-control form-control-sm" type="text" name="{{ event_form.start_date.html_name }}" placeholder="{% trans 'Initial date' %}" autocomplete="off">
+                            <label for="{{ event_form.title.id_for_label }}">Event title</label>
+                            <input id="{{ event_form.title.id_for_label }}" class="form-control" type="text" name="{{ event_form.title.html_name }}" placeholder="{% trans 'Event title' %}" autocomplete="off" required>    
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <label for="{{ event_form.start_date.id_for_label }}">Start date</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><span class="fa fa-calendar"></span></span>
+                                </div>                            
+                                <input id="{{ event_form.start_date.id_for_label }}" class="form-control" type="text" name="{{ event_form.start_date.html_name }}" placeholder="{% trans 'Initial date' %}" autocomplete="off">    
+                            </div>
                         </div>
                         <div class="form-group col">
-                            <input id="{{ event_form.end_date.id_for_label }}" class="form-control form-control-sm" type="text" name="{{ event_form.end_date.html_name }}" placeholder="{% trans 'Final date' %}" autocomplete="off">
+                            <label for="{{ event_form.end_date.id_for_label }}">End date</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><span class="fa fa-calendar"></span></span>
+                                </div>               
+                                <input id="{{ event_form.end_date.id_for_label }}" class="form-control" type="text" name="{{ event_form.end_date.html_name }}" placeholder="{% trans 'Final date' %}" autocomplete="off">
+                            </div>             
                         </div>
                     </div>
                     <div class="form-row collapse" id="event_hours">
                         <div class="form-group col">
-                            <input id="{{ event_form.start_time.id_for_label }}" class="form-control form-control-sm" type="text" name="{{ event_form.start_time.html_name }}" placeholder="{% trans 'Initial hour' %}" autocomplete="off">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><span class="fa fa-clock-o"></span></span>
+                                </div>                            
+                                <input id="{{ event_form.start_time.id_for_label }}" class="form-control" type="text" name="{{ event_form.start_time.html_name }}" placeholder="{% trans 'Initial hour' %}" autocomplete="off">
+                            </div>
                         </div>
                         <div class="form-group col">
-                            <input id="{{ event_form.end_time.id_for_label }}" class="form-control form-control-sm" type="text" name="{{ event_form.end_time.html_name}}" placeholder="{% trans 'Final hour' %}" autocomplete="off">
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col">
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="{{ event_form.all_day.id_for_label }}" name="{{ event_form.all_day.html_name }}">
-                                <label class="custom-control-label" for="{{ event_form.all_day.id_for_label }}" >{% trans 'All day' %}</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><span class="fa fa-clock-o"></span></span>
+                                </div>                            
+                                <input id="{{ event_form.end_time.id_for_label }}" class="form-control" type="text" name="{{ event_form.end_time.html_name}}" placeholder="{% trans 'Final hour' %}" autocomplete="off">
                             </div>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col">
-                            <input  class="form-control form-control-sm" id="{{ event_form.campaing_name.id_for_label }}" type="text" tabindex="1" name="{{ event_form.campaing_name.html_name }}" placeholder="{% trans 'Campaing' %}" autocomplete="off">
+                            <div class="form-check form-check-inline">
+                                <input type="checkbox" class="form-check-input" id="{{ event_form.all_day.id_for_label }}" name="{{ event_form.all_day.html_name }}">
+                                <label class="form-check-label" for="{{ event_form.all_day.id_for_label }}" >{% trans 'All day' %}</label>
+                            </div>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col">
-                            <input  class="form-control form-control-sm" id="{{ event_form.installation_name.id_for_label }}" type="text" name="{{ event_form.installation_name.html_name }}" placeholder="{% trans 'Installation' %}" autocomplete="off">
+                            <label for="{{ event_form.campaing_name.id_for_label }}">Campaign</label>
+                            <input  class="form-control" id="{{ event_form.campaing_name.id_for_label }}" type="text" tabindex="1" name="{{ event_form.campaing_name.html_name }}" placeholder="{% trans 'Type to search a campaing' %}" autocomplete="off">
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col">
+                            <label for="{{ event_form.installation_name.id_for_label }}">Installation</label>
+                            <input  class="form-control" id="{{ event_form.installation_name.id_for_label }}" type="text" name="{{ event_form.installation_name.html_name }}" placeholder="{% trans 'Installation' %}" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <label for="{{ event_form.description.id_for_label }}">Description</label>
                             <textarea class="form-control" id="{{ event_form.description.id_for_label }}" rows="3" name="{{ event_form.description.html_name }}" placeholder="{% trans 'Description' %}"></textarea>
                         </div>
                     </div>
@@ -162,37 +194,41 @@
             });
         }
 
-        const autocomplete_campaing = new autoComplete({
-            data: {
-                 cache: true,
-                 src: Object.keys(campaigns)
-             },
-             placeHolder: "{% trans 'Type to search a campaing' %}",
-             selector: '#id_campaing',
-             threshold: 1,
-             searchEngine: 'loose',
-             resultsList: {
-                 render: true,
-                 container: function(source) {
-                     source.setAttribute("class", "autoComplete_resultlist");
-                     source.setAttribute("id", "campaings_resultlist");
-                 },
-                 destination: document.querySelector("#id_campaing"),
-                 position: "afterend",
-                 element: "ul"
-             },
-             resultItem: {
-                 content: function(data, source) {
-                     source.innerHTML = data.match;
-                 },
-                 element: "li"
-             },
-             highlight: true,
-             onSelection: function(feedback) {
-                 set_selection_value('#id_campaing', feedback.selection.value);
-                 setup_installations_autocomplete(campaigns[feedback.selection.value], ['name']);
-              }
+
+        $( document ).ready(function() {
+            new autoComplete({
+                data: {
+                    cache: true,
+                    src: Object.keys(campaigns)
+                },
+                placeHolder: "{% trans 'Type to search a campaing' %}",
+                selector: '#id_campaing',
+                threshold: 1,
+                searchEngine: 'loose',
+                resultsList: {
+                    render: true,
+                    container: function(source) {
+                        source.setAttribute("class", "autoComplete_resultlist");
+                        source.setAttribute("id", "campaings_resultlist");
+                    },
+                    destination: document.querySelector("#id_campaing"),
+                    position: "afterend",
+                    element: "ul"
+                },
+                resultItem: {
+                    content: function(data, source) {
+                        source.innerHTML = data.match;
+                    },
+                    element: "li"
+                },
+                highlight: true,
+                onSelection: function(feedback) {
+                    set_selection_value('#id_campaing', feedback.selection.value);
+                    setup_installations_autocomplete(campaigns[feedback.selection.value], ['name']);
+                }
+            })
         });
+    
     </script>
 
     <script type="text/javascript">
