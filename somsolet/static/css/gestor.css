@@ -497,3 +497,7 @@ body {
 .type-btns .btn {
     flex: 1;
 }
+
+.event-info .col {
+    margin-bottom: 4px;
+}

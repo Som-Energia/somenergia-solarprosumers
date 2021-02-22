@@ -577,9 +577,9 @@ A HORIZONTAL event
 .fc-h-event { /* allowed to be top-level */
   display: block;
   border: 1px solid #3788d8;
-  border: 1px solid var(--fc-event-border-color, #3788d8);
+  border: 1px solid var(--fc-event-border-color, #8db700);
   background-color: #3788d8;
-  background-color: var(--fc-event-bg-color, #3788d8)
+  background-color: var(--fc-event-bg-color, #8db700)
 
 }
 .fc-h-event .fc-event-main {

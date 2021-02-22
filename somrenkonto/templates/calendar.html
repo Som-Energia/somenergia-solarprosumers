@@ -394,33 +394,29 @@
                         init_and_show_popover($(info.el), {
                             html: true,
                             content: `
-                            <div class="row">
-                                <div class="col">
-                                    <h6> ${info.event.title} </h6>
+                            <div class="event-info">
+                                <div class="row">
+                                    <div class="col">
+                                        <b> ${info.event.title} </b>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-2">
-                                    <span style="font-size: 1em;"><i class="fa fa-align-justify fa-calendar fa-fw"></i></span>
+                                <div class="row">
+                                    <div class="col">
+                                        <i class="fa fa-align-justify fa-calendar fa-fw"></i>
+                                        <span class="font-weight-light"> ${start_date} </span>
+                                    </div>
                                 </div>
-                                <div class="col">
-                                    <p class="font-weight-light"> ${start_date} </p>
+                                <div class="row">
+                                    <div class="col">
+                                        <i class="fa fa-clock-o"></i>
+                                        <span class="font-weight-light"> ${start_time} </span>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-2">
-                                    <p><i class="fa fa-clock-o"></i></p>
-                                </div>
-                                <div class="col">
-                                    <p class="font-weight-light"> ${start_time} </p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-2">
-                                    <p><i class="fa fa-info-circle"></i></p>
-                                </div>
-                                <div class="col">
-                                   <p class="font-weight-light"> ${info.event.extendedProps.description} </p>
+                                <div class="row">
+                                    <div class="col">
+                                        <i class="fa fa-info-circle"></i>
+                                        <p class="font-weight-light"> ${info.event.extendedProps.description} </p>
+                                    </div>
                                 </div>
                             </div>`
                         });
