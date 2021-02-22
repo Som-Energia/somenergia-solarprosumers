@@ -25,8 +25,8 @@
                     <button id="filterEeventsDropdownButton" class="fc-filterEvents-button btn btn-secondary btn-outline-secondary dropdown-toggle" type="button" aria-label="filterEvents" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class="fa fa-filter"></span>
                     </button>
-                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-left pt-3 px-3">
-                        <form class="">
+                    <div class="dropdown-menu dropdown-menu-xl dropdown-menu-right dropdown-menu-xl-left pt-3 px-3">
+                        <form id="formFilter" action="{% url 'somrenkonto' %}" class="">
                             <div class="form-group">
                                 <label for="filterCampaigns">{% trans 'Campaigns' %}</label>
                                 <input type="text" class="form-control" id="filterCampaigns" placeholder="Campaigns">
@@ -41,7 +41,7 @@
                             </div>                            
                         </form>                        
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">
+                        <a class="dropdown-item" href="#" onclick="$('#formFilter').submit();">
                             <i class="fa fa-check" aria-hidden="true"></i>&nbsp;
                             {% trans 'Apply filters' %}
                         </a>

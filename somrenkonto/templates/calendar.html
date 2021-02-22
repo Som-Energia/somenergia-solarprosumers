@@ -157,7 +157,7 @@
              .setAttribute("placeholder", value);
         }
 
-        function setup_installations_autocomplete(data_elements, search_keys) {
+        function setup_installations_autocomplete(data_elements, search_keys, input_id) {
             return new autoComplete({
                data: {
                  cache: true,
@@ -165,7 +165,7 @@
                  key: search_keys
                },
                placeHolder: "{% trans 'Type to search a installation' %}",
-               selector: '#id_installation',
+               selector: input_id,
                threshold: 0,
                maxResults: 5,
                searchEngine: 'loose',
@@ -175,7 +175,7 @@
                        source.setAttribute("class", "autoComplete_resultlist");
                        source.setAttribute("id", "installations_resultlist");
                    },
-                   destination: document.querySelector("#id_installation"),
+                   destination: document.querySelector(input_id),
                    position: "afterend",
                    element: "ul"
                },
@@ -187,7 +187,7 @@
                },
                highlight: true,
                onSelection: function(feedback) {
-                   set_selection_value('#id_installation', feedback.selection.value.name);
+                   set_selection_value(input_id, feedback.selection.value.name);
                }
             });
         }
@@ -196,9 +196,12 @@
         $( document ).ready(function() {
 
             var installationsAutoComplete = false;
-            var campaignsAutoComplete = false;
+            var campaignsAutoComplete = false;            
+            var installationsAutoFilter = false;
+            var campaignsAutoFilter = false;
 
             document.getElementById('id_installation').disabled = true;
+            document.getElementById('filterInstallations').disabled = true;
 
             campaignsAutoComplete = new autoComplete({
                 data: {
@@ -231,8 +234,44 @@
                     set_selection_value('#id_campaing', feedback.selection.value);
                     document.getElementById('id_installation').disabled = false;
                     if(!installationsAutoComplete){
-                        installationsAutoComplete = setup_installations_autocomplete(campaigns[feedback.selection.value], ['name']);
+                        installationsAutoComplete = setup_installations_autocomplete(campaigns[feedback.selection.value], ['name'], '#id_installation');
                     }                    
+                }
+            })
+
+            campaignsAutoFilter = new autoComplete({
+                data: {
+                    cache: true,
+                    src: Object.keys(campaigns)
+                },
+                placeHolder: "{% trans 'Type to search a campaing' %}",
+                selector: '#filterCampaigns',
+                threshold: 0,
+                maxResults: 5,
+                searchEngine: 'loose',
+                resultsList: {
+                    render: true,
+                    container: function(source) {
+                        source.setAttribute("class", "autoComplete_resultlist");
+                        source.setAttribute("id", "campaings_resultlist");
+                    },
+                    destination: document.querySelector("#filterCampaigns"),
+                    position: "afterend",
+                    element: "ul"
+                },
+                resultItem: {
+                    content: function(data, source) {
+                        source.innerHTML = data.match;
+                    },
+                    element: "li"
+                },
+                highlight: true,
+                onSelection: function(feedback) {
+                    set_selection_value('#filterCampaigns', feedback.selection.value);
+                    document.getElementById('filterInstallations').disabled = false;
+                    if(!installationsAutoFilter){
+                        installationsAutoFilter = setup_installations_autocomplete(campaigns[feedback.selection.value], ['name'], '#filterInstallations');
+                    }
                 }
             })
         });
