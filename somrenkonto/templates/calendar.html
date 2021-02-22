@@ -158,8 +158,7 @@
         }
 
         function setup_installations_autocomplete(data_elements, search_keys) {
-
-            const autocomplete_installation = new autoComplete({
+            return new autoComplete({
                data: {
                  cache: true,
                  src: data_elements,
@@ -167,7 +166,8 @@
                },
                placeHolder: "{% trans 'Type to search a installation' %}",
                selector: '#id_installation',
-               threshold: 1,
+               threshold: 0,
+               maxResults: 5,
                searchEngine: 'loose',
                resultsList: {
                    render: true,
@@ -181,8 +181,6 @@
                },
                resultItem: {
                    content: function(data, source) {
-                       console.log(data);
-                       console.log(source);
                        source.innerHTML = data.match;
                    },
                    element: "li"
@@ -196,14 +194,21 @@
 
 
         $( document ).ready(function() {
-            new autoComplete({
+
+            var installationsAutoComplete = false;
+            var campaignsAutoComplete = false;
+
+            document.getElementById('id_installation').disabled = true;
+
+            campaignsAutoComplete = new autoComplete({
                 data: {
                     cache: true,
                     src: Object.keys(campaigns)
                 },
                 placeHolder: "{% trans 'Type to search a campaing' %}",
                 selector: '#id_campaing',
-                threshold: 1,
+                threshold: 0,
+                maxResults: 5,
                 searchEngine: 'loose',
                 resultsList: {
                     render: true,
@@ -224,7 +229,10 @@
                 highlight: true,
                 onSelection: function(feedback) {
                     set_selection_value('#id_campaing', feedback.selection.value);
-                    setup_installations_autocomplete(campaigns[feedback.selection.value], ['name']);
+                    document.getElementById('id_installation').disabled = false;
+                    if(!installationsAutoComplete){
+                        installationsAutoComplete = setup_installations_autocomplete(campaigns[feedback.selection.value], ['name']);
+                    }                    
                 }
             })
         });
@@ -449,9 +457,10 @@
 
                     close_other_popovers();
                     campaign.val('');
-                    campaign.removeAttr('placeholder');
+                    campaign.attr('placeholder', "{% trans 'Type to search a campaing' %}")
                     installation.val('');
-                    installation.removeAttr('placeholder');
+                    document.getElementById('id_installation').disabled = true;
+                    installation.attr('placeholder', "{% trans 'Type to search a installation' %}")
                     
                     eventFormModal.modal('show');
 
