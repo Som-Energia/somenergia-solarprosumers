@@ -188,12 +188,39 @@
                highlight: true,
                onSelection: function(feedback) {
                    set_selection_value(input_id, feedback.selection.value.name);
+                   if(input_id === '#filterInstallations'){
+                       console.log(feedback.selection)
+                        document.getElementById('filterInstallationId')?.remove();
+                        const elInput = document.createElement('input');
+                        elInput.setAttribute('type', 'hidden');
+                        elInput.id = 'filterInstallationId';
+                        elInput.setAttribute('name', 'project_id');
+                        elInput.setAttribute('value', feedback.selection.value.id);
+                        document.getElementById('formFilter').append(elInput);
+                   }
                }
             });
         }
 
 
-        $( document ).ready(function() {
+        $(document).ready(function() {
+
+            $('#filterDropdown').on('hide.bs.dropdown', function (e) {
+                e.preventDefault();
+            });
+
+            $('#filterTypeSelect').on('change', function(e){
+                console.log('select', e.currentTarget.value)
+                document.getElementById('filterTypeId')?.remove();
+                if(e.currentTarget.value !== ''){
+                    const elInput = document.createElement('input');
+                    elInput.setAttribute('type', 'hidden');
+                    elInput.id = 'filterTypeId';
+                    elInput.setAttribute('name', 'event_type');
+                    elInput.setAttribute('value', e.currentTarget.value);
+                    document.getElementById('formFilter').append(elInput);
+                }
+            });
 
             var installationsAutoComplete = false;
             var campaignsAutoComplete = false;            
@@ -234,12 +261,10 @@
                     set_selection_value('#id_campaing', feedback.selection.value);
                     document.getElementById('id_installation').disabled = false;
                     if(!installationsAutoComplete){
-                        installationsAutoComplete = setup_installations_autocomplete(campaigns[feedback.selection.value], ['name'], '#id_installation');
+                        installationsAutoComplete = setup_installations_autocomplete(campaigns[feedback.selection.value].installations, ['name'], '#id_installation');
                     }                    
                 }
             })
-
-            console.log(campaigns)
 
             campaignsAutoFilter = new autoComplete({
                 data: {
@@ -269,11 +294,19 @@
                 },
                 highlight: true,
                 onSelection: function(feedback) {
-                    console.log(feedback.selection)
                     set_selection_value('#filterCampaigns', feedback.selection.value);
+
+                    document.getElementById('filterCampaignId')?.remove();
+                    const elInput = document.createElement('input');
+                    elInput.setAttribute('type', 'hidden');
+                    elInput.id = 'filterCampaignId';
+                    elInput.setAttribute('name', 'campaign_id');
+                    elInput.setAttribute('value', campaigns[feedback.selection.value].id);
+                    document.getElementById('formFilter').append(elInput);
+
                     document.getElementById('filterInstallations').disabled = false;
                     if(!installationsAutoFilter){
-                        installationsAutoFilter = setup_installations_autocomplete(campaigns[feedback.selection.value], ['name'], '#filterInstallations');
+                        installationsAutoFilter = setup_installations_autocomplete(campaigns[feedback.selection.value].installations, ['name'], '#filterInstallations');
                     }
                 }
             })
