@@ -239,6 +239,8 @@
                 }
             })
 
+            console.log(campaigns)
+
             campaignsAutoFilter = new autoComplete({
                 data: {
                     cache: true,
@@ -267,6 +269,7 @@
                 },
                 highlight: true,
                 onSelection: function(feedback) {
+                    console.log(feedback.selection)
                     set_selection_value('#filterCampaigns', feedback.selection.value);
                     document.getElementById('filterInstallations').disabled = false;
                     if(!installationsAutoFilter){
