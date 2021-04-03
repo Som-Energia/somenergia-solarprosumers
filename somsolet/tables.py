@@ -101,8 +101,6 @@ class ProjectTable(tables.Table):
             'client',
             'status',
             'warning',
-            'date_prereport',
-            'is_invalid_prereport',
             'upload_prereport',
             'date_technical_visit',
             'date_report',
