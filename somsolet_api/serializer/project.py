@@ -1,5 +1,69 @@
+from datetime import datetime
+
+import pymongo
+from django.conf import settings
 from rest_framework import serializers
 from somsolet.models import Project, Technical_details
+
+
+class PrereportSerializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = Project
+        fields = (
+            'id',
+            'name',
+            'date_prereport',
+            'is_invalid_prereport',
+            'upload_prereport',
+            'status'
+        )
+
+
+
+class DownloadCchSerializer(serializers.HyperlinkedModelSerializer):
+    cch_data = serializers.SerializerMethodField('get_cch')
+
+    class Meta:
+        model = Project
+        fields = (
+            'name',
+            'is_cch_downloaded',
+            'date_cch_download',
+            'cch_data'
+        )
+
+    def get_cch(self, instance):
+        technical_details = instance.technical_details_set.first()
+
+        client = pymongo.MongoClient('mongodb://{}:{}@{}:{}/{}'.format(
+            settings.DATABASES['mongodb']['USER'],
+            settings.DATABASES['mongodb']['PASSWORD'],
+            settings.DATABASES['mongodb']['HOST'],
+            settings.DATABASES['mongodb']['PORT'],
+            settings.DATABASES['mongodb']['NAME'],
+        )
+        )
+        db = client[settings.DATABASES['mongodb']['NAME']]
+
+        cursor = db.tg_cchfact.find({
+            "name": {'$regex': '^{}'.format(technical_details.cups[:20])}
+        })
+        if cursor.count() == 0:
+            return {}
+        else:
+            cch_data = [
+                {
+                    'project': instance.name,
+                    'date': measure['datetime'],
+                    'value': measure['ai'],
+                    'units': 'Wh'
+                } for measure in cursor]
+            client.close()
+            instance.is_cch_downloaded = True
+            instance.date_cch_download = datetime.now().strftime('%Y-%m-%d')
+            instance.save()
+            return cch_data
 
 
 class ProjectSerializer(serializers.HyperlinkedModelSerializer):

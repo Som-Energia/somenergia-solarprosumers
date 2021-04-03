@@ -1,3 +1,3 @@
 from .campaign import CampaignSerializer
-from .project import ProjectSerializer
+from .project import DownloadCchSerializer, ProjectSerializer, PrereportSerializer
 from .event import RenkontoEventSerializer
