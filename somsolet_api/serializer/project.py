@@ -76,6 +76,7 @@ class ProjectSerializer(serializers.HyperlinkedModelSerializer):
             'description',
             'stages',
         )
+        read_only_fields = ['description', 'stages']
 
     def get_engineerings(self, obj):
         return [
@@ -123,6 +124,7 @@ class ProjectSerializer(serializers.HyperlinkedModelSerializer):
             'registeredPerson': self.get_registeredPerson(obj),
             'supplyPoint': self.get_supplyPoint(obj),
             'stageId': obj.status,
+            'warning': obj.warning,
 
         }
 
