@@ -1,6 +1,6 @@
 from rest_framework import serializers
-from somsolet.models.choices_options import ITEM_COMMUNITY
 from somsolet.models import Campaign, Project
+from somsolet.models.choices_options import ITEM_COMMUNITY
 
 
 class CampaignSerializer(serializers.HyperlinkedModelSerializer):
@@ -23,6 +23,7 @@ class CampaignSerializer(serializers.HyperlinkedModelSerializer):
             'region',
             'installationsStatus',
             'productionSummary',
+            'active'
         )
 
     def get_localGroups(self, obj):
