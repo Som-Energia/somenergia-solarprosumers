@@ -3,20 +3,21 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-06-30 18:08+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2020-11-10 16:09+0000\n"
+"Last-Translator: Carol Coll Marques <carol.coll@somenergia.coop>\n"
+"Language-Team: Basque <http://traduccio.somenergia.coop/projects/som-solet/"
+"somsolet/eu/>\n"
+"Language: eu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.1.1\n"
 
 #: config/settings/base.py:111
 msgid "English"
@@ -41,7 +42,7 @@ msgstr ""
 #: scheduler_tasks.py:49 scheduler_tasks.py:67 scheduler_tasks.py:90
 #: scheduler_tasks.py:123 somsolet/admin.py:184
 msgid "Hola {},"
-msgstr ""
+msgstr "Kaixo {},"
 
 #: scheduler_tasks.py:50
 msgid "SOM SOLET us fa arribar els WARNINGS! d’aquesta setmana:"
@@ -61,7 +62,7 @@ msgstr ""
 
 #: scheduler_tasks.py:53
 msgid "Salut i fins aviat,"
-msgstr ""
+msgstr "Agur eta gora energia!"
 
 #: scheduler_tasks.py:68
 msgid ""
@@ -91,7 +92,7 @@ msgstr ""
 
 #: scheduler_tasks.py:124 somsolet/admin.py:185
 msgid "Salut i bona energia,"
-msgstr ""
+msgstr "Agur eta gora energia!"
 
 #: scheduler_tasks.py:134
 #, python-brace-format
@@ -144,7 +145,7 @@ msgstr ""
 
 #: scheduler_tasks.py:211
 msgid "Salut i bona energia!"
-msgstr ""
+msgstr "Agur eta gora energia!"
 
 #: scheduler_tasks.py:216
 msgid "Deposit"
@@ -261,6 +262,7 @@ msgstr ""
 #: somsolet/admin.py:189
 msgid "Confirmació d’Inscripció a la Compra Col·lectiva Som Energia"
 msgstr ""
+"Som Energiaren erosketa kolektiboan izena eman duzula konfirmatzen dizugu"
 
 #: somsolet/choices_options.py:3
 msgid "Initial"
@@ -1255,6 +1257,12 @@ msgid ""
 "del teu ús d'electricitat i et facin arribar un preinforme de com seria la "
 "teva autoproducció en base al kit escollit"
 msgstr ""
+"Konfirmatzen dizugu Som Energiak antolatutako erosketa kolektiboan parte "
+"hartzeko bidali diguzun eskaera jaso dugula eta zure datuak enpresa "
+"instalatzaileari helarazi dizkiogula. Horren ondoren, enpresa "
+"instalatzaileak zenbat elektrizitate erabiltzen duzun aztertuko du eta "
+"aurretiko txosten bat bidaliko dizu, aukeratu duzun kitaren arabera, zure "
+"autoprodukzioa nolako izango litzatekeen azaltzeko."
 
 #: somsolet/templates/emails/message_body_general_conditions.html:18
 msgid ""
@@ -1263,34 +1271,41 @@ msgid ""
 "seguir amb els següents passos i que davant de qualsevol dubte et posis en "
 "contacte amb nosaltres."
 msgstr ""
+"Mezu honekin batera pdf dokumentu bat bidali dizugu. Bertan erosketa "
+"kolektiboaren baldintza orokorrak aurkituko dituzu. Irakurri dokumentua "
+"arretaz hurrengo urratsak egin aurretik eta, zalantzarik baduzu, jar zaitez "
+"gurekin harremanetan."
 
 #: somsolet/templates/emails/message_body_general_conditions.html:19
 msgid "Així mateix, t’informem que"
-msgstr ""
+msgstr "Azkenik"
 
 #: somsolet/templates/emails/message_body_general_conditions.html:19
 msgid ""
 "disposes de 14 dies naturals des de la data complementació del formulari "
 "d’inscripció per desistir de la seva participació a la compra col·lectiva"
 msgstr ""
+"jakinarazten dizugu 14 egun naturaleko epea izango duzula, izena emateko "
+"formularioa betetzen duzun datatik zenbatzen hasita, erosketa kolektiboan "
+"parte hartzeari uko egiteko."
 
 #: somsolet/templates/emails/message_body_general_conditions.html:19
 msgid ""
 "En cas que vulguis desistir, és necessari que ens notifiquis la teva decisió "
 "per correu electrònic a"
-msgstr ""
+msgstr "Uko egin nahi baduzu, posta elektronikoz jakinarazi behar diguzu"
 
 #: somsolet/templates/emails/message_body_general_conditions.html:19
 msgid "o per correu postal a"
-msgstr ""
+msgstr "helbidera, edo postaz beste helbide honetara:"
 
 #: somsolet/templates/emails/message_body_general_conditions.html:25
 msgid "Si vols, pots utilitzar el text de desistiment que tens en aquesta"
-msgstr ""
+msgstr "Nahi izatekotan, uko egiteko txantiloi hau erabil"
 
 #: somsolet/templates/emails/message_body_general_conditions.html:25
 msgid "plantilla"
-msgstr ""
+msgstr "dezakezu."
 
 #: somsolet/templates/emails/message_body_general_conditions.html:26
 msgid ""
@@ -1299,10 +1314,14 @@ msgid ""
 "ens comuniquem la teva decisió. Efectuarem el reemborsament, al número de "
 "compte que ens indiquis en el moment de fer el desistiment."
 msgstr ""
+"Uko egiten baduzu, izena ematean ordaindutako 150 euroak itzuliko dizkizugu, "
+"beranduen jota, jakinarazten diguzun datatik zenbatzen hasita, 14 egun "
+"naturalen buruan. Zenbateko hori uko egitean adierazitako kontu-zenbakian "
+"sartuko dugu."
 
 #: somsolet/templates/emails/message_body_general_conditions.html:28
 msgid "Per a qualsevol dubte o aclariment ens pots escriure a"
-msgstr ""
+msgstr "Zalantzarik baduzu, idatzi helbide honetara:"
 
 #: somsolet/templates/emails/message_body_general_conditions.html:38
 msgid "L'equip de Som Energia"
@@ -1455,7 +1474,7 @@ msgstr ""
 
 #: somsolet/templates/registration/password_reset_email.html:14
 msgid "Salutacions,"
-msgstr ""
+msgstr "Agur,"
 
 #: somsolet/templates/registration/password_reset_form.html:14
 msgid "Quin és el teu correu electrònic?"

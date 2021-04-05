@@ -1,6 +1,7 @@
 from datetime import datetime
 
-from parameterized import parameterized
+import pytest
+
 from somsolet.forms import (ConstructionPermitForm, InstallationDateForm,
                             OfferForm, PrereportForm, ReportForm,
                             TechnicalVisitForm)
@@ -8,7 +9,7 @@ from somsolet.forms import (ConstructionPermitForm, InstallationDateForm,
 
 class TestForms:
 
-    @parameterized.expand([
+    @pytest.mark.parametrize("date_prereport_review,is_invalid_prereport,expected", [
         (
             datetime(2021, 12, 11),
             True,
@@ -31,7 +32,7 @@ class TestForms:
             is_invalid_prereport
         ) == expected
 
-    @parameterized.expand([
+    @pytest.mark.parametrize("date_set_technical_visit,expected", [
         (
             datetime(2021, 12, 11),
             ('technical visit', datetime(2021, 12, 11), 'No Warn')
@@ -47,7 +48,7 @@ class TestForms:
             date_set_technical_visit,
         ) == expected
 
-    @parameterized.expand([
+    @pytest.mark.parametrize("date_report_review,is_invalid_report,expected", [
         (
             datetime(2021, 12, 11),
             True,
@@ -70,7 +71,7 @@ class TestForms:
             is_invalid_report
         ) == expected
 
-    @parameterized.expand([
+    @pytest.mark.parametrize("date_upload_offer,is_invalid_offer,expected", [
         (
             datetime(2021, 12, 11),
             True,
@@ -93,7 +94,7 @@ class TestForms:
             is_invalid_offer
         ) == expected
 
-    @parameterized.expand([
+    @pytest.mark.parametrize("date_permit,expected", [
         (
             datetime(2021, 12, 11),
             ('construction permit', 'No Warn')
@@ -113,7 +114,7 @@ class TestForms:
             date_permit,
         ) == expected
 
-    @parameterized.expand([
+    @pytest.mark.parametrize("date_installation,expected", [
         (
             datetime(2021, 12, 11),
             ('date installation set', True, 'No Warn')

@@ -2,10 +2,6 @@
 {% load i18n %}
 
 {% load crispy_forms_tags %}
-{% load bootstrap4 %}
-    {% bootstrap_css %}
-    {% bootstrap_javascript jquery='full' %}
-        {{ technicalvisitform.media }}
 
 {% block content%}
 	<div class="panel panel-default">
@@ -16,4 +12,9 @@
 	        {% crispy technicalvisitform %}
 	    </div>
 	</div>
+{% endblock %}
+
+{% block js %}
+    {{ block.super }}
+    {{ technicalvisitform.media }}
 {% endblock %}

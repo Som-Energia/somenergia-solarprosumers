@@ -38,7 +38,7 @@ class ProjectResource(resources.ModelResource):
     def after_save_instance(self, instance, using_transactions=True, dry_run=False):
         if not dry_run:
             instance.status = 'registered'
-            instance.preregistration_date = datetime.now()
+            instance.registration_date = datetime.now()
             instance.save()
 
 
@@ -56,10 +56,6 @@ class ProjectAdmin(ImportExportModelAdmin):
     resource_class = ProjectResource
 
 
-class InstallationsInline(admin.TabularInline):
-    model = Project
-
-
 @admin.register(Campaign)
 class CampaignAdmin(ImportExportModelAdmin):
     list_display = (
@@ -71,7 +67,6 @@ class CampaignAdmin(ImportExportModelAdmin):
         'engineerings',
         'autonomous_community'
     )
-    inlines = [InstallationsInline]
 
 
 @admin.register(Technical_campaign)
@@ -131,8 +126,8 @@ class Technical_detailsResource(resources.ModelResource):
     acquire_interest = fields.Field(
         attribute='acquire_interest',
         column_name="Estic interessat en adquirir")
-    comments = fields.Field(
-        attribute='comments',
+    client_comments = fields.Field(
+        attribute='client_comments',
         column_name="COMENTARIOS")
 
     class Meta:

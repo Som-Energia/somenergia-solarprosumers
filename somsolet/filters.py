@@ -1,9 +1,8 @@
 import django_filters
 from django.utils.translation import gettext_lazy as _
 
-from .choices_options import ITEM_STATUS, ITEM_WARNINGS
 from .models import Campaign, Project
-
+from .models.choices_options import ITEM_STATUS, ITEM_WARNINGS
 
 class ProjectListFilter(django_filters.FilterSet):
 

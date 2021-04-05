@@ -1,24 +1,18 @@
 {% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+{% get_available_languages as LANGUAGES %}
+{% get_language_info_list for LANGUAGES as languages %}
 
 <form action="{% url 'set_language' %}" id="form-language" class="form-language" method="post">
 	  {% csrf_token %}
-    <input name="next" type="hidden" value="{{ redirect_to }}">
-    <select id="language" name="language" class="custom-select" >
-        {% get_current_language as LANGUAGE_CODE %}
-        {% get_available_languages as LANGUAGES %}
-        {% get_language_info_list for LANGUAGES as languages %}
+    <div class="modal-footer" style="border-width: 0px">
+        <input name="next" type="hidden" value="{{ redirect_to }}">
+        <select id="language" name="language" class="custom-select" >
         {% for language in languages %}
             <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
                 {{ language.name_local | capfirst }}
             </option>
         {% endfor %}
     </select>
+    </div>
 </form>
-
-<script type="text/javascript">
-	$(document).ready(function() {
-	  $('#language').on('change', function() {
-	     $('#form-language').submit();
-	  });
-});
-</script>

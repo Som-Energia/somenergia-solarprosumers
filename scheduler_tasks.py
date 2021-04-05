@@ -154,7 +154,7 @@ def send_notification_report(notification, subject, template, message_params, at
         notification.save()
 
 
-def send_email_summary(toSomEnergia, toEngineering):
+def send_email_summary(toSomEnergia, toEngineering, toGL):
     active_campaigns = Campaign.objects.filter(active=True)
     logger.info("send_email_summary")
 
@@ -162,6 +162,7 @@ def send_email_summary(toSomEnergia, toEngineering):
         if toSomEnergia:
             email = BCC
             message_params = stats_report(toSomEnergia, campaign, 'ca')
+            language = 'ca'
         if toEngineering:
             engineering_info = Engineering.objects.filter(
                 campaigns__name=campaign.name
@@ -169,7 +170,7 @@ def send_email_summary(toSomEnergia, toEngineering):
             email = [eng['email'] for eng in engineering_info]
             language = [eng['language'] for eng in engineering_info][0]
             message_params = stats_report(toSomEnergia, campaign, language)
-        else:
+        if toGL:
             local_group_info = LocalGroup.objects.filter(
                 campaigns__name=campaign.name
             ).values('email', 'language')
@@ -177,7 +178,6 @@ def send_email_summary(toSomEnergia, toEngineering):
             language = [lg['language'] for lg in local_group_info][0]
             message_params = stats_report(toSomEnergia, campaign, language)
         with override(language):
-            print(message_params)
             send_email(
                 list(set(email)),
                 render_to_string(
@@ -244,7 +244,7 @@ def prereport_warning():
         campaign__active=True,
         date_prereport__isnull=True,
         status='registered',
-        preregistration_date__lte=datetime.now() - timedelta(days=10)
+        registration_date__lte=datetime.now() - timedelta(days=10)
     ).exclude(warning='prereport')
 
     for installation in installations:
