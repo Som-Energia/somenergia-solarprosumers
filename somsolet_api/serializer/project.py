@@ -20,6 +20,19 @@ class PrereportSerializer(serializers.HyperlinkedModelSerializer):
         )
 
 
+class ReportSerializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = Project
+        fields = (
+            'id',
+            'name',
+            'date_report',
+            'is_invalid_report',
+            'upload_report',
+            'status'
+        )
+
 
 class DownloadCchSerializer(serializers.HyperlinkedModelSerializer):
     cch_data = serializers.SerializerMethodField('get_cch')
