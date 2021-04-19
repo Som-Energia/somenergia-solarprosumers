@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+from datetime import datetime
+
 from .campaign import Campaign
 from .client import Client
 from .choices_options import (BATERY_BRAND, INVERSOR_BRAND, ITEM_ANGLES,
@@ -234,6 +236,36 @@ class Project(models.Model):
         blank=True,
         verbose_name=_('Final payment'),
     )
+
+    def update_is_invalid_prereport(self, is_invalid_prereport):
+        self.is_invalid_prereport = is_invalid_prereport
+        if self.is_invalid_prereport:
+            self.status = 'prereport review'
+        else:
+            self.status = 'prereport'
+        self.save()
+
+    def update_is_invalid_report(self, is_invalid_report):
+        self.is_invalid_report = is_invalid_report
+        if self.is_invalid_report:
+            self.status = 'report review'
+        else:
+            self.status = 'report'
+        self.save()
+
+    def update_upload_prereport(self, upload_prereport):
+        self.upload_prereport = upload_prereport
+        self.date_prereport = datetime.now().strftime('%Y-%m-%d')
+        if not self.is_invalid_prereport:
+            self.status = 'prereport'
+        self.save()
+
+    def update_upload_report(self, upload_report):
+        self.upload_report = upload_report
+        self.date_report = datetime.now().strftime('%Y-%m-%d')
+        if not self.is_invalid_report:
+            self.status = 'report'
+        self.save()
 
     def __str__(self):
         return self.name
