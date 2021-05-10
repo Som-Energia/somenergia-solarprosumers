@@ -7,6 +7,7 @@ from .views import (CampaignViewSet, CchDownloadViewSet, PrereportViewSet,
 
 router = routers.DefaultRouter()
 router.register(r'campaign', CampaignViewSet, basename='campaign')
+router.register(r'stats', StatsViewSet, basename='stats')
 router.register(r'project', ProjectViewSet, basename='project')
 router.register(r'stages', StagesViewSet, basename='stages')
 router.register(r'event', RenkontoEventViewSet)

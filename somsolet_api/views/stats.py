@@ -1,16 +1,19 @@
 from rest_framework import viewsets
-from rest_framework.permissions import IsAuthenticated
-from somsolet.models import Campaign, Project
+from somsolet.models import Campaign
+from somsolet_api.common.permissions import SomsoletAPIModelPermissions
 from somsolet_api.serializer import StatsSerializer
 
 
-class StatsViewSet(viewsets.ViewSet):
-    permission_classes = [IsAuthenticated]
+class StatsViewSet(viewsets.ModelViewSet):
+    permission_classes = [SomsoletAPIModelPermissions]
 
-    queryset = Campaign.objects.all()
     serializer_class = StatsSerializer
-    
+
     def get_queryset(self):
-        return Project.objects.filter(
-            registration_date__isnull=False
-        ).exclude(status='discarded')
+        queryset = Campaign.objects.all().order_by('name')
+
+        campaign = self.request.query_params.get('campaignId')
+        if campaign:
+            return queryset.filter(id=campaign)
+        else:
+            return queryset

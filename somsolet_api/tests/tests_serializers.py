@@ -136,3 +136,34 @@ class TestReportSerializer:
         )
 
 
+class TestStatsSerializer:
+
+    @pytest.mark.django_db
+    def test_stats_serializer__empty_stats(self):
+        stats_serializer = StatsSerializer()
+        campaign_stats = stats_serializer.get_stats(CampaignFactory())
+
+        assert campaign_stats == {}
+
+
+    @pytest.mark.django_db
+    def test_stats_serializer__with_stats(self):
+        stats_serializer = StatsSerializer()
+        campaign = CampaignFactory()
+        project = ProjectFactory()
+        project.registration_date = '2020-01-04'
+        project.status = 'prereport'
+        project.save()
+        campaign_stats = stats_serializer.get_stats(campaign)
+
+        assert campaign_stats == dict(
+            total_instalations=1,
+            total_power=dict(
+                value=3,
+                units='kWp'
+            ),
+            total_generation=dict(
+                value=0.00435,
+                units='GWp/any'
+            )
+        )
