@@ -1,7 +1,21 @@
 import pytest
 from django.core.files.uploadedfile import SimpleUploadedFile
-from somsolet.tests.factories import CampaignFactory, ProjectFactory
-from somsolet_api.serializer import StatsSerializer, PrereportSerializer, ReportSerializer
+from somsolet.tests.factories import (CampaignFactory, ProjectFactory,
+                                      TechnicalDetailsFactory)
+from somsolet_api.serializer import (PrereportSerializer, ReportSerializer,
+                                     StatsSerializer,
+                                     TechnicalDetailsSerializer)
+
+
+class TestTechnicalDetailsSerializer:
+
+    @pytest.mark.django_db
+    def test_technical_details_serializer__base_case(self):
+        serializer = TechnicalDetailsSerializer(
+            instance=TechnicalDetailsFactory()
+        )
+        assert serializer.data['administrative_division'] == 'Barbados'
+        assert serializer.data['project'] == 1
 
 
 class TestPrereportSerializer:

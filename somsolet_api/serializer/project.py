@@ -200,4 +200,11 @@ class ProjectSerializer(serializers.HyperlinkedModelSerializer):
             # To Do:
             # 'invoice'  not implemented
             # 'discardedType'  not implemented
-        } 
+        }
+
+
+class TechnicalDetailsSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Technical_details
+        exclude = ['client']

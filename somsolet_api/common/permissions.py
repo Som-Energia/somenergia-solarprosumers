@@ -7,3 +7,4 @@ class SomsoletAPIModelPermissions(DjangoModelPermissions):
         self.perms_map['GET'] = ['%(app_label)s.view_%(model_name)s']
         self.perms_map['PATCH'] = ['%(app_label)s.view_%(model_name)s']
         self.perms_map['PUT'] = ['%(app_label)s.view_%(model_name)s']
+        self.perms_map['POST'] = ['%(app_label)s.view_%(model_name)s']

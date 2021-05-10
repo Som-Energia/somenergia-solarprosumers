@@ -60,9 +60,9 @@ class TechnicalDetailsFactory(DjangoModelFactory):
     class Meta:
         model = 'somsolet.Technical_details'
 
-    project = factory.RelatedFactory(ProjectFactory)
-    campaign = factory.RelatedFactory(CampaignFactory)
-    client = factory.RelatedFactory(ClientFactory)
+    project = factory.SubFactory(ProjectFactory)
+    campaign = factory.SubFactory(CampaignFactory)
+    client = factory.SubFactory(ClientFactory)
     administrative_division = 'Barbados'
     municipality = 'Parroquia de Christ Church'
     street = 'Bridgetown Norman'
@@ -100,16 +100,16 @@ class TechnicalDetailsFactory(DjangoModelFactory):
     shadow_optimizer_model = 'SO V4-T54'
     shadow_optimizer_price = '300'
     peak_power_panels_wp = '3500'
-    panel_brand = 'Rasillo SolarTrade Ltd.'
+    panel_brand = 'Ras SolarTrade Ltd.'
     panel_type = 'CRISTAL'
-    panel_model = 'SP210 High Performance 3'
+    panel_model = 'SP2 High Performance 3'
     inversor_brand = 'Rasillo SolarTrade Ltd.'
     inversor_model = 'RJ78 Inverter Plus'
     nominal_inversor_power = '300'
     charger_manager_brand = 'Toni Chargers'
-    charger_manager_model = 'Car Charger Manager 2000 T23-v7'
+    charger_manager_model = 'Car Charger 2000 T2-v7'
     charger_manager_price = '300'
     electric_car_charger_brand = 'Toni Chargers'
-    electric_car_charger_model = 'Ultra Fast Car Charger 57v2'
+    electric_car_charger_model = 'Ultra Fast Charger 5v2'
     electric_car_charger_power = '1500'
     electric_car_charger_price = '2000'

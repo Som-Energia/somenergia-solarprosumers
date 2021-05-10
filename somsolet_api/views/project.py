@@ -2,10 +2,12 @@ from datetime import datetime
 
 from rest_framework import status, viewsets
 from rest_framework.response import Response
-from somsolet.models import Project
+from somsolet.models import Project, Technical_details
 from somsolet_api.common.permissions import SomsoletAPIModelPermissions
-from somsolet_api.serializer import (DownloadCchSerializer, ReportSerializer,
-                                     PrereportSerializer, ProjectSerializer)
+from somsolet_api.serializer import (DownloadCchSerializer,
+                                     PrereportSerializer, ProjectSerializer,
+                                     ReportSerializer,
+                                     TechnicalDetailsSerializer)
 
 
 class ProjectViewSet(viewsets.ModelViewSet):
@@ -144,3 +146,25 @@ class CchDownloadViewSet(viewsets.ModelViewSet):
         serializer = DownloadCchSerializer(instance, data=request.data)
         serializer.is_valid(raise_exception=True)
         return Response(serializer.data)
+
+
+class TechnicalDetailsViewSet(viewsets.ModelViewSet):
+    permission_classes = [SomsoletAPIModelPermissions]
+
+    serializer_class = TechnicalDetailsSerializer
+
+    def get_queryset(self):
+        queryset = Technical_details.objects.all()
+
+        user = self.request.headers.get('dni')
+        campaign = self.request.query_params.get('campaignId')
+        project = self.request.query_params.get('projectId')
+
+        if user:
+            return queryset.filter(client__dni=user)
+        elif campaign:
+            return queryset.filter(campaign__id=campaign)
+        elif project:
+            return queryset.filter(project=project)
+        else:
+            return queryset
