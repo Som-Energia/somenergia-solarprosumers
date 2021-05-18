@@ -1,3 +1,6 @@
 from .campaign import CampaignSerializer
-from .project import ProjectSerializer
 from .event import RenkontoEventSerializer
+from .project import (DownloadCchSerializer, PrereportSerializer,
+                      ProjectSerializer, ReportSerializer,
+                      TechnicalDetailsSerializer)
+from .stats import StatsSerializer
