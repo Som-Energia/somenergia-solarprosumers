@@ -13,15 +13,17 @@ from .common import Base
 class EventChoices(object):
 
     APPOINTMENT = 'APPO'
-
     UNAVAILABILITY = 'UNAVAIL'
-
     AVAILABILITY = 'AVAIL'
+    TECHNICAL_VISIT = 'TECH'
+    INSTALATION_VISIT = 'INST'
 
     choices = [
         (APPOINTMENT, _('Appointment')),
         (UNAVAILABILITY, _('Unavailability')),
-        (AVAILABILITY, _('Availability hours'))
+        (AVAILABILITY, _('Availability hours')),
+        (TECHNICAL_VISIT, _('Technical visit')),
+        (INSTALATION_VISIT, _('Installation work visit'))
     ]
 
 
@@ -32,6 +34,21 @@ class RenkontoEventQuerySet(models.QuerySet):
 
     def filter_events(self, filters):
         return self.filter(*filters)
+
+    def visit(self, visit_type, project):
+        try:
+            return self.get(
+                event_type=visit_type,
+                project=project
+            )
+        except RenkontoEvent.DoesNotExists:
+            return None
+
+    def technical_visit(self, project):
+        return self.visit(EventChoices.TECHNICAL_VISIT, project)
+
+    def installation_visit(self, project):
+        return self.visit(EventChoices.INSTALATION_VISIT, project)
 
     def to_json(self):
         def event_encoder(field):
@@ -107,7 +124,7 @@ class RenkontoEvent(Event, Base):
 
 class CalendarViewChoices(object):
     MONTH_VIEW = 'dayGridMonth'
-    
+
     TIMEGRID_VIEW = 'timeGridWeek'
 
     LIST_VIEW = 'listWeek'

@@ -3,10 +3,12 @@ from factory import RelatedFactory
 from factory.django import DjangoModelFactory
 from .admin import LocalGroupFactory, EngineeringFactory
 
+
 class CampaignFactory(DjangoModelFactory):
 
     class Meta:
         model = 'somsolet.Campaign'
+        django_get_or_create = ('name', )
 
     name = 'Solar Paco'
     engineerings = RelatedFactory(EngineeringFactory)

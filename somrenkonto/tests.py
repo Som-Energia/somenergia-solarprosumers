@@ -5,6 +5,7 @@ from django.test import Client
 from django.urls import reverse
 
 from . import factories
+from .models import RenkontoEvent
 from .views import CalendarView, EditCalendarView, FilterViewMixin
 
 client = Client()
@@ -87,7 +88,7 @@ class TestFilterViewMixin:
 
 @pytest.mark.django_db
 class TestCalendarView:
-   
+
     def test__edit_calendar_conf(self, rf):
        calendar_conf_id = 1
        url = reverse('edit_calendar', kwargs={'pk': calendar_conf_id})
@@ -96,7 +97,7 @@ class TestCalendarView:
        response = EditCalendarView.as_view()(request, pk=calendar_conf_id)
 
        assert response.status_code == 200
-    
+
     @pytest.mark.skip
     def test__edit_calendar_conf__button_in_calendar_view(self, rf):
         User = get_user_model()
@@ -104,8 +105,26 @@ class TestCalendarView:
         calendar_conf_id = 1
         request = rf.get(url)
         request.user = User.objects.first()
-        
+
         response = CalendarView.as_view()(request)
         conf_calendar_url = reverse('edit_calendar', kwargs={'pk': calendar_conf_id})
 
         assert conf_calendar_url in response.content.decode()
+
+
+@pytest.mark.django_db
+class TestRenkontoEventQuerySet:
+
+    def test__technical_visit(self, technical_visit_event):
+        # Given a project and technical visit event for that project
+        # technical_visit_event
+        # technical_visit_event.project
+
+        # when we search for that technical visit
+        event = RenkontoEvent.events.technical_visit(technical_visit_event.project)
+
+        # then we obtain the same event
+        assert event == technical_visit_event
+
+
+

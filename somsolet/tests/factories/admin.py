@@ -18,6 +18,7 @@ class LocalGroupFactory(DjangoModelFactory):
 
     class Meta:
         model = 'somsolet.LocalGroup'
+        django_get_or_create = ('name', 'email')
 
     name = 'Islas Barbados Local Group'
     phone_number = '631111380'
@@ -29,6 +30,7 @@ class EngineeringFactory(DjangoModelFactory):
 
     class Meta:
         model = 'somsolet.Engineering'
+        django_get_or_create = ('tin', 'user',)
 
     name = 'Invents Paco i asociats'
     tin = 'N8215601I'
@@ -41,4 +43,4 @@ class EngineeringFactory(DjangoModelFactory):
     total_kwp_installed = 12450
     comments = 'Ingenieria de referencia en el àmbit de la autoproducció '\
                'solar fotovoltaica'
-    # languague = 'ca'
+    user = factory.SubFactory(UserFactory)
