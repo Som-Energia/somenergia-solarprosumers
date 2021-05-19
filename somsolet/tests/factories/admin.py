@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import make_password
 import factory
+from factory.django import DjangoModelFactory
 
 
 class UserFactory(factory.django.DjangoModelFactory):

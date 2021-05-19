@@ -2,13 +2,19 @@ from django.urls import include, path
 from rest_framework import routers
 from rest_framework.authtoken import views
 
-from .views import (CampaignViewSet, ProjectViewSet, RenkontoEventView,
-    StagesViewSet)
+from .views import (CampaignViewSet, CchDownloadViewSet, PrereportViewSet,
+                    ProjectViewSet, RenkontoEventView,  ReportViewSet,
+                    StagesViewSet, StatsViewSet, TechnicalDetailsViewSet)
 
 router = routers.DefaultRouter()
-router.register(r'campaign', CampaignViewSet)
-router.register(r'project', ProjectViewSet)
+router.register(r'campaign', CampaignViewSet, basename='campaign')
+router.register(r'stats', StatsViewSet, basename='stats')
+router.register(r'project', ProjectViewSet, basename='project')
 router.register(r'stages', StagesViewSet, basename='stages')
+router.register(r'cch', CchDownloadViewSet, basename='cch')
+router.register(r'prereport', PrereportViewSet, basename='prereport')
+router.register(r'report', ReportViewSet, basename='report')
+router.register(r'technical_details', TechnicalDetailsViewSet, basename='technical_details')
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.

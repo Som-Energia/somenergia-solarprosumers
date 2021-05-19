@@ -96,3 +96,19 @@ def engineering_with_events():
     )
 
     return engineering
+
+@pytest.fixture
+def stats():
+    stats_data = dict(
+        total_instalations=10,
+        total_power=dict(
+            value=30,
+            units='kWp'
+        ),
+        total_generation=dict(
+            value=0.0435,
+            units='GWp/any'
+        )
+    )
+    return stats_data
+
