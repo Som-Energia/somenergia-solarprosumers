@@ -50,7 +50,7 @@ class TestStages(TestCase):
     def test_stages_user_unauthenticated(self):
         response = self.client.get(self.base_url)
 
-        assert response.status_code == 403
+        assert response.status_code == 401
 
 
 class TestCampaign(TestCase):
@@ -71,10 +71,10 @@ class TestCampaign(TestCase):
         assert response.status_code == 200
         assert response.json() == []
 
-    def test_campaign_user_unauthenticated_post_forbidden(self):
+    def test_campaign_user_unauthenticated_post(self):
         response = self.client.post(self.base_url, {})
 
-        assert response.status_code == 403
+        assert response.status_code == 401
 
     def test_campaign_authenticated_user(self):
         self.client.login(username=self.user.username, password='1234')
@@ -109,7 +109,7 @@ class TestProject(TestCase):
     def test_project_user_unauthenticated(self):
         response = self.client.get(self.base_url)
 
-        assert response.status_code == 403
+        assert response.status_code == 401
 
     def test_project_user_not_permitted(self):
         self.client.login(username=self.user.username, password='1234')
