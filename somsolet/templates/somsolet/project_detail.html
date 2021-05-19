@@ -6,19 +6,18 @@
 {% block content %}
 
 <div class="row">
-  <div class="col-md-10">
+  <div class="col-md-12">
     <form class="form form-inline form-filters" action="" method="get">
         {{ filter.form.status|add_class:"custom-select mr-sm-2"}}
         {{ filter.form.warning|add_class:"custom-select mr-sm-2"}}
         {{ filter.form.client|attr:"placeholder:Client"|add_class:"form-control mr-sm-2"}}
         {{ filter.form.municipality|attr:"placeholder:Municipality"|add_class:"form-control mr-sm-2"}}
         {{ filter.form.administrative_division|attr:"placeholder:Administrative division"|add_class:"form-control mr-sm-2"}}
-        <button type="submit" class="btn btn-primary"><i class="fa fa-filter" aria-hidden="true"></i></button>
+        <button type="submit" class="btn btn-secondary">
+          &nbsp;<i class="fa fa-filter" aria-hidden="true"></i>&nbsp;
+        </button>
     </form>
     </div>
-  <div class="col-md-2 row justify-content-end">
-    {% include "somsolet/home_campaign.html" %}
-  </div>
 </div>
 <div class="row">
   <div class="col-md-12 table-som">
