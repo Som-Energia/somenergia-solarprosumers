@@ -29,7 +29,7 @@ class ProjectSerializer(serializers.HyperlinkedModelSerializer):
             'email': obj.client.email,
             'phoneNumber': obj.client.phone_number,
             'language': obj.client.language
-        }
+        } if obj.client else {}
 
     def get_supplyPoint(self, obj):
         technical_details = Technical_details.objects.get(
@@ -60,7 +60,7 @@ class ProjectSerializer(serializers.HyperlinkedModelSerializer):
             'supplyPoint': self.get_supplyPoint(obj),
             'stageId': obj.status,
 
-        }
+        } if obj.campaign else {}
 
     def get_stages(self, obj):
         return {

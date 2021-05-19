@@ -1,5 +1,6 @@
 from django.urls import include, path
 from rest_framework import routers
+from rest_framework.authtoken import views
 
 from .views import (CampaignViewSet, ProjectViewSet, RenkontoEventView,
     StagesViewSet)
@@ -17,7 +18,9 @@ urlpatterns = [
         RenkontoEventView.as_view(),
         name='events'
     ),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+    path('', include(router.urls)),
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path('api-token-auth/', views.obtain_auth_token)
 ]
 
 urlpatterns += router.urls
