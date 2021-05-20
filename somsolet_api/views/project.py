@@ -8,7 +8,8 @@ from somsolet_api.common.permissions import SomsoletAPIModelPermissions
 from somsolet_api.serializer import (DownloadCchSerializer,
                                      PrereportSerializer, ProjectSerializer,
                                      ReportSerializer,
-                                     TechnicalDetailsSerializer)
+                                     TechnicalDetailsSerializer,
+                                     Invoice50Serializer, Invoice100Serializer)
 
 
 class ProjectViewSet(viewsets.ModelViewSet):

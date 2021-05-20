@@ -4,7 +4,8 @@ from somsolet.tests.factories import (CampaignFactory, ProjectFactory,
                                       TechnicalDetailsFactory)
 from somsolet_api.serializer import (PrereportSerializer, ReportSerializer,
                                      StatsSerializer,
-                                     TechnicalDetailsSerializer)
+                                     TechnicalDetailsSerializer,
+                                     Invoice50Serializer)
 
 
 class TestTechnicalDetailsSerializer:

@@ -158,6 +158,34 @@ class ReportSerializer(serializers.HyperlinkedModelSerializer):
         )
 
 
+class Invoice50Serializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = Project
+        fields = (
+            'id',
+            'name',
+            'date_invoice_50',
+            'is_payed_invoice_50',
+            'upload_invoice_50',
+            'status'
+        )
+
+
+class Invoice100Serializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = Project
+        fields = (
+            'id',
+            'name',
+            'date_invoice_100',
+            'is_payed_invoice_100',
+            'upload_invoice_100',
+            'status'
+        )
+
+
 class DownloadCchSerializer(serializers.HyperlinkedModelSerializer):
     cch_data = serializers.SerializerMethodField('get_cch')
 
