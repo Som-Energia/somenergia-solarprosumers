@@ -133,6 +133,104 @@ class ReportViewSet(viewsets.ModelViewSet):
             return Response(report.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class Invoice50ViewSet(viewsets.ModelViewSet):
+    permission_classes = [SomsoletAPIModelPermissions]
+
+    serializer_class = Invoice50Serializer
+
+    def get_queryset(self):
+        queryset = Project.objects.all().order_by('name')
+
+        user = self.request.headers.get('dni')
+        project = self.request.query_params.get('projectId')
+
+        if user:
+            return queryset.filter(client__dni=user)
+        elif project:
+            return queryset.filter(id=project)
+        else:
+            return queryset
+
+    def patch(self, request, *args, **kwargs):
+        instance = Project.objects.get(
+            id=request.query_params.get('projectId')
+        )
+        invoice = self.serializer_class(
+            instance,
+            data=request.data,
+            partial=True
+        )
+        if invoice.is_valid():
+            instance.update_is_payed_invoice_50(request.data.get('is_payed_invoice_50'))
+            invoice.save()
+            return Response(report.data)
+
+    def put(self, request, format=None):
+        instance = Project.objects.get(
+            id=request.query_params.get('projectId')
+        )
+        invoice = self.serializer_class(
+            instance,
+            data=request.data,
+            partial=True
+        )
+        if invoice.is_valid():
+            instance.update_upload_invoice_50(request.data.get('upload_invoice_50'))
+            invoice.save()
+            return Response(report.data, status=status.HTTP_200_OK)
+        else:
+            return Response(report.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class Invoice100ViewSet(viewsets.ModelViewSet):
+    permission_classes = [SomsoletAPIModelPermissions]
+
+    serializer_class = Invoice100Serializer
+
+    def get_queryset(self):
+        queryset = Project.objects.all().order_by('name')
+
+        user = self.request.headers.get('dni')
+        project = self.request.query_params.get('projectId')
+
+        if user:
+            return queryset.filter(client__dni=user)
+        elif project:
+            return queryset.filter(id=project)
+        else:
+            return queryset
+
+    def patch(self, request, *args, **kwargs):
+        instance = Project.objects.get(
+            id=request.query_params.get('projectId')
+        )
+        invoice = self.serializer_class(
+            instance,
+            data=request.data,
+            partial=True
+        )
+        if invoice.is_valid():
+            instance.update_is_payed_invoice_100(request.data.get('is_payed_invoice_100'))
+            invoice.save()
+            return Response(report.data)
+
+    def put(self, request, format=None):
+        instance = Project.objects.get(
+            id=request.query_params.get('projectId')
+        )
+        invoice = self.serializer_class(
+            instance,
+            data=request.data,
+            partial=True
+        )
+        if invoice.is_valid():
+            instance.update_upload_invoice_100(request.data.get('upload_invoice_100'))
+            invoice.save()
+            return Response(report.data, status=status.HTTP_200_OK)
+        else:
+            return Response(report.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 class CchDownloadViewSet(viewsets.ModelViewSet):
     permission_classes = [SomsoletAPIModelPermissions]
 
