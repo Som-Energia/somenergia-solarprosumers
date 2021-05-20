@@ -28,7 +28,7 @@ class TestPrereportSerializer:
         )
 
         assert prereport_serializer.data == dict(
-            id=1,
+            id=prereport_serializer.data['id'],
             name='Instalació plaques Montserrat Escayola',
             date_prereport=None,
             is_invalid_prereport=False,
@@ -46,7 +46,7 @@ class TestPrereportSerializer:
         )
 
         assert prereport_serializer.data == dict(
-            id=1,
+            id=prereport_serializer.data['id'],
             name='Instalació plaques Montserrat Escayola',
             date_prereport='2020-01-01',
             is_invalid_prereport=False,
@@ -69,7 +69,7 @@ class TestPrereportSerializer:
         )
 
         assert prereport_serializer.data == dict(
-            id=1,
+            id=prereport_serializer.data['id'],
             name='Instalació plaques Montserrat Escayola',
             date_prereport='2020-01-01',
             is_invalid_prereport=True,
@@ -87,7 +87,7 @@ class TestReportSerializer:
         )
 
         assert report_serializer.data == dict(
-            id=1,
+            id=report_serializer.data['id'],
             name='Instalació plaques Montserrat Escayola',
             date_report=None,
             is_invalid_report=False,
@@ -105,7 +105,7 @@ class TestReportSerializer:
         )
 
         assert report_serializer.data == dict(
-            id=1,
+            id=report_serializer.data['id'],
             name='Instalació plaques Montserrat Escayola',
             date_report='2020-01-01',
             is_invalid_report=False,
@@ -128,12 +128,71 @@ class TestReportSerializer:
         )
 
         assert report_serializer.data == dict(
-            id=1,
+            id=report_serializer.data['id'],
             name='Instalació plaques Montserrat Escayola',
             date_report='2020-01-01',
             is_invalid_report=True,
             upload_report='/uploaded_files/report.jpg',
             status='report'
+        )
+
+
+class TestInvoice50Serializer:
+
+    @pytest.mark.django_db
+    def test_invoice_50_serializer__base_case(self):
+        invoice_serializer = Invoice50Serializer(
+            instance=ProjectFactory()
+        )
+
+        assert invoice_serializer.data == dict(
+            id=invoice_serializer.data['id'],
+            name='Instalació plaques Montserrat Escayola',
+            date_invoice_50=None,
+            is_payed_invoice_50=False,
+            upload_invoice_50=None,
+            status='empty status'
+        )
+
+    @pytest.mark.django_db
+    def test_invoice_50_serializer__with_data(self):
+        project = ProjectFactory()
+        project.date_invoice_50 = '2020-01-01'
+        project.status = ''
+        invoice_serializer = Invoice50Serializer(
+            instance=project
+        )
+
+        assert invoice_serializer.data == dict(
+            id=invoice_serializer.data['id'],
+            name='Instalació plaques Montserrat Escayola',
+            date_invoice_50='2020-01-01',
+            is_payed_invoice_50=False,
+            upload_invoice_50=None,
+            status='empty status'
+        )
+
+    @pytest.mark.django_db
+    def test_invoice_50_serializer__with_attachment(self):
+        project = ProjectFactory()
+        project.date_invoice_50 = '2020-01-01'
+        project.is_payed_invoice_50 = True
+        project.status = ''
+        invoice_image = SimpleUploadedFile(
+            "invoice.jpg", b"file_content", content_type="image/jpeg"
+        )
+        project.upload_invoice_50 = invoice_image
+        invoice_serializer = Invoice50Serializer(
+            instance=project
+        )
+
+        assert invoice_serializer.data == dict(
+            id=invoice_serializer.data['id'],
+            name='Instalació plaques Montserrat Escayola',
+            date_invoice_50='2020-01-01',
+            is_payed_invoice_50=True,
+            upload_invoice_50='/uploaded_files/invoice.jpg',
+            status='empty status'
         )
 
 
