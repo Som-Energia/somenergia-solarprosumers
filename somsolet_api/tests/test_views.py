@@ -12,6 +12,8 @@ class TestProjectViewSet(TestCase):
     @pytest.mark.django_db
     def test_prereport_patch__base_case(self):
         project = ProjectFactory()
+        project.id = 1
+        project.save()
         assert project.is_invalid_prereport is False
 
         user = UserFactory()
@@ -32,6 +34,8 @@ class TestProjectViewSet(TestCase):
     @pytest.mark.django_db
     def test_report_patch__base_case(self):
         project = ProjectFactory()
+        project.id = 1
+        project.save()
         assert project.is_invalid_report is False
 
         user = UserFactory()
@@ -52,6 +56,9 @@ class TestProjectViewSet(TestCase):
     @pytest.mark.django_db
     def test_prereport_put__base_case(self):
         project = ProjectFactory()
+        project.id = 1
+        project.save()
+
         assert project.upload_prereport.name is None
 
         user = UserFactory()
@@ -74,6 +81,8 @@ class TestProjectViewSet(TestCase):
     @pytest.mark.django_db
     def test_report_put__base_case(self):
         project = ProjectFactory()
+        project.id = 1
+        project.save()
         assert project.upload_prereport.name is None
 
         user = UserFactory()
@@ -99,7 +108,7 @@ class TestTechnicalDetailsViewSet(TestCase):
     @pytest.mark.django_db
     def test_technical_details__base_case(self):
         technical_details = TechnicalDetailsFactory()
-        assert technical_details.project.id == 1
+
         user = UserFactory()
         user.set_password('1234')
         user.save()
@@ -111,12 +120,12 @@ class TestTechnicalDetailsViewSet(TestCase):
             '/somsolet-api/technical_details/',
         )
         assert request.status_code == 200
-        assert len(request.data) == 1
+        assert request.data['data']['count'] == 1
 
     @pytest.mark.django_db
     def test_technical_details__by_project_id(self):
         technical_details = TechnicalDetailsFactory()
-        assert technical_details.project.id == 1
+
         user = UserFactory()
         user.set_password('1234')
         user.save()
@@ -125,7 +134,34 @@ class TestTechnicalDetailsViewSet(TestCase):
         user.user_permissions.add(permission)
 
         request = self.client.get(
-            '/somsolet-api/technical_details/?projectId=1',
+            '/somsolet-api/technical_details/?projectId={}'.format(
+                technical_details.project.id
+            ),
         )
         assert request.status_code == 200
-        assert len(request.data) == 1
+        assert request.data['data']['count'] == 1
+
+
+class TestInvoicesViewSet(TestCase):
+
+    @pytest.mark.django_db
+    def test_first_invoice_patch__base_case(self):
+        project = ProjectFactory()
+        project.id = 1
+        project.save()
+        assert project.is_payed_first_invoice is False
+
+        user = UserFactory()
+        user.set_password('1234')
+        user.save()
+        self.client.login(username=user.username, password='1234')
+        permission = Permission.objects.get(codename='view_project')
+        user.user_permissions.add(permission)
+
+        request = self.client.patch(
+            '/somsolet-api/first_invoice/?projectId=1',
+            data={'is_payed_first_invoice': True},
+            content_type='application/json'
+        )
+        assert request.status_code == 200
+        assert request.data['is_payed_first_invoice'] is True

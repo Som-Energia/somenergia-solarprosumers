@@ -163,7 +163,7 @@ class FirstInvoiceViewSet(viewsets.ModelViewSet):
         if invoice.is_valid():
             instance.update_is_payed_first_invoice(request.data.get('is_payed_first_invoice'))
             invoice.save()
-            return Response(report.data)
+            return Response(invoice.data)
 
     def put(self, request, format=None):
         instance = Project.objects.get(
@@ -177,9 +177,9 @@ class FirstInvoiceViewSet(viewsets.ModelViewSet):
         if invoice.is_valid():
             instance.update_upload_first_invoice(request.data.get('upload_first_invoice'))
             invoice.save()
-            return Response(report.data, status=status.HTTP_200_OK)
+            return Response(invoice.data, status=status.HTTP_200_OK)
         else:
-            return Response(report.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(invoice.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class LastInvoiceViewSet(viewsets.ModelViewSet):
@@ -212,7 +212,7 @@ class LastInvoiceViewSet(viewsets.ModelViewSet):
         if invoice.is_valid():
             instance.update_is_payed_last_invoice(request.data.get('is_payed_last_invoice'))
             invoice.save()
-            return Response(report.data)
+            return Response(invoice.data)
 
     def put(self, request, format=None):
         instance = Project.objects.get(
@@ -226,9 +226,9 @@ class LastInvoiceViewSet(viewsets.ModelViewSet):
         if invoice.is_valid():
             instance.update_upload_last_invoice(request.data.get('upload_last_invoice'))
             invoice.save()
-            return Response(report.data, status=status.HTTP_200_OK)
+            return Response(invoice.data, status=status.HTTP_200_OK)
         else:
-            return Response(report.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(invoice.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class CchDownloadViewSet(viewsets.ModelViewSet):
