@@ -4,6 +4,7 @@ from django.utils.translation import gettext_lazy as _
 from datetime import datetime
 
 from .campaign import Campaign
+from .admin import Engineering
 from .client import Client
 from .choices_options import (BATERY_BRAND, INVERSOR_BRAND, ITEM_ANGLES,
                               ITEM_DISCARDED_TYPES,
@@ -24,9 +25,18 @@ class Project(models.Model):
         Campaign,
         null=True,
         blank=True,
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
         verbose_name=_('Campaign'),
         help_text=_('Campaign of this project')
+    )
+
+    engineering = models.ForeignKey(
+        Engineering,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        verbose_name=_('Engineering'),
+        help_text=_('Engineering responsable of this project')
     )
 
     client = models.ForeignKey(
@@ -232,7 +242,7 @@ class Project(models.Model):
         upload_to='uploaded_files/delivery_certificate',
         default='uploaded_files/delivery_certificate/som.png',
         verbose_name=_('Upload delivery certificate'),
-        help_text=_('Delivery certificate file')    
+        help_text=_('Delivery certificate file')
     )
 
     date_delivery_certificate = models.DateField(

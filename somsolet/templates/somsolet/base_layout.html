@@ -5,35 +5,34 @@
     <head>
         {% block css %}
             {% bootstrap_css %}
-            <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+            <link rel="preconnect" href="https://fonts.gstatic.com">
+            <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
             <link rel="stylesheet" href="{% static 'css/gestor.css' %}">
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         {% endblock %}
         <title>Som Solet - Som Energia</title>
     </head>
     <body>
-        <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-2 shadow">
-            <a class="navbar-brand col-sm-3 col-md-2 mr-auto" href="{% url 'home' %}">
-                <img src="https://www.somenergia.coop/wp-content/uploads/2014/07/logo.png" class="mr-2">Som Solet
-            </a>
-            <ul class="right-navbar px-3">
-                <li class="nav-item text-nowrap">
-                    {% include "languages/user_profile.html"%}
-                </li>
-                {% if user.is_authenticated %}
-
-                <li class="nav-item text-nowrap active">
-                    <p class="navbar-text disabled modal-footer" style="border-width: 0px" >{% trans 'Hola' %}, {{user.username}}! </p>
-                </li>
-
-                <li class="nav-item text-nowrap">
-                    {% include "registration/logout.html" %}
-                </li>
-                {% endif %}
-            </ul>
+        <nav class="navbar flex-md-nowrap p-2 shadow-sm">
+            <div class="container">
+                <a class="navbar-brand col-sm-3 col-md-2 mr-auto" href="{% url 'home' %}">
+                    <img src="https://oficinavirtual.somenergia.coop/static/front/img/logo.png" class="mr-3">Som Solet
+                </a>
+                <ul class="right-navbar px-3">
+                    {% if user.is_authenticated %}
+                    <li class="nav-item text-nowrap">
+                        <p class="navbar-text disabled" style="border-width: 0px" >{{user.username}}</p>
+                    </li>
+    
+                    <li class="nav-item text-nowrap">
+                        {% include "registration/logout.html" %}
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
         </nav>
         <main role="main">
-            <div class="content container-fluid">
+            <div class="content container">
                 <div class="row">
                     <div class="col-md-12 pt-5">
                     {% block content %}
@@ -44,8 +43,13 @@
         </main>
         {# The Footer #}
         <footer class="footer">
-            <div class="container text-center">
-                <p class="som-foot">Made with <i class="fa fa-heart" aria-hidden="true"></i> by Som Energia</p>
+            <div class="container d-flex justify-content-between align-items-center">
+                <div>
+                    <p class="som-foot">Made with <i class="fa fa-heart" aria-hidden="true"></i> by Som Energia</p>
+                </div>
+                <div>
+                    {% include "languages/user_profile.html"%}
+                </div>
             </div>
         </footer>
     </body>

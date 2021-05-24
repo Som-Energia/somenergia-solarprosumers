@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from rest_framework import status, viewsets
+from rest_framework.authentication import SessionAuthentication, TokenAuthentication
 from rest_framework.response import Response
 from somsolet.models import Project, Technical_details
 from somsolet_api.common.permissions import SomsoletAPIModelPermissions
@@ -12,6 +13,7 @@ from somsolet_api.serializer import (DownloadCchSerializer,
 
 class ProjectViewSet(viewsets.ModelViewSet):
     permission_classes = [SomsoletAPIModelPermissions]
+    authentication_classes = [TokenAuthentication, SessionAuthentication]
 
     serializer_class = ProjectSerializer
 

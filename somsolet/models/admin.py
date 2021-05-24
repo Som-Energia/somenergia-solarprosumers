@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
@@ -33,6 +34,17 @@ class LocalGroup(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class EngineeringQuerySet(models.QuerySet):
+
+    def get_engineering_by_id(self, engineering_id):
+        try:
+            engineering = self.get(id=engineering_id)
+        except ObjectDoesNotExist:
+            engineering = None
+
+        return engineering
 
 
 class Engineering(models.Model):
@@ -110,6 +122,10 @@ class Engineering(models.Model):
         max_length=5,
         verbose_name=_('Language'),
     )
+
+    objects = models.Manager()
+
+    engineerings = EngineeringQuerySet.as_manager()
 
     def __str__(self):
         return self.name

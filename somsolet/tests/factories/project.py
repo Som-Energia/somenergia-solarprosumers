@@ -5,6 +5,7 @@ from factory.django import DjangoModelFactory
 
 from .campaign import CampaignFactory
 from .client import ClientFactory
+from .admin import EngineeringFactory
 
 
 class ProjectFactory(DjangoModelFactory):
@@ -12,10 +13,11 @@ class ProjectFactory(DjangoModelFactory):
     class Meta:
         model = 'somsolet.Project'
         django_get_or_create = ('id', )
-    id = 1
+
     name = 'Instalació plaques Montserrat Escayola'
     campaign = factory.SubFactory(CampaignFactory)
     client = factory.SubFactory(ClientFactory)
+    engineering = factory.SubFactory(EngineeringFactory)
     status = 'empty status'
     warning = 'No Warn'
     warning_date = None
@@ -27,7 +29,7 @@ class ProjectFactory(DjangoModelFactory):
     date_prereport = None
     is_invalid_prereport = False
     upload_prereport = None
-    date_technical_visit = datetime(2020, 8, 7)
+    date_technical_visit = factory.Faker('date_time')
     date_report = None
     is_invalid_report = False
     upload_report = False

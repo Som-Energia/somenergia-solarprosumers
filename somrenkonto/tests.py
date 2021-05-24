@@ -4,6 +4,7 @@ from django.db.models import Q
 from django.test import Client
 from django.urls import reverse
 
+from somsolet.models import Engineering
 from . import factories
 from .models import RenkontoEvent
 from .views import CalendarView, EditCalendarView, FilterViewMixin
@@ -126,5 +127,26 @@ class TestRenkontoEventQuerySet:
         # then we obtain the same event
         assert event == technical_visit_event
 
+    def test__engineering_events(self, engineering_with_events):
+        # given
+        # an engineering with calendar events
+        engineering_id = engineering_with_events.id
 
+        # when we search all events by engineering id
+        events = RenkontoEvent.events.engineering_events(engineering_id)
 
+       # then we have a list of that events
+        assert len(events) > 0
+        assert list(events) == list(RenkontoEvent.objects.filter(
+            engineering__id=engineering_id
+        ))
+
+    def test__engineering_without_events(self, engineering, engineering_with_events):
+        # given
+        # an engineering without events and other engineering with events
+
+        # when we search all events of the engineering without events
+        events = RenkontoEvent.events.engineering_events(engineering.id)
+
+        # then we haven't events
+        assert len(events) == 0

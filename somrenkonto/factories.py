@@ -3,9 +3,10 @@ from datetime import datetime, timedelta
 import factory
 from schedule.models import Calendar
 
-from somsolet.tests.factories import UserFactory, CampaignFactory, ProjectFactory
-from .models import RenkontoEvent, EventChoices
+from somsolet.tests.factories import (CampaignFactory, ProjectFactory,
+                                      UserFactory)
 
+from .models import EventChoices, RenkontoEvent
 
 __all__ = (
     'CalendarFactory',
@@ -18,7 +19,7 @@ class CalendarFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = Calendar
-        django_get_or_create = ('slug', )
+        django_get_or_create = ('slug',)
 
     name = 'Calendario Obras Ingenieria Invents Paco i asociats'
     slug = 'cal-obras-ing'

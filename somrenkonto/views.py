@@ -46,7 +46,10 @@ class CalendarView(FilterViewMixin, View):
     def _get_campaigns(self, request):
         campaigns = Campaign.campaigns.user_campaigns(request.user)
         return {
-            campaign.name: list(Project.objects.filter(campaign=campaign).values('name'))
+            campaign.name: {
+                'id': campaign.id,
+                'installations': list(Project.objects.filter(campaign=campaign).values('name', 'id'))
+            }
             for campaign in campaigns
         }
 
@@ -63,6 +66,9 @@ class CalendarView(FilterViewMixin, View):
             slug=slugify(name)
         )
         calendar.save()
+        CalendarConfig.object.get_or_create(
+            calendar=calendar
+        )
         return calendar
 
     def _show_calendar_form(self, request, template):
