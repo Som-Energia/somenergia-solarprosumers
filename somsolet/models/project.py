@@ -120,35 +120,33 @@ class Project(models.Model):
         default='uploaded_files/report/som.png',
         verbose_name=_('Upload Report'))
 
-    date_invoice_50 = models.DateField(
+    date_first_invoice = models.DateField(
         null=True,
         blank=True,
-        verbose_name=_('Date Invoice 50'),
-    )
+        verbose_name=_('Date First Invoice'))
 
-    is_payed_invoice_50 = models.BooleanField(
+    is_payed_first_invoice = models.BooleanField(
         default=False,
-        verbose_name=_('Payed Invoice 50?'))
+        verbose_name=_('Payed First Invoice?'))
 
-    upload_invoice_50 = models.FileField(
-        upload_to='uploaded_files/invoice50',
-        default='uploaded_files/invoice50/som.png',
-        verbose_name=_('Upload Invoice 50'))
+    upload_first_invoice = models.FileField(
+        upload_to='uploaded_files/firstinvoice',
+        default='firstinvoice/som.png',
+        verbose_name=_('Upload First Invoice'))
 
-    date_invoice_100 = models.DateField(
+    date_last_invoice = models.DateField(
         null=True,
         blank=True,
-        verbose_name=_('Date Invoice 100'),
-    )
+        verbose_name=_('Date Last Invoice'))
 
-    is_payed_invoice_100 = models.BooleanField(
+    is_payed_last_invoice = models.BooleanField(
         default=False,
-        verbose_name=_('Payed Invoice 100?'))
+        verbose_name=_('Payed Last Invoice?'))
 
-    upload_invoice_100 = models.FileField(
-        upload_to='uploaded_files/invoice100',
-        default='uploaded_files/invoice100/som.png',
-        verbose_name=_('Upload Invoice 100'))
+    upload_last_invoice = models.FileField(
+        upload_to='uploaded_files/lastinvoice',
+        default='lastinvoice/som.png',
+        verbose_name=_('Upload Last Invoice'))
 
     date_offer = models.DateField(
         null=True,
@@ -307,34 +305,34 @@ class Project(models.Model):
             self.status = 'report'
         self.save()
 
-    def update_is_payed_invoice_50(self, is_payed_invoice_50):
-        self.is_payed_invoice_50 = is_payed_invoice_50
-        if self.is_payed_invoice_50:
-            self.status = ''
+    def update_is_payed_first_invoice(self, is_payed_first_invoice):
+        self.is_payed_first_invoice = is_payed_first_invoice
+        if self.is_payed_first_invoice:
+            self.status = 'first payment'
         else:
-            self.status = ''
+            self.status = 'pending payment'
         self.save()
 
-    def update_upload_invoice_50(self, upload_invoice_50):
-        self.upload_invoice_50 = upload_invoice_50
-        self.date_invoice_50 = datetime.now().strftime('%Y-%m-%d')
-        if not self.is_payed_invoice_50:
-            self.status = ''
+    def update_upload_first_invoice(self, upload_first_invoice):
+        self.upload_first_invoice = upload_first_invoice
+        self.date_first_invoice = datetime.now().strftime('%Y-%m-%d')
+        if not self.is_payed_first_invoice:
+            self.status = 'pending payment'
         self.save()
 
-    def update_is_payed_invoice_100(self, is_payed_invoice_100):
-        self.is_payed_invoice_100 = is_payed_invoice_100
-        if self.is_payed_invoice_100:
-            self.status = ''
+    def update_is_payed_last_invoice(self, is_payed_invoice_100):
+        self.is_payed_last_invoice = is_payed_last_invoice
+        if self.is_payed_last_invoice:
+            self.status = 'last payment'
         else:
-            self.status = ''
+            self.status = 'pending payment'
         self.save()
 
-    def update_upload_invoice_100(self, upload_invoice_100):
-        self.upload_invoice_100 = upload_invoice_100
-        self.date_invoice_100 = datetime.now().strftime('%Y-%m-%d')
-        if not self.is_payed_invoice_100:
-            self.status = ''
+    def update_upload_last_invoice(self, upload_last_invoice):
+        self.upload_last_invoice = upload_last_invoice
+        self.date_last_invoice = datetime.now().strftime('%Y-%m-%d')
+        if not self.is_payed_last_invoice:
+            self.status = 'pending payment'
         self.save()
 
     def __str__(self):

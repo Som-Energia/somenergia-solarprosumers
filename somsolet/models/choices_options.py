@@ -14,6 +14,8 @@ ITEM_STATUS = (
               ('offer', _('Engineering offer')),
               ('offer review', _('offer Review')),
               ('signature', _('Contract signature')),
+              ('first payment', _('First Payment')),
+              ('pending payment', _('Pending Payment')),
               ('construction permit', _('Construction permit')),
               ('pending installation date', _('Pending installation date')),
               ('date installation set', _('Date installation set')),
@@ -21,6 +23,7 @@ ITEM_STATUS = (
               ('end installation', _('End installation')),
               ('legal registration', _('Legal Registration')),
               ('legalization', _('Legalization')),
+              ('last payment', _('Last Payment')),
               ('final payment', _('Final payment')),
               ('warranty payment', _('Warranty payment')),
               ('discarded', _('Discarded')),)

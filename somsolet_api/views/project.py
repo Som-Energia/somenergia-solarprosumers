@@ -9,7 +9,7 @@ from somsolet_api.serializer import (DownloadCchSerializer,
                                      PrereportSerializer, ProjectSerializer,
                                      ReportSerializer,
                                      TechnicalDetailsSerializer,
-                                     Invoice50Serializer, Invoice100Serializer)
+                                     FirstInvoiceSerializer, LastInvoiceSerializer)
 
 
 class ProjectViewSet(viewsets.ModelViewSet):
@@ -133,10 +133,10 @@ class ReportViewSet(viewsets.ModelViewSet):
             return Response(report.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class Invoice50ViewSet(viewsets.ModelViewSet):
+class FirstInvoiceViewSet(viewsets.ModelViewSet):
     permission_classes = [SomsoletAPIModelPermissions]
 
-    serializer_class = Invoice50Serializer
+    serializer_class = FirstInvoiceSerializer
 
     def get_queryset(self):
         queryset = Project.objects.all().order_by('name')
@@ -161,7 +161,7 @@ class Invoice50ViewSet(viewsets.ModelViewSet):
             partial=True
         )
         if invoice.is_valid():
-            instance.update_is_payed_invoice_50(request.data.get('is_payed_invoice_50'))
+            instance.update_is_payed_first_invoice(request.data.get('is_payed_first_invoice'))
             invoice.save()
             return Response(report.data)
 
@@ -175,17 +175,17 @@ class Invoice50ViewSet(viewsets.ModelViewSet):
             partial=True
         )
         if invoice.is_valid():
-            instance.update_upload_invoice_50(request.data.get('upload_invoice_50'))
+            instance.update_upload_first_invoice(request.data.get('upload_first_invoice'))
             invoice.save()
             return Response(report.data, status=status.HTTP_200_OK)
         else:
             return Response(report.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class Invoice100ViewSet(viewsets.ModelViewSet):
+class LastInvoiceViewSet(viewsets.ModelViewSet):
     permission_classes = [SomsoletAPIModelPermissions]
 
-    serializer_class = Invoice100Serializer
+    serializer_class = LastInvoiceSerializer
 
     def get_queryset(self):
         queryset = Project.objects.all().order_by('name')
@@ -210,7 +210,7 @@ class Invoice100ViewSet(viewsets.ModelViewSet):
             partial=True
         )
         if invoice.is_valid():
-            instance.update_is_payed_invoice_100(request.data.get('is_payed_invoice_100'))
+            instance.update_is_payed_last_invoice(request.data.get('is_payed_last_invoice'))
             invoice.save()
             return Response(report.data)
 
@@ -224,7 +224,7 @@ class Invoice100ViewSet(viewsets.ModelViewSet):
             partial=True
         )
         if invoice.is_valid():
-            instance.update_upload_invoice_100(request.data.get('upload_invoice_100'))
+            instance.update_upload_last_invoice(request.data.get('upload_last_invoice'))
             invoice.save()
             return Response(report.data, status=status.HTTP_200_OK)
         else:

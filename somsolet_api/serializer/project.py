@@ -124,8 +124,17 @@ class ProjectSerializer(serializers.HyperlinkedModelSerializer):
                 'file': obj.upload_legal_docs.url
 
             },
+            'invoices': {
+                'first': {
+                    'date': obj.date_first_invoice,
+                    'file': obj.upload_first_invoice.url
+                },
+                'last': {
+                    'date': obj.date_last_invoice,
+                    'file': obj.upload_last_invoice.url
+                }
+            }
             # To Do:
-            # 'invoice'  not implemented
             # 'discardedType'  not implemented
         }
 
@@ -158,30 +167,30 @@ class ReportSerializer(serializers.HyperlinkedModelSerializer):
         )
 
 
-class Invoice50Serializer(serializers.HyperlinkedModelSerializer):
+class FirstInvoiceSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Project
         fields = (
             'id',
             'name',
-            'date_invoice_50',
-            'is_payed_invoice_50',
-            'upload_invoice_50',
+            'date_first_invoice',
+            'is_payed_first_invoice',
+            'upload_first_invoice',
             'status'
         )
 
 
-class Invoice100Serializer(serializers.HyperlinkedModelSerializer):
+class LastInvoiceSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Project
         fields = (
             'id',
             'name',
-            'date_invoice_100',
-            'is_payed_invoice_100',
-            'upload_invoice_100',
+            'date_last_invoice',
+            'is_payed_last_invoice',
+            'upload_last_invoice',
             'status'
         )
 

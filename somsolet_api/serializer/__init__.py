@@ -3,5 +3,5 @@ from .event import RenkontoEventSerializer
 from .project import (DownloadCchSerializer, PrereportSerializer,
                       ProjectSerializer, ReportSerializer,
                       TechnicalDetailsSerializer,
-                      Invoice50Serializer, Invoice100Serializer)
+                      FirstInvoiceSerializer, LastInvoiceSerializer)
 from .stats import StatsSerializer
