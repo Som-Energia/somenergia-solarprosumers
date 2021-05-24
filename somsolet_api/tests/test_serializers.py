@@ -5,7 +5,8 @@ from somsolet.tests.factories import (CampaignFactory, ProjectFactory,
 from somsolet_api.serializer import (PrereportSerializer, ReportSerializer,
                                      StatsSerializer,
                                      TechnicalDetailsSerializer,
-                                     FirstInvoiceSerializer)
+                                     FirstInvoiceSerializer,
+                                     LastInvoiceSerializer)
 
 
 class TestTechnicalDetailsSerializer:
@@ -144,6 +145,68 @@ class TestReportSerializer:
             status='report'
         )
 
+class TestLastInvoiceSerializer:
+
+    @pytest.mark.django_db
+    def test_last_invoice_serializer__base_case(self):
+        project = ProjectFactory()
+        project.id = 1
+        project.status = 'legal registration'
+        invoice_serializer = LastInvoiceSerializer(
+            instance=project
+        )
+
+        assert invoice_serializer.data == dict(
+            id=1,
+            name='Instalació plaques Montserrat Escayola',
+            date_last_invoice=None,
+            is_payed_last_invoice=False,
+            upload_last_invoice='/uploaded_files/lastinvoice/som.png',
+            status='legal registration'
+        )
+
+    @pytest.mark.django_db
+    def test_last_invoice_serializer__with_data(self):
+        project = ProjectFactory()
+        project.id = 1
+        project.date_last_invoice = '2020-01-01'
+        project.status = 'legal registration'
+        invoice_serializer = LastInvoiceSerializer(
+            instance=project
+        )
+
+        assert invoice_serializer.data == dict(
+            id=1,
+            name='Instalació plaques Montserrat Escayola',
+            date_last_invoice='2020-01-01',
+            is_payed_last_invoice=False,
+            upload_last_invoice='/uploaded_files/lastinvoice/som.png',
+            status='legal registration'
+        )
+
+    @pytest.mark.django_db
+    def test_last_invoice_serializer__with_attachment(self):
+        project = ProjectFactory()
+        project.id = 1
+        project.date_last_invoice = '2020-01-01'
+        project.is_payed_last_invoice = True
+        project.status = 'pending payment'
+        invoice_image = SimpleUploadedFile(
+            "invoice.jpg", b"file_content", content_type="image/jpeg"
+        )
+        project.upload_last_invoice = invoice_image
+        invoice_serializer = LastInvoiceSerializer(
+            instance=project
+        )
+
+        assert invoice_serializer.data == dict(
+            id=1,
+            name='Instalació plaques Montserrat Escayola',
+            date_last_invoice='2020-01-01',
+            is_payed_last_invoice=True,
+            upload_last_invoice='/uploaded_files/invoice.jpg',
+            status='pending payment'
+        )
 
 class TestFirstInvoiceSerializer:
 

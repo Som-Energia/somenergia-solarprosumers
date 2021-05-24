@@ -22,8 +22,8 @@ ITEM_STATUS = (
               ('installation in progress', _('Installation in progress')),
               ('end installation', _('End installation')),
               ('legal registration', _('Legal Registration')),
-              ('legalization', _('Legalization')),
               ('last payment', _('Last Payment')),
+              ('legalization', _('Legalization')),
               ('final payment', _('Final payment')),
               ('warranty payment', _('Warranty payment')),
               ('discarded', _('Discarded')),)
