@@ -160,8 +160,8 @@ class TestLastInvoiceSerializer:
             id=1,
             name='Instalació plaques Montserrat Escayola',
             date_last_invoice=None,
-            is_payed_last_invoice=False,
-            upload_last_invoice='/uploaded_files/lastinvoice/som.png',
+            is_paid_last_invoice=False,
+            upload_last_invoice=None,
             status='legal registration'
         )
 
@@ -179,8 +179,8 @@ class TestLastInvoiceSerializer:
             id=1,
             name='Instalació plaques Montserrat Escayola',
             date_last_invoice='2020-01-01',
-            is_payed_last_invoice=False,
-            upload_last_invoice='/uploaded_files/lastinvoice/som.png',
+            is_paid_last_invoice=False,
+            upload_last_invoice=None,
             status='legal registration'
         )
 
@@ -189,7 +189,7 @@ class TestLastInvoiceSerializer:
         project = ProjectFactory()
         project.id = 1
         project.date_last_invoice = '2020-01-01'
-        project.is_payed_last_invoice = True
+        project.is_paid_last_invoice = True
         project.status = 'pending payment'
         invoice_image = SimpleUploadedFile(
             "invoice.jpg", b"file_content", content_type="image/jpeg"
@@ -203,7 +203,7 @@ class TestLastInvoiceSerializer:
             id=1,
             name='Instalació plaques Montserrat Escayola',
             date_last_invoice='2020-01-01',
-            is_payed_last_invoice=True,
+            is_paid_last_invoice=True,
             upload_last_invoice='/uploaded_files/invoice.jpg',
             status='pending payment'
         )
@@ -223,8 +223,8 @@ class TestFirstInvoiceSerializer:
             id=1,
             name='Instalació plaques Montserrat Escayola',
             date_first_invoice=None,
-            is_payed_first_invoice=False,
-            upload_first_invoice='/uploaded_files/firstinvoice/som.png',
+            is_paid_first_invoice=False,
+            upload_first_invoice=None,
             status='signature'
         )
 
@@ -242,8 +242,8 @@ class TestFirstInvoiceSerializer:
             id=1,
             name='Instalació plaques Montserrat Escayola',
             date_first_invoice='2020-01-01',
-            is_payed_first_invoice=False,
-            upload_first_invoice='/uploaded_files/firstinvoice/som.png',
+            is_paid_first_invoice=False,
+            upload_first_invoice=None,
             status='signature'
         )
 
@@ -252,7 +252,7 @@ class TestFirstInvoiceSerializer:
         project = ProjectFactory()
         project.id = 1
         project.date_first_invoice = '2020-01-01'
-        project.is_payed_first_invoice = True
+        project.is_paid_first_invoice = True
         project.status = 'pending payment'
         invoice_image = SimpleUploadedFile(
             "invoice.jpg", b"file_content", content_type="image/jpeg"
@@ -266,7 +266,7 @@ class TestFirstInvoiceSerializer:
             id=1,
             name='Instalació plaques Montserrat Escayola',
             date_first_invoice='2020-01-01',
-            is_payed_first_invoice=True,
+            is_paid_first_invoice=True,
             upload_first_invoice='/uploaded_files/invoice.jpg',
             status='pending payment'
         )

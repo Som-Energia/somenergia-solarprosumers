@@ -175,7 +175,7 @@ class FirstInvoiceSerializer(serializers.HyperlinkedModelSerializer):
             'id',
             'name',
             'date_first_invoice',
-            'is_payed_first_invoice',
+            'is_paid_first_invoice',
             'upload_first_invoice',
             'status'
         )
@@ -189,7 +189,7 @@ class LastInvoiceSerializer(serializers.HyperlinkedModelSerializer):
             'id',
             'name',
             'date_last_invoice',
-            'is_payed_last_invoice',
+            'is_paid_last_invoice',
             'upload_last_invoice',
             'status'
         )

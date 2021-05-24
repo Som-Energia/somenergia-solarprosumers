@@ -64,7 +64,7 @@ class Project(models.Model):
 
     is_paid = models.BooleanField(
         default=False,
-        verbose_name=_('Payed Preregistration'))
+        verbose_name=_('Paid Preregistration'))
 
     registration_date = models.DateField(
         null=True,
@@ -125,9 +125,9 @@ class Project(models.Model):
         blank=True,
         verbose_name=_('Date First Invoice'))
 
-    is_payed_first_invoice = models.BooleanField(
+    is_paid_first_invoice = models.BooleanField(
         default=False,
-        verbose_name=_('Payed First Invoice?'))
+        verbose_name=_('Paid First Invoice?'))
 
     upload_first_invoice = models.FileField(
         upload_to='uploaded_files/firstinvoice',
@@ -139,9 +139,9 @@ class Project(models.Model):
         blank=True,
         verbose_name=_('Date Last Invoice'))
 
-    is_payed_last_invoice = models.BooleanField(
+    is_paid_last_invoice = models.BooleanField(
         default=False,
-        verbose_name=_('Payed Last Invoice?'))
+        verbose_name=_('Paid Last Invoice?'))
 
     upload_last_invoice = models.FileField(
         upload_to='uploaded_files/lastinvoice',
@@ -305,9 +305,9 @@ class Project(models.Model):
             self.status = 'report'
         self.save()
 
-    def update_is_payed_first_invoice(self, is_payed_first_invoice):
-        self.is_payed_first_invoice = is_payed_first_invoice
-        if self.is_payed_first_invoice:
+    def update_is_paid_first_invoice(self, is_paid_first_invoice):
+        self.is_paid_first_invoice = is_paid_first_invoice
+        if self.is_paid_first_invoice:
             self.status = 'first payment'
         else:
             self.status = 'pending payment'
@@ -316,13 +316,13 @@ class Project(models.Model):
     def update_upload_first_invoice(self, upload_first_invoice):
         self.upload_first_invoice = upload_first_invoice
         self.date_first_invoice = datetime.now().strftime('%Y-%m-%d')
-        if not self.is_payed_first_invoice:
+        if not self.is_paid_first_invoice:
             self.status = 'pending payment'
         self.save()
 
-    def update_is_payed_last_invoice(self, is_payed_invoice_100):
-        self.is_payed_last_invoice = is_payed_last_invoice
-        if self.is_payed_last_invoice:
+    def update_is_paid_last_invoice(self, is_paid_last_invoice):
+        self.is_paid_last_invoice = is_paid_last_invoice
+        if self.is_paid_last_invoice:
             self.status = 'last payment'
         else:
             self.status = 'pending payment'
@@ -331,7 +331,7 @@ class Project(models.Model):
     def update_upload_last_invoice(self, upload_last_invoice):
         self.upload_last_invoice = upload_last_invoice
         self.date_last_invoice = datetime.now().strftime('%Y-%m-%d')
-        if not self.is_payed_last_invoice:
+        if not self.is_paid_last_invoice:
             self.status = 'pending payment'
         self.save()
 

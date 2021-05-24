@@ -161,7 +161,7 @@ class FirstInvoiceViewSet(viewsets.ModelViewSet):
             partial=True
         )
         if invoice.is_valid():
-            instance.update_is_payed_first_invoice(request.data.get('is_payed_first_invoice'))
+            instance.update_is_paid_first_invoice(request.data.get('is_paid_first_invoice'))
             invoice.save()
             return Response(invoice.data)
 
@@ -210,7 +210,7 @@ class LastInvoiceViewSet(viewsets.ModelViewSet):
             partial=True
         )
         if invoice.is_valid():
-            instance.update_is_payed_last_invoice(request.data.get('is_payed_last_invoice'))
+            instance.update_is_paid_last_invoice(request.data.get('is_paid_last_invoice'))
             invoice.save()
             return Response(invoice.data)
 
