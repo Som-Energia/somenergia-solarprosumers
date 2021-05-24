@@ -165,3 +165,28 @@ class TestInvoicesViewSet(TestCase):
         )
         assert request.status_code == 200
         assert request.data['is_payed_first_invoice'] is True
+
+    @pytest.mark.django_db
+    def test_first_invoice_put__base_case(self):
+        project = ProjectFactory()
+        project.id = 1
+        project.save()
+
+        assert project.upload_first_invoice.name is None
+
+        user = UserFactory()
+        user.set_password('1234')
+        user.save()
+        self.client.login(username=user.username, password='1234')
+        permission = Permission.objects.get(codename='view_project')
+        user.user_permissions.add(permission)
+
+        invoice_image = SimpleUploadedFile(
+            name='invoice.jpg', content=b'something', content_type="image/jpeg"
+        )
+        request = self.client.generic(method="PUT",
+            path='/somsolet-api/first_invoice/?projectId=1',
+            data={'upload_first_invoice': invoice_image},
+            content_type='multipart/form-data'
+        )
+        assert request.status_code == 200

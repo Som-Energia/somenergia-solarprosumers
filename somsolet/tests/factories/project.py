@@ -31,6 +31,12 @@ class ProjectFactory(DjangoModelFactory):
     date_report = None
     is_invalid_report = False
     upload_report = False
+    date_first_invoice = None
+    is_payed_first_invoice = False
+    upload_first_invoice = None
+    date_last_invoice = None
+    is_payed_last_invoice = False
+    upload_last_invoice = None
     date_offer = None
     is_invalid_offer = False
     is_offer_accepted = False
