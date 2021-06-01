@@ -91,13 +91,13 @@ class TestFilterViewMixin:
 class TestCalendarView:
 
     def test__edit_calendar_conf(self, rf):
-       calendar_conf_id = 1
-       url = reverse('edit_calendar', kwargs={'pk': calendar_conf_id})
-       request = rf.get(url)
+        calendar_conf_id = 1
+        url = reverse('edit_calendar', kwargs={'pk': calendar_conf_id})
+        request = rf.get(url)
 
-       response = EditCalendarView.as_view()(request, pk=calendar_conf_id)
+        response = EditCalendarView.as_view()(request, pk=calendar_conf_id)
 
-       assert response.status_code == 200
+        assert response.status_code == 200
 
     @pytest.mark.skip
     def test__edit_calendar_conf__button_in_calendar_view(self, rf):

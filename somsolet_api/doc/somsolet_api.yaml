@@ -225,7 +225,7 @@ paths:
       parameters:
       - name: projectId
         in: path
-        description: ksksks
+        description: Id of the project 
         required: true
         schema:
           type: string
@@ -238,26 +238,35 @@ paths:
               schema:
                 type: object
                 properties:
-                  count:
-                    type: integer
-                    description: number of results
-                    example: 234
                   data:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/project'
-                  links:
-                    type: object
-                    properties:
-                      next:
-                        type: string
-                        description: url of next results. If null, you are in the last page
-                        example: "https://somsolet-api.somenergia.coop/contracts?limit=5&cursor=dXNlcjpVMEc5V0ZYTlo"
+                    $ref: '#/components/schemas/project'
         400:
           description: Invalid status value
           content: {}
       security:
         - jwt: []
+    patch:
+      tags:
+        - project
+      description: Update some of the fields of the project
+      parameters:
+        - name: projectId
+          in: path
+          description: Id of the project 
+          required: true
+          schema:
+            type: string
+            example: 'SS001'
+      responses:
+        200:
+          description: Project has been updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/project'
   /stage:
     get:
       tags:

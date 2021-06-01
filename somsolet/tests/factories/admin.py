@@ -48,6 +48,7 @@ class EngineeringFactory(factory.django.DjangoModelFactory):
         django_get_or_create = ('tin', 'user',)
 
     user = factory.SubFactory(UserFactory)
+    tin = factory.SelfAttribute('user.username')
 
 
 class InventsPacoEngineeringFactory(EngineeringFactory):

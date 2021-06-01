@@ -5,7 +5,7 @@ from factory.django import DjangoModelFactory
 
 from .campaign import CampaignFactory
 from .client import ClientFactory
-from .admin import EngineeringFactory
+from .admin import InventsPacoEngineeringFactory
 
 
 class ProjectFactory(DjangoModelFactory):
@@ -14,10 +14,11 @@ class ProjectFactory(DjangoModelFactory):
         model = 'somsolet.Project'
         django_get_or_create = ('id', )
 
+    id = 1
     name = 'Instalació plaques Montserrat Escayola'
     campaign = factory.SubFactory(CampaignFactory)
     client = factory.SubFactory(ClientFactory)
-    engineering = factory.SubFactory(EngineeringFactory)
+    engineering = factory.SubFactory(InventsPacoEngineeringFactory)
     status = 'empty status'
     warning = 'No Warn'
     warning_date = None

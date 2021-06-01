@@ -1,7 +1,7 @@
 from factory import RelatedFactory
 
 from factory.django import DjangoModelFactory
-from .admin import LocalGroupFactory, EngineeringFactory
+from .admin import LocalGroupFactory, InventsPacoEngineeringFactory
 
 
 class CampaignFactory(DjangoModelFactory):
@@ -11,7 +11,7 @@ class CampaignFactory(DjangoModelFactory):
         django_get_or_create = ('name', )
 
     name = 'Solar Paco'
-    engineerings = RelatedFactory(EngineeringFactory)
+    engineerings = RelatedFactory(InventsPacoEngineeringFactory)
     local_group = RelatedFactory(LocalGroupFactory)
     date_call_for_engineerings = '2020-01-01'
     date_call_for_inscriptions = '2020-02-02'

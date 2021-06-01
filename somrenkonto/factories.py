@@ -3,8 +3,8 @@ from datetime import datetime, timedelta
 import factory
 from schedule.models import Calendar
 
-from somsolet.tests.factories import (CampaignFactory, ProjectFactory,
-                                      UserFactory)
+from somsolet.tests.factories import (CampaignFactory, InventsPacoEngineeringFactory,
+                                      ProjectFactory, UserFactory)
 
 from .models import EventChoices, RenkontoEvent
 
@@ -55,6 +55,8 @@ class TechnicalVisitEventFactory(RenkontoEventFactory):
     campaign = factory.SubFactory(CampaignFactory)
 
     project = factory.SubFactory(ProjectFactory)
+
+    engineering = factory.SubFactory(InventsPacoEngineeringFactory)
 
     created_by = factory.SubFactory(UserFactory)
 
