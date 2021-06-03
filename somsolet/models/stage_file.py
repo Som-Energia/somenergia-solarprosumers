@@ -1,0 +1,49 @@
+from django.db import models
+from django.utils.translation import gettext_lazy as _
+
+from datetime import datetime
+
+class BaseFile(models.Model):
+
+    date = models.DateField(
+        null=True,
+        blank=True,
+        verbose_name=_('Date File'),
+    )
+
+    check = models.BooleanField(
+        default=False,
+        verbose_name=_('Checked?')
+    )
+
+    def update_upload(self, upload):
+        self.upload = upload
+        self.date = datetime.now().strftime('%Y-%m-%d')
+        self.save()
+
+    def set_is_invalid(self, is_invalid):
+        self.is_invalid = is_invalid
+        self.save()
+
+    def get_status(self):
+        if self.is_invalid:
+            return self.current_status
+        else:
+            return self.next_status
+
+
+    class Meta:
+        abstract = True
+
+
+class SignatureFile(BaseFile):
+
+    next_status = 'signature'
+    current_status = 'offer'
+    template = ''
+
+    upload = models.FileField(
+        upload_to='uploaded_files/contract',
+        default='uploaded_files/contract/som.png',
+        verbose_name=_('Upload File')
+    )
