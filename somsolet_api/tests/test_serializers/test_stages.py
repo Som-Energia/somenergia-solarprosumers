@@ -40,3 +40,26 @@ class TestSignatureFileSerializer:
             signed=True,
             status='signature'
         )
+
+    @pytest.mark.django_db
+    def test_signature_file_serializer__with_attachment(self):
+        project = ProjectFactory()
+        project.id = 1
+        project.signature.check = True
+        project.status = 'signature'
+        signature_image = SimpleUploadedFile(
+            "signature.jpg", b"file_content", content_type="image/jpeg"
+        )
+        project.signature.upload = signature_image
+        signature_serializer = SignatureFileSerializer(
+            instance=project
+        )
+
+        # TODO: find out how to create directories with factories
+        assert signature_serializer.data == dict(
+            id=1,
+            signatureDate='2021-06-01',
+            signatureUpload='/uploaded_files/signature.jpg',
+            signed=True,
+            status='signature'
+        )
