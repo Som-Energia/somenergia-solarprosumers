@@ -1,3 +1,4 @@
+from config.settings import base
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
@@ -47,3 +48,19 @@ class SignatureFile(BaseFile):
         default='uploaded_files/contract/som.png',
         verbose_name=_('Upload File')
     )
+
+    def email_data(noti, campaign_data):
+        message_params = {
+            'header': _("Hola {},").format(noti.project.client.name),
+            'ending': _("Salut i fins ben aviat!"),
+            'engineering': [data['engineerings__name'] for data in campaign_data][0],
+            'email': [data['engineerings__email'] for data in campaign_data][0]
+        }
+
+        return {
+            _(f'CONTRACTE CLAU EN MÀ [{noti.project}] - {noti.project.campaign}, compra col·lectiva de Som Energia'),
+            self.template,
+            message_params,
+            str(os.path.join(base.MEDIA_ROOT, str(noti.project.signature.upload))),
+            message_params['email']
+        }

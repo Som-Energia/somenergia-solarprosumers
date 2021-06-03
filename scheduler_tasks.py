@@ -15,9 +15,6 @@ from somsolet.models import (Campaign, Client, ClientFile, Engineering,
 
 logger = logging.getLogger('scheduler_tasks')
 
-NOTIFICATION_TEMPLATE = {
-    'prereport': 'emails/prereport.html',
-}
 
 def send_email_tasks():
     active_campaigns = Campaign.objects.filter(active=True)
@@ -121,23 +118,12 @@ def send_notification():
             'engineerings__email'
         )
 
-        message_params = {
-            'header': _("Hola {},").format(noti.project.client.name),
-            'ending': _("Salut i bona energia,"),
-            'campaign': noti.project.campaign,
-            'address': [data['engineerings__address'] for data in campaign_data][0],
-            'engineering': [data['engineerings__name'] for data in campaign_data][0],
-            'installations': [data['count_foreseen_installations'] for data in campaign_data][0],
-            'email': [data['engineerings__email'] for data in campaign_data][0]
-        }
+        notification_data = getattr(
+            noti.project, noti.notification_status
+        ).email_data(noti, campaign_data)
 
         send_notification_report(
-            noti,
-            _(f'PREINFORME - {noti.project.campaign}, compra col·lectiva de Som Energia'),
-            NOTIFICATION_TEMPLATE[noti.notification_status],
-            message_params,
-            str(os.path.join(base.MEDIA_ROOT, str(noti.project.prereport.file_upload))),
-            message_params['email'],
+            **notification_data
         )
 
 def send_prereport_notification():
