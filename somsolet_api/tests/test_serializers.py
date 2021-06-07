@@ -4,7 +4,9 @@ from somsolet.tests.factories import (CampaignFactory, ProjectFactory,
                                       TechnicalDetailsFactory)
 from somsolet_api.serializer import (PrereportSerializer, ReportSerializer,
                                      StatsSerializer,
-                                     TechnicalDetailsSerializer)
+                                     TechnicalDetailsSerializer,
+                                     FirstInvoiceSerializer,
+                                     LastInvoiceSerializer)
 
 
 class TestTechnicalDetailsSerializer:
@@ -15,15 +17,17 @@ class TestTechnicalDetailsSerializer:
             instance=TechnicalDetailsFactory()
         )
         assert serializer.data['administrative_division'] == 'Barbados'
-        assert serializer.data['project'] == 1
+        assert serializer.data['town'] == 'Speightstown'
 
 
 class TestPrereportSerializer:
 
     @pytest.mark.django_db
     def test_prereport_serializer__base_case(self):
+        project = ProjectFactory()
+        project.id = 1
         prereport_serializer = PrereportSerializer(
-            instance=ProjectFactory()
+            instance=project
         )
 
         assert prereport_serializer.data == dict(
@@ -38,6 +42,7 @@ class TestPrereportSerializer:
     @pytest.mark.django_db
     def test_prereport_serializer__with_data(self):
         project = ProjectFactory()
+        project.id = 1
         project.date_prereport = '2020-01-01'
         project.status = 'prereport review'
         prereport_serializer = PrereportSerializer(
@@ -56,6 +61,7 @@ class TestPrereportSerializer:
     @pytest.mark.django_db
     def test_prereport_serializer__with_attachment(self):
         project = ProjectFactory()
+        project.id = 1
         project.date_prereport = '2020-01-01'
         project.is_invalid_prereport = True
         project.status = 'prereport'
@@ -81,8 +87,10 @@ class TestReportSerializer:
 
     @pytest.mark.django_db
     def test_report_serializer__base_case(self):
+        project = ProjectFactory()
+        project.id = 1
         report_serializer = ReportSerializer(
-            instance=ProjectFactory()
+            instance=project
         )
 
         assert report_serializer.data == dict(
@@ -97,6 +105,7 @@ class TestReportSerializer:
     @pytest.mark.django_db
     def test_report_serializer__with_data(self):
         project = ProjectFactory()
+        project.id = 1
         project.date_report = '2020-01-01'
         project.status = 'report review'
         report_serializer = ReportSerializer(
@@ -115,6 +124,7 @@ class TestReportSerializer:
     @pytest.mark.django_db
     def test_report_serializer__with_attachment(self):
         project = ProjectFactory()
+        project.id = 1
         project.date_report = '2020-01-01'
         project.is_invalid_report = True
         project.status = 'report'
@@ -135,6 +145,132 @@ class TestReportSerializer:
             status='report'
         )
 
+class TestLastInvoiceSerializer:
+
+    @pytest.mark.django_db
+    def test_last_invoice_serializer__base_case(self):
+        project = ProjectFactory()
+        project.id = 1
+        project.status = 'legal registration'
+        invoice_serializer = LastInvoiceSerializer(
+            instance=project
+        )
+
+        assert invoice_serializer.data == dict(
+            id=1,
+            name='Instalació plaques Montserrat Escayola',
+            date_last_invoice=None,
+            is_paid_last_invoice=False,
+            upload_last_invoice=None,
+            status='legal registration'
+        )
+
+    @pytest.mark.django_db
+    def test_last_invoice_serializer__with_data(self):
+        project = ProjectFactory()
+        project.id = 1
+        project.date_last_invoice = '2020-01-01'
+        project.status = 'legal registration'
+        invoice_serializer = LastInvoiceSerializer(
+            instance=project
+        )
+
+        assert invoice_serializer.data == dict(
+            id=1,
+            name='Instalació plaques Montserrat Escayola',
+            date_last_invoice='2020-01-01',
+            is_paid_last_invoice=False,
+            upload_last_invoice=None,
+            status='legal registration'
+        )
+
+    @pytest.mark.django_db
+    def test_last_invoice_serializer__with_attachment(self):
+        project = ProjectFactory()
+        project.id = 1
+        project.date_last_invoice = '2020-01-01'
+        project.is_paid_last_invoice = True
+        project.status = 'pending payment'
+        invoice_image = SimpleUploadedFile(
+            "invoice.jpg", b"file_content", content_type="image/jpeg"
+        )
+        project.upload_last_invoice = invoice_image
+        invoice_serializer = LastInvoiceSerializer(
+            instance=project
+        )
+
+        assert invoice_serializer.data == dict(
+            id=1,
+            name='Instalació plaques Montserrat Escayola',
+            date_last_invoice='2020-01-01',
+            is_paid_last_invoice=True,
+            upload_last_invoice='/uploaded_files/invoice.jpg',
+            status='pending payment'
+        )
+
+class TestFirstInvoiceSerializer:
+
+    @pytest.mark.django_db
+    def test_first_invoice_serializer__base_case(self):
+        project = ProjectFactory()
+        project.id = 1
+        project.status = 'signature'
+        invoice_serializer = FirstInvoiceSerializer(
+            instance=project
+        )
+
+        assert invoice_serializer.data == dict(
+            id=1,
+            name='Instalació plaques Montserrat Escayola',
+            date_first_invoice=None,
+            is_paid_first_invoice=False,
+            upload_first_invoice=None,
+            status='signature'
+        )
+
+    @pytest.mark.django_db
+    def test_first_invoice_serializer__with_data(self):
+        project = ProjectFactory()
+        project.id = 1
+        project.date_first_invoice = '2020-01-01'
+        project.status = 'signature'
+        invoice_serializer = FirstInvoiceSerializer(
+            instance=project
+        )
+
+        assert invoice_serializer.data == dict(
+            id=1,
+            name='Instalació plaques Montserrat Escayola',
+            date_first_invoice='2020-01-01',
+            is_paid_first_invoice=False,
+            upload_first_invoice=None,
+            status='signature'
+        )
+
+    @pytest.mark.django_db
+    def test_first_invoice_serializer__with_attachment(self):
+        project = ProjectFactory()
+        project.id = 1
+        project.date_first_invoice = '2020-01-01'
+        project.is_paid_first_invoice = True
+        project.status = 'pending payment'
+        invoice_image = SimpleUploadedFile(
+            "invoice.jpg", b"file_content", content_type="image/jpeg"
+        )
+        project.upload_first_invoice = invoice_image
+        invoice_serializer = FirstInvoiceSerializer(
+            instance=project
+        )
+
+        assert invoice_serializer.data == dict(
+            id=1,
+            name='Instalació plaques Montserrat Escayola',
+            date_first_invoice='2020-01-01',
+            is_paid_first_invoice=True,
+            upload_first_invoice='/uploaded_files/invoice.jpg',
+            status='pending payment'
+        )
+
 
 class TestStatsSerializer:
 
@@ -150,6 +286,7 @@ class TestStatsSerializer:
     def test_stats_serializer__with_stats(self):
         stats_serializer = StatsSerializer()
         campaign = CampaignFactory()
+        campaign.id = 13
         project = ProjectFactory()
         project.registration_date = '2020-01-04'
         project.status = 'prereport'
@@ -157,12 +294,13 @@ class TestStatsSerializer:
         campaign_stats = stats_serializer.get_stats(campaign)
 
         assert campaign_stats == dict(
-            total_instalations=1,
-            total_power=dict(
+            campaignId=13,
+            totalInstalations=1,
+            totalPower=dict(
                 value=3,
                 units='kWp'
             ),
-            total_generation=dict(
+            totalGeneration=dict(
                 value=0.00435,
                 units='GWp/any'
             )
