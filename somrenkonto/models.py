@@ -37,13 +37,10 @@ class RenkontoEventQuerySet(models.QuerySet):
         return self.filter(*filters)
 
     def visit(self, visit_type, project):
-        try:
-            return self.get(
-                event_type=visit_type,
-                project=project
-            )
-        except RenkontoEvent.DoesNotExists:
-            return None
+        return self.filter(
+            event_type=visit_type,
+            project=project
+        )
 
     def technical_visit(self, project):
         return self.visit(EventChoices.TECHNICAL_VISIT, project)
@@ -81,6 +78,7 @@ class RenkontoEvent(Event, Base):
 
     project = models.ForeignKey(
         Project,
+        related_name='events',
         on_delete=models.CASCADE,
         verbose_name=_('Project'),
         help_text=_('Project of this event')

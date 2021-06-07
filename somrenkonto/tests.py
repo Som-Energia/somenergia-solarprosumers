@@ -121,11 +121,12 @@ class TestRenkontoEventQuerySet:
         # technical_visit_event
         # technical_visit_event.project
 
-        # when we search for that technical visit
-        event = RenkontoEvent.events.technical_visit(technical_visit_event.project)
+        # when we search for all technical visits
+        events = RenkontoEvent.events.technical_visit(technical_visit_event.project)
 
         # then we obtain the same event
-        assert event == technical_visit_event
+        assert events.count() == 1
+        assert events.first() == technical_visit_event
 
     def test__engineering_events(self, engineering_with_events):
         # given

@@ -390,6 +390,9 @@ class Project(models.Model):
             self.status = 'pending payment'
         self.save()
 
+    def technical_visit_dates(self):
+        return self.events(manager='events').technical_visit(self)
+
     def __repr__(self):
         return f'<{self.__class__.__name__}({self.name})>'
 
