@@ -29,7 +29,6 @@ class ProjectFactory(DjangoModelFactory):
     date_prereport = None
     is_invalid_prereport = False
     upload_prereport = None
-    date_technical_visit = factory.Faker('date_time')
     date_report = None
     is_invalid_report = False
     upload_report = False

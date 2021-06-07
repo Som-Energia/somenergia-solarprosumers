@@ -9,7 +9,7 @@ from somsolet.views import (CampaignSetView, ConstructionPermitView,
                             DeliveryCertificateView, InstallationDateView,
                             LegalizationView, LegalRegistrationView, OfferView,
                             PrereportView, ProjectView, ReportView,
-                            SignatureView, TechnicalVisitView)
+                            SignatureView)
 
 from .factories import (CampaignFactory, ClientFactory, EngineeringFactory,
                         ProjectFactory, TechnicalDetailsFactory, UserFactory, LocalGroupFactory)
@@ -90,7 +90,6 @@ class TestViews:
 
     @pytest.mark.parametrize("view,url_name,status",
         [
-            [TechnicalVisitView, 'technical_visit', 'technical visit'],
             [ReportView, 'report', 'report'],
             [OfferView, 'offer', 'report'],
             [SignatureView, 'signed_contract', 'signature'],
@@ -115,7 +114,6 @@ class TestViews:
     @pytest.mark.parametrize("view,url_name",
         [
             [PrereportView, 'prereport'],
-            [TechnicalVisitView, 'technical_visit'],
             [ReportView, 'report'],
             [OfferView, 'offer'],
             [SignatureView, 'signed_contract'],

@@ -40,11 +40,6 @@ urlpatterns = [
         name='prereport'
     ),
     path(
-        'technical_visit/<int:pk>/',
-        views.TechnicalVisitView.as_view(),
-        name='technical_visit'
-    ),
-    path(
         'report/<int:pk>/',
         views.ReportView.as_view(),
         name='report'

@@ -136,53 +136,6 @@ class PrereportForm(forms.ModelForm):
             return status, date_prereport, warning
 
 
-class TechnicalVisitForm(forms.ModelForm):
-
-    def __init__(self, *args, **kwargs):
-        super(TechnicalVisitForm, self).__init__(*args, **kwargs)
-        self.helper = FormHelper(self)
-        self.helper.layout = Layout(
-            Row(
-                Column(
-                    Field('campaign', disabled=True),
-                    css_class='col-sm-4 read-only'),
-                Column(
-                    Field('client', disabled=True),
-                    css_class='col-sm-4 read-only'),
-                css_class='form-row'
-            ),
-            Row(
-                Column(
-                    'date_technical_visit',
-                    css_class='form-group col-md-4 mb-0'),
-                css_class='form-row'
-            ),
-        )
-        self.helper.layout.append(Submit('previous', 'previous'))
-        self.helper.layout.append(Submit('cancel', 'cancel'))
-        self.helper.layout.append(Submit('save', 'save'))
-        self.helper.layout.append(Submit('next', 'next'))
-
-    class Meta:
-        model = Project
-        fields = [
-            'date_technical_visit',
-            'campaign',
-            'client'
-        ]
-        widgets = {
-            'date_technical_visit': DatePickerInput(
-                format='%Y-%m-%d'
-            ),
-        }
-
-    def set_technical_visit(self, date_set_technical_visit):
-        date_technical_visit = date_set_technical_visit
-        status = 'technical visit'
-        warning = 'No Warn'
-        return status, date_technical_visit, warning
-
-
 class ReportForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(ReportForm, self).__init__(*args, **kwargs)

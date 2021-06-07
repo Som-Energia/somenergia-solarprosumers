@@ -124,12 +124,6 @@ class Project(models.Model):
         help_text=_('Prereport file')
     )
 
-    date_technical_visit = models.DateField(
-        null=True,
-        blank=True,
-        verbose_name=_('Date technical visit'),
-    )
-
     date_report = models.DateField(
         null=True,
         blank=True,
