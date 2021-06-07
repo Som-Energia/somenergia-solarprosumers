@@ -12,9 +12,8 @@ class ProjectFactory(DjangoModelFactory):
 
     class Meta:
         model = 'somsolet.Project'
-        django_get_or_create = ('id', )
+        django_get_or_create = ('name', )
 
-    id = 1
     name = 'Instalació plaques Montserrat Escayola'
     campaign = factory.SubFactory(CampaignFactory)
     client = factory.SubFactory(ClientFactory)

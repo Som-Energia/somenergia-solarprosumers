@@ -50,24 +50,26 @@ class TestHomeView:
 class TestViews:
 
     def test_project_detail_authenticated(
-        self, rf, project, engineering_user
+        self, rf, engineering_user
     ):
-        path = reverse('project', kwargs={'pk': project.pk})
+        campaign = CampaignFactory()
+        path = reverse('project', kwargs={'pk': campaign.pk})
         request = rf.get(path)
         request.user = engineering_user
 
-        response = ProjectView.as_view()(request, pk=project.pk)
+        response = ProjectView.as_view()(request, pk=campaign.pk)
         assert response.status_code == 200
 
 
     def test_project_detail_unauthenticated(
-        self, rf, project
+        self, rf
     ):
-        path = reverse('project', kwargs={'pk': project.pk})
+        campaign = CampaignFactory()
+        path = reverse('project', kwargs={'pk': campaign.pk})
         request = rf.get(path)
         request.user = AnonymousUser()
 
-        response = ProjectView.as_view()(request, pk=project.pk)
+        response = ProjectView.as_view()(request, pk=campaign.pk)
         assert 'auth/login' in response.url
 
     @pytest.mark.parametrize("view,url_name,status",
