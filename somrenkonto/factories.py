@@ -1,15 +1,21 @@
 from datetime import datetime, timedelta
 
 import factory
+from django.utils import timezone as tz
 from schedule.models import Calendar
 
-from somsolet.tests.factories import (CampaignFactory, InventsPacoEngineeringFactory,
-                                      ProjectFactory, UserFactory)
+from somsolet.tests.factories import (CampaignFactory,
+                                      InventsPacoEngineeringFactory,
+                                      InventsPacoFactory, ProjectFactory,
+                                      UserFactory)
 
-from .models import EventChoices, RenkontoEvent
+from .models import (CalendarConfig, CalendarViewChoices, EventChoices,
+                     RenkontoEvent)
 
 __all__ = (
     'CalendarFactory',
+    'CalendarConfigFactory',
+    'CalendarConfigMonthViewFactory',
     'RenkontoEventFactory',
     'TechnicalVisitEventFactory'
 )
@@ -25,6 +31,23 @@ class CalendarFactory(factory.django.DjangoModelFactory):
     slug = 'cal-obras-ing'
 
 
+class CalendarConfigFactory(factory.django.DjangoModelFactory):
+
+    class Meta:
+        model = CalendarConfig
+
+    calendar = factory.SubFactory(CalendarFactory)
+
+    created_by = factory.SubFactory(InventsPacoFactory)
+
+    modified_by = factory.SubFactory(InventsPacoFactory)
+
+
+class CalendarConfigMonthViewFactory(CalendarConfigFactory):
+
+    default_calendar_view = CalendarViewChoices.MONTH_VIEW
+
+
 class RenkontoEventFactory(factory.django.DjangoModelFactory):
 
     class Meta:
@@ -38,12 +61,14 @@ class TechnicalVisitEventFactory(RenkontoEventFactory):
 
     start = factory.Faker(
         'date_time_between_dates',
-        datetime_end=datetime.now() + timedelta(days=3)
+        datetime_end=tz.make_aware(datetime.now() + timedelta(days=3)),
     )
     end = factory.Faker(
         'date_time_between_dates',
         datetime_start=factory.SelfAttribute('..start'),
-        datetime_end=factory.LazyAttribute(lambda self: self.datetime_start + timedelta(hours=2))
+        datetime_end=factory.LazyAttribute(
+            lambda self: tz.make_aware(self.datetime_start + timedelta(hours=2))
+        ),
     )
 
     all_day = False

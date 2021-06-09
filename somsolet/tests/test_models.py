@@ -1,13 +1,4 @@
 import pytest
-from django.contrib.auth import get_user_model
-from django.db.models import Q
-from django.test import Client
-from django.urls import reverse
-
-from somsolet.models import Engineering
-from . import factories
-from .models import RenkontoEvent
-from .views import CalendarView, EditCalendarView, FilterViewMixin
 
 
 @pytest.mark.django_db
@@ -25,7 +16,3 @@ class TestProjectModel:
         # then we have that technical visit event
         assert technical_visit_dates.count() == 1
         assert technical_visit_dates.first() == technical_visit_event
-
-
-
-

@@ -1,7 +1,9 @@
-from factory import RelatedFactory
+from datetime import date
 
+import factory
 from factory.django import DjangoModelFactory
-from .admin import LocalGroupFactory, InventsPacoEngineeringFactory
+
+from .admin import InventsPacoEngineeringFactory, LocalGroupFactory
 
 
 class CampaignFactory(DjangoModelFactory):
@@ -11,10 +13,15 @@ class CampaignFactory(DjangoModelFactory):
         django_get_or_create = ('name', )
 
     name = 'Solar Paco'
-    engineerings = RelatedFactory(InventsPacoEngineeringFactory)
-    local_group = RelatedFactory(LocalGroupFactory)
-    date_call_for_engineerings = '2020-01-01'
-    date_call_for_inscriptions = '2020-02-02'
+    engineerings = factory.RelatedFactory(InventsPacoEngineeringFactory)
+    local_group = factory.RelatedFactory(LocalGroupFactory)
+    date_call_for_engineerings = factory.Faker(
+        'date_object',
+    )
+    date_call_for_inscriptions = factory.Faker(
+        'date_between_dates',
+        date_start=factory.SelfAttribute('..date_call_for_engineerings')
+    )
     date_inscriptions_closed = None
     date_completed_installations = None
     autonomous_community = 'Parroquia de Christ Church'
@@ -35,7 +42,7 @@ class TechnicalCampaignFactory(DjangoModelFactory):
     class Meta:
         model = 'somsolet.Technical_campaign'
 
-    campaign = RelatedFactory(CampaignFactory)
+    campaign = factory.RelatedFactory(CampaignFactory)
     price_mono_fixed = '0.5'
     price_mono_var = '0.1'
     price_tri_fixed = '0.3'

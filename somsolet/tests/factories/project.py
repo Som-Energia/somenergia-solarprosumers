@@ -1,11 +1,12 @@
 from datetime import datetime
 
 import factory
+from django.utils import timezone as tz
 from factory.django import DjangoModelFactory
 
+from .admin import InventsPacoEngineeringFactory
 from .campaign import CampaignFactory
 from .client import ClientFactory
-from .admin import InventsPacoEngineeringFactory
 
 
 class ProjectFactory(DjangoModelFactory):

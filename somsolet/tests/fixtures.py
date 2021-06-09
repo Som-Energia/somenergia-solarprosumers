@@ -1,7 +1,9 @@
 import pytest
 
 from .factories import (CampaignFactory, ClientFactory, EngineeringFactory,
-                        ProjectFactory, TechnicalDetailsFactory, UserFactory, LocalGroupFactory)
+                        InventsPacoEngineeringFactory, InventsPacoFactory,
+                        LocalGroupFactory, ProjectFactory,
+                        TechnicalDetailsFactory, UserFactory)
 
 __all__ = (
     'engineering_user', 'engineering', 'campaing__solar_paco',
@@ -15,8 +17,18 @@ def engineering_user(db):
 
 
 @pytest.fixture
+def engineering_user_paco(db):
+    return InventsPacoFactory.create()
+
+
+@pytest.fixture
 def engineering(db):
     return EngineeringFactory()
+
+
+@pytest.fixture
+def engineering__solar_paco(db):
+    return InventsPacoEngineeringFactory.create()
 
 
 @pytest.fixture

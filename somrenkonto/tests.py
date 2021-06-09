@@ -4,25 +4,10 @@ from django.db.models import Q
 from django.test import Client
 from django.urls import reverse
 
-from somsolet.models import Engineering
-from . import factories
 from .models import RenkontoEvent
 from .views import CalendarView, EditCalendarView, FilterViewMixin
 
 client = Client()
-
-
-@pytest.mark.skip
-@pytest.mark.django_db
-def test__calendar_view(rf):
-    User = get_user_model()
-    url = reverse('somrenkonto')
-    request = rf.get(url)
-    request.user = User.objects.first()
-
-    response = CalendarView.as_view()(request)
-
-    assert 'Obras' in response.content.decode()
 
 
 @pytest.mark.django_db
@@ -90,26 +75,37 @@ class TestFilterViewMixin:
 @pytest.mark.django_db
 class TestCalendarView:
 
-    def test__edit_calendar_conf(self, rf):
-        calendar_conf_id = 1
-        url = reverse('edit_calendar', kwargs={'pk': calendar_conf_id})
+    def test__edit_calendar_conf(self, rf, calendar_with_conf):
+        # given a calendar
+        # calendar_with_conf
+
+        # when we access to its configuration
+        url = reverse('edit_calendar', kwargs={'pk': calendar_with_conf.id})
         request = rf.get(url)
+        response = EditCalendarView.as_view()(request, pk=calendar_with_conf.id)
 
-        response = EditCalendarView.as_view()(request, pk=calendar_conf_id)
-
+        # then we obtain a successful response
         assert response.status_code == 200
 
-    @pytest.mark.skip
-    def test__edit_calendar_conf__button_in_calendar_view(self, rf):
-        User = get_user_model()
+    def test__edit_calendar_conf__button_in_calendar_view(
+            self, rf, calendar, engineering_user_paco
+    ):
+        # given a calendar
+        # calendar
+        # and a user
+        # user
+
+        # when that user visit that calendar
         url = reverse('somrenkonto')
-        calendar_conf_id = 1
         request = rf.get(url)
-        request.user = User.objects.first()
-
+        request.user = engineering_user_paco
         response = CalendarView.as_view()(request)
-        conf_calendar_url = reverse('edit_calendar', kwargs={'pk': calendar_conf_id})
+        # and check for the calendar button configuration
+        conf_calendar_url = reverse(
+            'edit_calendar', kwargs={'pk': calendar.id}
+        )
 
+        # then the url to go to the configuration is in the button
         assert conf_calendar_url in response.content.decode()
 
 
@@ -142,12 +138,14 @@ class TestRenkontoEventQuerySet:
             engineering__id=engineering_id
         ))
 
-    def test__engineering_without_events(self, engineering, engineering_with_events):
+    def test__engineering_without_events(
+            self, engineering_without_events, engineering_with_events
+    ):
         # given
         # an engineering without events and other engineering with events
 
         # when we search all events of the engineering without events
-        events = RenkontoEvent.events.engineering_events(engineering.id)
+        events = RenkontoEvent.events.engineering_events(engineering_without_events.id)
 
         # then we haven't events
         assert len(events) == 0
