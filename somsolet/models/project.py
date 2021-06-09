@@ -34,6 +34,7 @@ class Project(models.Model):
         Engineering,
         null=True,
         blank=True,
+        related_name='projects',
         on_delete=models.SET_NULL,
         verbose_name=_('Engineering'),
         help_text=_('Engineering responsable of this project')
