@@ -4,14 +4,14 @@ from rest_framework.authtoken import views
 
 from .views import (CampaignViewSet, CchDownloadViewSet, PrereportViewSet,
                     ProjectViewSet, RenkontoEventView,  ReportViewSet,
-                    StagesViewSet, StatsViewSet, TechnicalDetailsViewSet,
+                    StagesListViewSet, StatsViewSet, TechnicalDetailsViewSet,
                     FirstInvoiceViewSet, LastInvoiceViewSet, SignatureViewSet)
 
 router = routers.DefaultRouter()
 router.register(r'campaign', CampaignViewSet, basename='campaign')
 router.register(r'stats', StatsViewSet, basename='stats')
 router.register(r'project', ProjectViewSet, basename='project')
-router.register(r'stages', StagesViewSet, basename='stages')
+router.register(r'stages', StagesListViewSet, basename='stages_list')
 router.register(r'cch', CchDownloadViewSet, basename='cch')
 router.register(r'prereport', PrereportViewSet, basename='prereport')
 router.register(r'report', ReportViewSet, basename='report')

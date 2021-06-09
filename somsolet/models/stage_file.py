@@ -21,12 +21,12 @@ class BaseFile(models.Model):
         self.date = datetime.now().strftime('%Y-%m-%d')
         self.save()
 
-    def set_is_invalid(self, is_invalid):
-        self.is_invalid = is_invalid
+    def set_check(self, check):
+        self.check = check
         self.save()
 
     def get_status(self):
-        if self.is_invalid:
+        if self.check:
             return self.current_status
         else:
             return self.next_status
