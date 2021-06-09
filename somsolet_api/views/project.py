@@ -34,7 +34,6 @@ class ProjectViewSet(viewsets.ModelViewSet):
         else:
             return queryset
 
-
 class PrereportViewSet(viewsets.ModelViewSet):
     permission_classes = [SomsoletAPIModelPermissions]
 

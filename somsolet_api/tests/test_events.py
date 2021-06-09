@@ -1,5 +1,6 @@
 import pytest
 from django.urls import reverse
+
 from somrenkonto.models import RenkontoEvent
 from somsolet_api.serializer import RenkontoEventSerializer
 from somsolet_api.views import RenkontoEventView

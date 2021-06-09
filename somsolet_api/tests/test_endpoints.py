@@ -95,7 +95,7 @@ class TestCampaign(TestCase):
 
 
 class TestProject(TestCase):
-    
+
     def setUp(self):
         self.base_url = '/somsolet-api/project/'
         self.user = User(username='aitor', password='1234')
