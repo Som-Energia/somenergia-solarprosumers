@@ -7,20 +7,21 @@ from .factories import TechnicalVisitDataFactory
 
 
 @pytest.mark.django_db
-class TestProjectApi:
+class TestSetTechnicalVisitView:
 
-    def test__set_technical_visit__ok(authenticated_user, montse_project, rf):
+    def test__set_technical_visit__ok(self, authenticated_user, montse_project, rf):
         # given
         # an authenticated engineering
         # a project
         # and a valid set technical visit data
-        techical_visit_data = TechnicalVisitDataFactory.data_ok
+        technical_visit_data = TechnicalVisitDataFactory.data_ok()
 
         # when that engineering sets a technical visit to a project
         url = reverse('set_technical_visit', args=[montse_project.id])
-        request = rf.get(url)
+        import pdb; pdb.set_trace()
+        request = rf.put(url, technical_visit_data, content_type='application/json')
         request.user = authenticated_user
-        request.body = techical_visit_data
+
         response = SetTechnicalVisitView.as_view()(request, montse_project.id)
 
         # then the user obtain a successful response

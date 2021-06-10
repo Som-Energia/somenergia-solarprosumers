@@ -1,21 +1,27 @@
-from datetime import datetime
 
 from rest_framework import status, viewsets
-from rest_framework.authentication import SessionAuthentication, TokenAuthentication
+from rest_framework.authentication import (SessionAuthentication,
+                                           TokenAuthentication)
+from rest_framework.decorators import action
+from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
+from rest_framework.views import APIView
+
 from somsolet.models import Project, Technical_details
 from somsolet_api.common.permissions import SomsoletAPIModelPermissions
 from somsolet_api.serializer import (DownloadCchSerializer,
+                                     FirstInvoiceSerializer,
+                                     LastInvoiceSerializer,
                                      PrereportSerializer, ProjectSerializer,
                                      ReportSerializer,
-                                     TechnicalDetailsSerializer,
-                                     FirstInvoiceSerializer, LastInvoiceSerializer)
+                                     TechnicalDetailsSerializer)
 
 
 class ProjectViewSet(viewsets.ModelViewSet):
-    permission_classes = [SomsoletAPIModelPermissions]
-    authentication_classes = [TokenAuthentication, SessionAuthentication]
+    # permission_classes = [SomsoletAPIModelPermissions]
+    # authentication_classes = [TokenAuthentication, SessionAuthentication]
 
+    renderer_classes = [JSONRenderer]
     serializer_class = ProjectSerializer
 
     def get_queryset(self):
@@ -33,6 +39,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
             return queryset.filter(id=project)
         else:
             return queryset
+
 
 class PrereportViewSet(viewsets.ModelViewSet):
     permission_classes = [SomsoletAPIModelPermissions]
@@ -268,3 +275,12 @@ class TechnicalDetailsViewSet(viewsets.ModelViewSet):
             return queryset.filter(project=project)
         else:
             return queryset
+
+
+class SetTechnicalVisitView(APIView):
+    # permission_classes = [SomsoletAPIModelPermissions]
+    # authentication_classes = [TokenAuthentication, SessionAuthentication]
+
+    def put(self, request, project_id):
+        import pdb; pdb.set_trace()
+        return Response({}, content_type='application/json')

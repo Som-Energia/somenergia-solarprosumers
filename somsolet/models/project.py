@@ -385,6 +385,7 @@ class Project(models.Model):
             self.status = 'pending payment'
         self.save()
 
+    @property
     def technical_visit_dates(self):
         return self.events(manager='events').technical_visit(self)
 

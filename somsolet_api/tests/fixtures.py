@@ -56,6 +56,11 @@ def engineering():
 
 
 @pytest.fixture
+def montse_project():
+    return ProjectFactory.create()
+
+
+@pytest.fixture
 def engineering_with_events():
     engineering = InventsPacoEngineeringFactory.create()
 
@@ -97,6 +102,7 @@ def engineering_with_events():
 
     return engineering
 
+
 @pytest.fixture
 def stats():
     stats_data = dict(
@@ -111,4 +117,3 @@ def stats():
         )
     )
     return stats_data
-

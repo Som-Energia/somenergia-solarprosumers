@@ -2,12 +2,12 @@ from django.urls import include, path
 from rest_framework import routers
 from rest_framework.authtoken import views
 
-from .views import (CampaignViewSet, CchDownloadViewSet, PrereportViewSet,
-                    ProjectViewSet, RenkontoEventView,  ReportViewSet,
-                    StagesViewSet, StatsViewSet, TechnicalDetailsViewSet,
-                    FirstInvoiceViewSet, LastInvoiceViewSet)
+from .views import (CampaignViewSet, CchDownloadViewSet, FirstInvoiceViewSet,
+                    LastInvoiceViewSet, PrereportViewSet, ProjectViewSet,
+                    RenkontoEventView, ReportViewSet, SetTechnicalVisitView,
+                    StagesViewSet, StatsViewSet, TechnicalDetailsViewSet)
 
-router = routers.DefaultRouter()
+router = routers.DefaultRouter(trailing_slash=False)
 router.register(r'campaign', CampaignViewSet, basename='campaign')
 router.register(r'stats', StatsViewSet, basename='stats')
 router.register(r'project', ProjectViewSet, basename='project')
@@ -28,6 +28,11 @@ urlpatterns = [
         name='events'
     ),
     path('', include(router.urls)),
+    path(
+        'project/<int:project_id>/set_technical_visit',
+        SetTechnicalVisitView.as_view(),
+        name='set_technical_visit'
+    ),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('api-token-auth/', views.obtain_auth_token)
 ]
