@@ -4,7 +4,7 @@ from rest_framework.authtoken import views
 
 from .views import (CampaignViewSet, CchDownloadViewSet, FirstInvoiceViewSet,
                     LastInvoiceViewSet, PrereportViewSet, ProjectViewSet,
-                    RenkontoEventView, ReportViewSet, SetTechnicalVisitView,
+                    RenkontoEventView, ReportViewSet,
                     StagesViewSet, StatsViewSet, TechnicalDetailsViewSet)
 
 router = routers.DefaultRouter(trailing_slash=False)
@@ -28,11 +28,6 @@ urlpatterns = [
         name='events'
     ),
     path('', include(router.urls)),
-    path(
-        'project/<int:project_id>/set_technical_visit',
-        SetTechnicalVisitView.as_view(),
-        name='set_technical_visit'
-    ),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('api-token-auth/', views.obtain_auth_token)
 ]

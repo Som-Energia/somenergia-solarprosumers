@@ -1,7 +1,7 @@
 import pytest
 from django.urls import reverse
 
-from somsolet_api.views import SetTechnicalVisitView
+from somsolet_api.views import ProjectViewSet
 
 from .factories import TechnicalVisitDataFactory
 
@@ -17,12 +17,13 @@ class TestSetTechnicalVisitView:
         technical_visit_data = TechnicalVisitDataFactory.data_ok()
 
         # when that engineering sets a technical visit to a project
-        url = reverse('set_technical_visit', args=[montse_project.id])
-        import pdb; pdb.set_trace()
-        request = rf.put(url, technical_visit_data, content_type='application/json')
+        url = reverse('project-set-technical-visit', args=[montse_project.id])
+        request = rf.put(url, technical_visit_data, format='json')
         request.user = authenticated_user
 
-        response = SetTechnicalVisitView.as_view()(request, montse_project.id)
+        response = ProjectViewSet.as_view({
+            'put': 'set_technical_visit'
+        })(request, montse_project.id)
 
         # then the user obtain a successful response
         assert response.status_code == 200

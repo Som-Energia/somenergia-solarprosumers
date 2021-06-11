@@ -40,6 +40,11 @@ class ProjectViewSet(viewsets.ModelViewSet):
         else:
             return queryset
 
+    @action(detail=True, methods=['put'], name='set_technical_visit')
+    def set_technical_visit(self, request, pk):
+        response = Response({})
+        return response
+
 
 class PrereportViewSet(viewsets.ModelViewSet):
     permission_classes = [SomsoletAPIModelPermissions]
@@ -275,12 +280,3 @@ class TechnicalDetailsViewSet(viewsets.ModelViewSet):
             return queryset.filter(project=project)
         else:
             return queryset
-
-
-class SetTechnicalVisitView(APIView):
-    # permission_classes = [SomsoletAPIModelPermissions]
-    # authentication_classes = [TokenAuthentication, SessionAuthentication]
-
-    def put(self, request, project_id):
-        import pdb; pdb.set_trace()
-        return Response({}, content_type='application/json')

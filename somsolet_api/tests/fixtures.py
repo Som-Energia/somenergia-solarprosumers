@@ -13,6 +13,15 @@ from somsolet.tests.factories import (InventsPacoEngineeringFactory,
                                       SolarWindPowerEngineeringFactory,
                                       SolarWindPowerFactory)
 
+__all__ = [
+    'authenticated_user',
+    'bounded_event',
+    'engineering',
+    'montse_project',
+    'engineering_with_events',
+    'stats'
+]
+
 
 @pytest.fixture
 def authenticated_user():
