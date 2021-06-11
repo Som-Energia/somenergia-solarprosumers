@@ -1,11 +1,10 @@
 from rest_framework import status, viewsets
-from rest_framework.response import Response
+from rest_framework.authentication import (SessionAuthentication,
+                                           TokenAuthentication)
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.authentication import SessionAuthentication, TokenAuthentication
-
-from somsolet.models.choices_options import ITEM_STATUS
+from rest_framework.response import Response
 from somsolet.models import Project
-
+from somsolet.models.choices_options import ITEM_STATUS
 from somsolet_api.common.permissions import SomsoletAPIModelPermissions
 from somsolet_api.serializer import SignatureFileSerializer
 
@@ -53,6 +52,8 @@ class StagesBaseViewSet(viewsets.ModelViewSet):
         )
         if serializer.is_valid():
             getattr(instance, self.stage).set_check(request.data.get('is_checked'))
+            instance.status = getattr(instance, self.stage).get_status()
+            instance.save()
             serializer.save()
             return Response(serializer.data)
 
@@ -67,6 +68,8 @@ class StagesBaseViewSet(viewsets.ModelViewSet):
         )
         if serializer.is_valid():
             getattr(instance, self.stage).update_upload(request.data.get('upload'))
+            instance.status = getattr(instance, self.stage).get_status()
+            instance.save()
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:

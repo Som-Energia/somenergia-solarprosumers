@@ -1,7 +1,8 @@
+from datetime import datetime
+
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-from datetime import datetime
 
 class BaseFile(models.Model):
 
@@ -26,11 +27,10 @@ class BaseFile(models.Model):
         self.save()
 
     def get_status(self):
-        if self.check:
-            return self.current_status
-        else:
+        if self.date:
             return self.next_status
-
+        else:
+            return self.current_status
 
     class Meta:
         abstract = True

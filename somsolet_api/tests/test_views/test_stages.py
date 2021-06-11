@@ -2,7 +2,8 @@ import pytest
 from django.contrib.auth.models import Permission
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
-from somsolet.tests.factories import (ProjectFactory, UserFactory)
+from somsolet.tests.factories import ProjectFactory, UserFactory
+
 
 class TestSignatureViewSet(TestCase):
 
@@ -12,6 +13,7 @@ class TestSignatureViewSet(TestCase):
         project.id = 1
         project.save()
         assert project.signature.check is False
+        assert project.status == 'empty status'
 
         user = UserFactory()
         user.set_password('1234')
@@ -26,8 +28,10 @@ class TestSignatureViewSet(TestCase):
             content_type='application/json'
         )
 
+        project.refresh_from_db()
         assert response.status_code == 200
         assert response.data['signed'] is True
+        assert project.status == 'signature'
 
     @pytest.mark.django_db
     def test_signature_put__base_case(self):
@@ -36,6 +40,7 @@ class TestSignatureViewSet(TestCase):
         project.save()
 
         assert project.signature.upload.name is None
+        assert project.status == 'empty status'
 
         user = UserFactory()
         user.set_password('1234')
@@ -47,9 +52,13 @@ class TestSignatureViewSet(TestCase):
         signature_image = SimpleUploadedFile(
             name='contract_signed.jpg', content=b'something', content_type="image/jpeg"
         )
-        request = self.client.generic(method="PUT",
+        # TODO: request.data is {} on backend, see issue: https://github.com/encode/django-rest-framework/issues/3951
+        response = self.client.generic(method="PUT",
             path='/somsolet-api/signature/?projectId=1',
             data={'upload': signature_image},
             content_type='multipart/form-data'
         )
-        assert request.status_code == 200
+
+        project.refresh_from_db()
+        assert response.status_code == 200
+        assert project.status == 'signature'
