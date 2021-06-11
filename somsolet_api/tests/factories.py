@@ -14,6 +14,6 @@ class TechnicalVisitDataFactory(factory.StubFactory):
         start = fake.future_datetime()
 
         return {
-            'dateStart': fake.iso8601(end_datetime=start),
-            'dateEnd': fake.iso8601(end_datetime=start + timedelta(minutes=60))
+            'date_start': fake.iso8601(end_datetime=start),
+            'date_end': fake.iso8601(end_datetime=start + timedelta(minutes=60))
         }

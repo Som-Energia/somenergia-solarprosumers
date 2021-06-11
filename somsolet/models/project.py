@@ -12,6 +12,19 @@ from .choices_options import (BATERY_BRAND, INVERSOR_BRAND, ITEM_ANGLES,
                               PANELS_BRAND, PANELS_TYPE)
 
 
+class ProjectQuerySet(models.QuerySet):
+
+    def get_project(self, project_id, user):
+        try:
+            if user.is_superuser:
+                return self.get(id=project_id)
+            return self.get(
+                id=project_id, engineering__user=user
+            )
+        except Project.DoesNotExist:
+            return None
+
+
 class Project(models.Model):
 
     name = models.CharField(
@@ -324,6 +337,10 @@ class Project(models.Model):
         verbose_name=_('Final payment'),
         help_text=_('Amount of the final payment')
     )
+
+    objects = models.Manager()
+
+    projects = ProjectQuerySet.as_manager()
 
     def update_is_invalid_prereport(self, is_invalid_prereport):
         self.is_invalid_prereport = is_invalid_prereport

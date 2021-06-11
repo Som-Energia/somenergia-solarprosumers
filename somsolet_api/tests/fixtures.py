@@ -5,22 +5,17 @@ import pytest
 from django.contrib.auth import authenticate
 from django.utils import timezone
 
+from somrenkonto.fixtures import *
 from somrenkonto.factories import (CalendarFactory, CampaignFactory,
                                    ProjectFactory, RenkontoEventFactory)
 from somrenkonto.models import EventChoices
+from somsolet.tests.fixtures import engineering_user_paco
 from somsolet.tests.factories import (InventsPacoEngineeringFactory,
                                       InventsPacoFactory,
                                       SolarWindPowerEngineeringFactory,
                                       SolarWindPowerFactory)
 
-__all__ = [
-    'authenticated_user',
-    'bounded_event',
-    'engineering',
-    'montse_project',
-    'engineering_with_events',
-    'stats'
-]
+from .factories import TechnicalVisitDataFactory
 
 
 @pytest.fixture
@@ -57,6 +52,11 @@ def bounded_event():
         modified_by=created_by
     )
     return RenkontoEventFactory.build(**bounded_event_data)
+
+
+@pytest.fixture
+def technical_event():
+    return TechnicalVisitDataFactory.data_ok()
 
 
 @pytest.fixture

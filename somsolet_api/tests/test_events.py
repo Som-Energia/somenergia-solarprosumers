@@ -18,6 +18,21 @@ class TestRenkontoEventSerializer:
             'all_day': bounded_event.all_day
         }
 
+    @pytest.mark.django_db
+    def test__set_technical_visit(self, technical_event, calendar, montse_project):
+        # given a technical_visit_event
+        # a calendar
+        # and a project
+
+        # when we set a new technical visit for that project
+        event_serializer = RenkontoEventSerializer(data=technical_event)
+        event_serializer.is_valid()
+
+        event = event_serializer.set_technical_visit(calendar, montse_project)
+
+        # then ???
+        assert event_serializer.data == {}
+
 
 @pytest.mark.django_db
 class TestRenkontoEventView:

@@ -7,13 +7,15 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from schedule.models import Calendar
 from somsolet.models import Project, Technical_details
 from somsolet_api.common.permissions import SomsoletAPIModelPermissions
+from somsolet_api.shortcuts import not_found_response, validation_error_response
 from somsolet_api.serializer import (DownloadCchSerializer,
                                      FirstInvoiceSerializer,
                                      LastInvoiceSerializer,
                                      PrereportSerializer, ProjectSerializer,
-                                     ReportSerializer,
+                                     ReportSerializer, RenkontoEventSerializer,
                                      TechnicalDetailsSerializer)
 
 
@@ -42,8 +44,20 @@ class ProjectViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=['put'], name='set_technical_visit')
     def set_technical_visit(self, request, pk):
-        response = Response({})
-        return response
+        project = Project.projects.get_project(pk, request.user)
+        if not project:
+            return not_found_response()
+
+        technical_visit = RenkontoEventSerializer(
+            data=request.data, partial=True
+        )
+        if not technical_visit.is_valid():
+            return validation_error_response(technical_visit)
+
+        calendar = Calendar.objects.get_calendar_for_object(request.user) 
+        event = technical_visit.set_technical_visit(calendar, project)
+
+        return Response(technical_visit.data)
 
 
 class PrereportViewSet(viewsets.ModelViewSet):
