@@ -50,12 +50,14 @@ class StagesBaseViewSet(viewsets.ModelViewSet):
             data=request.data,
             partial=True
         )
-        if serializer.is_valid():
+        if serializer.is_valid() and instance.status in self.allowed_stages:
             getattr(instance, self.stage).set_check(request.data.get('is_checked'))
             instance.status = getattr(instance, self.stage).get_status()
             instance.save()
             serializer.save()
             return Response(serializer.data)
+        else:
+            return Response(serializer.errors, status=status.HTTP_409_CONFLICT)
 
     def put(self, request, format=None):
         instance = Project.objects.get(
@@ -66,17 +68,18 @@ class StagesBaseViewSet(viewsets.ModelViewSet):
             data=request.data,
             partial=True
         )
-        if serializer.is_valid():
+        if serializer.is_valid() and instance.status in self.allowed_stages:
             getattr(instance, self.stage).update_upload(request.data.get('upload'))
             instance.status = getattr(instance, self.stage).get_status()
             instance.save()
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.errors, status=status.HTTP_409_CONFLICT)
 
 
 class SignatureViewSet(StagesBaseViewSet):
 
     serializer_class = SignatureFileSerializer
+    allowed_stages = ['offer']
     stage = 'signature'
