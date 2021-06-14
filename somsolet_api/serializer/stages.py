@@ -19,3 +19,18 @@ class SignatureFileSerializer(serializers.HyperlinkedModelSerializer):
             'status'
         )
 
+
+class PermitFileSerializer(serializers.HyperlinkedModelSerializer):
+
+    permitDate = serializers.DateField(source='permit.date')
+    permitUpload = serializers.FileField(source='permit.upload')
+
+    class Meta:
+        model = Project
+        fields = (
+            'id',
+            'permitDate',
+            'permitUpload',
+            'status'
+        )
+

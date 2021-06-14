@@ -47,3 +47,15 @@ class SignatureFile(BaseFile):
         default='uploaded_files/contract/som.png',
         verbose_name=_('Upload File')
     )
+
+class PermitFile(BaseFile):
+
+    next_status = 'construction permit'
+    current_status = 'signature'
+    template = ''
+
+    upload = models.FileField(
+        upload_to='uploaded_files/permit',
+        default='uploaded_files/permit/som.png',
+        verbose_name=_('Upload File')
+    )

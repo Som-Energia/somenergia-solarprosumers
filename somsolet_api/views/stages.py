@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from somsolet.models import Project
 from somsolet.models.choices_options import ITEM_STATUS
 from somsolet_api.common.permissions import SomsoletAPIModelPermissions
-from somsolet_api.serializer import SignatureFileSerializer
+from somsolet_api.serializer import SignatureFileSerializer, PermitFileSerializer
 
 
 class StagesListViewSet(viewsets.ViewSet):
@@ -50,14 +50,17 @@ class StagesBaseViewSet(viewsets.ModelViewSet):
             data=request.data,
             partial=True
         )
-        if serializer.is_valid() and instance.status in self.allowed_stages:
-            getattr(instance, self.stage).set_check(request.data.get('is_checked'))
-            instance.status = getattr(instance, self.stage).get_status()
-            instance.save()
-            serializer.save()
-            return Response(serializer.data)
-        else:
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        if instance.status not in self.allowed_stages:
             return Response(serializer.errors, status=status.HTTP_409_CONFLICT)
+
+        getattr(instance, self.stage).set_check(request.data.get('is_checked'))
+        instance.status = getattr(instance, self.stage).get_status()
+        instance.save()
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     def put(self, request, format=None):
         instance = Project.objects.get(
@@ -68,18 +71,32 @@ class StagesBaseViewSet(viewsets.ModelViewSet):
             data=request.data,
             partial=True
         )
-        if serializer.is_valid() and instance.status in self.allowed_stages:
-            getattr(instance, self.stage).update_upload(request.data.get('upload'))
-            instance.status = getattr(instance, self.stage).get_status()
-            instance.save()
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        else:
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        if instance.status not in self.allowed_stages:
             return Response(serializer.errors, status=status.HTTP_409_CONFLICT)
+
+        getattr(instance, self.stage).update_upload(request.data.get('upload'))
+        instance.status = getattr(instance, self.stage).get_status()
+        instance.save()
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class SignatureViewSet(StagesBaseViewSet):
 
     serializer_class = SignatureFileSerializer
-    allowed_stages = ['offer']
+    allowed_stages = ['offer', 'signature']
     stage = 'signature'
+
+
+class PermitViewSet(StagesBaseViewSet):
+
+    serializer_class = PermitFileSerializer
+    allowed_stages = ['signature', 'permit']
+    stage = 'permit'
+
+    def patch(self, request, *args, **kwargs):
+        return Response('Patch is not allowed', status=status.HTTP_400_BAD_REQUEST)
+

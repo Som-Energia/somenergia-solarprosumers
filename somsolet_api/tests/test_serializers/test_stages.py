@@ -1,7 +1,7 @@
 import pytest
 from django.core.files.uploadedfile import SimpleUploadedFile
 from somsolet.tests.factories import ProjectFactory
-from somsolet_api.serializer import SignatureFileSerializer
+from somsolet_api.serializer import SignatureFileSerializer, PermitFileSerializer
 
 
 class TestSignatureFileSerializer:
@@ -62,4 +62,60 @@ class TestSignatureFileSerializer:
             signatureUpload='/uploaded_files/signature.jpg',
             signed=True,
             status='signature'
+        )
+
+
+class TestPermitFileSerializer:
+
+    @pytest.mark.django_db
+    def test_permit_file_serializer__base_case(self):
+        project = ProjectFactory()
+        project.id = 1
+        permit_serializer = PermitFileSerializer(
+            instance=project
+        )
+
+        assert permit_serializer.data == dict(
+            id=1,
+            permitDate='2021-06-01',
+            permitUpload=None,
+            status='empty status'
+        )
+
+    @pytest.mark.django_db
+    def test_permit_file_serializer__with_data(self):
+        project = ProjectFactory()
+        project.id = 1
+        project.status = 'construction permit'
+
+        permit_serializer = PermitFileSerializer(
+            instance=project
+        )
+
+        assert permit_serializer.data == dict(
+            id=1,
+            permitDate='2021-06-01',
+            permitUpload=None,
+            status='construction permit'
+        )
+
+    @pytest.mark.django_db
+    def test_permit_file_serializer__with_attachment(self):
+        project = ProjectFactory()
+        project.id = 1
+        project.status = 'construction permit'
+        permit_image = SimpleUploadedFile(
+            "permit.jpg", b"file_content", content_type="image/jpeg"
+        )
+        project.permit.upload = permit_image
+        permit_serializer = PermitFileSerializer(
+            instance=project
+        )
+
+        # TODO: find out how to create directories with factories
+        assert permit_serializer.data == dict(
+            id=1,
+            permitDate='2021-06-01',
+            permitUpload='/uploaded_files/permit.jpg',
+            status='construction permit'
         )
