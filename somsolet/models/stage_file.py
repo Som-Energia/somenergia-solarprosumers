@@ -1,3 +1,5 @@
+import os
+
 from config.settings import base
 from django.db import models
 from django.utils.translation import gettext_lazy as _
@@ -41,7 +43,7 @@ class SignatureFile(BaseFile):
 
     next_status = 'signature'
     current_status = 'offer'
-    template = ''
+    template = 'emails/signature.html'
 
     upload = models.FileField(
         upload_to='uploaded_files/contract',
@@ -49,7 +51,7 @@ class SignatureFile(BaseFile):
         verbose_name=_('Upload File')
     )
 
-    def email_data(noti, campaign_data):
+    def email_data(self, noti, campaign_data):
         message_params = {
             'header': _("Hola {},").format(noti.project.client.name),
             'ending': _("Salut i fins ben aviat!"),
@@ -58,9 +60,9 @@ class SignatureFile(BaseFile):
         }
 
         return {
-            _(f'CONTRACTE CLAU EN MÀ [{noti.project}] - {noti.project.campaign}, compra col·lectiva de Som Energia'),
-            self.template,
-            message_params,
-            str(os.path.join(base.MEDIA_ROOT, str(noti.project.signature.upload))),
-            message_params['email']
+            'subject': _(f'CONTRACTE CLAU EN MÀ [{noti.project}] - {noti.project.campaign}, compra col·lectiva de Som Energia'),
+            'template': self.template,
+            'message_params': message_params,
+            'attachment': str(os.path.join(base.MEDIA_ROOT, str(noti.project.signature.upload))),
+            'from_email': base.DEFAULT_FROM_EMAIL[0]
         }

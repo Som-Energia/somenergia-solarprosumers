@@ -1,11 +1,14 @@
 import pytest
 
-from .factories import (CampaignFactory, ClientFactory, EngineeringFactory,
-                        ProjectFactory, TechnicalDetailsFactory, UserFactory, LocalGroupFactory)
+from factory import RelatedFactory, SubFactory
+
+from .factories import (CampaignFactory, ClientFactory, EngineeringFactory, InventsPacoEngineeringFactory,
+                        ProjectFactory, TechnicalDetailsFactory, UserFactory, LocalGroupFactory,
+                        MailingFactory)
 
 __all__ = (
-    'engineering_user', 'engineering', 'campaing__solar_paco', 
-    'technical_details', 'project', 'client', 'local_group'
+    'engineering_user', 'engineering', 'campaign__solar_paco',
+    'technical_details', 'project', 'client', 'local_group', 'mailing_signature'
 )
 
 
@@ -20,8 +23,11 @@ def engineering(db):
 
 
 @pytest.fixture
-def campaing__solar_paco(db):
-    return CampaignFactory()
+def campaign__solar_paco(db):
+    campaign = CampaignFactory.build()
+    campaign.save()
+    campaign.engineerings.add(InventsPacoEngineeringFactory())
+    return campaign
 
 
 @pytest.fixture
@@ -42,3 +48,10 @@ def client(db):
 @pytest.fixture
 def local_group(db):
     return LocalGroupFactory()
+
+@pytest.fixture
+def mailing_signature(db):
+    mailing = MailingFactory()
+    mailing.notification_status = 'signature'
+    mailing.save()
+    return mailing

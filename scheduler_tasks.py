@@ -105,7 +105,7 @@ def send_email_tasks():
         logger.info("Emails sent to engineerings.")
 
 
-def send_notification():
+def send_pending_notification():
     notifications_to_send = Mailing.objects.filter(
         sent=False
     )
@@ -123,7 +123,7 @@ def send_notification():
         ).email_data(noti, campaign_data)
 
         send_notification_report(
-            **notification_data
+            noti, **notification_data
         )
 
 def send_prereport_notification():
@@ -161,7 +161,6 @@ def send_prereport_notification():
 
 
 def send_notification_report(notification, subject, template, message_params, attachment=False, from_email=''):
-
     with override(notification.project.client.language):
         send_email(
             [notification.project.client.email],
