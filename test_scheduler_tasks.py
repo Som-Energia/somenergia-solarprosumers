@@ -9,7 +9,7 @@ import scheduler_tasks
 @pytest.mark.django_db
 class TestMailing:
 
-    @pytest.mark.usefixtures('mailing_signature', 'campaign__solar_paco')
+    @pytest.mark.usefixtures('mailing_signature')
     def test_send_pending_notification__base_case(
          self, mailing_signature
     ):

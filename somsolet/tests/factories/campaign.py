@@ -11,7 +11,6 @@ class CampaignFactory(DjangoModelFactory):
     class Meta:
         model = 'somsolet.Campaign'
 
-    id = 1
     name = 'Solar Paco'
     local_group = RelatedFactory(LocalGroupFactory)
     date_call_for_engineerings = '2020-01-01'

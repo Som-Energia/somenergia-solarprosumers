@@ -5,5 +5,5 @@ from .admin import (EngineeringFactory, InventsPacoFactory,
 from .campaign import CampaignFactory, TechnicalCampaignFactory
 from .client import ClientFactory, ClientFileFactory
 from .misc import MailingFactory
-from .project import ProjectFactory, TechnicalDetailsFactory
-from .stages import SignatureFileFactory
+from .project import ProjectFactory, ProjectStageFactory, TechnicalDetailsFactory
+from .stages import SignatureFileBaseFactory, SignatureFileFactory
