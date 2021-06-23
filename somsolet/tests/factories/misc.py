@@ -1,7 +1,7 @@
-from factory import RelatedFactory
+from factory import SubFactory
 from factory.django import DjangoModelFactory
 
-from .project import ProjectFactory
+from .project import ProjectStageFactory
 
 
 class MailingFactory(DjangoModelFactory):
@@ -9,6 +9,7 @@ class MailingFactory(DjangoModelFactory):
     class Meta:
         model = 'somsolet.Mailing'
 
-    project = RelatedFactory(ProjectFactory)
+
+    project = SubFactory(ProjectStageFactory)
     notification_status = 'empty status'
     sent = False

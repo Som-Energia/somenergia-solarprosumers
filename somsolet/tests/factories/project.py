@@ -5,8 +5,9 @@ from factory.django import DjangoModelFactory
 
 from .campaign import CampaignFactory
 from .client import ClientFactory
-from .admin import EngineeringFactory
-from .stages import SignatureFileFactory, PermitFileFactory
+from .admin import EngineeringFactory, InventsPacoEngineeringFactory
+from .stages import SignatureFileFactory, SignatureFileBaseFactory, PermitFileFactory
+
 
 class ProjectFactory(DjangoModelFactory):
 
@@ -16,7 +17,7 @@ class ProjectFactory(DjangoModelFactory):
     name = 'Instalació plaques Montserrat Escayola'
     campaign = factory.SubFactory(CampaignFactory)
     client = factory.SubFactory(ClientFactory)
-    engineering = factory.SubFactory(EngineeringFactory)
+    engineering = factory.SubFactory(InventsPacoEngineeringFactory)
     status = 'empty status'
     warning = 'No Warn'
     warning_date = None
@@ -42,7 +43,7 @@ class ProjectFactory(DjangoModelFactory):
     is_invalid_offer = False
     is_offer_accepted = False
     upload_offer = None
-    signature = factory.SubFactory(SignatureFileFactory)
+    signature = factory.SubFactory(SignatureFileBaseFactory)
     permit = factory.SubFactory(PermitFileFactory)
     date_permit = None
     discarded_type = 'Not discarded'
@@ -59,6 +60,10 @@ class ProjectFactory(DjangoModelFactory):
     date_payment_som = None
     payment_pending = 2000
     final_payment = 6000
+
+
+class ProjectStageFactory(ProjectFactory):
+    signature = factory.SubFactory(SignatureFileFactory)
 
 
 class TechnicalDetailsFactory(DjangoModelFactory):

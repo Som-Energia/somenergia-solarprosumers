@@ -1,7 +1,10 @@
-from factory import RelatedFactory
+import factory
+
+from factory import RelatedFactory, SubFactory
 
 from factory.django import DjangoModelFactory
-from .admin import LocalGroupFactory, EngineeringFactory
+from .admin import LocalGroupFactory, EngineeringFactory, InventsPacoEngineeringFactory
+
 
 class CampaignFactory(DjangoModelFactory):
 
@@ -9,7 +12,6 @@ class CampaignFactory(DjangoModelFactory):
         model = 'somsolet.Campaign'
 
     name = 'Solar Paco'
-    engineerings = RelatedFactory(EngineeringFactory)
     local_group = RelatedFactory(LocalGroupFactory)
     date_call_for_engineerings = '2020-01-01'
     date_call_for_inscriptions = '2020-02-02'
@@ -33,7 +35,7 @@ class TechnicalCampaignFactory(DjangoModelFactory):
     class Meta:
         model = 'somsolet.Technical_campaign'
 
-    campaign = RelatedFactory(CampaignFactory)
+    campaign = SubFactory(CampaignFactory)
     price_mono_fixed = '0.5'
     price_mono_var = '0.1'
     price_tri_fixed = '0.3'

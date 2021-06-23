@@ -18,7 +18,7 @@ class SomsoletConfig(AppConfig):
 
         scheduler.cron(
             "0 23 * * *",
-            func=scheduler_tasks.send_prereport_notification,
+            func=scheduler_tasks.send_pending_notification,
             repeat=1,
             queue_name='default',
         )

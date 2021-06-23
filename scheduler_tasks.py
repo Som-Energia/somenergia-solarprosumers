@@ -105,12 +105,11 @@ def send_email_tasks():
         logger.info("Emails sent to engineerings.")
 
 
-def send_prereport_notification():
+def send_pending_notification():
     notifications_to_send = Mailing.objects.filter(
-        notification_status='prereport',
         sent=False
     )
-    logger.info('sending prereort')
+    logger.info('sending notifications')
     for noti in notifications_to_send:
         campaign_data = Campaign.objects.filter(name=noti.project.campaign).values(
             'count_foreseen_installations',
@@ -119,28 +118,16 @@ def send_prereport_notification():
             'engineerings__email'
         )
 
-        message_params = {
-            'header': _("Hola {},").format(noti.project.client.name),
-            'ending': _("Salut i bona energia,"),
-            'campaign': noti.project.campaign,
-            'address': [data['engineerings__address'] for data in campaign_data][0],
-            'engineering': [data['engineerings__name'] for data in campaign_data][0],
-            'installations': [data['count_foreseen_installations'] for data in campaign_data][0],
-            'email': [data['engineerings__email'] for data in campaign_data][0]
-        }
+        notification_data = getattr(
+            noti.project, noti.notification_status
+        ).email_data(noti, campaign_data)
 
         send_notification_report(
-            noti,
-            _(f'PREINFORME - {noti.project.campaign}, compra col·lectiva de Som Energia'),
-            'emails/prereport.html',
-            message_params,
-            str(os.path.join(base.MEDIA_ROOT, str(noti.project.upload_prereport))),
-            message_params['email'],
+            noti, **notification_data
         )
 
 
 def send_notification_report(notification, subject, template, message_params, attachment=False, from_email=''):
-
     with override(notification.project.client.language):
         send_email(
             [notification.project.client.email],

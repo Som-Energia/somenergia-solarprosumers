@@ -1,5 +1,7 @@
-from datetime import datetime
+import os
 
+from config.settings import base
+from datetime import datetime
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
@@ -40,13 +42,30 @@ class SignatureFile(BaseFile):
 
     next_status = 'signature'
     current_status = 'offer'
-    template = ''
+    template = 'emails/signature.html'
 
     upload = models.FileField(
         upload_to='uploaded_files/contract',
         default='uploaded_files/contract/som.png',
         verbose_name=_('Upload File')
     )
+
+    def email_data(self, noti, campaign_data):
+        message_params = {
+            'header': _("Hola {},").format(noti.project.client.name),
+            'ending': _("Salut i fins ben aviat!"),
+            'engineering': [data['engineerings__name'] for data in campaign_data][0],
+            'email': [data['engineerings__email'] for data in campaign_data][0]
+        }
+
+        return {
+            'subject': _(f'CONTRACTE CLAU EN MÀ [{noti.project}] - {noti.project.campaign}, compra col·lectiva de Som Energia'),
+            'template': self.template,
+            'message_params': message_params,
+            'attachment': str(os.path.join(base.MEDIA_ROOT, str(noti.project.signature.upload))),
+            'from_email': base.DEFAULT_FROM_EMAIL[0]
+        }
+
 
 class PermitFile(BaseFile):
 
