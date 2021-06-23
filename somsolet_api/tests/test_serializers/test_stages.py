@@ -1,7 +1,8 @@
 import pytest
 from django.core.files.uploadedfile import SimpleUploadedFile
 from somsolet.tests.factories import ProjectFactory
-from somsolet_api.serializer import SignatureFileSerializer, PermitFileSerializer
+from somsolet_api.serializer import (SignatureFileSerializer, PermitFileSerializer,
+                                     LegalRegistrationFileSerializer)
 
 
 class TestSignatureFileSerializer:
@@ -118,4 +119,60 @@ class TestPermitFileSerializer:
             permitDate='2021-06-01',
             permitUpload='/uploaded_files/permit.jpg',
             status='construction permit'
+        )
+
+
+class TestLegalRegistrationFileSerializer:
+
+    @pytest.mark.django_db
+    def test_legal_registration_file_serializer__base_case(self):
+        project = ProjectFactory()
+        project.id = 1
+        legal_registration_serializer = LegalRegistrationFileSerializer(
+            instance=project
+        )
+
+        assert legal_registration_serializer.data == dict(
+            id=1,
+            legalRegistrationDate='2021-06-01',
+            legalRegistrationUpload=None,
+            status='empty status'
+        )
+
+    @pytest.mark.django_db
+    def test_legal_registration_file_serializer__with_data(self):
+        project = ProjectFactory()
+        project.id = 1
+        project.status = 'legal registration'
+
+        legal_registration_serializer = LegalRegistrationFileSerializer(
+            instance=project
+        )
+
+        assert legal_registration_serializer.data == dict(
+            id=1,
+            legalRegistrationDate='2021-06-01',
+            legalRegistrationUpload=None,
+            status='legal registration'
+        )
+
+    @pytest.mark.django_db
+    def test_legal_registration_file_serializer__with_attachment(self):
+        project = ProjectFactory()
+        project.id = 1
+        project.status = 'legal registration'
+        legal_registration_image = SimpleUploadedFile(
+            "legal_registration.jpg", b"file_content", content_type="image/jpeg"
+        )
+        project.legal_registration.upload = legal_registration_image
+        legal_registration_serializer = LegalRegistrationFileSerializer(
+            instance=project
+        )
+
+        # TODO: find out how to create directories with factories
+        assert legal_registration_serializer.data == dict(
+            id=1,
+            legalRegistrationDate='2021-06-01',
+            legalRegistrationUpload='/uploaded_files/legal_registration.jpg',
+            status='legal registration'
         )
