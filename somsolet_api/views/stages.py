@@ -6,7 +6,8 @@ from rest_framework.response import Response
 from somsolet.models import Project
 from somsolet.models.choices_options import ITEM_STATUS
 from somsolet_api.common.permissions import SomsoletAPIModelPermissions
-from somsolet_api.serializer import SignatureFileSerializer, PermitFileSerializer
+from somsolet_api.serializer import (SignatureFileSerializer, PermitFileSerializer,
+                                     LegalRegistrationFileSerializer)
 
 
 class StagesListViewSet(viewsets.ViewSet):
@@ -96,6 +97,16 @@ class PermitViewSet(StagesBaseViewSet):
     serializer_class = PermitFileSerializer
     allowed_stages = ['signature', 'permit']
     stage = 'permit'
+
+    def patch(self, request, *args, **kwargs):
+        return Response('Patch is not allowed', status=status.HTTP_400_BAD_REQUEST)
+
+
+class LegalRegistrationViewSet(StagesBaseViewSet):
+
+    serializer_class = LegalRegistrationFileSerializer
+    allowed_stages = ['end installation', 'legal registration']
+    stage = 'legal_registration'
 
     def patch(self, request, *args, **kwargs):
         return Response('Patch is not allowed', status=status.HTTP_400_BAD_REQUEST)
