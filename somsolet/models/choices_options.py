@@ -16,7 +16,7 @@ ITEM_STATUS = (
               ('signature', _('Contract signature')),
               ('first payment', _('First Payment')),
               ('pending payment', _('Pending Payment')),
-              ('construction permit', _('Construction permit')),
+              ('permit', _('Construction permit')),
               ('pending installation date', _('Pending installation date')),
               ('date installation set', _('Date installation set')),
               ('installation in progress', _('Installation in progress')),

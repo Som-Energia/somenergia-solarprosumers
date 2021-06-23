@@ -14,3 +14,12 @@ class SignatureFileBaseFactory(DjangoModelFactory):
 
 class SignatureFileFactory(SignatureFileBaseFactory):
     upload = 'uploaded_files/contract/ups.png'
+
+    
+class PermitFileFactory(DjangoModelFactory):
+
+    class Meta:
+        model = 'somsolet.PermitFile'
+
+    date = '2021-06-01'
+    upload = None

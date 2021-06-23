@@ -5,4 +5,4 @@ from .project import (DownloadCchSerializer, PrereportSerializer,
                       TechnicalDetailsSerializer,
                       FirstInvoiceSerializer, LastInvoiceSerializer)
 from .stats import StatsSerializer
-from .stages import SignatureFileSerializer
+from .stages import SignatureFileSerializer, PermitFileSerializer

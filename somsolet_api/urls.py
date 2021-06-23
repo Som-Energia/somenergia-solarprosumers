@@ -4,19 +4,22 @@ from rest_framework.authtoken import views
 
 from .views import (CampaignViewSet, CchDownloadViewSet, PrereportViewSet,
                     ProjectViewSet, RenkontoEventView,  ReportViewSet,
-                    StagesViewSet, StatsViewSet, TechnicalDetailsViewSet,
-                    FirstInvoiceViewSet, LastInvoiceViewSet)
+                    StagesListViewSet, StatsViewSet, TechnicalDetailsViewSet,
+                    FirstInvoiceViewSet, LastInvoiceViewSet, SignatureViewSet,
+                    PermitViewSet)
 
 router = routers.DefaultRouter()
 router.register(r'campaign', CampaignViewSet, basename='campaign')
 router.register(r'stats', StatsViewSet, basename='stats')
 router.register(r'project', ProjectViewSet, basename='project')
-router.register(r'stages', StagesViewSet, basename='stages')
+router.register(r'stages', StagesListViewSet, basename='stages_list')
 router.register(r'cch', CchDownloadViewSet, basename='cch')
 router.register(r'prereport', PrereportViewSet, basename='prereport')
 router.register(r'report', ReportViewSet, basename='report')
 router.register(r'first_invoice', FirstInvoiceViewSet, basename='first_invoice')
 router.register(r'last_invoice', LastInvoiceViewSet, basename='last_invoice')
+router.register(r'signature', SignatureViewSet, basename='signature')
+router.register(r'permit', PermitViewSet, basename='permit')
 router.register(r'technical_details', TechnicalDetailsViewSet, basename='technical_details')
 
 # Wire up our API using automatic URL routing.

@@ -6,7 +6,8 @@ from factory.django import DjangoModelFactory
 from .campaign import CampaignFactory
 from .client import ClientFactory
 from .admin import EngineeringFactory, InventsPacoEngineeringFactory
-from .stages import SignatureFileFactory, SignatureFileBaseFactory
+from .stages import SignatureFileFactory, SignatureFileBaseFactory, PermitFileFactory
+
 
 class ProjectFactory(DjangoModelFactory):
 
@@ -43,9 +44,7 @@ class ProjectFactory(DjangoModelFactory):
     is_offer_accepted = False
     upload_offer = None
     signature = factory.SubFactory(SignatureFileBaseFactory)
-    date_signature = None
-    is_signed = False
-    upload_contract = None
+    permit = factory.SubFactory(PermitFileFactory)
     date_permit = None
     discarded_type = 'Not discarded'
     date_start_installation = None
@@ -65,7 +64,6 @@ class ProjectFactory(DjangoModelFactory):
 
 class ProjectStageFactory(ProjectFactory):
     signature = factory.SubFactory(SignatureFileFactory)
-
 
 
 class TechnicalDetailsFactory(DjangoModelFactory):

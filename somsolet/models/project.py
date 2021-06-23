@@ -10,7 +10,7 @@ from .choices_options import (BATERY_BRAND, INVERSOR_BRAND, ITEM_ANGLES,
                               ITEM_DISCARDED_TYPES,
                               ITEM_ORIENTATION, ITEM_STATUS, ITEM_WARNINGS,
                               PANELS_BRAND, PANELS_TYPE)
-from .stage_file import SignatureFile
+from .stage_file import SignatureFile, PermitFile
 
 class Project(models.Model):
     name = models.CharField(
@@ -192,6 +192,14 @@ class Project(models.Model):
         upload_to='uploaded_files/contract',
         default='uploaded_files/contract/som.png',
         verbose_name=_('Upload Signed Contract'))
+
+    permit = models.ForeignKey(
+        PermitFile,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        verbose_name=_('Permit file')
+    )
 
     date_permit = models.DateField(
         null=True,

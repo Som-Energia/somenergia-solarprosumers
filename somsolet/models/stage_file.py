@@ -1,10 +1,10 @@
 import os
 
 from config.settings import base
+from datetime import datetime
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-from datetime import datetime
 
 class BaseFile(models.Model):
 
@@ -24,16 +24,15 @@ class BaseFile(models.Model):
         self.date = datetime.now().strftime('%Y-%m-%d')
         self.save()
 
-    def set_is_invalid(self, is_invalid):
-        self.is_invalid = is_invalid
+    def set_check(self, check):
+        self.check = check
         self.save()
 
     def get_status(self):
-        if self.is_invalid:
-            return self.current_status
-        else:
+        if self.date:
             return self.next_status
-
+        else:
+            return self.current_status
 
     class Meta:
         abstract = True
@@ -66,3 +65,16 @@ class SignatureFile(BaseFile):
             'attachment': str(os.path.join(base.MEDIA_ROOT, str(noti.project.signature.upload))),
             'from_email': base.DEFAULT_FROM_EMAIL[0]
         }
+
+
+class PermitFile(BaseFile):
+
+    next_status = 'construction permit'
+    current_status = 'signature'
+    template = ''
+
+    upload = models.FileField(
+        upload_to='uploaded_files/permit',
+        default='uploaded_files/permit/som.png',
+        verbose_name=_('Upload File')
+    )
