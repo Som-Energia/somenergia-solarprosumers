@@ -1,3 +1,4 @@
+from datetime import datetime
 
 from rest_framework import status, viewsets
 from rest_framework.authentication import (SessionAuthentication,
@@ -47,17 +48,20 @@ class ProjectViewSet(viewsets.ModelViewSet):
         project = Project.projects.get_project(pk, request.user)
         if not project:
             return not_found_response()
-
         technical_visit = RenkontoEventSerializer(
             data=request.data, partial=True
         )
         if not technical_visit.is_valid():
             return validation_error_response(technical_visit)
 
-        calendar = Calendar.objects.get_calendar_for_object(request.user) 
-        event = technical_visit.set_technical_visit(calendar, project)
+        calendar = Calendar.objects.get_calendar_for_object(request.user)
+        event = technical_visit.set_technical_visit(
+            calendar, project, created_by=request.user
+        )
 
-        return Response(technical_visit.data)
+        response = technical_visit.get_data(event.id)
+
+        return Response(response)
 
 
 class PrereportViewSet(viewsets.ModelViewSet):

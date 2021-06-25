@@ -112,23 +112,22 @@ class RenkontoEvent(Event, Base):
             cls,
             title, description,
             start_date, start_time, end_date, end_time, all_day,
-            calendar, event_type, campaing_name, installation_name
+            calendar, event_type, campaing_name, installation_name, created_by
     ):
         self = cls()
         self.title = title
         self.description = description
         self.start = datetime.combine(start_date, start_time or time(0, 0))
         self.end = datetime.combine(end_date, end_time or time(0, 0))
-        self.all_day = all_day
+        self.all_day = all_day or False
         self.calendar = Calendar.objects.get(id=calendar)
         self.event_type = event_type
 
         self.campaign = Campaign.objects.get(name=campaing_name)
         self.project = Project.objects.get(name=installation_name)
         self.engineering = self.project.engineering
-
-        self.created_by = get_current_authenticated_user()
-        self.modified_by = self.created_by
+        self.created_by = created_by
+        self.modified_by = created_by
 
         self.save()
         return self

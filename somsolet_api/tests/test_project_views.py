@@ -9,7 +9,7 @@ from .factories import TechnicalVisitDataFactory
 @pytest.mark.django_db
 class TestSetTechnicalVisitView:
 
-    def test__set_technical_visit__ok(self, authenticated_user, montse_project, rf):
+    def test__set_technical_visit__ok(self, authenticated_user, calendar, montse_project, rf):
         # given
         # an authenticated engineering
         # a project
@@ -29,13 +29,11 @@ class TestSetTechnicalVisitView:
         assert response.status_code == 200
         # and a summary of the event
         assert response.data == {
-            'data': {
-                'dateStart': '2020-06-12T10:20:50.52Z',
-                'dateEnd': '2020-06-12T12:20:50.52Z',
-                'allDay': False,
-                'eventType': 'TECHNICAL_VISIT',
-                'address': 'Carrer Belcaire 67',
-                'installationId': 1,
-                'campaignId': 3
-            }
+            'dateStart': '1998-08-15T06:43:22',
+            'dateEnd': '1972-10-03T04:52:26',
+            'allDay': False,
+            'eventType': 'TECH',
+            # 'address': 'Carrer Belcaire 67',
+            'installationId': 1,
+            'campaignId': 1
         }

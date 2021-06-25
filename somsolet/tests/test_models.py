@@ -13,7 +13,7 @@ class TestProjectModel:
         project = technical_visit_event.project
 
         # when we look for that date in project
-        technical_visit_dates = project.technical_visit_dates()
+        technical_visit_dates = project.technical_visit_dates
 
         # then we have that technical visit event
         assert technical_visit_dates.count() == 1
@@ -32,7 +32,7 @@ class TestProjectQuerySet:
 
         # then we obtain the same project
         assert result == project
-    
+
     def test__get_project__project_not_found(self, project, engineering_user):
         # given a project
         # and an engineering that doesn't manage that project
