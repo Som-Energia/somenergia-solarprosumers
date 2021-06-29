@@ -1,7 +1,7 @@
 import pytest
 from django.core.files.uploadedfile import SimpleUploadedFile
 from somsolet.tests.factories import ProjectFactory
-from somsolet_api.serializer import SignatureFileSerializer, PermitFileSerializer
+from somsolet_api.serializer import SignatureFileSerializer, PermitFileSerializer, OfferReviewFileSerializer
 
 
 class TestSignatureFileSerializer:
@@ -118,4 +118,60 @@ class TestPermitFileSerializer:
             permitDate='2021-06-01',
             permitUpload='/uploaded_files/permit.jpg',
             status='construction permit'
+        )
+
+
+class TestOfferReviewFileSerializer:
+
+    @pytest.mark.django_db
+    def test_offer_review_file_serializer__base_case(self):
+        project = ProjectFactory()
+        project.id = 1
+        offer_review_serializer = OfferReviewFileSerializer(
+            instance=project
+        )
+
+        assert offer_review_serializer.data == dict(
+            id=1,
+            offerReviewDate='2021-06-29',
+            offerReviewUpload=None,
+            status='empty status'
+        )
+
+    @pytest.mark.django_db
+    def test_offer_review_serializer__with_data(self):
+        project = ProjectFactory()
+        project.id = 1
+        project.status = 'offer_review'
+
+        offer_review_serializer = OfferReviewFileSerializer(
+            instance=project
+        )
+
+        assert offer_review_serializer.data == dict(
+            id=1,
+            offerReviewDate='2021-06-29',
+            offerReviewUpload=None,
+            status='offer_review'
+        )
+
+    @pytest.mark.django_db
+    def test_offer_review_serializer__with_attachment(self):
+        project = ProjectFactory()
+        project.id = 1
+        project.status = 'offer_review'
+        offer_review_image = SimpleUploadedFile(
+            "offer_review.jpg", b"file_content", content_type="image/jpeg"
+        )
+        project.offer_review.upload = offer_review_image
+        offer_review_serializer = OfferReviewFileSerializer(
+            instance=project
+        )
+
+        # TODO: find out how to create directories with factories
+        assert offer_review_serializer.data == dict(
+            id=1,
+            offerReviewDate='2021-06-29',
+            offerReviewUpload='/uploaded_files/offer_review.jpg',
+            status='offer_review'
         )

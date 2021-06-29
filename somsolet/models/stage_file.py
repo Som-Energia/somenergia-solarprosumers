@@ -78,3 +78,16 @@ class PermitFile(BaseFile):
         default='uploaded_files/permit/som.png',
         verbose_name=_('Upload File')
     )
+
+
+class OfferReviewFile(BaseFile):
+
+    next_status = 'offer_review'
+    current_status = 'technical visit'
+    template = ''
+
+    upload = models.FileField(
+        upload_to='uploaded_files/offer_review',
+        default='uploaded_files/offer_review/som.png',
+        verbose_name=_('Upload File')
+    )

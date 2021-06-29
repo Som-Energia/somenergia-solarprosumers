@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from somsolet.models import Project
 from somsolet.models.choices_options import ITEM_STATUS
 from somsolet_api.common.permissions import SomsoletAPIModelPermissions
-from somsolet_api.serializer import SignatureFileSerializer, PermitFileSerializer
+from somsolet_api.serializer import SignatureFileSerializer, PermitFileSerializer, OfferReviewFileSerializer
 
 
 class StagesListViewSet(viewsets.ViewSet):
@@ -82,6 +82,16 @@ class StagesBaseViewSet(viewsets.ModelViewSet):
         instance.save()
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class OfferReviewViewSet(StagesBaseViewSet):
+
+    serializer_class = OfferReviewFileSerializer
+    allowed_stages = ['technical visit', 'offer_review']
+    stage = 'offer_review'
+
+    def patch(self, request, *args, **kwargs):
+        return Response('Patch is not allowed', status=status.HTTP_400_BAD_REQUEST)
 
 
 class SignatureViewSet(StagesBaseViewSet):
