@@ -1,7 +1,7 @@
 import pytest
 from django.urls import reverse
 
-from somrenkonto.models import RenkontoEvent
+from somrenkonto.models import RenkontoEvent, EventChoices
 from somsolet_api.serializer import RenkontoEventSerializer
 from somsolet_api.views import RenkontoEventView
 
@@ -11,14 +11,13 @@ class TestRenkontoEventSerializer:
     @pytest.mark.django_db
     def test__event_serializer(self, bounded_event):
         event_serializer = RenkontoEventSerializer(bounded_event)
-
         assert event_serializer.data == {
             'dateStart': bounded_event.start.strftime('%Y-%m-%dT%H:%M:%S%z'),
             'dateEnd': bounded_event.end.strftime('%Y-%m-%dT%H:%M:%S%z'),
             'allDay': bounded_event.all_day,
-            'campaignId': bounded_event.campaign,
+            'campaignId': bounded_event.campaign.id,
             'eventType': bounded_event.event_type,
-            'installationId': bounded_event.project,
+            'installationId': bounded_event.project.id,
             'address': None
         }
 
@@ -29,14 +28,35 @@ class TestRenkontoEventSerializer:
         # given a technical_visit_event
         # a calendar
         # a project
+        # and an authenticated user
 
         # when we set a new technical visit for that project
-        event_serializer = RenkontoEventSerializer(data=technical_event)
-        event_serializer.is_valid()
-        event = event_serializer.set_technical_visit(calendar, montse_project)
+        event_serializer = RenkontoEventSerializer(
+            data=technical_event, partial=True
+        )
 
-        # then ???
-        assert event_serializer.data == {}
+        event_serializer.is_valid()
+        event = event_serializer.set_technical_visit(
+            calendar=calendar,
+            project=montse_project,
+            created_by=authenticated_user
+        )
+
+        # then the event was created with the expected data
+        created_event = event_serializer.get_data(event.pk)
+        assert created_event == {
+            'dateStart': technical_event.get('date_start'),
+            'dateEnd': technical_event.get('date_end'),
+            'allDay': technical_event.get('all_day') or False,
+            'campaignId': montse_project.campaign.id,
+            'eventType': EventChoices.TECHNICAL_VISIT,
+            'installationId': montse_project.id,
+            'address': None
+        }
+
+        # and has the given project and calendar
+        assert event.project == montse_project
+        assert event.calendar == calendar
 
 
 @pytest.mark.django_db
@@ -57,7 +77,7 @@ class TestRenkontoEventView:
 
         # then the user obtain a succesfull response and a list with the events of the engineering
         events = [
-            RenkontoEventSerializer(event).data
+            RenkontoEventSerializer(event, context={'request': request}).data
             for event in RenkontoEvent.objects.filter(
                 engineering__id=engineering_with_events.id
             )

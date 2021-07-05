@@ -55,8 +55,11 @@ class ProjectViewSet(viewsets.ModelViewSet):
             return validation_error_response(technical_visit)
 
         calendar = Calendar.objects.get_calendar_for_object(request.user)
+
         event = technical_visit.set_technical_visit(
-            calendar, project, created_by=request.user
+            calendar=calendar,
+            project=project,
+            created_by=request.user
         )
 
         response = technical_visit.get_data(event.id)

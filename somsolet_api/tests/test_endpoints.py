@@ -134,7 +134,7 @@ class TestEvents:
 
     @pytest.mark.django_db
     def test_get_engineering_events(
-        self, authenticated_user, engineering_with_events, client,
+        self, authenticated_user, engineering_with_events, client, rf
     ):
         # given
         # an authenticated_user
@@ -142,13 +142,15 @@ class TestEvents:
 
         # when the user requests for the events of an engineering
         url = reverse('events', args=[engineering_with_events.id])
+        request = rf.get(url)
+        request.user = authenticated_user
         client.login(username=authenticated_user.username, password='1234')
         response = client.get(url)
 
         # then the user obtain a succesfull response and a list with the events of the engineering
         assert response.status_code == 200
         events = [
-            RenkontoEventSerializer(event).data
+            RenkontoEventSerializer(event, context={'request': request}).data
             for event in RenkontoEvent.objects.filter(
                 engineering__id=engineering_with_events.id
             )

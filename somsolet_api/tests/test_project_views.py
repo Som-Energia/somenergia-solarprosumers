@@ -33,7 +33,7 @@ class TestSetTechnicalVisitView:
             'dateEnd': '1972-10-03T04:52:26',
             'allDay': False,
             'eventType': 'TECH',
-            # 'address': 'Carrer Belcaire 67',
+            'address': None,
             'installationId': 1,
             'campaignId': 1
         }

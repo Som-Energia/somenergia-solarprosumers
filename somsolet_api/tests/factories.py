@@ -11,9 +11,10 @@ class TechnicalVisitDataFactory(factory.StubFactory):
     def data_ok():
         fake = Faker()
         fake.seed(0)
-        start = fake.future_datetime()
+        tz = datetime.tzinfo()
+        start = fake.future_datetime(tzinfo=tz)
 
         return {
-            'date_start': fake.iso8601(end_datetime=start),
-            'date_end': fake.iso8601(end_datetime=start + timedelta(minutes=60))
+            'start': fake.iso8601(end_datetime=start),
+            'end': fake.iso8601(end_datetime=start + timedelta(minutes=60))
         }

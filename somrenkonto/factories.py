@@ -61,7 +61,7 @@ class TechnicalVisitEventFactory(RenkontoEventFactory):
 
     start = factory.Faker(
         'date_time_between_dates',
-        datetime_end=tz.make_aware(datetime.now() + timedelta(days=3)),
+        datetime_end=tz.make_aware(datetime.now() + timedelta(days=3))
     )
     end = factory.Faker(
         'date_time_between_dates',

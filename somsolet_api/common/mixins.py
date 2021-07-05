@@ -3,11 +3,12 @@ from rest_framework.response import Response
 
 class MakeResponseMixin:
     def make_response(self, results_query):
+        serializer = self.serializer_class()
         response = Response({
             'data': {
                 'count': results_query.count(),
                 'results': [
-                    self.serializer_class(result).data for result in results_query
+                    serializer.get_data(result.id) for result in results_query
                 ]
             }
         })

@@ -1,6 +1,6 @@
 from django.utils.translation import gettext_lazy as _
 from rest_framework import serializers
-from somrenkonto.models import RenkontoEvent, Calendar, EventChoices
+from somrenkonto.models import RenkontoEvent, EventChoices
 from datetime import datetime
 
 
@@ -43,19 +43,6 @@ class RenkontoEventSerializer(serializers.HyperlinkedModelSerializer):
             'event_type', 'project', 'campaign'
         )
 
-    # def to_representation(self, instance):
-    #     import pdb; pdb.set_trace()
-    #     data = super(RenkontoEventSerializer, self).to_representation(instance)
-    #     return {
-    #         'dateStart': data.get('date_start'),
-    #         'dateEnd': data.get('date_end'),
-    #         'address': data.get('address'),
-    #         'allDay': instance.all_day,
-    #         'eventType': instance.event_type,
-    #         'installationId': instance.project,
-    #         'campaignId': instance.campaign
-    #     }
-
     def set_technical_visit(self, calendar, project, created_by):
         event_data = TechnicalVisitEventValues.default_technical_visit_values(
             calendar=calendar,
@@ -83,12 +70,24 @@ class RenkontoEventSerializer(serializers.HyperlinkedModelSerializer):
             created_by=created_by
         )
 
+    def to_representation(self, instance):
+        data = super(RenkontoEventSerializer, self).to_representation(instance)
+        return {
+            'dateStart': data.get('date_start'),
+            'dateEnd': data.get('date_end'),
+            'address': data.get('address'),
+            'allDay': instance.all_day,
+            'eventType': instance.event_type,
+            'installationId': instance.project.id,
+            'campaignId': instance.campaign.id
+        }
+
     def get_data(self, event_id):
         event = RenkontoEvent.objects.get(pk=event_id)
         return {
-            'dateStart': datetime.strftime(event.start, '%Y-%m-%dT%H:%M:%S'),
-            'dateEnd': datetime.strftime(event.end, '%Y-%m-%dT%H:%M:%S'),
-            # 'address': event.address,
+            'dateStart': datetime.strftime(event.start, '%Y-%m-%dT%H:%M:%S%z'),
+            'dateEnd': datetime.strftime(event.end, '%Y-%m-%dT%H:%M:%S%z'),
+            'address': getattr(event, 'address', None),
             'allDay': event.all_day,
             'eventType': event.event_type,
             'installationId': event.project_id,
