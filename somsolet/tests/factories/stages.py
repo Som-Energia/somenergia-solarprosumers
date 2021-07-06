@@ -31,4 +31,4 @@ class LegalRegistrationFileFactory(DjangoModelFactory):
         model = 'somsolet.LegalRegistrationFile'
 
     date = '2021-06-01'
-    upload =  None
+    upload =  'uploaded_files/contract/ups.png'

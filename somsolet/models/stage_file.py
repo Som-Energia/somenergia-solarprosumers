@@ -97,7 +97,8 @@ class LegalRegistrationFile(BaseFile):
             'header': _("Hola {},").format(noti.project.client.name),
             'ending': _("Salut i fins ben aviat!"),
             'engineering': [data['engineerings__name'] for data in campaign_data][0],
-            'email': [data['engineerings__email'] for data in campaign_data][0]
+            'email': [data['engineerings__email'] for data in campaign_data][0],
+            'selfconsumption_modality': _('https://ca.support.somenergia.coop/article/801-que-he-de-fer-per-passar-el-meu-contracte-a-la-modalitat-amb-autoproduccio')
         }
 
         return {

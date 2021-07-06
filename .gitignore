@@ -124,3 +124,6 @@ config.yaml
 *.csv
 json4test.yaml
 uploaded_files
+
+#log files
+log/*
