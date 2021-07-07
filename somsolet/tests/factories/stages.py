@@ -25,10 +25,26 @@ class PermitFileFactory(DjangoModelFactory):
     upload = None
 
 
-class LegalRegistrationFileFactory(DjangoModelFactory):
+class LegalRegistrationFileBaseFactory(DjangoModelFactory):
 
     class Meta:
         model = 'somsolet.LegalRegistrationFile'
 
     date = '2021-06-01'
-    upload =  'uploaded_files/contract/ups.png'
+    upload =  None
+
+
+class LegalRegistrationFileFactory(LegalRegistrationFileBaseFactory):
+
+    upload = 'uploaded_files/contract/ups.png'
+
+
+class LegalizationFileFactory(DjangoModelFactory):
+
+    class Meta:
+        model = 'somsolet.LegalizationFile'
+
+    date = '2021-06-01'
+    rac_file =  None
+    ritsic_file =  None
+    cie_file =  None
