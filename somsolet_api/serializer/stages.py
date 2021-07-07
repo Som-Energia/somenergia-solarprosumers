@@ -48,3 +48,21 @@ class LegalRegistrationFileSerializer(serializers.HyperlinkedModelSerializer):
             'legalRegistrationUpload',
             'status'
         )
+
+class LegalizationFileSerializer(serializers.HyperlinkedModelSerializer):
+
+    legalizationDate = serializers.DateField(source='legalization.date')
+    legalizationRac = serializers.FileField(source='legalization.rac_file')
+    legalizationRitsic = serializers.FileField(source='legalization.ritsic_file')
+    legalizationCie = serializers.FileField(source='legalization.cie_file')
+
+    class Meta:
+        model = Project
+        fields = (
+            'id',
+            'legalizationDate',
+            'legalizationRac',
+            'legalizationRitsic',
+            'legalizationCie',
+            'status'
+        )

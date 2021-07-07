@@ -7,7 +7,7 @@ from somsolet.models import Project
 from somsolet.models.choices_options import ITEM_STATUS
 from somsolet_api.common.permissions import SomsoletAPIModelPermissions
 from somsolet_api.serializer import (SignatureFileSerializer, PermitFileSerializer,
-                                     LegalRegistrationFileSerializer)
+                                     LegalRegistrationFileSerializer, LegalizationFileSerializer)
 
 
 class StagesListViewSet(viewsets.ViewSet):
@@ -111,3 +111,39 @@ class LegalRegistrationViewSet(StagesBaseViewSet):
     def patch(self, request, *args, **kwargs):
         return Response('Patch is not allowed', status=status.HTTP_400_BAD_REQUEST)
 
+
+class LegalizationViewSet(StagesBaseViewSet):
+
+    serializer_class = LegalizationFileSerializer
+    allowed_stages = ['last payment', 'legalization']
+    stage = 'legalization'
+
+    def patch(self, request, *args, **kwargs):
+        return Response('Patch is not allowed', status=status.HTTP_400_BAD_REQUEST)
+
+    def put(self, request, format=None):
+        instance = Project.objects.get(
+            id=request.query_params.get('projectId')
+        )
+        serializer = self.serializer_class(
+            instance,
+            data=request.data,
+            partial=True
+        )
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        if instance.status not in self.allowed_stages:
+            return Response(serializer.errors, status=status.HTTP_409_CONFLICT)
+
+        file_types = request.data.keys()
+        if 'rac_file' in file_types:
+            getattr(instance, self.stage).update_rac(request.data.get('rac_file'))
+        if 'ritsic_file' in file_types:
+            getattr(instance, self.stage).update_ritsic(request.data.get('ritsic_file'))
+        if 'cie_file' in file_types:
+            getattr(instance, self.stage).update_cie(request.data.get('cie_file'))
+        instance.status = getattr(instance, self.stage).get_status()
+        instance.save()
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)

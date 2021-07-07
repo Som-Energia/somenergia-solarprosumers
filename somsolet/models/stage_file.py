@@ -108,3 +108,58 @@ class LegalRegistrationFile(BaseFile):
             'attachment': str(os.path.join(base.MEDIA_ROOT, str(noti.project.legal_registration.upload))),
             'from_email': base.DEFAULT_FROM_EMAIL[0]
         }
+
+class LegalizationFile(BaseFile):
+    next_status = 'legalization'
+    current_status = 'last payment'
+    template = 'emails/legalization.html'
+
+    rac_file = models.FileField(
+        upload_to='uploaded_files/legal_docs',
+        default='uploaded_files/legal_docs/rac_file.png',
+        verbose_name=_('Uploaded RAC File')
+    )
+
+    ritsic_file = models.FileField(
+        upload_to='uploaded_files/legal_docs',
+        default='uploaded_files/legal_docs/ritsic_file.png',
+        verbose_name=_('Uploaded RITSIC File')
+    )
+
+    cie_file = models.FileField(
+        upload_to='uploaded_files/legal_docs',
+        default='uploaded_files/legal_docs/cie_file.png',
+        verbose_name=_('Uploaded CIE File')
+    )
+
+    def update_rac(self, upload):
+        self.rac_file = upload
+        self.date = datetime.now().strftime('%Y-%m-%d')
+        self.save()
+
+    def update_ritsic(self, upload):
+        self.ritsic_file = upload
+        self.date = datetime.now().strftime('%Y-%m-%d')
+        self.save()
+
+    def update_cie(self, upload):
+        self.cie_file = upload
+        self.date = datetime.now().strftime('%Y-%m-%d')
+        self.save()
+
+    def email_data(self, noti, campaign_data):
+        message_params = {
+            'header': _("Hola {},").format(noti.project.client.name),
+            'ending': _("Salut i fins ben aviat!"),
+            'engineering': [data['engineerings__name'] for data in campaign_data][0],
+            'email': [data['engineerings__email'] for data in campaign_data][0],
+            'distributor_company': _('https://ca.support.somenergia.coop/article/655-les-distribuidores-d-electricitat')
+        }
+
+        return {
+            'subject': _(f'CERTIFICAT LEGALITZACIÓ [{noti.project}] - {noti.project.campaign}, compra col·lectiva de Som Energia'),
+            'template': self.template,
+            'message_params': message_params,
+            'attachment': str(os.path.join(base.MEDIA_ROOT, str(noti.project.legal_registration.upload))),
+            'from_email': base.DEFAULT_FROM_EMAIL[0]
+        }
