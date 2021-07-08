@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+from django.utils import timezone
 
 import factory
 from faker.factory import Factory
@@ -11,10 +12,13 @@ class TechnicalVisitDataFactory(factory.StubFactory):
     def data_ok():
         fake = Faker()
         fake.seed(0)
-        tz = datetime.tzinfo()
-        start = fake.future_datetime(tzinfo=tz)
+        start = timezone.now()
+        tz = timezone.get_current_timezone()
+        start = fake.date_time_between(tzinfo=tz)
+        end = start + timedelta(minutes=60)
 
         return {
-            'start': fake.iso8601(end_datetime=start),
-            'end': fake.iso8601(end_datetime=start + timedelta(minutes=60))
+            'date_start': datetime.strftime(start, '%Y-%m-%dT%H:%M:%S%z'),
+            'date_end': datetime.strftime(end, '%Y-%m-%dT%H:%M:%S%z'),
+
         }

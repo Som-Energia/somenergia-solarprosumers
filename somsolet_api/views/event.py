@@ -18,7 +18,7 @@ class RenkontoEventView(MakeResponseMixin, APIView):
 
         events = self._get_engineering_events(engineering_id)
 
-        response = self.make_response(events)
+        response = self.make_response(events, request)
         return response
 
     def _engineering_exists(self, engineering_id):

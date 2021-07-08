@@ -43,8 +43,12 @@ class TestRenkontoEventSerializer:
         )
 
         # then the event was created with the expected data
-        created_event = event_serializer.get_data(event.pk)
-        assert created_event == {
+        created_event_serializer = RenkontoEventSerializer(
+            instance=event,
+            context={'request': None}
+        )
+
+        assert created_event_serializer.data == {
             'dateStart': technical_event.get('date_start'),
             'dateEnd': technical_event.get('date_end'),
             'allDay': technical_event.get('all_day') or False,

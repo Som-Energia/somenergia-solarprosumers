@@ -2,13 +2,14 @@ from rest_framework.response import Response
 
 
 class MakeResponseMixin:
-    def make_response(self, results_query):
-        serializer = self.serializer_class()
+    def make_response(self, results_query, request):
         response = Response({
             'data': {
                 'count': results_query.count(),
                 'results': [
-                    serializer.get_data(result.id) for result in results_query
+                    self.serializer_class(
+                        result, context={'request': request}
+                    ).data for result in results_query
                 ]
             }
         })
