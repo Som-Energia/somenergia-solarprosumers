@@ -81,15 +81,3 @@ class RenkontoEventSerializer(serializers.HyperlinkedModelSerializer):
             'installationId': instance.project.id,
             'campaignId': instance.campaign.id
         }
-
-    def get_data(self, event_id):
-        event = RenkontoEvent.objects.get(pk=event_id)
-        return {
-            'dateStart': datetime.strftime(event.start, '%Y-%m-%dT%H:%M:%S%z'),
-            'dateEnd': datetime.strftime(event.end, '%Y-%m-%dT%H:%M:%S%z'),
-            'address': getattr(event, 'address', None),
-            'allDay': event.all_day,
-            'eventType': event.event_type,
-            'installationId': event.project_id,
-            'campaignId': event.campaign_id
-        }

@@ -21,8 +21,8 @@ from somsolet_api.serializer import (DownloadCchSerializer,
 
 
 class ProjectViewSet(viewsets.ModelViewSet):
-    # permission_classes = [SomsoletAPIModelPermissions]
-    # authentication_classes = [TokenAuthentication, SessionAuthentication]
+    permission_classes = [SomsoletAPIModelPermissions]
+    authentication_classes = [TokenAuthentication, SessionAuthentication]
 
     renderer_classes = [JSONRenderer]
     serializer_class = ProjectSerializer
@@ -49,12 +49,12 @@ class ProjectViewSet(viewsets.ModelViewSet):
         if not project:
             return not_found_response()
         technical_visit = RenkontoEventSerializer(
-            data=request.data, partial=True
+            data=request.data, partial=True, context={'request': request}
         )
         if not technical_visit.is_valid():
             return validation_error_response(technical_visit)
 
-        calendar = Calendar.objects.get_calendar_for_object(request.user)
+        calendar = Calendar.objects.get_calendar_for_object(project.engineering.user)
 
         event = technical_visit.set_technical_visit(
             calendar=calendar,
@@ -62,9 +62,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
             created_by=request.user
         )
 
-        response = technical_visit.get_data(event.id)
-
-        return Response(response)
+        return Response(technical_visit.to_representation(event))
 
 
 class PrereportViewSet(viewsets.ModelViewSet):

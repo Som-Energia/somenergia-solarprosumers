@@ -21,6 +21,15 @@ class InventsPacoFactory(UserFactory):
     first_name = 'Invents Paco i asociats'
 
 
+class SuperuserFactory(UserFactory):
+
+    username = '00805218B'
+    password = factory.LazyAttribute(lambda o: make_password('1234'))
+    email = 'ov@pacoinvents.coop'
+    first_name = 'Invents Paco i asociats'
+    is_superuser = True
+
+
 class SolarWindPowerFactory(UserFactory):
 
     username = 'V00861641'

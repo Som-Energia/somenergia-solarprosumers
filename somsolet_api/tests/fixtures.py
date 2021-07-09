@@ -13,7 +13,8 @@ from somsolet.tests.fixtures import engineering_user_paco
 from somsolet.tests.factories import (InventsPacoEngineeringFactory,
                                       InventsPacoFactory,
                                       SolarWindPowerEngineeringFactory,
-                                      SolarWindPowerFactory)
+                                      SolarWindPowerFactory,
+                                      SuperuserFactory)
 
 from .factories import TechnicalVisitDataFactory
 
@@ -21,6 +22,13 @@ from .factories import TechnicalVisitDataFactory
 @pytest.fixture
 def authenticated_user():
     user = InventsPacoFactory.create()
+    user_authenticated = authenticate(username=user.username, password="1234")
+    return user_authenticated
+
+
+@pytest.fixture
+def authenticated_superuser():
+    user = SuperuserFactory.create()
     user_authenticated = authenticate(username=user.username, password="1234")
     return user_authenticated
 

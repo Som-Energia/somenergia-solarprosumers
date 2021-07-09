@@ -1,7 +1,7 @@
 from .admin import (EngineeringFactory, InventsPacoFactory,
                     InventsPacoEngineeringFactory, LocalGroupFactory,
                     SolarWindPowerEngineeringFactory, SolarWindPowerFactory,
-                    UserFactory)
+                    UserFactory, SuperuserFactory)
 from .campaign import CampaignFactory, TechnicalCampaignFactory
 from .client import ClientFactory, ClientFileFactory
 from .misc import MailingFactory
