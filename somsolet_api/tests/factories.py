@@ -20,5 +20,4 @@ class TechnicalVisitDataFactory(factory.StubFactory):
         return {
             'date_start': datetime.strftime(start, '%Y-%m-%dT%H:%M:%S%z'),
             'date_end': datetime.strftime(end, '%Y-%m-%dT%H:%M:%S%z'),
-
         }

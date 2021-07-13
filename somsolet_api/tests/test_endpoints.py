@@ -9,6 +9,11 @@ from somrenkonto.models import RenkontoEvent
 from somsolet_api.views import RenkontoEventView
 from somsolet_api.serializer import RenkontoEventSerializer
 
+from .factories import TechnicalVisitDataFactory
+from somsolet.tests.fixtures import ProjectFactory
+from somsolet.tests.factories import SuperuserFactory
+from somrenkonto.factories import CalendarConfigMonthViewFactory
+
 
 class TestAPI(TestCase):
 
@@ -128,6 +133,37 @@ class TestProject(TestCase):
         response_body = response.json()
         assert response.status_code == 200
         assert response_body == []
+
+    def test_set_technical_visit(self):
+        # given
+        # a technical visit, an admin, a calendar and a project
+        technical_visit = TechnicalVisitDataFactory.data_ok()
+        admin_user = user = SuperuserFactory.create()
+        calendar = CalendarConfigMonthViewFactory.create()
+        montse_project = ProjectFactory.create()
+        calendar.calendar.create_relation(montse_project.engineering.user)
+
+        # with an engineering with permissions
+        self.client.login(username=admin_user.username, password='1234')
+
+        # when we set a technical visit for a project
+        url = '{base_url}{id}/set_technical_visit/'.format(
+            base_url=self.base_url, id=montse_project.id
+        )
+        response = self.client.put(url, data=technical_visit, content_type='application/json')
+
+        # then everything is ok
+        assert response.status_code == 200
+        response_body = response.json()
+        assert response_body == {
+            'dateStart': technical_visit.get('date_start'),
+            'dateEnd': technical_visit.get('date_end'),
+            'allDay': False,
+            'eventType': 'TECH',
+            'address': None,
+            'installationId': montse_project.id,
+            'campaignId': montse_project.campaign_id
+        }
 
 
 class TestEvents:

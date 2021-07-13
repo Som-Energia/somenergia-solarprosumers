@@ -20,7 +20,7 @@ class TestProjectViewSet(TestCase):
         user.set_password('1234')
         user.save()
         self.client.login(username=user.username, password='1234')
-        permission = Permission.objects.get(codename='view_project')
+        permission = Permission.objects.get(codename='change_project')
         user.user_permissions.add(permission)
 
         request = self.client.patch(
@@ -42,7 +42,7 @@ class TestProjectViewSet(TestCase):
         user.set_password('1234')
         user.save()
         self.client.login(username=user.username, password='1234')
-        permission = Permission.objects.get(codename='view_project')
+        permission = Permission.objects.get(codename='change_project')
         user.user_permissions.add(permission)
 
         request = self.client.patch(
@@ -65,7 +65,7 @@ class TestProjectViewSet(TestCase):
         user.set_password('1234')
         user.save()
         self.client.login(username=user.username, password='1234')
-        permission = Permission.objects.get(codename='view_project')
+        permission = Permission.objects.get(codename='change_project')
         user.user_permissions.add(permission)
 
         prereport_image = SimpleUploadedFile(
@@ -89,7 +89,7 @@ class TestProjectViewSet(TestCase):
         user.set_password('1234')
         user.save()
         self.client.login(username=user.username, password='1234')
-        permission = Permission.objects.get(codename='view_project')
+        permission = Permission.objects.get(codename='change_project')
         user.user_permissions.add(permission)
 
         report_image = SimpleUploadedFile(
@@ -155,7 +155,7 @@ class TestInvoicesViewSet(TestCase):
         user.set_password('1234')
         user.save()
         self.client.login(username=user.username, password='1234')
-        permission = Permission.objects.get(codename='view_project')
+        permission = Permission.objects.get(codename='change_project')
         user.user_permissions.add(permission)
 
         request = self.client.patch(
@@ -177,7 +177,7 @@ class TestInvoicesViewSet(TestCase):
         user.set_password('1234')
         user.save()
         self.client.login(username=user.username, password='1234')
-        permission = Permission.objects.get(codename='view_project')
+        permission = Permission.objects.get(codename='change_project')
         user.user_permissions.add(permission)
 
         request = self.client.patch(
@@ -200,7 +200,7 @@ class TestInvoicesViewSet(TestCase):
         user.set_password('1234')
         user.save()
         self.client.login(username=user.username, password='1234')
-        permission = Permission.objects.get(codename='view_project')
+        permission = Permission.objects.get(codename='change_project')
         user.user_permissions.add(permission)
 
         invoice_image = SimpleUploadedFile(
@@ -225,7 +225,7 @@ class TestInvoicesViewSet(TestCase):
         user.set_password('1234')
         user.save()
         self.client.login(username=user.username, password='1234')
-        permission = Permission.objects.get(codename='view_project')
+        permission = Permission.objects.get(codename='change_project')
         user.user_permissions.add(permission)
 
         invoice_image = SimpleUploadedFile(
