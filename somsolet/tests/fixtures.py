@@ -3,11 +3,11 @@ import pytest
 from .factories import (CampaignFactory, ClientFactory, EngineeringFactory,
                         InventsPacoEngineeringFactory, InventsPacoFactory,
                         LocalGroupFactory, ProjectFactory,
-                        TechnicalDetailsFactory, UserFactory)
+                        TechnicalDetailsFactory, UserFactory, MailingFactory)
 
 __all__ = (
     'engineering_user', 'engineering', 'campaing__solar_paco',
-    'technical_details', 'project', 'client', 'local_group'
+    'technical_details', 'project', 'client', 'local_group', 'mailing_signature'
 )
 
 
@@ -54,3 +54,10 @@ def client(db):
 @pytest.fixture
 def local_group(db):
     return LocalGroupFactory()
+
+@pytest.fixture
+def mailing_signature(db):
+    mailing = MailingFactory()
+    mailing.notification_status = 'signature'
+    mailing.save()
+    return mailing

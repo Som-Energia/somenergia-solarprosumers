@@ -7,6 +7,8 @@ from factory.django import DjangoModelFactory
 from .admin import InventsPacoEngineeringFactory
 from .campaign import CampaignFactory
 from .client import ClientFactory
+from .admin import EngineeringFactory, InventsPacoEngineeringFactory
+from .stages import SignatureFileFactory, SignatureFileBaseFactory, PermitFileFactory
 
 
 class ProjectFactory(DjangoModelFactory):
@@ -43,9 +45,8 @@ class ProjectFactory(DjangoModelFactory):
     is_invalid_offer = False
     is_offer_accepted = False
     upload_offer = None
-    date_signature = None
-    is_signed = False
-    upload_contract = None
+    signature = factory.SubFactory(SignatureFileBaseFactory)
+    permit = factory.SubFactory(PermitFileFactory)
     date_permit = None
     discarded_type = 'Not discarded'
     date_start_installation = None
@@ -61,6 +62,10 @@ class ProjectFactory(DjangoModelFactory):
     date_payment_som = None
     payment_pending = 2000
     final_payment = 6000
+
+
+class ProjectStageFactory(ProjectFactory):
+    signature = factory.SubFactory(SignatureFileFactory)
 
 
 class TechnicalDetailsFactory(DjangoModelFactory):

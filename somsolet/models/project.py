@@ -10,7 +10,7 @@ from .choices_options import (BATERY_BRAND, INVERSOR_BRAND, ITEM_ANGLES,
                               ITEM_DISCARDED_TYPES,
                               ITEM_ORIENTATION, ITEM_STATUS, ITEM_WARNINGS,
                               PANELS_BRAND, PANELS_TYPE)
-
+from .stage_file import SignatureFile, PermitFile
 
 class ProjectQuerySet(models.QuerySet):
 
@@ -212,6 +212,14 @@ class Project(models.Model):
         help_text=_('Offer file')
     )
 
+    signature = models.ForeignKey(
+        SignatureFile,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        verbose_name=_('Signature file')
+    )
+
     date_signature = models.DateField(
         null=True,
         blank=True,
@@ -230,6 +238,14 @@ class Project(models.Model):
         default='uploaded_files/contract/som.png',
         verbose_name=_('Upload Signed Contract'),
         help_text=_('Contract file')
+    )
+
+    permit = models.ForeignKey(
+        PermitFile,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        verbose_name=_('Permit file')
     )
 
     date_permit = models.DateField(
@@ -409,7 +425,8 @@ class Project(models.Model):
     def __repr__(self):
         return f'<{self.__class__.__name__}({self.name})>'
 
-    __str__ = __repr__
+    def __str__(self):
+        return self.name
 
 
 class Technical_details(models.Model):

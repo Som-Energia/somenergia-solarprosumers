@@ -1,9 +1,10 @@
 from datetime import date
-
 import factory
+
+from factory import RelatedFactory, SubFactory
 from factory.django import DjangoModelFactory
 
-from .admin import InventsPacoEngineeringFactory, LocalGroupFactory
+from .admin import InventsPacoEngineeringFactory, LocalGroupFactory, EngineeringFactory
 
 
 class CampaignFactory(DjangoModelFactory):
