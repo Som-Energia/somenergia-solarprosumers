@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django',
     'jquery',
     'rosetta',
+    'hijack',
+    'hijack_admin',
 ]
 
 MIDDLEWARE = [
@@ -130,6 +132,14 @@ LOCALE_PATHS = [
 ROSETTA_ENABLE_REFLANG = True
 ROSETTA_SHOW_AT_ADMIN_PANEL = True
 ROSETTA_LOGIN_URL = '/admin'
+
+
+# Hijack
+HIJACK_LOGIN_REDIRECT_URL = '/'  # Where admins are redirected to after hijacking a user
+HIJACK_LOGOUT_REDIRECT_URL = '/admin/auth/user/'  # Where admins are redirected to after releasing a user
+HIJACK_ALLOW_GET_REQUESTS = True
+HIJACK_AUTHORIZE_STAFF = True
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
