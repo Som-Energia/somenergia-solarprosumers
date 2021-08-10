@@ -33,3 +33,27 @@ class OfferFileFactory(DjangoModelFactory):
     date = '2021-06-29'
     check = False
     upload = None
+
+class LegalRegistrationFileBaseFactory(DjangoModelFactory):
+
+    class Meta:
+        model = 'somsolet.LegalRegistrationFile'
+
+    date = '2021-06-01'
+    upload =  None
+
+
+class LegalRegistrationFileFactory(LegalRegistrationFileBaseFactory):
+
+    upload = 'uploaded_files/contract/ups.png'
+
+
+class LegalizationFileFactory(DjangoModelFactory):
+
+    class Meta:
+        model = 'somsolet.LegalizationFile'
+
+    date = '2021-06-01'
+    rac_file =  None
+    ritsic_file =  None
+    cie_file =  None
