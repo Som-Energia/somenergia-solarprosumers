@@ -5,8 +5,7 @@ from rest_framework.authentication import SessionAuthentication, TokenAuthentica
 from rest_framework.response import Response
 from somsolet.models import Project, Technical_details
 from somsolet_api.common.permissions import SomsoletAPIModelPermissions
-from somsolet_api.serializer import (DownloadCchSerializer,
-                                     PrereportSerializer, ProjectSerializer,
+from somsolet_api.serializer import (DownloadCchSerializer, ProjectSerializer,
                                      ReportSerializer,
                                      TechnicalDetailsSerializer,
                                      FirstInvoiceSerializer, LastInvoiceSerializer)
@@ -34,54 +33,6 @@ class ProjectViewSet(viewsets.ModelViewSet):
         else:
             return queryset
 
-
-class PrereportViewSet(viewsets.ModelViewSet):
-    permission_classes = [SomsoletAPIModelPermissions]
-
-    serializer_class = PrereportSerializer
-
-    def get_queryset(self):
-        queryset = Project.objects.all().order_by('name')
-
-        user = self.request.headers.get('dni')
-        project = self.request.query_params.get('projectId')
-
-        if user:
-            return queryset.filter(client__dni=user)
-        elif project:
-            return queryset.filter(id=project)
-        else:
-            return queryset
-
-    def patch(self, request, *args, **kwargs):
-        instance = Project.objects.get(
-            id=request.query_params.get('projectId')
-        )
-        prereport = self.serializer_class(
-            instance,
-            data=request.data,
-            partial=True
-        )
-        if prereport.is_valid():
-            instance.update_is_invalid_prereport(request.data.get('is_invalid_prereport'))
-            prereport.save()
-            return Response(prereport.data)
-
-    def put(self, request, format=None):
-        instance = Project.objects.get(
-            id=request.query_params.get('projectId')
-        )
-        prereport = self.serializer_class(
-            instance,
-            data=request.data,
-            partial=True
-        )
-        if prereport.is_valid():
-            instance.update_upload_prereport(request.data.get('upload_prereport'))
-            prereport.save()
-            return Response(prereport.data, status=status.HTTP_200_OK)
-        else:
-            return Response(prereport.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class ReportViewSet(viewsets.ModelViewSet):

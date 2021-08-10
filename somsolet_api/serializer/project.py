@@ -139,19 +139,6 @@ class ProjectSerializer(serializers.HyperlinkedModelSerializer):
         }
 
 
-class PrereportSerializer(serializers.HyperlinkedModelSerializer):
-
-    class Meta:
-        model = Project
-        fields = (
-            'id',
-            'name',
-            'date_prereport',
-            'is_invalid_prereport',
-            'upload_prereport',
-            'status'
-        )
-
 
 class ReportSerializer(serializers.HyperlinkedModelSerializer):
 

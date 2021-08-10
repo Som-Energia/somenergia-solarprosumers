@@ -7,7 +7,8 @@ from somsolet.models import Project
 from somsolet.models.choices_options import ITEM_STATUS
 from somsolet_api.common.permissions import SomsoletAPIModelPermissions
 from somsolet_api.serializer import (SignatureFileSerializer, PermitFileSerializer,
-                                     LegalRegistrationFileSerializer, LegalizationFileSerializer)
+                                     LegalRegistrationFileSerializer, LegalizationFileSerializer,
+                                     PrereportFileSerializer)
 
 
 class StagesListViewSet(viewsets.ViewSet):
@@ -83,6 +84,13 @@ class StagesBaseViewSet(viewsets.ModelViewSet):
         instance.save()
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class PrereportViewSet(StagesBaseViewSet):
+
+    serializer_class = PrereportFileSerializer
+    allowed_stages = ['registered', 'prereport', 'prereport review']
+    stage = 'prereport'
 
 
 class SignatureViewSet(StagesBaseViewSet):

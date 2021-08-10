@@ -2,7 +2,70 @@ import pytest
 from django.core.files.uploadedfile import SimpleUploadedFile
 from somsolet.tests.factories import ProjectFactory
 from somsolet_api.serializer import (SignatureFileSerializer, PermitFileSerializer,
-                                     LegalRegistrationFileSerializer, LegalizationFileSerializer)
+                                     LegalRegistrationFileSerializer, LegalizationFileSerializer,
+                                     PrereportFileSerializer)
+
+
+
+class TestPrereportFileSerializer:
+
+    @pytest.mark.django_db
+    def test_prereport_file_serializer__base_case(self):
+        project = ProjectFactory()
+        project.id = 1
+        prereport_serializer = PrereportFileSerializer(
+            instance=project
+        )
+
+        assert prereport_serializer.data == dict(
+            id=1,
+            prereportDate='2021-06-01',
+            prereportUpload=None,
+            invalidPrereport=False,
+            status='empty status'
+        )
+
+    @pytest.mark.django_db
+    def test_prereport_file_serializer__with_data(self):
+        project = ProjectFactory()
+        project.id = 1
+        project.prereport.check = True
+        project.status = 'prereport'
+
+        prereport_serializer = PrereportFileSerializer(
+            instance=project
+        )
+
+        assert prereport_serializer.data == dict(
+            id=1,
+            prereportDate='2021-06-01',
+            prereportUpload=None,
+            invalidPrereport=True,
+            status='prereport'
+        )
+
+    @pytest.mark.django_db
+    def test_prereport_file_serializer__with_attachment(self):
+        project = ProjectFactory()
+        project.id = 1
+        project.prereport.check = True
+        project.status = 'prereport'
+        prereport_image = SimpleUploadedFile(
+            "prereport.jpg", b"file_content", content_type="image/jpeg"
+        )
+        project.prereport.upload = prereport_image
+        prereport_serializer = PrereportFileSerializer(
+            instance=project
+        )
+
+        # TODO: find out how to create directories with factories
+        assert prereport_serializer.data == dict(
+            id=1,
+            prereportDate='2021-06-01',
+            prereportUpload='/uploaded_files/prereport.jpg',
+            invalidPrereport=True,
+            status='prereport'
+        )
 
 
 class TestSignatureFileSerializer:

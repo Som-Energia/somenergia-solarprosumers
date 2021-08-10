@@ -2,6 +2,16 @@ import factory
 from factory.django import DjangoModelFactory
 
 
+class PrereportFileFactory(DjangoModelFactory):
+
+    class Meta:
+        model = 'somsolet.PrereportFile'
+
+    date = '2021-06-01'
+    upload = None
+    check = False
+
+
 class SignatureFileBaseFactory(DjangoModelFactory):
 
     class Meta:

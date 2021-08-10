@@ -8,7 +8,7 @@ from .client import ClientFactory
 from .admin import EngineeringFactory, InventsPacoEngineeringFactory
 from .stages import (SignatureFileFactory, SignatureFileBaseFactory, PermitFileFactory,
                      LegalRegistrationFileBaseFactory, LegalRegistrationFileFactory,
-                     LegalizationFileFactory)
+                     LegalizationFileFactory, PrereportFileFactory)
 
 
 class ProjectFactory(DjangoModelFactory):
@@ -28,9 +28,7 @@ class ProjectFactory(DjangoModelFactory):
     registration_date = None
     is_cch_downloaded = False
     date_cch_download = None
-    date_prereport = None
-    is_invalid_prereport = False
-    upload_prereport = None
+    prereport = factory.SubFactory(PrereportFileFactory)
     date_technical_visit = factory.Faker('date_time')
     date_report = None
     is_invalid_report = False
