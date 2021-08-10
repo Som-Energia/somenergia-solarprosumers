@@ -15,24 +15,19 @@
                         <td align="left" valign="top" style="padding:10px; color: #333333;">
                             <p>{{ header }}</p>
                             <p>{% trans "Moltes gràcies per participar de la compra col·lectiva" %} {{ campaign }}.</p>
-                            <p>{% trans "Ens presentem" %}, <a href={{address}} target="_blank" style="color:#707a1a; text-decoration:underline;" rel="noopener noreferrer">{{engineering}}</a> {% trans "vam participar del concurs d’empreses que va organitzar Som Energia per escollir l’empresa encarregada de tirar endavant les " %} {{installations}} {% trans "instal·lacions d’aquesta compra col·lectiva. El jurat del concurs, format per persones de l’equip tècnic de Som Energia i també representants de la base societària de la cooperativa de la zona, finalment va considerar que la nostra proposta era la que millor encaixava de totes les que es varen presentar!" %}</p>
+                            <p> <a href={{address}} target="_blank" style="color:#707a1a; text-decoration:underline;" rel="noopener noreferrer">{{engineering}},</a> {% trans "l’empresa responsable de tirar endavant la teva instal·lació fotovoltaica, us fa arribar, adjunt a aquest correu, un informe provisional on es contrasta el teu ús actual d’electricitat amb la previsió de generació de la instal·lació que has triat en el moment d’inscriure’t. Aquest informe permet tenir una idea general de quin serà l’impacte aproximat a nivell energètic i econòmic de la futura instal·lació fotovoltaica a la vostra llar o negoci.
+                                " %}</p>
                             <p> {%trans "Agafem l’encàrrec amb tota la il·lusió i voluntat de donar el millor servei possible!"%}</p>
-                            <p> {%trans "Comencem! Amb aquest correu electrònic us fem arribar, adjunt, un preinforme on contrastem el teu ús actual d’electricitat amb la previsió de generació de la instal·lació que has triat en el moment d’inscriure’t. Aquest informe ens permet tenir una idea general de quin serà l’impacte aproximat a nivell energètic i econòmic de la futura instal·lació fotovoltaica a la vostra llar o negoci."%}</p>
-                            <p> {%trans "Les característique exactes de la teva instal·lació les acabarem de definir de forma conjunta el dia de la visita técnica a l’emplaçament de la instal·lació tenint en compte totes les variables que intervenen en aquesta decisió: previsió d’ús de l’energia, característiques de la teulada i pressupost disponible. El dia de la visita tècnica serà també un bon moment per mirar de resoldre tots els dubtes."%}</p>
-                            <p> {%trans "Així doncs, d’aquí uns dies rebreu un correu electrònic que us detallarà els passos per poder acordar una data i hora de visita técnica a l’emplaçament de la vostra instal·lació. " %}</p>
+                            <p> {%trans "Les característique exactes de la teva instal·lació s’acabaran de definir de forma conjunta el dia de la visita técnica a l’emplaçament de la instal·lació tenint en compte totes les variables que intervenen en aquesta decisió: previsió d’ús de l’energia, característiques de la teulada i pressupost disponible. El dia de la visita tècnica serà també un bon moment per mirar de resoldre tots els dubtes."%}</p>
+                            <p> {%trans "Així doncs, d’aquí uns dies rebreu un correu electrònic que us detallarà els passos per poder acordar una data i hora de visita tècnica per part de l’empresa instal·ladora a l’emplaçament de la vostra instal·lació. " %}</p>
 
-                            <p>{% trans "Si teniu qualsevol dubte, consulta o comentari, només cal que respongueu aquest mateix correu electrònic i "%} {{engineering}} {% trans " procurarem donar-vos resposta el més aviat possible." %}</p>
+                            <p>{% trans "Si teniu qualsevol dubte, consulta o comentari, només cal que respongueu aquest mateix correu electrònic per dirigir-te a Som Energia  o bé contactar directament amb "%}  {{engineering}}: {{email}} }</p>
                         </td>
                     </tr>
                     <tr>
                         <td align="left" valign="top" style="padding:10px; color: #333333;">
-                            <p>{{ ending }}</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td align="left" valign="top" style="padding:10px; color: #333333;">
-                            <p>{{ engineering }}</p>
-                            <p>{{ email }}</p>
+                        <p>{{ ending }}</p>
+                        <p>{% trans "Equip de Som Energia"}</p>
                         </td>
                     </tr>
                     <tr>

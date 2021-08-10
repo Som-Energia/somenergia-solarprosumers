@@ -12,8 +12,7 @@ from .choices_options import (BATERY_BRAND, INVERSOR_BRAND, ITEM_ANGLES,
                               PANELS_BRAND, PANELS_TYPE)
 
 from .stage_file import (SignatureFile, PermitFile, LegalRegistrationFile,
-                         LegalizationFile, OfferFile)
-
+                         LegalizationFile, PrereportFile, OfferFile)
 
 class Project(models.Model):
     name = models.CharField(
@@ -100,6 +99,14 @@ class Project(models.Model):
         upload_to='uploaded_files/prereport',
         default='uploaded_files/prereport/som.png',
         verbose_name=_('Upload Prereport'),
+    )
+
+    prereport = models.ForeignKey(
+        PrereportFile,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        verbose_name=_('Prereport file')
     )
 
     date_technical_visit = models.DateField(

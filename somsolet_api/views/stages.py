@@ -9,7 +9,7 @@ from somsolet_api.common.permissions import SomsoletAPIModelPermissions
 
 from somsolet_api.serializer import (SignatureFileSerializer, PermitFileSerializer,
                                      LegalRegistrationFileSerializer, LegalizationFileSerializer,
-                                     OfferFileSerializer)
+                                     PrereportFileSerializer, OfferFileSerializer)
 
 
 class StagesListViewSet(viewsets.ViewSet):
@@ -87,6 +87,13 @@ class StagesBaseViewSet(viewsets.ModelViewSet):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
+class PrereportViewSet(StagesBaseViewSet):
+
+    serializer_class = PrereportFileSerializer
+    allowed_stages = ['registered', 'prereport', 'prereport review']
+    stage = 'prereport'
+
+
 class OfferViewSet(StagesBaseViewSet):
 
     serializer_class = OfferFileSerializer
@@ -99,6 +106,9 @@ class SignatureViewSet(StagesBaseViewSet):
     serializer_class = SignatureFileSerializer
     allowed_stages = ['offer', 'signature']
     stage = 'signature'
+
+    def patch(self, request, *args, **kwargs):
+        return Response('Patch is not allowed', status=status.HTTP_400_BAD_REQUEST)
 
 
 class PermitViewSet(StagesBaseViewSet):

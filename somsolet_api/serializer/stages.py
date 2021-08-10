@@ -3,10 +3,26 @@ from rest_framework import serializers
 from somsolet.models import Project
 
 
+class PrereportFileSerializer(serializers.HyperlinkedModelSerializer):
+
+    prereportDate = serializers.DateField(source='prereport.date')
+    invalidPrereport = serializers.BooleanField(source='prereport.check')
+    prereportUpload = serializers.FileField(source='prereport.upload')
+
+    class Meta:
+        model = Project
+        fields = (
+            'id',
+            'prereportDate',
+            'invalidPrereport',
+            'prereportUpload',
+            'status'
+        )
+
+
 class SignatureFileSerializer(serializers.HyperlinkedModelSerializer):
 
     signatureDate = serializers.DateField(source='signature.date')
-    signed = serializers.BooleanField(source='signature.check')
     signatureUpload = serializers.FileField(source='signature.upload')
 
     class Meta:
@@ -14,7 +30,6 @@ class SignatureFileSerializer(serializers.HyperlinkedModelSerializer):
         fields = (
             'id',
             'signatureDate',
-            'signed',
             'signatureUpload',
             'status'
         )
