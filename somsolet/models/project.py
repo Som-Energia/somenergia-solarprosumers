@@ -10,7 +10,8 @@ from .choices_options import (BATERY_BRAND, INVERSOR_BRAND, ITEM_ANGLES,
                               ITEM_DISCARDED_TYPES,
                               ITEM_ORIENTATION, ITEM_STATUS, ITEM_WARNINGS,
                               PANELS_BRAND, PANELS_TYPE)
-from .stage_file import SignatureFile, PermitFile
+from .stage_file import (SignatureFile, PermitFile, LegalRegistrationFile,
+                         LegalizationFile)
 
 class Project(models.Model):
     name = models.CharField(
@@ -246,6 +247,14 @@ class Project(models.Model):
         verbose_name=_('Date delivery certificate'),
     )
 
+    legal_registration = models.ForeignKey(
+        LegalRegistrationFile,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        verbose_name=_('Legal registration certificate')
+    )
+
     upload_legal_registration_docs = models.FileField(
         upload_to='uploaded_files/legal_registration_docs',
         default='uploaded_files/legal_registration_docs/som.png',
@@ -255,6 +264,14 @@ class Project(models.Model):
         null=True,
         blank=True,
         verbose_name=_('Date legal registration certificate'),
+    )
+
+    legalization = models.ForeignKey(
+        LegalizationFile,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        verbose_name=_('Legal certificate completed')
     )
 
     upload_legal_docs = models.FileField(

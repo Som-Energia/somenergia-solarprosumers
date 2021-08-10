@@ -6,7 +6,9 @@ from factory.django import DjangoModelFactory
 from .campaign import CampaignFactory
 from .client import ClientFactory
 from .admin import EngineeringFactory, InventsPacoEngineeringFactory
-from .stages import SignatureFileFactory, SignatureFileBaseFactory, PermitFileFactory
+from .stages import (SignatureFileFactory, SignatureFileBaseFactory, PermitFileFactory,
+                     LegalRegistrationFileBaseFactory, LegalRegistrationFileFactory,
+                     LegalizationFileFactory)
 
 
 class ProjectFactory(DjangoModelFactory):
@@ -45,17 +47,14 @@ class ProjectFactory(DjangoModelFactory):
     upload_offer = None
     signature = factory.SubFactory(SignatureFileBaseFactory)
     permit = factory.SubFactory(PermitFileFactory)
-    date_permit = None
     discarded_type = 'Not discarded'
     date_start_installation = None
     is_date_set = False
     is_installation_in_progress = False
     upload_delivery_certificate = None
     date_delivery_certificate = None
-    upload_legal_registration_docs = None
-    date_legal_registration_docs = None
-    upload_legal_docs = None
-    date_legal_docs = None
+    legal_registration = factory.SubFactory(LegalRegistrationFileBaseFactory)
+    legalization = factory.SubFactory(LegalizationFileFactory)
     is_payment_done = False
     date_payment_som = None
     payment_pending = 2000
@@ -64,6 +63,7 @@ class ProjectFactory(DjangoModelFactory):
 
 class ProjectStageFactory(ProjectFactory):
     signature = factory.SubFactory(SignatureFileFactory)
+    legal_registration = factory.SubFactory(LegalRegistrationFileFactory)
 
 
 class TechnicalDetailsFactory(DjangoModelFactory):

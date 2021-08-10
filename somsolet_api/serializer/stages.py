@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from somsolet.models import Project 
+from somsolet.models import Project
 
 
 class SignatureFileSerializer(serializers.HyperlinkedModelSerializer):
@@ -34,3 +34,35 @@ class PermitFileSerializer(serializers.HyperlinkedModelSerializer):
             'status'
         )
 
+
+class LegalRegistrationFileSerializer(serializers.HyperlinkedModelSerializer):
+
+    legalRegistrationDate = serializers.DateField(source='legal_registration.date')
+    legalRegistrationUpload = serializers.FileField(source='legal_registration.upload')
+
+    class Meta:
+        model = Project
+        fields = (
+            'id',
+            'legalRegistrationDate',
+            'legalRegistrationUpload',
+            'status'
+        )
+
+class LegalizationFileSerializer(serializers.HyperlinkedModelSerializer):
+
+    legalizationDate = serializers.DateField(source='legalization.date')
+    legalizationRac = serializers.FileField(source='legalization.rac_file')
+    legalizationRitsic = serializers.FileField(source='legalization.ritsic_file')
+    legalizationCie = serializers.FileField(source='legalization.cie_file')
+
+    class Meta:
+        model = Project
+        fields = (
+            'id',
+            'legalizationDate',
+            'legalizationRac',
+            'legalizationRitsic',
+            'legalizationCie',
+            'status'
+        )

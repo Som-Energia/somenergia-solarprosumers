@@ -22,3 +22,16 @@ class TestMailing:
         assert email.subject == _(f'CONTRACTE CLAU EN MÀ [Instalació plaques Montserrat Escayola] - Solar Paco, compra col·lectiva de Som Energia')
         assert 'Per qualsevol consulta pots respondre' in email.body
         #to do: add client language to test translations
+
+    @pytest.mark.usefixtures('mailing_legal_registration')
+    def test_send_pending_notification__translated_link(
+         self, mailing_legal_registration
+    ):
+
+        scheduler_tasks.send_pending_notification()
+        email_template = 'emails/legal_registration.html'
+
+        assert len(mail.outbox) == 1
+        email = mail.outbox[0]
+        assert 'Per qualsevol consulta pots respondre' in email.body
+        assert 'support.somenergia.coop' in email.body
