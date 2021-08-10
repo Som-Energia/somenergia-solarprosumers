@@ -99,6 +99,9 @@ class SignatureViewSet(StagesBaseViewSet):
     allowed_stages = ['offer', 'signature']
     stage = 'signature'
 
+    def patch(self, request, *args, **kwargs):
+        return Response('Patch is not allowed', status=status.HTTP_400_BAD_REQUEST)
+
 
 class PermitViewSet(StagesBaseViewSet):
 

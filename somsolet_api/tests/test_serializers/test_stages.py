@@ -82,7 +82,6 @@ class TestSignatureFileSerializer:
             id=1,
             signatureDate='2021-06-01',
             signatureUpload=None,
-            signed=False,
             status='empty status'
         )
 
@@ -101,7 +100,6 @@ class TestSignatureFileSerializer:
             id=1,
             signatureDate='2021-06-01',
             signatureUpload=None,
-            signed=True,
             status='signature'
         )
 
@@ -124,7 +122,6 @@ class TestSignatureFileSerializer:
             id=1,
             signatureDate='2021-06-01',
             signatureUpload='/uploaded_files/signature.jpg',
-            signed=True,
             status='signature'
         )
 

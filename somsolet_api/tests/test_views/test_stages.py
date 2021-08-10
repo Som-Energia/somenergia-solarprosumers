@@ -135,7 +135,6 @@ class TestPrereportViewSet(TestCase):
         assert project.status == 'empty status'
 
 
-
 class TestSignatureViewSet(TestCase):
 
     def login(self):
@@ -150,13 +149,12 @@ class TestSignatureViewSet(TestCase):
         return user
 
     @pytest.mark.django_db
-    def test_signature_patch__base_case(self):
+    def test_permit_patch__not_supported(self):
         project = ProjectFactory()
         project.id = 1
         project.status = 'offer'
         project.save()
 
-        assert project.signature.check is False
         assert project.status == 'offer'
 
         user = self.login()
@@ -168,29 +166,8 @@ class TestSignatureViewSet(TestCase):
         )
 
         project.refresh_from_db()
-        assert response.status_code == 200
-        assert response.data['signed'] is True
-        assert project.status == 'signature'
-
-    @pytest.mark.django_db
-    def test_signature_patch__wrong_stage(self):
-        project = ProjectFactory()
-        project.id = 1
-        project.save()
-        assert project.signature.check is False
-        assert project.status == 'empty status'
-
-        user = self.login()
-
-        response = self.client.patch(
-            '/somsolet-api/signature/?projectId=1',
-            data={'is_checked': True},
-            content_type='application/json'
-        )
-
-        project.refresh_from_db()
-        assert response.status_code == 409
-        assert project.status == 'empty status'
+        assert response.status_code == 400
+        assert project.status == 'offer'
 
     @pytest.mark.django_db
     def test_signature_put__base_case(self):
@@ -243,29 +220,6 @@ class TestSignatureViewSet(TestCase):
         project.refresh_from_db()
         assert response.status_code == 409
         assert project.status == 'empty status'
-
-
-    @pytest.mark.django_db
-    def test_signature_patch__same_status(self):
-        project = ProjectFactory()
-        project.id = 1
-        project.status = 'signature'
-        project.save()
-
-        assert project.status == 'signature'
-
-        user = self.login()
-
-        response = self.client.patch(
-            '/somsolet-api/signature/?projectId=1',
-            data={'is_checked': True},
-            content_type='application/json'
-        )
-
-        project.refresh_from_db()
-        assert response.status_code == 200
-        assert response.data['signed'] is True
-        assert project.status == 'signature'
 
 
 class TestPermitViewSet(TestCase):

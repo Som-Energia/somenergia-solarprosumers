@@ -23,7 +23,6 @@ class PrereportFileSerializer(serializers.HyperlinkedModelSerializer):
 class SignatureFileSerializer(serializers.HyperlinkedModelSerializer):
 
     signatureDate = serializers.DateField(source='signature.date')
-    signed = serializers.BooleanField(source='signature.check')
     signatureUpload = serializers.FileField(source='signature.upload')
 
     class Meta:
@@ -31,7 +30,6 @@ class SignatureFileSerializer(serializers.HyperlinkedModelSerializer):
         fields = (
             'id',
             'signatureDate',
-            'signed',
             'signatureUpload',
             'status'
         )
