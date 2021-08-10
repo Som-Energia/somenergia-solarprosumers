@@ -80,14 +80,10 @@ class PermitFile(BaseFile):
     )
 
 
-class OfferReviewFile(BaseFile):
-
-    next_status = 'offer_review'
-    current_status = 'technical visit'
-    template = ''
+class OfferFile(BaseFile):
 
     upload = models.FileField(
-        upload_to='uploaded_files/offer_review',
-        default='uploaded_files/offer_review/som.png',
+        upload_to='uploaded_files/offer',
+        default='uploaded_files/offer/som.png',
         verbose_name=_('Upload File')
     )

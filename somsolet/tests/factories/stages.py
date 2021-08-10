@@ -25,10 +25,11 @@ class PermitFileFactory(DjangoModelFactory):
     upload = None
 
 
-class OfferReviewFileFactory(DjangoModelFactory):
+class OfferFileFactory(DjangoModelFactory):
 
     class Meta:
-        model = 'somsolet.OfferReviewFile'
+        model = 'somsolet.OfferFile'
 
     date = '2021-06-29'
+    check = False
     upload = None

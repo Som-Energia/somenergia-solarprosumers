@@ -1,7 +1,7 @@
 import pytest
 from django.core.files.uploadedfile import SimpleUploadedFile
 from somsolet.tests.factories import ProjectFactory
-from somsolet_api.serializer import SignatureFileSerializer, PermitFileSerializer, OfferReviewFileSerializer
+from somsolet_api.serializer import SignatureFileSerializer, PermitFileSerializer, OfferFileSerializer
 
 
 class TestSignatureFileSerializer:
@@ -121,57 +121,60 @@ class TestPermitFileSerializer:
         )
 
 
-class TestOfferReviewFileSerializer:
+class TestOfferFileSerializer:
 
     @pytest.mark.django_db
-    def test_offer_review_file_serializer__base_case(self):
+    def test_offer_file_serializer__base_case(self):
         project = ProjectFactory()
         project.id = 1
-        offer_review_serializer = OfferReviewFileSerializer(
+        offer_serializer = OfferFileSerializer(
             instance=project
         )
 
-        assert offer_review_serializer.data == dict(
+        assert offer_serializer.data == dict(
             id=1,
-            offerReviewDate='2021-06-29',
-            offerReviewUpload=None,
+            offerDate='2021-06-29',
+            offerUpload=None,
+            isOfferAccepted=False,
             status='empty status'
         )
 
     @pytest.mark.django_db
-    def test_offer_review_serializer__with_data(self):
+    def test_offer_serializer__with_data(self):
         project = ProjectFactory()
         project.id = 1
-        project.status = 'offer_review'
+        project.status = 'offer'
 
-        offer_review_serializer = OfferReviewFileSerializer(
+        offer_serializer = OfferFileSerializer(
             instance=project
         )
 
-        assert offer_review_serializer.data == dict(
+        assert offer_serializer.data == dict(
             id=1,
-            offerReviewDate='2021-06-29',
-            offerReviewUpload=None,
-            status='offer_review'
+            isOfferAccepted=False,
+            offerDate='2021-06-29',
+            offerUpload=None,
+            status='offer'
         )
 
     @pytest.mark.django_db
-    def test_offer_review_serializer__with_attachment(self):
+    def test_offer_serializer__with_attachment(self):
         project = ProjectFactory()
         project.id = 1
-        project.status = 'offer_review'
-        offer_review_image = SimpleUploadedFile(
-            "offer_review.jpg", b"file_content", content_type="image/jpeg"
+        project.status = 'offer'
+        offer_image = SimpleUploadedFile(
+            "offer.jpg", b"file_content", content_type="image/jpeg"
         )
-        project.offer_review.upload = offer_review_image
-        offer_review_serializer = OfferReviewFileSerializer(
+        project.offer.upload = offer_image
+        offer_serializer = OfferFileSerializer(
             instance=project
         )
 
         # TODO: find out how to create directories with factories
-        assert offer_review_serializer.data == dict(
+        assert offer_serializer.data == dict(
             id=1,
-            offerReviewDate='2021-06-29',
-            offerReviewUpload='/uploaded_files/offer_review.jpg',
-            status='offer_review'
+            offerDate='2021-06-29',
+            offerUpload='/uploaded_files/offer.jpg',
+            isOfferAccepted=False,
+            status='offer'
         )

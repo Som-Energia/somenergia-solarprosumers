@@ -226,7 +226,7 @@ class TestPermitViewSet(TestCase):
         assert project.status == 'empty status'
 
 
-class TestOfferReviewViewSet(TestCase):
+class TestOfferViewSet(TestCase):
 
     def login(self):
 
@@ -240,56 +240,56 @@ class TestOfferReviewViewSet(TestCase):
         return user
 
     @pytest.mark.django_db
-    def test_offer_review_patch__not_supported(self):
+    def test_offer_patch__supported(self):
         project = ProjectFactory()
         project.id = 1
-        project.status = 'technical visit'
+        project.status = 'report'
         project.save()
 
-        assert project.status == 'technical visit'
+        assert project.status == 'report'
 
         user = self.login()
 
         response = self.client.patch(
-            '/somsolet-api/offer_review/?projectId=1',
+            '/somsolet-api/offer/?projectId=1',
             data={'is_checked': True},
             content_type='application/json'
         )
 
         project.refresh_from_db()
-        assert response.status_code == 400
-        assert project.status == 'technical visit'
+        assert response.status_code == 200
+        assert project.status == 'offer'
 
 
     @pytest.mark.django_db
-    def test_offer_review_put__base_case(self):
+    def test_offer_put__base_case(self):
         project = ProjectFactory()
         project.id = 1
-        project.status = 'technical visit'
+        project.status = 'report'
         project.save()
 
-        assert project.offer_review.upload.name is None
-        assert project.status == 'technical visit'
+        assert project.offer.upload.name is None
+        assert project.status == 'report'
 
         user = self.login()
 
-        offer_review_image = SimpleUploadedFile(
-            name='offer_review.jpg', content=b'something', content_type="image/jpeg"
+        offer_image = SimpleUploadedFile(
+            name='offer.jpg', content=b'something', content_type="image/jpeg"
         )
         # TODO: request.data is {} on backend, see issue: https://github.com/encode/django-rest-framework/issues/3951
         response = self.client.generic(method="PUT",
-            path='/somsolet-api/offer_review/?projectId=1',
-            data={'upload': offer_review_image},
+            path='/somsolet-api/offer/?projectId=1',
+            data={'upload': offer_image},
             content_type='multipart/form-data'
         )
 
         project.refresh_from_db()
         assert response.status_code == 200
-        assert project.status == 'offer_review'
+        assert project.status == 'offer'
 
 
     @pytest.mark.django_db
-    def test_offer_review_put__wrong_stage(self):
+    def test_offer_put__wrong_stage(self):
         project = ProjectFactory()
         project.id = 1
         project.save()
@@ -299,13 +299,13 @@ class TestOfferReviewViewSet(TestCase):
 
         user = self.login()
 
-        offer_review_image = SimpleUploadedFile(
-            name='offer_review.jpg', content=b'something', content_type="image/jpeg"
+        offer_image = SimpleUploadedFile(
+            name='offer.jpg', content=b'something', content_type="image/jpeg"
         )
         # TODO: request.data is {} on backend, see issue: https://github.com/encode/django-rest-framework/issues/3951
         response = self.client.generic(method="PUT",
-            path='/somsolet-api/offer_review/?projectId=1',
-            data={'upload': offer_review_image},
+            path='/somsolet-api/offer/?projectId=1',
+            data={'upload': offer_image},
             content_type='multipart/form-data'
         )
 

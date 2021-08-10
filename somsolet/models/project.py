@@ -10,7 +10,7 @@ from .choices_options import (BATERY_BRAND, INVERSOR_BRAND, ITEM_ANGLES,
                               ITEM_DISCARDED_TYPES,
                               ITEM_ORIENTATION, ITEM_STATUS, ITEM_WARNINGS,
                               PANELS_BRAND, PANELS_TYPE)
-from .stage_file import SignatureFile, PermitFile, OfferReviewFile
+from .stage_file import SignatureFile, PermitFile, OfferFile
 
 class Project(models.Model):
     name = models.CharField(
@@ -169,12 +169,12 @@ class Project(models.Model):
         default='uploaded_files/offer/som.png',
         verbose_name=_('Upload Offer'))
 
-    offer_review = models.ForeignKey(
-        OfferReviewFile,
+    offer = models.ForeignKey(
+        OfferFile,
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
-        verbose_name=_('Offer Review file')
+        verbose_name=_('Offer file')
     )
 
     signature = models.ForeignKey(
