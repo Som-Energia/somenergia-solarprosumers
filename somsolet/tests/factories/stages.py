@@ -35,6 +35,15 @@ class PermitFileFactory(DjangoModelFactory):
     upload = None
 
 
+class OfferFileFactory(DjangoModelFactory):
+
+    class Meta:
+        model = 'somsolet.OfferFile'
+
+    date = '2021-06-29'
+    check = False
+    upload = None
+
 class LegalRegistrationFileBaseFactory(DjangoModelFactory):
 
     class Meta:

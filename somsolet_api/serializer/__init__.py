@@ -5,6 +5,7 @@ from .project import (DownloadCchSerializer,
                       TechnicalDetailsSerializer,
                       FirstInvoiceSerializer, LastInvoiceSerializer)
 from .stats import StatsSerializer
+
 from .stages import (SignatureFileSerializer, PermitFileSerializer,
                      LegalRegistrationFileSerializer, LegalizationFileSerializer,
-                     PrereportFileSerializer)
+                     PrereportFileSerializer,  OfferFileSerializer)

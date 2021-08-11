@@ -12,7 +12,7 @@ ITEM_STATUS = (
               ('report review', _('Report review')),
               ('report', _('Report uploaded')),
               ('offer', _('Engineering offer')),
-              ('offer review', _('offer Review')),
+              ('offer_review', _('offer Review')),
               ('signature', _('Contract signature')),
               ('first payment', _('First Payment')),
               ('pending payment', _('Pending Payment')),

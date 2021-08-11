@@ -50,6 +50,23 @@ class PermitFileSerializer(serializers.HyperlinkedModelSerializer):
         )
 
 
+class OfferFileSerializer(serializers.HyperlinkedModelSerializer):
+
+    offerDate = serializers.DateField(source='offer.date')
+    offerUpload = serializers.FileField(source='offer.upload')
+    isOfferAccepted = serializers.BooleanField(source='offer.check')
+
+    class Meta:
+        model = Project
+        fields = (
+            'id',
+            'offerDate',
+            'offerUpload',
+            'isOfferAccepted',
+            'status'
+        )
+
+
 class LegalRegistrationFileSerializer(serializers.HyperlinkedModelSerializer):
 
     legalRegistrationDate = serializers.DateField(source='legal_registration.date')
