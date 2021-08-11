@@ -17,7 +17,7 @@ logger = logging.getLogger('scheduler_tasks')
 
 
 def send_email_tasks():
-    active_campaigns = Campaign.objects.filter(active=True)
+    active_campaigns = Campaign.objects.filter(active=True, notify=True)
     logger.info("send_email_tasks")
     for campaign in active_campaigns:
         warnings = Project.objects.filter(
@@ -155,7 +155,7 @@ def send_notification_report(notification, subject, template, message_params, at
 
 
 def send_email_summary(toSomEnergia, toEngineering, toGL):
-    active_campaigns = Campaign.objects.filter(active=True)
+    active_campaigns = Campaign.objects.filter(active=True, notify=True)
     logger.info("send_email_summary")
 
     for campaign in active_campaigns:

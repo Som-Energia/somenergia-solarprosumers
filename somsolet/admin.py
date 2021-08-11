@@ -61,8 +61,10 @@ class CampaignAdmin(ImportExportModelAdmin):
     list_display = (
         'name',
         'autonomous_community',
-        'date_warranty_payment'
+        'date_warranty_payment',
+        'notify'
     )
+    list_editable = ['notify']
     list_filter = (
         'engineerings',
         'autonomous_community'
