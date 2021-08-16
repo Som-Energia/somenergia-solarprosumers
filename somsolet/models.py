@@ -223,6 +223,9 @@ class Campaign(models.Model):
     active = models.BooleanField(
         default=True)
 
+    notify = models.BooleanField(
+        default=True)
+
     def __str__(self):
         return self.name
 
