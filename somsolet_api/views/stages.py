@@ -7,9 +7,9 @@ from somsolet.models import Project
 from somsolet.models.choices_options import ITEM_STATUS
 from somsolet_api.common.permissions import SomsoletAPIModelPermissions
 
-from somsolet_api.serializer import (SignatureFileSerializer, PermitFileSerializer,
-                                     LegalRegistrationFileSerializer, LegalizationFileSerializer,
-                                     PrereportFileSerializer, OfferFileSerializer)
+from somsolet_api.serializer import (SignatureStageSerializer, PermitStageSerializer,
+                                     LegalRegistrationStageSerializer, LegalizationStageSerializer,
+                                     PrereportStageSerializer, OfferStageSerializer)
 
 
 class StagesListViewSet(viewsets.ViewSet):
@@ -89,21 +89,21 @@ class StagesBaseViewSet(viewsets.ModelViewSet):
 
 class PrereportViewSet(StagesBaseViewSet):
 
-    serializer_class = PrereportFileSerializer
+    serializer_class = PrereportStageSerializer
     allowed_stages = ['registered', 'prereport', 'prereport review']
     stage = 'prereport'
 
 
 class OfferViewSet(StagesBaseViewSet):
 
-    serializer_class = OfferFileSerializer
+    serializer_class = OfferStageSerializer
     allowed_stages = ['report', 'offer_review', 'offer']
     stage = 'offer'
 
 
 class SignatureViewSet(StagesBaseViewSet):
 
-    serializer_class = SignatureFileSerializer
+    serializer_class = SignatureStageSerializer
     allowed_stages = ['offer', 'signature']
     stage = 'signature'
 
@@ -113,7 +113,7 @@ class SignatureViewSet(StagesBaseViewSet):
 
 class PermitViewSet(StagesBaseViewSet):
 
-    serializer_class = PermitFileSerializer
+    serializer_class = PermitStageSerializer
     allowed_stages = ['signature', 'permit']
     stage = 'permit'
 
@@ -123,7 +123,7 @@ class PermitViewSet(StagesBaseViewSet):
 
 class LegalRegistrationViewSet(StagesBaseViewSet):
 
-    serializer_class = LegalRegistrationFileSerializer
+    serializer_class = LegalRegistrationStageSerializer
     allowed_stages = ['end installation', 'legal registration']
     stage = 'legal_registration'
 
@@ -133,7 +133,7 @@ class LegalRegistrationViewSet(StagesBaseViewSet):
 
 class LegalizationViewSet(StagesBaseViewSet):
 
-    serializer_class = LegalizationFileSerializer
+    serializer_class = LegalizationStageSerializer
     allowed_stages = ['last payment', 'legalization']
     stage = 'legalization'
 

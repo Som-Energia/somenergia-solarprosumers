@@ -11,8 +11,8 @@ from .choices_options import (BATERY_BRAND, INVERSOR_BRAND, ITEM_ANGLES,
                               ITEM_ORIENTATION, ITEM_STATUS, ITEM_WARNINGS,
                               PANELS_BRAND, PANELS_TYPE)
 
-from .stage_file import (SignatureFile, PermitFile, LegalRegistrationFile,
-                         LegalizationFile, PrereportFile, OfferFile)
+from .stage_file import (SignatureStage, PermitStage, LegalRegistrationStage,
+                         LegalizationStage, PrereportStage, OfferStage)
 
 class Project(models.Model):
     name = models.CharField(
@@ -102,11 +102,11 @@ class Project(models.Model):
     )
 
     prereport = models.ForeignKey(
-        PrereportFile,
+        PrereportStage,
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
-        verbose_name=_('Prereport file')
+        verbose_name=_('Prereport data')
     )
 
     date_technical_visit = models.DateField(
@@ -180,19 +180,19 @@ class Project(models.Model):
         verbose_name=_('Upload Offer'))
 
     offer = models.ForeignKey(
-        OfferFile,
+        OfferStage,
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
-        verbose_name=_('Offer file')
+        verbose_name=_('Offer data')
     )
 
     signature = models.ForeignKey(
-        SignatureFile,
+        SignatureStage,
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
-        verbose_name=_('Signature file')
+        verbose_name=_('Signature data')
     )
 
     date_signature = models.DateField(
@@ -212,11 +212,11 @@ class Project(models.Model):
         verbose_name=_('Upload Signed Contract'))
 
     permit = models.ForeignKey(
-        PermitFile,
+        PermitStage,
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
-        verbose_name=_('Permit file')
+        verbose_name=_('Permit data')
     )
 
     date_permit = models.DateField(
@@ -265,7 +265,7 @@ class Project(models.Model):
     )
 
     legal_registration = models.ForeignKey(
-        LegalRegistrationFile,
+        LegalRegistrationStage,
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
@@ -284,7 +284,7 @@ class Project(models.Model):
     )
 
     legalization = models.ForeignKey(
-        LegalizationFile,
+        LegalizationStage,
         null=True,
         blank=True,
         on_delete=models.SET_NULL,

@@ -1,19 +1,19 @@
 import pytest
 from django.core.files.uploadedfile import SimpleUploadedFile
 from somsolet.tests.factories import ProjectFactory
-from somsolet_api.serializer import (SignatureFileSerializer, PermitFileSerializer,
-                                     LegalRegistrationFileSerializer, LegalizationFileSerializer,
-                                     PrereportFileSerializer, OfferFileSerializer)
+from somsolet_api.serializer import (SignatureStageSerializer, PermitStageSerializer,
+                                     LegalRegistrationStageSerializer, LegalizationStageSerializer,
+                                     PrereportStageSerializer, OfferStageSerializer)
 
 
 
-class TestPrereportFileSerializer:
+class TestPrereportStageSerializer:
 
     @pytest.mark.django_db
-    def test_prereport_file_serializer__base_case(self):
+    def test_prereport_stage_serializer__base_case(self):
         project = ProjectFactory()
         project.id = 1
-        prereport_serializer = PrereportFileSerializer(
+        prereport_serializer = PrereportStageSerializer(
             instance=project
         )
 
@@ -26,13 +26,13 @@ class TestPrereportFileSerializer:
         )
 
     @pytest.mark.django_db
-    def test_prereport_file_serializer__with_data(self):
+    def test_prereport_stage_serializer__with_data(self):
         project = ProjectFactory()
         project.id = 1
         project.prereport.check = True
         project.status = 'prereport'
 
-        prereport_serializer = PrereportFileSerializer(
+        prereport_serializer = PrereportStageSerializer(
             instance=project
         )
 
@@ -45,7 +45,7 @@ class TestPrereportFileSerializer:
         )
 
     @pytest.mark.django_db
-    def test_prereport_file_serializer__with_attachment(self):
+    def test_prereport_stage_serializer__with_attachment(self):
         project = ProjectFactory()
         project.id = 1
         project.prereport.check = True
@@ -54,7 +54,7 @@ class TestPrereportFileSerializer:
             "prereport.jpg", b"file_content", content_type="image/jpeg"
         )
         project.prereport.upload = prereport_image
-        prereport_serializer = PrereportFileSerializer(
+        prereport_serializer = PrereportStageSerializer(
             instance=project
         )
 
@@ -68,13 +68,13 @@ class TestPrereportFileSerializer:
         )
 
 
-class TestSignatureFileSerializer:
+class TestSignatureStageSerializer:
 
     @pytest.mark.django_db
-    def test_signature_file_serializer__base_case(self):
+    def test_signature_stage_serializer__base_case(self):
         project = ProjectFactory()
         project.id = 1
-        signature_serializer = SignatureFileSerializer(
+        signature_serializer = SignatureStageSerializer(
             instance=project
         )
 
@@ -86,13 +86,13 @@ class TestSignatureFileSerializer:
         )
 
     @pytest.mark.django_db
-    def test_signature_file_serializer__with_data(self):
+    def test_signature_stage_serializer__with_data(self):
         project = ProjectFactory()
         project.id = 1
         project.signature.check = True
         project.status = 'signature'
 
-        signature_serializer = SignatureFileSerializer(
+        signature_serializer = SignatureStageSerializer(
             instance=project
         )
 
@@ -104,7 +104,7 @@ class TestSignatureFileSerializer:
         )
 
     @pytest.mark.django_db
-    def test_signature_file_serializer__with_attachment(self):
+    def test_signature_stage_serializer__with_attachment(self):
         project = ProjectFactory()
         project.id = 1
         project.signature.check = True
@@ -113,7 +113,7 @@ class TestSignatureFileSerializer:
             "signature.jpg", b"file_content", content_type="image/jpeg"
         )
         project.signature.upload = signature_image
-        signature_serializer = SignatureFileSerializer(
+        signature_serializer = SignatureStageSerializer(
             instance=project
         )
 
@@ -126,13 +126,13 @@ class TestSignatureFileSerializer:
         )
 
 
-class TestPermitFileSerializer:
+class TestPermitStageSerializer:
 
     @pytest.mark.django_db
-    def test_permit_file_serializer__base_case(self):
+    def test_permit_stage_serializer__base_case(self):
         project = ProjectFactory()
         project.id = 1
-        permit_serializer = PermitFileSerializer(
+        permit_serializer = PermitStageSerializer(
             instance=project
         )
 
@@ -144,12 +144,12 @@ class TestPermitFileSerializer:
         )
 
     @pytest.mark.django_db
-    def test_permit_file_serializer__with_data(self):
+    def test_permit_stage_serializer__with_data(self):
         project = ProjectFactory()
         project.id = 1
         project.status = 'construction permit'
 
-        permit_serializer = PermitFileSerializer(
+        permit_serializer = PermitStageSerializer(
             instance=project
         )
 
@@ -161,7 +161,7 @@ class TestPermitFileSerializer:
         )
 
     @pytest.mark.django_db
-    def test_permit_file_serializer__with_attachment(self):
+    def test_permit_stage_serializer__with_attachment(self):
         project = ProjectFactory()
         project.id = 1
         project.status = 'construction permit'
@@ -169,7 +169,7 @@ class TestPermitFileSerializer:
             "permit.jpg", b"file_content", content_type="image/jpeg"
         )
         project.permit.upload = permit_image
-        permit_serializer = PermitFileSerializer(
+        permit_serializer = PermitStageSerializer(
             instance=project
         )
 
@@ -182,13 +182,13 @@ class TestPermitFileSerializer:
         )
 
 
-class TestOfferFileSerializer:
+class TestOfferStageSerializer:
 
     @pytest.mark.django_db
-    def test_offer_file_serializer__base_case(self):
+    def test_offer_stage_serializer__base_case(self):
         project = ProjectFactory()
         project.id = 1
-        offer_serializer = OfferFileSerializer(
+        offer_serializer = OfferStageSerializer(
             instance=project
         )
 
@@ -206,7 +206,7 @@ class TestOfferFileSerializer:
         project.id = 1
         project.status = 'offer'
 
-        offer_serializer = OfferFileSerializer(
+        offer_serializer = OfferStageSerializer(
             instance=project
         )
 
@@ -227,7 +227,7 @@ class TestOfferFileSerializer:
             "offer.jpg", b"file_content", content_type="image/jpeg"
         )
         project.offer.upload = offer_image
-        offer_serializer = OfferFileSerializer(
+        offer_serializer = OfferStageSerializer(
             instance=project
         )
         # TODO: find out how to create directories with factories
@@ -240,13 +240,13 @@ class TestOfferFileSerializer:
         )
 
 
-class TestLegalRegistrationFileSerializer:
+class TestLegalRegistrationStageSerializer:
 
     @pytest.mark.django_db
-    def test_legal_registration_file_serializer__base_case(self):
+    def test_legal_registration_stage_serializer__base_case(self):
         project = ProjectFactory()
         project.id = 1
-        legal_registration_serializer = LegalRegistrationFileSerializer(
+        legal_registration_serializer = LegalRegistrationStageSerializer(
             instance=project
         )
 
@@ -258,12 +258,12 @@ class TestLegalRegistrationFileSerializer:
         )
 
     @pytest.mark.django_db
-    def test_legal_registration_file_serializer__with_data(self):
+    def test_legal_registration_stage_serializer__with_data(self):
         project = ProjectFactory()
         project.id = 1
         project.status = 'legal registration'
 
-        legal_registration_serializer = LegalRegistrationFileSerializer(
+        legal_registration_serializer = LegalRegistrationStageSerializer(
             instance=project
         )
 
@@ -275,7 +275,7 @@ class TestLegalRegistrationFileSerializer:
         )
 
     @pytest.mark.django_db
-    def test_legal_registration_file_serializer__with_attachment(self):
+    def test_legal_registration_stage_serializer__with_attachment(self):
         project = ProjectFactory()
         project.id = 1
         project.status = 'legal registration'
@@ -283,7 +283,7 @@ class TestLegalRegistrationFileSerializer:
             "legal_registration.jpg", b"file_content", content_type="image/jpeg"
         )
         project.legal_registration.upload = legal_registration_image
-        legal_registration_serializer = LegalRegistrationFileSerializer(
+        legal_registration_serializer = LegalRegistrationStageSerializer(
             instance=project
         )
 
@@ -296,13 +296,13 @@ class TestLegalRegistrationFileSerializer:
         )
 
 
-class TestLegalizationFileSerializer:
+class TestLegalizationStageSerializer:
 
     @pytest.mark.django_db
-    def test_legalization_file_serializer__base_case(self):
+    def test_legalization_stage_serializer__base_case(self):
         project = ProjectFactory()
         project.id = 1
-        legalization_serializer = LegalizationFileSerializer(
+        legalization_serializer = LegalizationStageSerializer(
             instance=project
         )
 
@@ -316,12 +316,12 @@ class TestLegalizationFileSerializer:
         )
 
     @pytest.mark.django_db
-    def test_legalization_file_serializer__with_data(self):
+    def test_legalization_stage_serializer__with_data(self):
         project = ProjectFactory()
         project.id = 1
         project.status = 'legalization'
 
-        legalization_serializer = LegalizationFileSerializer(
+        legalization_serializer = LegalizationStageSerializer(
             instance=project
         )
 
@@ -335,7 +335,7 @@ class TestLegalizationFileSerializer:
         )
 
     @pytest.mark.django_db
-    def test_legalization_file_serializer__with_attachment(self):
+    def test_legalization_stage_serializer__with_attachment(self):
         project = ProjectFactory()
         project.id = 1
         project.status = 'legalization'
@@ -351,7 +351,7 @@ class TestLegalizationFileSerializer:
         project.legalization.rac_file = legalization_RAC
         project.legalization.ritsic_file = legalization_RITSIC
         project.legalization.cie_file = legalization_CIE
-        legalization_serializer = LegalizationFileSerializer(
+        legalization_serializer = LegalizationStageSerializer(
             instance=project
         )
 

@@ -2,66 +2,66 @@ import factory
 from factory.django import DjangoModelFactory
 
 
-class PrereportFileFactory(DjangoModelFactory):
+class PrereportStageFactory(DjangoModelFactory):
 
     class Meta:
-        model = 'somsolet.PrereportFile'
+        model = 'somsolet.PrereportStage'
 
     date = '2021-06-01'
     upload = None
     check = False
 
 
-class SignatureFileBaseFactory(DjangoModelFactory):
+class SignatureStageBaseFactory(DjangoModelFactory):
 
     class Meta:
-        model = 'somsolet.SignatureFile'
+        model = 'somsolet.SignatureStage'
 
     date = '2021-06-01'
     check = False
     upload =  None
 
 
-class SignatureFileFactory(SignatureFileBaseFactory):
+class SignatureStageFactory(SignatureStageBaseFactory):
     upload = 'uploaded_files/contract/ups.png'
 
 
-class PermitFileFactory(DjangoModelFactory):
+class PermitStageFactory(DjangoModelFactory):
 
     class Meta:
-        model = 'somsolet.PermitFile'
+        model = 'somsolet.PermitStage'
 
     date = '2021-06-01'
     upload = None
 
 
-class OfferFileFactory(DjangoModelFactory):
+class OfferStageFactory(DjangoModelFactory):
 
     class Meta:
-        model = 'somsolet.OfferFile'
+        model = 'somsolet.OfferStage'
 
     date = '2021-06-29'
     check = False
     upload = None
 
-class LegalRegistrationFileBaseFactory(DjangoModelFactory):
+class LegalRegistrationStageBaseFactory(DjangoModelFactory):
 
     class Meta:
-        model = 'somsolet.LegalRegistrationFile'
+        model = 'somsolet.LegalRegistrationStage'
 
     date = '2021-06-01'
     upload =  None
 
 
-class LegalRegistrationFileFactory(LegalRegistrationFileBaseFactory):
+class LegalRegistrationStageFactory(LegalRegistrationStageBaseFactory):
 
     upload = 'uploaded_files/contract/ups.png'
 
 
-class LegalizationFileFactory(DjangoModelFactory):
+class LegalizationStageFactory(DjangoModelFactory):
 
     class Meta:
-        model = 'somsolet.LegalizationFile'
+        model = 'somsolet.LegalizationStage'
 
     date = '2021-06-01'
     rac_file =  None

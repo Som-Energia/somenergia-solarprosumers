@@ -3,7 +3,7 @@ from rest_framework import serializers
 from somsolet.models import Project
 
 
-class PrereportFileSerializer(serializers.HyperlinkedModelSerializer):
+class PrereportStageSerializer(serializers.HyperlinkedModelSerializer):
 
     prereportDate = serializers.DateField(source='prereport.date')
     invalidPrereport = serializers.BooleanField(source='prereport.check')
@@ -20,7 +20,7 @@ class PrereportFileSerializer(serializers.HyperlinkedModelSerializer):
         )
 
 
-class SignatureFileSerializer(serializers.HyperlinkedModelSerializer):
+class SignatureStageSerializer(serializers.HyperlinkedModelSerializer):
 
     signatureDate = serializers.DateField(source='signature.date')
     signatureUpload = serializers.FileField(source='signature.upload')
@@ -35,7 +35,7 @@ class SignatureFileSerializer(serializers.HyperlinkedModelSerializer):
         )
 
 
-class PermitFileSerializer(serializers.HyperlinkedModelSerializer):
+class PermitStageSerializer(serializers.HyperlinkedModelSerializer):
 
     permitDate = serializers.DateField(source='permit.date')
     permitUpload = serializers.FileField(source='permit.upload')
@@ -50,7 +50,7 @@ class PermitFileSerializer(serializers.HyperlinkedModelSerializer):
         )
 
 
-class OfferFileSerializer(serializers.HyperlinkedModelSerializer):
+class OfferStageSerializer(serializers.HyperlinkedModelSerializer):
 
     offerDate = serializers.DateField(source='offer.date')
     offerUpload = serializers.FileField(source='offer.upload')
@@ -67,7 +67,7 @@ class OfferFileSerializer(serializers.HyperlinkedModelSerializer):
         )
 
 
-class LegalRegistrationFileSerializer(serializers.HyperlinkedModelSerializer):
+class LegalRegistrationStageSerializer(serializers.HyperlinkedModelSerializer):
 
     legalRegistrationDate = serializers.DateField(source='legal_registration.date')
     legalRegistrationUpload = serializers.FileField(source='legal_registration.upload')
@@ -81,7 +81,7 @@ class LegalRegistrationFileSerializer(serializers.HyperlinkedModelSerializer):
             'status'
         )
 
-class LegalizationFileSerializer(serializers.HyperlinkedModelSerializer):
+class LegalizationStageSerializer(serializers.HyperlinkedModelSerializer):
 
     legalizationDate = serializers.DateField(source='legalization.date')
     legalizationRac = serializers.FileField(source='legalization.rac_file')

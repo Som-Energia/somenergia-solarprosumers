@@ -40,7 +40,7 @@ class BaseFile(models.Model):
         abstract = True
 
 
-class PrereportFile(BaseFile):
+class PrereportStage(BaseFile):
     next_status = 'prereport'
     current_status = 'registered'
     review_status = 'prereport review'
@@ -71,7 +71,7 @@ class PrereportFile(BaseFile):
         }
 
 
-class SignatureFile(BaseFile):
+class SignatureStage(BaseFile):
 
     next_status = 'signature'
     current_status = 'offer'
@@ -100,7 +100,7 @@ class SignatureFile(BaseFile):
         }
 
 
-class PermitFile(BaseFile):
+class PermitStage(BaseFile):
 
     next_status = 'construction permit'
     current_status = 'signature'
@@ -113,7 +113,7 @@ class PermitFile(BaseFile):
     )
 
 
-class OfferFile(BaseFile):
+class OfferStage(BaseFile):
 
     next_status = 'offer'
     current_status = 'report'
@@ -142,7 +142,7 @@ class OfferFile(BaseFile):
         }
 
 
-class LegalRegistrationFile(BaseFile):
+class LegalRegistrationStage(BaseFile):
 
     next_status = 'legal registration'
     current_status = 'end installation'
@@ -172,7 +172,7 @@ class LegalRegistrationFile(BaseFile):
         }
 
 
-class LegalizationFile(BaseFile):
+class LegalizationStage(BaseFile):
     next_status = 'legalization'
     current_status = 'last payment'
     template = 'emails/legalization.html'
