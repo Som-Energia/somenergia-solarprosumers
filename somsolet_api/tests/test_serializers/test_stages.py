@@ -3,7 +3,8 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from somsolet.tests.factories import ProjectFactory
 from somsolet_api.serializer import (SignatureStageSerializer, PermitStageSerializer,
                                      LegalRegistrationStageSerializer, LegalizationStageSerializer,
-                                     PrereportStageSerializer, OfferStageSerializer)
+                                     PrereportStageSerializer, OfferStageSerializer,
+                                     SecondInvoiceStageSerializer)
 
 
 
@@ -237,6 +238,62 @@ class TestOfferStageSerializer:
             offerUpload='/uploaded_files/offer.jpg',
             isOfferAccepted=False,
             status='offer'
+        )
+
+
+class TestSecondInvoiceStageSerializer:
+
+    @pytest.mark.django_db
+    def test_second_invoice_stage_serializer__base_case(self):
+        project = ProjectFactory()
+        project.id = 1
+        second_invoice_serializer = SecondInvoiceStageSerializer(
+            instance=project
+        )
+
+        assert second_invoice_serializer.data == dict(
+            id=1,
+            secondInvoiceDate='2021-06-29',
+            secondInvoiceUpload=None,
+            status='empty status'
+        )
+
+    @pytest.mark.django_db
+    def test_second_invoice_stage_serializer__with_data(self):
+        project = ProjectFactory()
+        project.id = 1
+        project.status = 'end installation'
+
+        second_invoice_serializer = SecondInvoiceStageSerializer(
+            instance=project
+        )
+
+        assert second_invoice_serializer.data == dict(
+            id=1,
+            secondInvoiceDate='2021-06-29',
+            secondInvoiceUpload=None,
+            status='end installation'
+        )
+
+    @pytest.mark.django_db
+    def test_second_invoice_stage_serializer__with_attachment(self):
+        project = ProjectFactory()
+        project.id = 1
+        project.status = 'end installation'
+        second_invoice_image = SimpleUploadedFile(
+            "second_invoice.jpg", b"file_content", content_type="image/jpeg"
+        )
+        project.second_invoice.upload = second_invoice_image
+        second_invoice_serializer = SecondInvoiceStageSerializer(
+            instance=project
+        )
+
+        # TODO: find out how to create directories with factories
+        assert second_invoice_serializer.data == dict(
+            id=1,
+            secondInvoiceDate='2021-06-29',
+            secondInvoiceUpload='/uploaded_files/second_invoice.jpg',
+            status='end installation'
         )
 
 

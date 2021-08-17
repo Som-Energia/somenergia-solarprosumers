@@ -127,6 +127,10 @@ class ProjectSerializer(serializers.HyperlinkedModelSerializer):
                     'date': obj.date_first_invoice,
                     'file': obj.upload_first_invoice.url
                 },
+                'second': {
+                    'date': obj.second_invoice.date,
+                    'file': obj.second_invoice.upload.url
+                },
                 'last': {
                     'date': obj.date_last_invoice,
                     'file': obj.upload_last_invoice.url

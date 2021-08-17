@@ -164,6 +164,34 @@ class OfferStage(BaseFile):
         }
 
 
+class SecondInvoiceStage(BaseFile):
+    next_status = 'second invoice'
+    current_status = 'end installation'
+    template = 'emails/second_invoice.html'
+
+    upload = models.FileField(
+        upload_to='uploaded_files/second_invoice',
+        default='uploaded_files/second_invoice/som.png',
+        verbose_name=_('Upload File')
+    )
+
+    def email_data(self, noti, campaign_data):
+        message_params = {
+            'header': _("Hola {},").format(noti.project.client.name),
+            'ending': _("Salut i fins ben aviat!"),
+            'engineering': [data['engineerings__name'] for data in campaign_data][0],
+            'email': [data['engineerings__email'] for data in campaign_data][0],
+        }
+
+        return {
+            'subject': _(f'CONFIRMACIÓ DE PAGAMENT [{noti.project}] - {noti.project.campaign}, compra col·lectiva de Som Energia'),
+            'template': self.template,
+            'message_params': message_params,
+            'attachment': str(os.path.join(base.MEDIA_ROOT, str(noti.project.legal_registration.upload))),
+            'from_email': base.DEFAULT_FROM_EMAIL[0]
+        }
+
+
 class LegalRegistrationStage(BaseFile):
 
     next_status = 'legal registration'

@@ -44,6 +44,17 @@ class OfferStageFactory(DjangoModelFactory):
     check = False
     upload = None
 
+
+class SecondInvoiceStageFactory(DjangoModelFactory):
+
+    class Meta:
+        model = 'somsolet.SecondInvoiceStage'
+
+    date = '2021-06-29'
+    check = False
+    upload = None
+
+
 class LegalRegistrationStageBaseFactory(DjangoModelFactory):
 
     class Meta:

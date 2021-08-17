@@ -7,7 +7,7 @@ from .views import (CampaignViewSet, CchDownloadViewSet, PrereportViewSet,
                     StagesListViewSet, StatsViewSet, TechnicalDetailsViewSet,
                     FirstInvoiceViewSet, LastInvoiceViewSet, SignatureViewSet,
                     PermitViewSet, OfferViewSet, LegalRegistrationViewSet,
-                    LegalizationViewSet)
+                    LegalizationViewSet, SecondInvoiceViewSet)
 
 router = routers.DefaultRouter()
 router.register(r'campaign', CampaignViewSet, basename='campaign')
@@ -18,6 +18,7 @@ router.register(r'cch', CchDownloadViewSet, basename='cch')
 router.register(r'prereport', PrereportViewSet, basename='prereport')
 router.register(r'report', ReportViewSet, basename='report')
 router.register(r'first_invoice', FirstInvoiceViewSet, basename='first_invoice')
+router.register(r'second_invoice', SecondInvoiceViewSet, basename='second_invoice')
 router.register(r'last_invoice', LastInvoiceViewSet, basename='last_invoice')
 router.register(r'signature', SignatureViewSet, basename='signature')
 router.register(r'permit', PermitViewSet, basename='permit')

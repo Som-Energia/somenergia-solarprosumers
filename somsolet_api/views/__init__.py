@@ -5,7 +5,7 @@ from .project import (CchDownloadViewSet, ProjectViewSet,
 
 from .stages import (StagesListViewSet, SignatureViewSet, PermitViewSet,
                      LegalRegistrationViewSet, LegalizationViewSet,
-                     PrereportViewSet, OfferViewSet)
+                     PrereportViewSet, OfferViewSet, SecondInvoiceViewSet)
 
 from .event import RenkontoEventView
 from .stats import StatsViewSet

@@ -12,7 +12,7 @@ from .choices_options import (BATERY_BRAND, INVERSOR_BRAND, ITEM_ANGLES,
                               PANELS_BRAND, PANELS_TYPE)
 
 from .stage_file import (SignatureStage, PermitStage, LegalRegistrationStage,
-                         LegalizationStage, PrereportStage, OfferStage)
+                         LegalizationStage, PrereportStage, OfferStage, SecondInvoiceStage)
 
 class Project(models.Model):
     name = models.CharField(
@@ -143,6 +143,14 @@ class Project(models.Model):
         upload_to='uploaded_files/firstinvoice',
         default='firstinvoice/som.png',
         verbose_name=_('Upload First Invoice'))
+
+    second_invoice = models.ForeignKey(
+        SecondInvoiceStage,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        verbose_name=_('Second invoice')
+    )
 
     date_last_invoice = models.DateField(
         null=True,

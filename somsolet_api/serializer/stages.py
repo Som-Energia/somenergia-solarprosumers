@@ -67,6 +67,21 @@ class OfferStageSerializer(serializers.HyperlinkedModelSerializer):
         )
 
 
+class SecondInvoiceStageSerializer(serializers.HyperlinkedModelSerializer):
+
+    secondInvoiceDate = serializers.DateField(source='second_invoice.date')
+    secondInvoiceUpload = serializers.FileField(source='second_invoice.upload')
+
+    class Meta:
+        model = Project
+        fields = (
+            'id',
+            'secondInvoiceDate',
+            'secondInvoiceUpload',
+            'status'
+        )
+
+
 class LegalRegistrationStageSerializer(serializers.HyperlinkedModelSerializer):
 
     legalRegistrationDate = serializers.DateField(source='legal_registration.date')

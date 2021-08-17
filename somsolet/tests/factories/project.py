@@ -9,7 +9,8 @@ from .admin import EngineeringFactory, InventsPacoEngineeringFactory
 
 from .stages import (SignatureStageFactory, SignatureStageBaseFactory, PermitStageFactory,
                      LegalRegistrationStageBaseFactory, LegalRegistrationStageFactory,
-                     LegalizationStageFactory, PrereportStageFactory, OfferStageFactory)
+                     LegalizationStageFactory, PrereportStageFactory, OfferStageFactory,
+                     SecondInvoiceStageFactory)
 
 
 
@@ -49,6 +50,7 @@ class ProjectFactory(DjangoModelFactory):
     permit = factory.SubFactory(PermitStageFactory)
     date_permit = None
     offer= factory.SubFactory(OfferStageFactory)
+    second_invoice = factory.SubFactory(SecondInvoiceStageFactory)
     discarded_type = 'Not discarded'
     date_start_installation = None
     is_date_set = False
