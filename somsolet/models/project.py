@@ -1,20 +1,75 @@
-from django.db import models
-from django.utils.translation import gettext_lazy as _
-
 from datetime import datetime
 
-from .campaign import Campaign
-from .admin import Engineering
-from .client import Client
-from .choices_options import (BATERY_BRAND, INVERSOR_BRAND, ITEM_ANGLES,
-                              ITEM_DISCARDED_TYPES,
-                              ITEM_ORIENTATION, ITEM_STATUS, ITEM_WARNINGS,
-                              PANELS_BRAND, PANELS_TYPE)
+from django.db import models, transaction
+from django.utils.translation import gettext_lazy as _
 
-from .stage_file import (SignatureStage, PermitStage, LegalRegistrationStage,
-                         LegalizationStage, PrereportStage, OfferStage, SecondInvoiceStage)
+from .admin import Engineering
+from .campaign import Campaign
+from .choices_options import (BATERY_BRAND, INVERSOR_BRAND, ITEM_ANGLES,
+                              ITEM_DISCARDED_TYPES, ITEM_ORIENTATION,
+                              ITEM_STATUS, ITEM_WARNINGS, PANELS_BRAND,
+                              PANELS_TYPE)
+from .client import Client
+from .stage_file import (LegalizationStage, LegalRegistrationStage, OfferStage,
+                         PermitStage, PrereportStage, SecondInvoiceStage,
+                         SignatureStage)
+
+
+class ProjectManager(models.Manager):
+
+    @transaction.atomic
+    def create_prereport_stage(self, project, date, check, prereport_file):
+        project.prereport = PrereportStage.objects.create(
+            date=date, check=check, upload=prereport_file
+        )
+        project.save()
+    
+    @transaction.atomic
+    def create_second_invoice_stage(self, project, date, check, second_invoice_file):
+        project.prereport = SecondInvoiceStage.objects.create(
+            date=date, check=check, upload=second_invoice_file
+        )
+        project.save()
+    
+    @transaction.atomic
+    def create_offer_stage(self, project, date, check, offer_file):
+        project.prereport = OfferStage.objects.create(
+            date=date, check=check, upload=offer_file
+        )
+        project.save()
+        
+    @transaction.atomic
+    def create_signature_stage(self, project, date, check, signature_file):
+        project.prereport = SignatureStage.objects.create(
+            date=date, check=check, upload=signature_file
+        )
+        project.save()
+    
+    @transaction.atomic
+    def create_permit_stage(self, project, date, check, permit_file):
+        project.prereport = PermitStage.objects.create(
+            date=date, check=check, upload=permit_file
+        )
+        project.save()
+    
+    @transaction.atomic
+    def create_legal_registration_stage(self, project, date, check, legal_file):
+        project.prereport = LegalRegistrationStage.objects.create(
+            date=date, check=check, upload=legal_file
+        )
+        project.save()
+
+    @transaction.atomic
+    def create_legalization_stage(self, project, date, check, rac_file, ritsic_file, cie_file):
+        project.prereport = LegalizationStage.objects.create(
+            date=date, check=check,
+            rac_file=rac_file, ritsic_file=ritsic_file, cie_file=cie_file
+        )
+        project.save()
+    
 
 class Project(models.Model):
+    
     name = models.CharField(
         blank=True,
         max_length=100,
@@ -84,6 +139,7 @@ class Project(models.Model):
         verbose_name=_('Date CCH downloaded'),
     )
 
+# -------------------------- PrereprtStage -------------------------
     date_prereport = models.DateField(
         null=True,
         blank=True,
@@ -108,6 +164,7 @@ class Project(models.Model):
         on_delete=models.SET_NULL,
         verbose_name=_('Prereport data')
     )
+# -------------------------- PrereprtStage -------------------------
 
     date_technical_visit = models.DateField(
         null=True,
@@ -144,6 +201,7 @@ class Project(models.Model):
         default='firstinvoice/som.png',
         verbose_name=_('Upload First Invoice'))
 
+# -------------------------- SecondInvoiceStage -------------------------
     second_invoice = models.ForeignKey(
         SecondInvoiceStage,
         null=True,
@@ -165,7 +223,9 @@ class Project(models.Model):
         upload_to='uploaded_files/lastinvoice',
         default='lastinvoice/som.png',
         verbose_name=_('Upload Last Invoice'))
+# -------------------------- SecondInvoiceStage -------------------------
 
+# -------------------------- OfferStage -------------------------
     date_offer = models.DateField(
         null=True,
         blank=True,
@@ -194,7 +254,9 @@ class Project(models.Model):
         on_delete=models.SET_NULL,
         verbose_name=_('Offer data')
     )
+# -------------------------- OfferStage -------------------------
 
+# -------------------------- SignatureStage -------------------------
     signature = models.ForeignKey(
         SignatureStage,
         null=True,
@@ -218,7 +280,9 @@ class Project(models.Model):
         upload_to='uploaded_files/contract',
         default='uploaded_files/contract/som.png',
         verbose_name=_('Upload Signed Contract'))
+# -------------------------- SignatureStage -------------------------
 
+# -------------------------- PermitStage -------------------------
     permit = models.ForeignKey(
         PermitStage,
         null=True,
@@ -237,6 +301,7 @@ class Project(models.Model):
         upload_to='uploaded_files/permit',
         default='uploaded_files/permit/som.png',
         verbose_name=_('Upload Permit'))
+# -------------------------- PermitStage -------------------------
 
     discarded_type = models.CharField(
         choices=ITEM_DISCARDED_TYPES,
@@ -272,6 +337,7 @@ class Project(models.Model):
         verbose_name=_('Date delivery certificate'),
     )
 
+# -------------------------- LegalRegistrationStage -------------------------
     legal_registration = models.ForeignKey(
         LegalRegistrationStage,
         null=True,
@@ -290,7 +356,9 @@ class Project(models.Model):
         blank=True,
         verbose_name=_('Date legal registration certificate'),
     )
+# -------------------------- LegalRegistrationStage -------------------------
 
+# -------------------------- LegalitzacionStage -------------------------
     legalization = models.ForeignKey(
         LegalizationStage,
         null=True,
@@ -309,6 +377,7 @@ class Project(models.Model):
         blank=True,
         verbose_name=_('Date legal certificate'),
     )
+# -------------------------- LegalitzacionStage -------------------------
 
     is_payment_done = models.BooleanField(
         default=False,
@@ -332,6 +401,8 @@ class Project(models.Model):
         blank=True,
         verbose_name=_('Final payment'),
     )
+    
+    objects = ProjectManager()
 
     def update_is_invalid_prereport(self, is_invalid_prereport):
         self.is_invalid_prereport = is_invalid_prereport
