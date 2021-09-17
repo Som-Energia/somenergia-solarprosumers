@@ -7,7 +7,7 @@ from .views import (CampaignViewSet, CchDownloadViewSet, PrereportViewSet,
                     StagesListViewSet, StatsViewSet, TechnicalDetailsViewSet,
                     FirstInvoiceViewSet, LastInvoiceViewSet, SignatureViewSet,
                     PermitViewSet, OfferViewSet, LegalRegistrationViewSet,
-                    LegalizationViewSet, SecondInvoiceViewSet)
+                    LegalizationViewSet, SecondInvoiceViewSet, DeliveryCertificateViewSet)
 
 router = routers.DefaultRouter()
 router.register(r'campaign', CampaignViewSet, basename='campaign')
@@ -26,6 +26,8 @@ router.register(r'offer', OfferViewSet, basename='offer')
 router.register(r'legal_registration', LegalRegistrationViewSet, basename='legal_registration')
 router.register(r'legalization', LegalizationViewSet, basename='legalization')
 router.register(r'technical_details', TechnicalDetailsViewSet, basename='technical_details')
+router.register(r'delivery_certificate', DeliveryCertificateViewSet, basename='delivery_certificate')
+
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.

@@ -4,7 +4,7 @@ from somsolet.tests.factories import ProjectFactory
 from somsolet_api.serializer import (SignatureStageSerializer, PermitStageSerializer,
                                      LegalRegistrationStageSerializer, LegalizationStageSerializer,
                                      PrereportStageSerializer, OfferStageSerializer,
-                                     SecondInvoiceStageSerializer)
+                                     SecondInvoiceStageSerializer, DeliveryCertificateStageSerializer)
 
 
 
@@ -420,4 +420,60 @@ class TestLegalizationStageSerializer:
             legalizationRitsic='/uploaded_files/RITSIC.jpg',
             legalizationCie='/uploaded_files/CIE.jpg',
             status='legalization'
+        )
+
+
+class TestDeliveryCertificateStageSerializer:
+
+    @pytest.mark.django_db
+    def test_delivery_certificate_stage_serializer__base_case(self):
+        project = ProjectFactory()
+        project.id = 1
+        delivery_certificate_serializer = DeliveryCertificateStageSerializer(
+            instance=project
+        )
+
+        assert delivery_certificate_serializer.data == dict(
+            id=1,
+            deliveryCertificateDate='2021-06-01',
+            deliveryCertificateUpload=None,
+            status='empty status'
+        )
+
+    @pytest.mark.django_db
+    def test_delivery_certificate_stage_serializer__with_data(self):
+        project = ProjectFactory()
+        project.id = 1
+        project.status = 'date installation set'
+
+        delivery_certificate_serializer = DeliveryCertificateStageSerializer(
+            instance=project
+        )
+
+        assert delivery_certificate_serializer.data == dict(
+            id=1,
+            deliveryCertificateDate='2021-06-01',
+            deliveryCertificateUpload=None,
+            status='date installation set'
+        )
+
+    @pytest.mark.django_db
+    def test_delivery_certificate_stage_serializer__with_attachment(self):
+        project = ProjectFactory()
+        project.id = 1
+        project.status = 'date installation set'
+        delivery_certificate_image = SimpleUploadedFile(
+            "delivery_certificate.jpg", b"file_content", content_type="image/jpeg"
+        )
+        project.delivery_certificate.upload = delivery_certificate_image
+        delivery_certificate_serializer = DeliveryCertificateStageSerializer(
+            instance=project
+        )
+
+        # TODO: find out how to create directories with factories
+        assert delivery_certificate_serializer.data == dict(
+            id=1,
+            deliveryCertificateDate='2021-06-01',
+            deliveryCertificateUpload='/uploaded_files/delivery_certificate.jpg',
+            status='date installation set'
         )

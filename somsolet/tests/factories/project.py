@@ -10,7 +10,7 @@ from .admin import EngineeringFactory, InventsPacoEngineeringFactory
 from .stages import (SignatureStageFactory, SignatureStageBaseFactory, PermitStageFactory,
                      LegalRegistrationStageBaseFactory, LegalRegistrationStageFactory,
                      LegalizationStageFactory, PrereportStageFactory, OfferStageFactory,
-                     SecondInvoiceStageFactory)
+                     SecondInvoiceStageFactory, DeliveryCertificateStageFactory)
 
 
 
@@ -57,6 +57,7 @@ class ProjectFactory(DjangoModelFactory):
     is_installation_in_progress = False
     upload_delivery_certificate = None
     date_delivery_certificate = None
+    delivery_certificate = factory.SubFactory(DeliveryCertificateStageFactory)
     legal_registration = factory.SubFactory(LegalRegistrationStageBaseFactory)
     legalization = factory.SubFactory(LegalizationStageFactory)
     is_payment_done = False

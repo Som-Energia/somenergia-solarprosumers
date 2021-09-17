@@ -21,6 +21,7 @@ ITEM_STATUS = (
               ('date installation set', _('Date installation set')),
               ('installation in progress', _('Installation in progress')),
               ('end installation', _('End installation')),
+              ('delivery_certificate', _('Delivery certificate')),
               ('second invoice', _('Second Payment')),
               ('legal registration', _('Legal Registration')),
               ('last payment', _('Last Payment')),

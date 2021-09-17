@@ -10,7 +10,7 @@ from somsolet_api.common.permissions import SomsoletAPIModelPermissions
 from somsolet_api.serializer import (SignatureStageSerializer, PermitStageSerializer,
                                      LegalRegistrationStageSerializer, LegalizationStageSerializer,
                                      PrereportStageSerializer, OfferStageSerializer,
-                                     SecondInvoiceStageSerializer)
+                                     SecondInvoiceStageSerializer, DeliveryCertificateStageSerializer)
 
 
 class StagesListViewSet(viewsets.ViewSet):
@@ -177,3 +177,13 @@ class LegalizationViewSet(StagesBaseViewSet):
         instance.save()
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class DeliveryCertificateViewSet(StagesBaseViewSet):
+
+    serializer_class = DeliveryCertificateStageSerializer
+    allowed_stages = ['date installation set', 'delivery_certificate']
+    stage = 'delivery_certificate'
+
+    def patch(self, request, *args, **kwargs):
+        return Response('Patch is not allowed', status=status.HTTP_400_BAD_REQUEST)

@@ -6,7 +6,8 @@ from somsolet_api.serializer import (ReportSerializer,
                                      StatsSerializer,
                                      TechnicalDetailsSerializer,
                                      FirstInvoiceSerializer,
-                                     LastInvoiceSerializer)
+                                     LastInvoiceSerializer,
+                                     DeliveryCertificateStageSerializer)
 
 
 class TestTechnicalDetailsSerializer:
