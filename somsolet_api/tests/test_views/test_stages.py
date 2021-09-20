@@ -731,7 +731,7 @@ class TestDeliveryCertificateViewSet(TestCase):
 
         project.refresh_from_db()
         assert response.status_code == 200
-        assert project.status == 'delivery_certificate'
+        assert project.status == 'end installation'
 
     @pytest.mark.django_db
     def test_delivery_certificate_put__wrong_stage(self):

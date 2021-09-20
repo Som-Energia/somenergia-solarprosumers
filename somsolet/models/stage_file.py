@@ -280,30 +280,11 @@ class LegalizationStage(BaseFile):
 
 class DeliveryCertificateStage(BaseFile):
 
-    next_status = 'delivery_certificate'
+    next_status = 'end installation'
     current_status = 'date installation set'
-    template = 'emails/delivery_certificate.html'  # TODO: template
 
     upload = models.FileField(
         upload_to='uploaded_files/delivery_certificate',
         default='uploaded_files/delivery_certificate/som.png',
         verbose_name=_('Upload File')
     )
-
-    # TODO change e-mail text accordingly to stage
-    def email_data(self, noti, campaign_data):
-        message_params = {
-            'header': _("Hola {},").format(noti.project.client.name),
-            'ending': _("Salut i fins ben aviat!"),
-            'engineering': [data['engineerings__name'] for data in campaign_data][0],
-            'email': [data['engineerings__email'] for data in campaign_data][0],
-            'selfconsumption_modality': _('https://ca.support.somenergia.coop/article/801-que-he-de-fer-per-passar-el-meu-contracte-a-la-modalitat-amb-autoproduccio')
-        }
-
-        return {
-            'subject': _(f'CERTIFICAT TRAMITACIÓ REGISTRE [{noti.project}] - {noti.project.campaign}, compra col·lectiva de Som Energia'),
-            'template': self.template,
-            'message_params': message_params,
-            'attachment': str(os.path.join(base.MEDIA_ROOT, str(noti.project.legal_registration.upload))),
-            'from_email': base.DEFAULT_FROM_EMAIL[0]
-        }
