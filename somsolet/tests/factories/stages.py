@@ -78,3 +78,12 @@ class LegalizationStageFactory(DjangoModelFactory):
     rac_file =  None
     ritsic_file =  None
     cie_file =  None
+
+
+class DeliveryCertificateStageFactory(DjangoModelFactory):
+
+    class Meta:
+        model = 'somsolet.DeliveryCertificateStage'
+
+    date = '2021-06-01'
+    upload = None

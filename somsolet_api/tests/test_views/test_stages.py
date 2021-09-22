@@ -670,3 +670,90 @@ class TestLegalizationViewSet(TestCase):
         project.refresh_from_db()
         assert response.status_code == 409
         assert project.status == 'empty status'
+
+
+class TestDeliveryCertificateViewSet(TestCase):
+
+    def login(self):
+
+        user = UserFactory()
+        user.set_password('1234')
+        user.save()
+        self.client.login(username=user.username, password='1234')
+        permission = Permission.objects.get(codename='view_project')
+        user.user_permissions.add(permission)
+
+        return user
+
+    @pytest.mark.django_db
+    def test_delivery_certificate_patch__not_supported(self):
+        project = ProjectFactory()
+        project.id = 1
+        project.status = 'date installation set'
+        project.save()
+
+        assert project.status == 'date installation set'
+
+        user = self.login()
+
+        response = self.client.patch(
+            '/somsolet-api/delivery_certificate/?projectId=1',
+            data={'is_checked': True},
+            content_type='application/json'
+        )
+
+        project.refresh_from_db()
+        assert response.status_code == 400
+        assert project.status == 'date installation set'
+
+
+    @pytest.mark.django_db
+    def test_delivery_certificate_put__base_case(self):
+        project = ProjectFactory()
+        project.id = 1
+        project.status = 'date installation set'
+        project.save()
+
+        assert project.delivery_certificate.upload.name is None
+        assert project.status == 'date installation set'
+
+        user = self.login()
+
+        delivery_certificate_image = SimpleUploadedFile(
+            name='delivery_certificate.jpg', content=b'something', content_type="image/jpeg"
+        )
+        # TODO: request.data is {} on backend, see issue: https://github.com/encode/django-rest-framework/issues/3951
+        response = self.client.generic(method="PUT",
+            path='/somsolet-api/delivery_certificate/?projectId=1',
+            data={'upload': delivery_certificate_image},
+            content_type='multipart/form-data'
+        )
+
+        project.refresh_from_db()
+        assert response.status_code == 200
+        assert project.status == 'end installation'
+
+    @pytest.mark.django_db
+    def test_delivery_certificate_put__wrong_stage(self):
+        project = ProjectFactory()
+        project.id = 1
+        project.save()
+
+        assert project.delivery_certificate.upload.name is None
+        assert project.status == 'empty status'
+
+        user = self.login()
+
+        delivery_certificate_image = SimpleUploadedFile(
+            name='delivery_certificate.jpg', content=b'something', content_type="image/jpeg"
+        )
+        # TODO: request.data is {} on backend, see issue: https://github.com/encode/django-rest-framework/issues/3951
+        response = self.client.generic(method="PUT",
+            path='/somsolet-api/delivery_certificate/?projectId=1',
+            data={'upload': delivery_certificate_image},
+            content_type='multipart/form-data'
+        )
+
+        project.refresh_from_db()
+        assert response.status_code == 409
+        assert project.status == 'empty status'

@@ -12,7 +12,8 @@ from .choices_options import (BATERY_BRAND, INVERSOR_BRAND, ITEM_ANGLES,
                               PANELS_BRAND, PANELS_TYPE)
 
 from .stage_file import (SignatureStage, PermitStage, LegalRegistrationStage,
-                         LegalizationStage, PrereportStage, OfferStage, SecondInvoiceStage)
+                         LegalizationStage, PrereportStage, OfferStage,
+                         SecondInvoiceStage, DeliveryCertificateStage)
 
 class Project(models.Model):
     name = models.CharField(
@@ -261,6 +262,7 @@ class Project(models.Model):
         verbose_name=_('Installation in progress?'),
     )
 
+    # TODO: ask if it's necessary
     upload_delivery_certificate = models.FileField(
         upload_to='uploaded_files/delivery_certificate',
         default='uploaded_files/delivery_certificate/som.png',
@@ -270,6 +272,14 @@ class Project(models.Model):
         null=True,
         blank=True,
         verbose_name=_('Date delivery certificate'),
+    )
+
+    delivery_certificate = models.ForeignKey(
+        DeliveryCertificateStage,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        verbose_name=_('Delivery certificate')
     )
 
     legal_registration = models.ForeignKey(

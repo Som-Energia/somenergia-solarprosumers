@@ -276,3 +276,15 @@ class LegalizationStage(BaseFile):
             'attachment': str(os.path.join(base.MEDIA_ROOT, str(noti.project.legal_registration.upload))),
             'from_email': base.DEFAULT_FROM_EMAIL[0]
         }
+
+
+class DeliveryCertificateStage(BaseFile):
+
+    next_status = 'end installation'
+    current_status = 'date installation set'
+
+    upload = models.FileField(
+        upload_to='uploaded_files/delivery_certificate',
+        default='uploaded_files/delivery_certificate/som.png',
+        verbose_name=_('Upload File')
+    )

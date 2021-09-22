@@ -113,3 +113,17 @@ class LegalizationStageSerializer(serializers.HyperlinkedModelSerializer):
             'legalizationCie',
             'status'
         )
+
+class DeliveryCertificateStageSerializer(serializers.HyperlinkedModelSerializer):
+
+    deliveryCertificateDate = serializers.DateField(source='delivery_certificate.date')
+    deliveryCertificateUpload = serializers.FileField(source='delivery_certificate.upload')
+
+    class Meta:
+        model = Project
+        fields = (
+            'id',
+            'deliveryCertificateDate',
+            'deliveryCertificateUpload',
+            'status'
+        )

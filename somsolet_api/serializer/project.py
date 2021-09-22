@@ -107,10 +107,8 @@ class ProjectSerializer(serializers.HyperlinkedModelSerializer):
                 'inProgress': obj.is_installation_in_progress
             },
             'deliveryCertificate': {
-                'date': obj.date_delivery_certificate,
-                'file': obj.upload_delivery_certificate.url,
-                'action': 'link_to_signaturit'
-
+                'date': obj.delivery_certificate.date,
+                'file': obj.delivery_certificate.url
             },
             'legalRegistration': {
                 'date': obj.legal_registration.date,
