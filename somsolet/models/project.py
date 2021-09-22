@@ -15,61 +15,8 @@ from .stage_file import (LegalizationStage, LegalRegistrationStage, OfferStage,
                          SignatureStage)
 
 
-class ProjectManager(models.Manager):
-
-    @transaction.atomic
-    def create_prereport_stage(self, project, date, check, prereport_file):
-        project.prereport = PrereportStage.objects.create(
-            date=date, check=check, upload=prereport_file
-        )
-        project.save()
-    
-    @transaction.atomic
-    def create_second_invoice_stage(self, project, date, check, second_invoice_file):
-        project.prereport = SecondInvoiceStage.objects.create(
-            date=date, check=check, upload=second_invoice_file
-        )
-        project.save()
-    
-    @transaction.atomic
-    def create_offer_stage(self, project, date, check, offer_file):
-        project.prereport = OfferStage.objects.create(
-            date=date, check=check, upload=offer_file
-        )
-        project.save()
-        
-    @transaction.atomic
-    def create_signature_stage(self, project, date, check, signature_file):
-        project.prereport = SignatureStage.objects.create(
-            date=date, check=check, upload=signature_file
-        )
-        project.save()
-    
-    @transaction.atomic
-    def create_permit_stage(self, project, date, check, permit_file):
-        project.prereport = PermitStage.objects.create(
-            date=date, check=check, upload=permit_file
-        )
-        project.save()
-    
-    @transaction.atomic
-    def create_legal_registration_stage(self, project, date, check, legal_file):
-        project.prereport = LegalRegistrationStage.objects.create(
-            date=date, check=check, upload=legal_file
-        )
-        project.save()
-
-    @transaction.atomic
-    def create_legalization_stage(self, project, date, check, rac_file, ritsic_file, cie_file):
-        project.prereport = LegalizationStage.objects.create(
-            date=date, check=check,
-            rac_file=rac_file, ritsic_file=ritsic_file, cie_file=cie_file
-        )
-        project.save()
-    
-
 class Project(models.Model):
-    
+
     name = models.CharField(
         blank=True,
         max_length=100,
@@ -401,8 +348,56 @@ class Project(models.Model):
         blank=True,
         verbose_name=_('Final payment'),
     )
-    
-    objects = ProjectManager()
+
+    @transaction.atomic
+    def create_prereport_stage(self, date, check, prereport_file):
+        self.prereport = PrereportStage.objects.create(
+            date=date, check=check, upload=prereport_file
+        )
+        self.save()
+
+    @transaction.atomic
+    def create_second_invoice_stage(self, date, check, second_invoice_file):
+        self.second_invoice = SecondInvoiceStage.objects.create(
+            date=date, check=check, upload=second_invoice_file
+        )
+        self.save()
+
+    @transaction.atomic
+    def create_offer_stage(self, date, check, offer_file):
+        self.offer = OfferStage.objects.create(
+            date=date, check=check, upload=offer_file
+        )
+        self.save()
+
+    @transaction.atomic
+    def create_signature_stage(self, date, check, signature_file):
+        self.signature = SignatureStage.objects.create(
+            date=date, check=check, upload=signature_file
+        )
+        self.save()
+
+    @transaction.atomic
+    def create_permit_stage(self, date, check, permit_file):
+        self.permit = PermitStage.objects.create(
+            date=date, check=check, upload=permit_file
+        )
+        self.save()
+
+    @transaction.atomic
+    def create_legal_registration_stage(self, date, check, legal_file):
+        self.legal_registration = LegalRegistrationStage.objects.create(
+            date=date, check=check, upload=legal_file
+        )
+        self.save()
+
+    @transaction.atomic
+    def create_legalization_stage(self, date, check, rac_file, ritsic_file, cie_file):
+        self.legalization = LegalizationStage.objects.create(
+            date=date, check=check,
+            rac_file=rac_file, ritsic_file=ritsic_file, cie_file=cie_file
+        )
+        self.save()
 
     def update_is_invalid_prereport(self, is_invalid_prereport):
         self.is_invalid_prereport = is_invalid_prereport
@@ -468,7 +463,7 @@ class Project(models.Model):
         return self.name
 
 
-class Technical_details(models.Model):
+class TechnicalDetails(models.Model):
     project = models.ForeignKey(
         Project,
         null=True,
