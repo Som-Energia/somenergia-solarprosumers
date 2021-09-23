@@ -18,7 +18,7 @@ from .forms import (ConstructionPermitForm, DeliveryCertificateForm,
                     InstallationDateForm, LegalizationForm,
                     LegalRegistrationForm, OfferForm, PrereportForm,
                     ReportForm, SignedContractForm, TechnicalCampaignsForm,
-                    TechnicalDetailsForm, UserForm)
+                    TechnicalDetailsForm, UserForm, TechnicalVisitForm)
 from .models import (Campaign, Client, Mailing, Project, Technical_campaign,
                      Technical_details)
 from .tables import CampaignTable, ProjectTable
@@ -155,6 +155,35 @@ class PrereportView(SomsoletProjectView):
             request,
             self.template_name,
             {'prereportform': form}
+        )
+
+
+class TechnicalVisitView(SomsoletProjectView):
+    form_class = TechnicalVisitForm
+    template_name = 'somsolet/technical_visit.html'
+    status_condition = ('prereport', 'technical visit')
+
+    def __init__(self):
+        self.form = 'technicalvisitform'
+        self.url_path = 'technical_visit'
+
+    def post(self, request, pk):
+        form = self.form_class(request.POST)
+        proj_inst = get_object_or_404(Project, pk=pk)
+        if form.is_valid():
+            date_technical_visit = form.cleaned_data['date_technical_visit']
+            if date_technical_visit:
+                status, date_technical_visit, warn = form.set_technical_visit(
+                    date_set_technical_visit=date_technical_visit)
+                proj_inst.status = status
+                proj_inst.warning = warn
+                proj_inst.date_technical_visit = date_technical_visit
+            return self.button_options(request, pk, proj_inst)
+
+        return render(
+            request,
+            self.template_name,
+            {'technicalvisitform': form}
         )
 
 

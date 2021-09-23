@@ -1,11 +1,16 @@
 from .campaign import CampaignViewSet
-from .project import (CchDownloadViewSet, PrereportViewSet, ProjectViewSet,
+from .project import (CchDownloadViewSet, ProjectViewSet,
                       ReportViewSet, TechnicalDetailsViewSet,
                       FirstInvoiceViewSet, LastInvoiceViewSet)
-from .stages import StagesListViewSet, SignatureViewSet, PermitViewSet
+
+from .stages import (StagesListViewSet, SignatureViewSet, PermitViewSet,
+                     LegalRegistrationViewSet, LegalizationViewSet,
+                     PrereportViewSet, OfferViewSet, SecondInvoiceViewSet,
+                     DeliveryCertificateViewSet)
+
 from .event import RenkontoEventView
 from .project import (CchDownloadViewSet, FirstInvoiceViewSet,
-                      LastInvoiceViewSet, PrereportViewSet, ProjectViewSet,
+                      LastInvoiceViewSet, ProjectViewSet,
                       ReportViewSet,
                       TechnicalDetailsViewSet)
 from .stats import StatsViewSet

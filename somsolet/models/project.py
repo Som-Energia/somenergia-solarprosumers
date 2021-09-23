@@ -10,7 +10,10 @@ from .choices_options import (BATERY_BRAND, INVERSOR_BRAND, ITEM_ANGLES,
                               ITEM_DISCARDED_TYPES,
                               ITEM_ORIENTATION, ITEM_STATUS, ITEM_WARNINGS,
                               PANELS_BRAND, PANELS_TYPE)
-from .stage_file import SignatureFile, PermitFile
+
+from .stage_file import (SignatureStage, PermitStage, LegalRegistrationStage,
+                         LegalizationStage, PrereportStage, OfferStage,
+                         SecondInvoiceStage, DeliveryCertificateStage)
 
 class ProjectQuerySet(models.QuerySet):
 
@@ -138,6 +141,20 @@ class Project(models.Model):
         help_text=_('Prereport file')
     )
 
+    prereport = models.ForeignKey(
+        PrereportStage,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        verbose_name=_('Prereport data')
+    )
+
+    date_technical_visit = models.DateField(
+        null=True,
+        blank=True,
+        verbose_name=_('Date technical visit'),
+    )
+
     date_report = models.DateField(
         null=True,
         blank=True,
@@ -171,6 +188,14 @@ class Project(models.Model):
         upload_to='uploaded_files/firstinvoice',
         default='firstinvoice/som.png',
         verbose_name=_('Upload First Invoice'))
+
+    second_invoice = models.ForeignKey(
+        SecondInvoiceStage,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        verbose_name=_('Second invoice')
+    )
 
     date_last_invoice = models.DateField(
         null=True,
@@ -212,12 +237,20 @@ class Project(models.Model):
         help_text=_('Offer file')
     )
 
-    signature = models.ForeignKey(
-        SignatureFile,
+    offer = models.ForeignKey(
+        OfferStage,
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
-        verbose_name=_('Signature file')
+        verbose_name=_('Offer data')
+    )
+
+    signature = models.ForeignKey(
+        SignatureStage,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        verbose_name=_('Signature data')
     )
 
     date_signature = models.DateField(
@@ -241,11 +274,11 @@ class Project(models.Model):
     )
 
     permit = models.ForeignKey(
-        PermitFile,
+        PermitStage,
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
-        verbose_name=_('Permit file')
+        verbose_name=_('Permit data')
     )
 
     date_permit = models.DateField(
@@ -290,6 +323,7 @@ class Project(models.Model):
         help_text=_('Check if installation works are in progress')
     )
 
+    # TODO: ask if it's necessary
     upload_delivery_certificate = models.FileField(
         upload_to='uploaded_files/delivery_certificate',
         default='uploaded_files/delivery_certificate/som.png',
@@ -304,6 +338,22 @@ class Project(models.Model):
         help_text=_('Date when the delivery certificate was issued')
     )
 
+    delivery_certificate = models.ForeignKey(
+        DeliveryCertificateStage,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        verbose_name=_('Delivery certificate')
+    )
+
+    legal_registration = models.ForeignKey(
+        LegalRegistrationStage,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        verbose_name=_('Legal registration certificate')
+    )
+
     upload_legal_registration_docs = models.FileField(
         upload_to='uploaded_files/legal_registration_docs',
         default='uploaded_files/legal_registration_docs/som.png',
@@ -313,6 +363,14 @@ class Project(models.Model):
         null=True,
         blank=True,
         verbose_name=_('Date legal registration certificate'),
+    )
+
+    legalization = models.ForeignKey(
+        LegalizationStage,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        verbose_name=_('Legal certificate completed')
     )
 
     upload_legal_docs = models.FileField(

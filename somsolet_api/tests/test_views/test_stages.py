@@ -5,7 +5,7 @@ from django.test import TestCase
 from somsolet.tests.factories import ProjectFactory, UserFactory
 
 
-class TestSignatureViewSet(TestCase):
+class TestPrereportViewSet(TestCase):
 
     def login(self, user):
 
@@ -16,13 +16,142 @@ class TestSignatureViewSet(TestCase):
         return user
 
     @pytest.mark.django_db
-    def test_signature_patch__base_case(self):
+    def test_prereport_patch__base_case(self):
+        project = ProjectFactory()
+        project.id = 1
+        project.status = 'registered'
+        project.save()
+
+        assert project.prereport.check is False
+        assert project.status == 'registered'
+
+        user = self.login(project.engineering.user)
+
+        response = self.client.patch(
+            '/somsolet-api/prereport/?projectId=1',
+            data={'is_checked': False},
+            content_type='application/json'
+        )
+
+        project.refresh_from_db()
+        assert response.status_code == 200
+        assert response.data['invalidPrereport'] is False
+        assert project.status == 'prereport'
+
+    @pytest.mark.django_db
+    def test_prereport_patch__review_status(self):
+        project = ProjectFactory()
+        project.id = 1
+        project.status = 'prereport'
+        project.save()
+
+        assert project.status == 'prereport'
+
+        user = self.login()
+
+        response = self.client.patch(
+            '/somsolet-api/prereport/?projectId=1',
+            data={'is_checked': True},
+            content_type='application/json'
+        )
+
+        project.refresh_from_db()
+        assert response.status_code == 200
+        assert response.data['invalidPrereport'] is True
+        assert project.status == 'prereport review'
+
+    @pytest.mark.django_db
+    def test_prereport_patch__wrong_stage(self):
+        project = ProjectFactory()
+        project.id = 1
+        project.save()
+        assert project.prereport.check is False
+        assert project.status == 'empty status'
+
+        user = self.login(project.engineering.user)
+
+        response = self.client.patch(
+            '/somsolet-api/prereport/?projectId=1',
+            data={'is_checked': True},
+            content_type='application/json'
+        )
+
+        project.refresh_from_db()
+        assert response.status_code == 409
+        assert project.status == 'empty status'
+
+    @pytest.mark.django_db
+    def test_prereport_put__base_case(self):
+        project = ProjectFactory()
+        project.id = 1
+        project.status = 'registered'
+        project.save()
+
+        assert project.prereport.upload.name is None
+        assert project.status == 'registered'
+
+        user = self.login(project.engineering.user)
+
+        prereport_image = SimpleUploadedFile(
+            name='prereport.jpg', content=b'something', content_type="image/jpeg"
+        )
+        # TODO: request.data is {} on backend, see issue: https://github.com/encode/django-rest-framework/issues/3951
+        response = self.client.generic(method="PUT",
+            path='/somsolet-api/prereport/?projectId=1',
+            data={'upload': prereport_image},
+            content_type='multipart/form-data'
+        )
+
+        project.refresh_from_db()
+        assert response.status_code == 200
+        assert project.status == 'prereport'
+
+    @pytest.mark.django_db
+    def test_prereport_put__wrong_stage(self):
+        project = ProjectFactory()
+        project.id = 1
+        project.save()
+
+        assert project.prereport.upload.name is None
+        assert project.status == 'empty status'
+
+        user = self.login(project.engineering.user)
+
+        prereport_image = SimpleUploadedFile(
+            name='prereport.jpg', content=b'something', content_type="image/jpeg"
+        )
+        # TODO: request.data is {} on backend, see issue: https://github.com/encode/django-rest-framework/issues/3951
+        response = self.client.generic(method="PUT",
+            path='/somsolet-api/prereport/?projectId=1',
+            data={'upload': prereport_image},
+            content_type='multipart/form-data'
+        )
+
+        project.refresh_from_db()
+        assert response.status_code == 409
+        assert project.status == 'empty status'
+
+
+class TestSignatureViewSet(TestCase):
+
+    def login(self):
+
+        user = UserFactory()
+        user.set_password('1234')
+        user.save()
+        self.client.login(username=user.username, password='1234')
+        permission = Permission.objects.get(codename='view_project')
+        user.user_permissions.add(permission)
+
+        return user
+
+    @pytest.mark.django_db
+    def test_permit_patch__not_supported(self):
         project = ProjectFactory()
         project.id = 1
         project.status = 'offer'
         project.save()
 
-        assert project.signature.check is False
         assert project.status == 'offer'
 
         user = self.login(project.engineering.user)
@@ -34,29 +163,8 @@ class TestSignatureViewSet(TestCase):
         )
 
         project.refresh_from_db()
-        assert response.status_code == 200
-        assert response.data['signed'] is True
-        assert project.status == 'signature'
-
-    @pytest.mark.django_db
-    def test_signature_patch__wrong_stage(self):
-        project = ProjectFactory()
-        project.id = 1
-        project.save()
-        assert project.signature.check is False
-        assert project.status == 'empty status'
-
-        user = self.login(project.engineering.user)
-
-        response = self.client.patch(
-            '/somsolet-api/signature/?projectId=1',
-            data={'is_checked': True},
-            content_type='application/json'
-        )
-
-        project.refresh_from_db()
-        assert response.status_code == 409
-        assert project.status == 'empty status'
+        assert response.status_code == 400
+        assert project.status == 'offer'
 
     @pytest.mark.django_db
     def test_signature_put__base_case(self):
@@ -68,7 +176,7 @@ class TestSignatureViewSet(TestCase):
         assert project.signature.upload.name is None
         assert project.status == 'offer'
 
-        user = self.login(project.engineering.user)
+        user = self.login()
 
         signature_image = SimpleUploadedFile(
             name='contract_signed.jpg', content=b'something', content_type="image/jpeg"
@@ -94,7 +202,7 @@ class TestSignatureViewSet(TestCase):
         assert project.signature.upload.name is None
         assert project.status == 'empty status'
 
-        user = self.login(project.engineering.user)
+        user = self.login()
 
         signature_image = SimpleUploadedFile(
             name='contract_signed.jpg', content=b'something', content_type="image/jpeg"
@@ -109,30 +217,6 @@ class TestSignatureViewSet(TestCase):
         project.refresh_from_db()
         assert response.status_code == 409
         assert project.status == 'empty status'
-
-
-    @pytest.mark.django_db
-    def test_signature_patch__same_status(self):
-        project = ProjectFactory()
-        project.id = 1
-        project.status = 'signature'
-        project.save()
-
-        assert project.status == 'signature'
-
-        user = self.login(project.engineering.user)
-
-        response = self.client.patch(
-            '/somsolet-api/signature/?projectId=1',
-            data={'is_checked': True},
-            content_type='application/json'
-        )
-
-        project.refresh_from_db()
-        assert response.status_code == 200
-        assert response.data['signed'] is True
-        assert project.status == 'signature'
-
 
 
 class TestPermitViewSet(TestCase):
@@ -212,6 +296,455 @@ class TestPermitViewSet(TestCase):
         response = self.client.generic(method="PUT",
             path='/somsolet-api/permit/?projectId=1',
             data={'upload': permit_image},
+            content_type='multipart/form-data'
+        )
+
+        project.refresh_from_db()
+        assert response.status_code == 409
+        assert project.status == 'empty status'
+
+
+class TestOfferViewSet(TestCase):
+
+    def login(self):
+
+        user = UserFactory()
+        user.set_password('1234')
+        user.save()
+        self.client.login(username=user.username, password='1234')
+        permission = Permission.objects.get(codename='view_project')
+        user.user_permissions.add(permission)
+
+        return user
+
+    @pytest.mark.django_db
+    def test_offer_patch__supported(self):
+        project = ProjectFactory()
+        project.id = 1
+        project.status = 'report'
+        project.save()
+
+        assert project.status == 'report'
+
+        user = self.login()
+
+        response = self.client.patch(
+            '/somsolet-api/offer/?projectId=1',
+            data={'is_checked': True},
+            content_type='application/json'
+        )
+
+        project.refresh_from_db()
+        assert response.status_code == 200
+        assert project.status == 'offer'  
+  
+    @pytest.mark.django_db
+    def test_offer_put__base_case(self):
+        project = ProjectFactory()
+        project.id = 1
+        project.status = 'report'
+        project.save()
+
+        assert project.offer.upload.name is None
+        assert project.status == 'report'
+
+        user = self.login()
+
+        offer_image = SimpleUploadedFile(
+            name='offer.jpg', content=b'something', content_type="image/jpeg"
+        )
+        # TODO: request.data is {} on backend, see issue: https://github.com/encode/django-rest-framework/issues/3951
+        response = self.client.generic(method="PUT",
+            path='/somsolet-api/offer/?projectId=1',
+            data={'upload': offer_image},
+            content_type='multipart/form-data'
+        )
+
+        project.refresh_from_db()
+        assert response.status_code == 200
+        assert project.status == 'offer'
+
+    @pytest.mark.django_db
+    def test_offer_put__wrong_stage(self):
+        project = ProjectFactory()
+        project.id = 1
+        project.save()
+
+        assert project.permit.upload.name is None
+        assert project.status == 'empty status'
+
+        user = self.login()
+
+        offer_image = SimpleUploadedFile(
+            name='offer.jpg', content=b'something', content_type="image/jpeg"
+        )
+        # TODO: request.data is {} on backend, see issue: https://github.com/encode/django-rest-framework/issues/3951
+        response = self.client.generic(method="PUT",
+            path='/somsolet-api/offer/?projectId=1',
+            data={'upload': offer_image},
+            content_type='multipart/form-data'
+        )
+
+        project.refresh_from_db()
+        assert response.status_code == 409
+        assert project.status == 'empty status'
+
+
+class TestSecondInvoiceViewSet(TestCase):
+
+    def login(self):
+
+        user = UserFactory()
+        user.set_password('1234')
+        user.save()
+        self.client.login(username=user.username, password='1234')
+        permission = Permission.objects.get(codename='view_project')
+        user.user_permissions.add(permission)
+
+        return user
+
+    @pytest.mark.django_db
+    def test_second_invoice_patch__not_supported(self):
+        project = ProjectFactory()
+        project.id = 1
+        project.status = 'end installation'
+        project.save()
+
+        assert project.status == 'end installation'
+
+        user = self.login()
+
+        response = self.client.patch(
+            '/somsolet-api/second_invoice/?projectId=1',
+            data={'is_checked': True},
+            content_type='application/json'
+        )
+
+        project.refresh_from_db()
+        assert response.status_code == 400
+        assert project.status == 'end installation'
+
+
+    @pytest.mark.django_db
+    def test_second_invoice_put__base_case(self):
+        project = ProjectFactory()
+        project.id = 1
+        project.status = 'end installation'
+        project.save()
+
+        assert project.second_invoice.upload.name is None
+        assert project.status == 'end installation'
+
+        user = self.login()
+
+        second_invoice_image = SimpleUploadedFile(
+            name='second_invoice.jpg', content=b'something', content_type="image/jpeg"
+        )
+        # TODO: request.data is {} on backend, see issue: https://github.com/encode/django-rest-framework/issues/3951
+        response = self.client.generic(method="PUT",
+            path='/somsolet-api/second_invoice/?projectId=1',
+            data={'upload': second_invoice_image},
+            content_type='multipart/form-data'
+        )
+
+        project.refresh_from_db()
+        assert response.status_code == 200
+        assert project.status == 'second invoice'
+
+    @pytest.mark.django_db
+    def test_second_invoice_put__wrong_stage(self):
+        project = ProjectFactory()
+        project.id = 1
+        project.save()
+
+        assert project.second_invoice.upload.name is None
+        assert project.status == 'empty status'
+
+        user = self.login()
+
+        second_invoice_image = SimpleUploadedFile(
+            name='second_invoice.jpg', content=b'something', content_type="image/jpeg"
+        )
+        # TODO: request.data is {} on backend, see issue: https://github.com/encode/django-rest-framework/issues/3951
+        response = self.client.generic(method="PUT",
+            path='/somsolet-api/second_invoice/?projectId=1',
+            data={'upload': second_invoice_image},
+            content_type='multipart/form-data'
+        )
+
+        project.refresh_from_db()
+        assert response.status_code == 409
+        assert project.status == 'empty status'
+
+
+class TestLegalRegistrationViewSet(TestCase):
+
+    def login(self):
+
+        user = UserFactory()
+        user.set_password('1234')
+        user.save()
+        self.client.login(username=user.username, password='1234')
+        permission = Permission.objects.get(codename='view_project')
+        user.user_permissions.add(permission)
+
+        return user
+
+    @pytest.mark.django_db
+    def test_legal_registration_patch__not_supported(self):
+        project = ProjectFactory()
+        project.id = 1
+        project.status = 'end installation'
+        project.save()
+
+        assert project.status == 'end installation'
+
+        user = self.login()
+
+        response = self.client.patch(
+            '/somsolet-api/legal_registration/?projectId=1',
+            data={'is_checked': True},
+            content_type='application/json'
+        )
+
+        project.refresh_from_db()
+        assert response.status_code == 400
+        assert project.status == 'end installation'
+
+
+    @pytest.mark.django_db
+    def test_legal_registration_put__base_case(self):
+        project = ProjectFactory()
+        project.id = 1
+        project.status = 'end installation'
+        project.save()
+
+        assert project.legal_registration.upload.name is None
+        assert project.status == 'end installation'
+
+        user = self.login()
+
+        legal_registration_image = SimpleUploadedFile(
+            name='legal_registration.jpg', content=b'something', content_type="image/jpeg"
+        )
+        # TODO: request.data is {} on backend, see issue: https://github.com/encode/django-rest-framework/issues/3951
+        response = self.client.generic(method="PUT",
+            path='/somsolet-api/legal_registration/?projectId=1',
+            data={'upload': legal_registration_image},
+            content_type='multipart/form-data'
+        )
+
+        project.refresh_from_db()
+        assert response.status_code == 200
+        assert project.status == 'legal registration'
+
+    @pytest.mark.django_db
+    def test_legal_registration_put__wrong_stage(self):
+        project = ProjectFactory()
+        project.id = 1
+        project.save()
+
+        assert project.legal_registration.upload.name is None
+        assert project.status == 'empty status'
+
+        user = self.login()
+
+        legal_registration_image = SimpleUploadedFile(
+            name='legal_registration.jpg', content=b'something', content_type="image/jpeg"
+        )
+        # TODO: request.data is {} on backend, see issue: https://github.com/encode/django-rest-framework/issues/3951
+        response = self.client.generic(method="PUT",
+            path='/somsolet-api/legal_registration/?projectId=1',
+            data={'upload': legal_registration_image},
+            content_type='multipart/form-data'
+        )
+
+        project.refresh_from_db()
+        assert response.status_code == 409
+        assert project.status == 'empty status'
+
+
+class TestLegalizationViewSet(TestCase):
+
+    def login(self):
+        # Extract in BaseTestViewSet (?)
+        user = UserFactory()
+        user.set_password('1234')
+        user.save()
+        self.client.login(username=user.username, password='1234')
+        permission = Permission.objects.get(codename='view_project')
+        user.user_permissions.add(permission)
+
+        return user
+
+    @pytest.mark.django_db
+    def test_legalization_patch__not_supported(self):
+        project = ProjectFactory()
+        project.id = 1
+        project.status = 'last payment'
+        project.save()
+
+        assert project.status == 'last payment'
+
+        user = self.login()
+
+        response = self.client.patch(
+            '/somsolet-api/legalization/?projectId=1',
+            data={'is_checked': True},
+            content_type='application/json'
+        )
+
+        project.refresh_from_db()
+        assert response.status_code == 400
+        assert project.status == 'last payment'
+
+
+    @pytest.mark.django_db
+    def test_legalization_put__base_case(self):
+        project = ProjectFactory()
+        project.id = 1
+        project.status = 'last payment'
+        project.save()
+
+        assert project.legalization.rac_file.name is None
+        assert project.legalization.ritsic_file.name is None
+        assert project.legalization.cie_file.name is None
+        assert project.status == 'last payment'
+
+        user = self.login()
+
+        legalization_RAC = SimpleUploadedFile(
+            name='RAC.jpg', content=b'something', content_type="image/jpeg"
+        )
+        legalization_RITSIC = SimpleUploadedFile(
+            name='RITSIC.jpg', content=b'something', content_type="image/jpeg"
+        )
+        legalization_CIE = SimpleUploadedFile(
+            name='CIE.jpg', content=b'something', content_type="image/jpeg"
+        )
+        # TODO: request.data is {} on backend, see issue: https://github.com/encode/django-rest-framework/issues/3951
+        response = self.client.generic(method="PUT",
+            path='/somsolet-api/legalization/?projectId=1',
+            data={
+                'rac_file': legalization_RAC,
+                'ritsic_file': legalization_RITSIC,
+                'cie_file': legalization_CIE
+            },
+            content_type='multipart/form-data'
+        )
+
+        project.refresh_from_db()
+        assert response.status_code == 200
+        assert project.status == 'legalization'
+
+
+    @pytest.mark.django_db
+    def test_legalization_put__wrong_stage(self):
+        project = ProjectFactory()
+        project.id = 1
+        project.save()
+
+        assert project.legalization.rac_file.name is None
+        assert project.legalization.ritsic_file.name is None
+        assert project.legalization.cie_file.name is None
+        assert project.status == 'empty status'
+
+        user = self.login()
+
+        legalization_image = SimpleUploadedFile(
+            name='legalization.jpg', content=b'something', content_type="image/jpeg"
+        )
+        # TODO: request.data is {} on backend, see issue: https://github.com/encode/django-rest-framework/issues/3951
+        response = self.client.generic(method="PUT",
+            path='/somsolet-api/legalization/?projectId=1',
+            data={'upload': legalization_image},
+            content_type='multipart/form-data'
+        )
+
+        project.refresh_from_db()
+        assert response.status_code == 409
+        assert project.status == 'empty status'
+
+
+class TestDeliveryCertificateViewSet(TestCase):
+
+    def login(self):
+
+        user = UserFactory()
+        user.set_password('1234')
+        user.save()
+        self.client.login(username=user.username, password='1234')
+        permission = Permission.objects.get(codename='view_project')
+        user.user_permissions.add(permission)
+
+        return user
+
+    @pytest.mark.django_db
+    def test_delivery_certificate_patch__not_supported(self):
+        project = ProjectFactory()
+        project.id = 1
+        project.status = 'date installation set'
+        project.save()
+
+        assert project.status == 'date installation set'
+
+        user = self.login()
+
+        response = self.client.patch(
+            '/somsolet-api/delivery_certificate/?projectId=1',
+            data={'is_checked': True},
+            content_type='application/json'
+        )
+
+        project.refresh_from_db()
+        assert response.status_code == 400
+        assert project.status == 'date installation set'
+
+
+    @pytest.mark.django_db
+    def test_delivery_certificate_put__base_case(self):
+        project = ProjectFactory()
+        project.id = 1
+        project.status = 'date installation set'
+        project.save()
+
+        assert project.delivery_certificate.upload.name is None
+        assert project.status == 'date installation set'
+
+        user = self.login()
+
+        delivery_certificate_image = SimpleUploadedFile(
+            name='delivery_certificate.jpg', content=b'something', content_type="image/jpeg"
+        )
+        # TODO: request.data is {} on backend, see issue: https://github.com/encode/django-rest-framework/issues/3951
+        response = self.client.generic(method="PUT",
+            path='/somsolet-api/delivery_certificate/?projectId=1',
+            data={'upload': delivery_certificate_image},
+            content_type='multipart/form-data'
+        )
+
+        project.refresh_from_db()
+        assert response.status_code == 200
+        assert project.status == 'end installation'
+
+    @pytest.mark.django_db
+    def test_delivery_certificate_put__wrong_stage(self):
+        project = ProjectFactory()
+        project.id = 1
+        project.save()
+
+        assert project.delivery_certificate.upload.name is None
+        assert project.status == 'empty status'
+
+        user = self.login()
+
+        delivery_certificate_image = SimpleUploadedFile(
+            name='delivery_certificate.jpg', content=b'something', content_type="image/jpeg"
+        )
+        # TODO: request.data is {} on backend, see issue: https://github.com/encode/django-rest-framework/issues/3951
+        response = self.client.generic(method="PUT",
+            path='/somsolet-api/delivery_certificate/?projectId=1',
+            data={'upload': delivery_certificate_image},
             content_type='multipart/form-data'
         )
 

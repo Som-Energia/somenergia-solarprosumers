@@ -6,8 +6,9 @@ from .factories import (CampaignFactory, ClientFactory, EngineeringFactory,
                         TechnicalDetailsFactory, UserFactory, MailingFactory)
 
 __all__ = (
-    'engineering_user', 'engineering', 'campaing__solar_paco',
-    'technical_details', 'project', 'client', 'local_group', 'mailing_signature'
+    'engineering_user', 'engineering',
+    'technical_details', 'project', 'client', 'local_group', 'mailing_signature',
+    'mailing_legal_registration'
 )
 
 
@@ -59,5 +60,12 @@ def local_group(db):
 def mailing_signature(db):
     mailing = MailingFactory()
     mailing.notification_status = 'signature'
+    mailing.save()
+    return mailing
+
+@pytest.fixture
+def mailing_legal_registration(db):
+    mailing = MailingFactory()
+    mailing.notification_status = 'legal_registration'
     mailing.save()
     return mailing

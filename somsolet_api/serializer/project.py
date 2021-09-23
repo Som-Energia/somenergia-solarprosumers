@@ -76,9 +76,9 @@ class ProjectSerializer(serializers.HyperlinkedModelSerializer):
                 'date': obj.registration_date
             },
             'prereport': {
-                'date': obj.date_prereport,
-                'invalid': obj.is_invalid_prereport,
-                'file': obj.upload_prereport.url
+                'date': obj.prereport.date,
+                'invalid': obj.prereport.check,
+                'file': obj.prereport.upload.url
             },
             'technicalVisits': [{
                 'date': date.start_date,
@@ -90,20 +90,17 @@ class ProjectSerializer(serializers.HyperlinkedModelSerializer):
                 'file': obj.upload_report.url
             },
             'offer': {
-                'date': obj.date_offer,
-                'invalid': obj.is_invalid_offer,
-                'accepted': obj.is_offer_accepted,
-                'file': obj.upload_offer.url
+                'date': obj.offer.date,
+                'accepted': obj.offer.check,
+                'file': obj.offer.upload.url
             },
             'signature': {
-                'date': obj.date_signature,
-                'signed': obj.is_signed,
-                'file': obj.upload_contract.url,
-                'action': 'link_to_signaturit'
+                'date': obj.signature.date,
+                'file': obj.signature.upload.url,
             },
             'constructionPermit': {
-                'date': obj.date_permit,
-                'file': obj.upload_permit.url
+                'date': obj.permit.date,
+                'file': obj.permit.upload.url
             },
             'installation': {
                 'date': obj.date_start_installation,
@@ -112,24 +109,27 @@ class ProjectSerializer(serializers.HyperlinkedModelSerializer):
                 'inProgress': obj.is_installation_in_progress
             },
             'deliveryCertificate': {
-                'date': obj.date_delivery_certificate,
-                'file': obj.upload_delivery_certificate.url,
-                'action': 'link_to_signaturit'
-
+                'date': obj.delivery_certificate.date,
+                'file': obj.delivery_certificate.url
             },
             'legalRegistration': {
-                'date': obj.date_legal_registration_docs,
-                'file': obj.upload_legal_registration_docs.url
+                'date': obj.legal_registration.date,
+                'file': obj.legal_registration.upload.url
             },
             'legalization': {
-                'date': obj.date_legal_docs,
-                'file': obj.upload_legal_docs.url
-
+                'date': obj.legalization.date,
+                'racFile': obj.legalization.rac_file.url,
+                'ritsicFile':legalization.ritsic_file.url,
+                'cieFile':legalization.cie_file.url
             },
             'invoices': {
                 'first': {
                     'date': obj.date_first_invoice,
                     'file': obj.upload_first_invoice.url
+                },
+                'second': {
+                    'date': obj.second_invoice.date,
+                    'file': obj.second_invoice.upload.url
                 },
                 'last': {
                     'date': obj.date_last_invoice,
@@ -140,19 +140,6 @@ class ProjectSerializer(serializers.HyperlinkedModelSerializer):
             # 'discardedType'  not implemented
         }
 
-
-class PrereportSerializer(serializers.HyperlinkedModelSerializer):
-
-    class Meta:
-        model = Project
-        fields = (
-            'id',
-            'name',
-            'date_prereport',
-            'is_invalid_prereport',
-            'upload_prereport',
-            'status'
-        )
 
 
 class ReportSerializer(serializers.HyperlinkedModelSerializer):

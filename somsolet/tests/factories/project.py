@@ -1,14 +1,16 @@
-from datetime import datetime
-
 import factory
-from django.utils import timezone as tz
 from factory.django import DjangoModelFactory
 
 from .admin import InventsPacoEngineeringFactory
 from .campaign import CampaignFactory
 from .client import ClientFactory
-from .admin import EngineeringFactory, InventsPacoEngineeringFactory
-from .stages import SignatureFileFactory, SignatureFileBaseFactory, PermitFileFactory
+from .admin import InventsPacoEngineeringFactory
+
+from .stages import (SignatureStageFactory, SignatureStageBaseFactory, PermitStageFactory,
+                     LegalRegistrationStageBaseFactory, LegalRegistrationStageFactory,
+                     LegalizationStageFactory, PrereportStageFactory, OfferStageFactory,
+                     SecondInvoiceStageFactory, DeliveryCertificateStageFactory)
+
 
 
 class ProjectFactory(DjangoModelFactory):
@@ -29,9 +31,8 @@ class ProjectFactory(DjangoModelFactory):
     registration_date = None
     is_cch_downloaded = False
     date_cch_download = None
-    date_prereport = None
-    is_invalid_prereport = False
-    upload_prereport = None
+    prereport = factory.SubFactory(PrereportStageFactory)
+    date_technical_visit = factory.Faker('date_time')
     date_report = None
     is_invalid_report = False
     upload_report = False
@@ -45,19 +46,20 @@ class ProjectFactory(DjangoModelFactory):
     is_invalid_offer = False
     is_offer_accepted = False
     upload_offer = None
-    signature = factory.SubFactory(SignatureFileBaseFactory)
-    permit = factory.SubFactory(PermitFileFactory)
+    signature = factory.SubFactory(SignatureStageBaseFactory)
+    permit = factory.SubFactory(PermitStageFactory)
     date_permit = None
+    offer= factory.SubFactory(OfferStageFactory)
+    second_invoice = factory.SubFactory(SecondInvoiceStageFactory)
     discarded_type = 'Not discarded'
     date_start_installation = None
     is_date_set = False
     is_installation_in_progress = False
     upload_delivery_certificate = None
     date_delivery_certificate = None
-    upload_legal_registration_docs = None
-    date_legal_registration_docs = None
-    upload_legal_docs = None
-    date_legal_docs = None
+    delivery_certificate = factory.SubFactory(DeliveryCertificateStageFactory)
+    legal_registration = factory.SubFactory(LegalRegistrationStageBaseFactory)
+    legalization = factory.SubFactory(LegalizationStageFactory)
     is_payment_done = False
     date_payment_som = None
     payment_pending = 2000
@@ -65,7 +67,8 @@ class ProjectFactory(DjangoModelFactory):
 
 
 class ProjectStageFactory(ProjectFactory):
-    signature = factory.SubFactory(SignatureFileFactory)
+    signature = factory.SubFactory(SignatureStageFactory)
+    legal_registration = factory.SubFactory(LegalRegistrationStageFactory)
 
 
 class TechnicalDetailsFactory(DjangoModelFactory):

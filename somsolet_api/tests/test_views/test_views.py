@@ -83,7 +83,7 @@ class TestProjectViewSet(TestCase):
         project = ProjectFactory()
         project.id = 1
         project.save()
-        assert project.upload_prereport.name is None
+        assert project.prereport.upload.name is None
 
         user = UserFactory()
         user.set_password('1234')
