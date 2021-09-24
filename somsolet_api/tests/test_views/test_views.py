@@ -10,28 +10,6 @@ from somsolet.tests.factories import (ProjectFactory, TechnicalDetailsFactory,
 class TestProjectViewSet(TestCase):
 
     @pytest.mark.django_db
-    def test_prereport_patch__base_case(self):
-        project = ProjectFactory()
-        project.id = 1
-        project.save()
-        assert project.is_invalid_prereport is False
-
-        user = UserFactory()
-        user.set_password('1234')
-        user.save()
-        self.client.login(username=user.username, password='1234')
-        permission = Permission.objects.get(codename='change_project')
-        user.user_permissions.add(permission)
-
-        request = self.client.patch(
-            '/somsolet-api/prereport/?projectId=1',
-            data={'is_invalid_prereport': True},
-            content_type='application/json'
-        )
-        assert request.status_code == 200
-        assert request.data['is_invalid_prereport'] is True
-
-    @pytest.mark.django_db
     def test_report_patch__base_case(self):
         project = ProjectFactory()
         project.id = 1
@@ -52,31 +30,6 @@ class TestProjectViewSet(TestCase):
         )
         assert request.status_code == 200
         assert request.data['is_invalid_report'] is True
-
-    @pytest.mark.django_db
-    def test_prereport_put__base_case(self):
-        project = ProjectFactory()
-        project.id = 1
-        project.save()
-
-        assert project.upload_prereport.name is None
-
-        user = UserFactory()
-        user.set_password('1234')
-        user.save()
-        self.client.login(username=user.username, password='1234')
-        permission = Permission.objects.get(codename='change_project')
-        user.user_permissions.add(permission)
-
-        prereport_image = SimpleUploadedFile(
-            name='prereport.jpg', content=b'something', content_type="image/jpeg"
-        )
-        request = self.client.generic(method="PUT",
-            path='/somsolet-api/prereport/?projectId=1',
-            data={'upload_prereport': prereport_image},
-            content_type='multipart/form-data'
-        )
-        assert request.status_code == 200
 
     @pytest.mark.django_db
     def test_report_put__base_case(self):
