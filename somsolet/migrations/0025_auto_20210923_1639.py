@@ -12,18 +12,6 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='DeliveryCertificateStage',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('date', models.DateField(blank=True, null=True, verbose_name='Date File')),
-                ('check', models.BooleanField(default=False, verbose_name='Checked?')),
-                ('upload', models.FileField(default='uploaded_files/delivery_certificate/som.png', upload_to='uploaded_files/delivery_certificate', verbose_name='Upload File')),
-            ],
-            options={
-                'abstract': False,
-            },
-        ),
-        migrations.CreateModel(
             name='LegalizationStage',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),

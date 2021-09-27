@@ -2,7 +2,17 @@ import pytest
 from django.contrib.auth.models import Permission
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
-from somsolet.tests.factories import ProjectFactory, UserFactory
+from somsolet.tests.factories import (ProjectDeliveryCertificateStageFactory,
+                                      ProjectEmptyStatusStageFactory,
+                                      ProjectFactory,
+                                      ProjectLegalizationStageFactory,
+                                      ProjectLegalRegistrationStageFactory,
+                                      ProjectOfferStageFactory,
+                                      ProjectPermitStageFactory,
+                                      ProjectPrereportRegisteredStageFactory,
+                                      ProjectPrereportStageFactory,
+                                      ProjectSecondInvoiceStageFactory,
+                                      ProjectSignatureStageFactory)
 
 
 class TestPrereportViewSet(TestCase):
@@ -17,10 +27,7 @@ class TestPrereportViewSet(TestCase):
 
     @pytest.mark.django_db
     def test_prereport_patch__base_case(self):
-        project = ProjectFactory()
-        project.id = 1
-        project.status = 'registered'
-        project.save()
+        project = ProjectPrereportRegisteredStageFactory()
 
         assert project.prereport.check is False
         assert project.status == 'registered'
@@ -40,10 +47,7 @@ class TestPrereportViewSet(TestCase):
 
     @pytest.mark.django_db
     def test_prereport_patch__review_status(self):
-        project = ProjectFactory()
-        project.id = 1
-        project.status = 'prereport'
-        project.save()
+        project = ProjectPrereportStageFactory()
 
         assert project.status == 'prereport'
 
@@ -62,9 +66,7 @@ class TestPrereportViewSet(TestCase):
 
     @pytest.mark.django_db
     def test_prereport_patch__wrong_stage(self):
-        project = ProjectFactory()
-        project.id = 1
-        project.save()
+        project = ProjectEmptyStatusStageFactory()
         assert project.prereport.check is False
         assert project.status == 'empty status'
 
@@ -82,10 +84,7 @@ class TestPrereportViewSet(TestCase):
 
     @pytest.mark.django_db
     def test_prereport_put__base_case(self):
-        project = ProjectFactory()
-        project.id = 1
-        project.status = 'registered'
-        project.save()
+        project = ProjectPrereportRegisteredStageFactory()
 
         assert project.prereport.upload.name is None
         assert project.status == 'registered'
@@ -108,9 +107,7 @@ class TestPrereportViewSet(TestCase):
 
     @pytest.mark.django_db
     def test_prereport_put__wrong_stage(self):
-        project = ProjectFactory()
-        project.id = 1
-        project.save()
+        project = ProjectEmptyStatusStageFactory()
 
         assert project.prereport.upload.name is None
         assert project.status == 'empty status'
@@ -144,10 +141,7 @@ class TestSignatureViewSet(TestCase):
 
     @pytest.mark.django_db
     def test_permit_patch__not_supported(self):
-        project = ProjectFactory()
-        project.id = 1
-        project.status = 'offer'
-        project.save()
+        project = ProjectSignatureStageFactory()
 
         assert project.status == 'offer'
 
@@ -165,10 +159,7 @@ class TestSignatureViewSet(TestCase):
 
     @pytest.mark.django_db
     def test_signature_put__base_case(self):
-        project = ProjectFactory()
-        project.id = 1
-        project.status = 'offer'
-        project.save()
+        project = ProjectSignatureStageFactory()
 
         assert project.signature.upload.name is None
         assert project.status == 'offer'
@@ -192,9 +183,7 @@ class TestSignatureViewSet(TestCase):
 
     @pytest.mark.django_db
     def test_signature_put__wrong_stage(self):
-        project = ProjectFactory()
-        project.id = 1
-        project.save()
+        project = ProjectEmptyStatusStageFactory()
 
         assert project.signature.upload.name is None
         assert project.status == 'empty status'
@@ -228,10 +217,7 @@ class TestPermitViewSet(TestCase):
 
     @pytest.mark.django_db
     def test_permit_patch__not_supported(self):
-        project = ProjectFactory()
-        project.id = 1
-        project.status = 'signature'
-        project.save()
+        project = ProjectPermitStageFactory()
 
         assert project.status == 'signature'
 
@@ -250,10 +236,7 @@ class TestPermitViewSet(TestCase):
 
     @pytest.mark.django_db
     def test_permit_put__base_case(self):
-        project = ProjectFactory()
-        project.id = 1
-        project.status = 'signature'
-        project.save()
+        project = ProjectPermitStageFactory()
 
         assert project.permit.upload.name is None
         assert project.status == 'signature'
@@ -277,9 +260,7 @@ class TestPermitViewSet(TestCase):
 
     @pytest.mark.django_db
     def test_permit_put__wrong_stage(self):
-        project = ProjectFactory()
-        project.id = 1
-        project.save()
+        project = ProjectEmptyStatusStageFactory()
 
         assert project.permit.upload.name is None
         assert project.status == 'empty status'
@@ -313,10 +294,7 @@ class TestOfferViewSet(TestCase):
 
     @pytest.mark.django_db
     def test_offer_patch__supported(self):
-        project = ProjectFactory()
-        project.id = 1
-        project.status = 'report'
-        project.save()
+        project = ProjectOfferStageFactory()
 
         assert project.status == 'report'
 
@@ -334,10 +312,7 @@ class TestOfferViewSet(TestCase):
   
     @pytest.mark.django_db
     def test_offer_put__base_case(self):
-        project = ProjectFactory()
-        project.id = 1
-        project.status = 'report'
-        project.save()
+        project = ProjectOfferStageFactory()
 
         assert project.offer.upload.name is None
         assert project.status == 'report'
@@ -360,9 +335,7 @@ class TestOfferViewSet(TestCase):
 
     @pytest.mark.django_db
     def test_offer_put__wrong_stage(self):
-        project = ProjectFactory()
-        project.id = 1
-        project.save()
+        project = ProjectEmptyStatusStageFactory()
 
         assert project.permit.upload.name is None
         assert project.status == 'empty status'
@@ -396,10 +369,7 @@ class TestSecondInvoiceViewSet(TestCase):
 
     @pytest.mark.django_db
     def test_second_invoice_patch__not_supported(self):
-        project = ProjectFactory()
-        project.id = 1
-        project.status = 'end installation'
-        project.save()
+        project = ProjectSecondInvoiceStageFactory()
 
         assert project.status == 'end installation'
 
@@ -418,10 +388,7 @@ class TestSecondInvoiceViewSet(TestCase):
 
     @pytest.mark.django_db
     def test_second_invoice_put__base_case(self):
-        project = ProjectFactory()
-        project.id = 1
-        project.status = 'end installation'
-        project.save()
+        project = ProjectSecondInvoiceStageFactory()
 
         assert project.second_invoice.upload.name is None
         assert project.status == 'end installation'
@@ -444,9 +411,7 @@ class TestSecondInvoiceViewSet(TestCase):
 
     @pytest.mark.django_db
     def test_second_invoice_put__wrong_stage(self):
-        project = ProjectFactory()
-        project.id = 1
-        project.save()
+        project = ProjectEmptyStatusStageFactory()
 
         assert project.second_invoice.upload.name is None
         assert project.status == 'empty status'
@@ -480,10 +445,7 @@ class TestLegalRegistrationViewSet(TestCase):
 
     @pytest.mark.django_db
     def test_legal_registration_patch__not_supported(self):
-        project = ProjectFactory()
-        project.id = 1
-        project.status = 'end installation'
-        project.save()
+        project = ProjectLegalRegistrationStageFactory()
 
         assert project.status == 'end installation'
 
@@ -502,10 +464,7 @@ class TestLegalRegistrationViewSet(TestCase):
 
     @pytest.mark.django_db
     def test_legal_registration_put__base_case(self):
-        project = ProjectFactory()
-        project.id = 1
-        project.status = 'end installation'
-        project.save()
+        project = ProjectLegalRegistrationStageFactory()
 
         assert project.legal_registration.upload.name is None
         assert project.status == 'end installation'
@@ -528,9 +487,7 @@ class TestLegalRegistrationViewSet(TestCase):
 
     @pytest.mark.django_db
     def test_legal_registration_put__wrong_stage(self):
-        project = ProjectFactory()
-        project.id = 1
-        project.save()
+        project = ProjectEmptyStatusStageFactory()
 
         assert project.legal_registration.upload.name is None
         assert project.status == 'empty status'
@@ -564,10 +521,7 @@ class TestLegalizationViewSet(TestCase):
 
     @pytest.mark.django_db
     def test_legalization_patch__not_supported(self):
-        project = ProjectFactory()
-        project.id = 1
-        project.status = 'last payment'
-        project.save()
+        project = ProjectLegalizationStageFactory()
 
         assert project.status == 'last payment'
 
@@ -586,10 +540,7 @@ class TestLegalizationViewSet(TestCase):
 
     @pytest.mark.django_db
     def test_legalization_put__base_case(self):
-        project = ProjectFactory()
-        project.id = 1
-        project.status = 'last payment'
-        project.save()
+        project = ProjectLegalizationStageFactory()
 
         assert project.legalization.rac_file.name is None
         assert project.legalization.ritsic_file.name is None
@@ -625,9 +576,7 @@ class TestLegalizationViewSet(TestCase):
 
     @pytest.mark.django_db
     def test_legalization_put__wrong_stage(self):
-        project = ProjectFactory()
-        project.id = 1
-        project.save()
+        project = ProjectEmptyStatusStageFactory()
 
         assert project.legalization.rac_file.name is None
         assert project.legalization.ritsic_file.name is None
@@ -663,10 +612,7 @@ class TestDeliveryCertificateViewSet(TestCase):
 
     @pytest.mark.django_db
     def test_delivery_certificate_patch__not_supported(self):
-        project = ProjectFactory()
-        project.id = 1
-        project.status = 'date installation set'
-        project.save()
+        project = ProjectDeliveryCertificateStageFactory()
 
         assert project.status == 'date installation set'
 
@@ -685,10 +631,7 @@ class TestDeliveryCertificateViewSet(TestCase):
 
     @pytest.mark.django_db
     def test_delivery_certificate_put__base_case(self):
-        project = ProjectFactory()
-        project.id = 1
-        project.status = 'date installation set'
-        project.save()
+        project = ProjectDeliveryCertificateStageFactory()
 
         assert project.delivery_certificate.upload.name is None
         assert project.status == 'date installation set'
@@ -711,9 +654,7 @@ class TestDeliveryCertificateViewSet(TestCase):
 
     @pytest.mark.django_db
     def test_delivery_certificate_put__wrong_stage(self):
-        project = ProjectFactory()
-        project.id = 1
-        project.save()
+        project = ProjectEmptyStatusStageFactory()
 
         assert project.delivery_certificate.upload.name is None
         assert project.status == 'empty status'

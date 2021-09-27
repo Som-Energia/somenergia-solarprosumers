@@ -71,6 +71,56 @@ class ProjectStageFactory(ProjectFactory):
     legal_registration = factory.SubFactory(LegalRegistrationStageFactory)
 
 
+class ProjectEmptyStatusStageFactory(ProjectFactory):
+    id = 1
+    status = 'empty status'
+
+
+class ProjectPrereportRegisteredStageFactory(ProjectFactory):
+    id = 1
+    status = 'registered'
+
+
+class ProjectPrereportStageFactory(ProjectFactory):
+    id = 1
+    status = 'prereport'
+
+
+class ProjectSignatureStageFactory(ProjectFactory):
+    id = 1
+    status = 'offer'
+
+
+class ProjectPermitStageFactory(ProjectFactory):
+    id = 1
+    status = 'signature'
+
+
+class ProjectOfferStageFactory(ProjectFactory):
+    id = 1
+    status = 'report'
+
+
+class ProjectSecondInvoiceStageFactory(ProjectFactory):
+    id = 1
+    status = 'end installation'
+
+
+class ProjectLegalRegistrationStageFactory(ProjectFactory):
+    id = 1
+    status = 'end installation'
+
+
+class ProjectLegalizationStageFactory(ProjectFactory):
+    id = 1
+    status = 'last payment'
+
+
+class ProjectDeliveryCertificateStageFactory(ProjectFactory):
+    id = 1
+    status = 'date installation set'
+
+
 class TechnicalDetailsFactory(DjangoModelFactory):
 
     class Meta:
