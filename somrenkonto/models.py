@@ -109,10 +109,10 @@ class RenkontoEvent(Event, Base):
 
     @classmethod
     def create(
-            cls,
-            title, description,
-            start_date, start_time, end_date, end_time, all_day,
-            calendar, event_type, campaing_name, installation_name, created_by
+        cls,
+        title, description,
+        start_date, start_time, end_date, end_time, all_day,
+        calendar, event_type, campaing_name, installation_name
     ):
         self = cls()
         self.title = title
@@ -126,9 +126,8 @@ class RenkontoEvent(Event, Base):
         self.campaign = Campaign.objects.get(name=campaing_name)
         self.project = Project.objects.get(name=installation_name)
         self.engineering = self.project.engineering
-        self.created_by = created_by
-        self.modified_by = created_by
-
+        self.created_by = get_current_authenticated_user()
+        self.modified_by = self.created_by
         self.save()
         return self
 

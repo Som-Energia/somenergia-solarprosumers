@@ -1,5 +1,4 @@
 import pytest
-from django.contrib.auth import get_user_model
 from django.db.models import Q
 from django.test import Client
 from django.urls import reverse
@@ -119,7 +118,6 @@ class TestRenkontoEventQuerySet:
 
         # when we search for all technical visits
         events = RenkontoEvent.events.technical_visit(technical_visit_event.project)
-
         # then we obtain the same event
         assert events.count() == 1
         assert events.first() == technical_visit_event

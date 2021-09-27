@@ -1,7 +1,7 @@
 import pytest
 
-from somsolet.tests.fixtures import engineering_user_paco, project
 from somsolet.tests.factories import SolarWindPowerEngineeringFactory
+from somsolet.tests.fixtures import engineering_user_paco, project
 from .factories import *
 
 

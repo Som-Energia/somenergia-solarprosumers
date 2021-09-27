@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, tzinfo
 
 import factory
 from django.utils import timezone as tz
@@ -60,15 +60,18 @@ class TechnicalVisitEventFactory(RenkontoEventFactory):
     description = 'Visita técnica per evaluar si es poden posar plaques solars'
 
     start = factory.Faker(
-        'date_time_between_dates',
-        datetime_end=tz.make_aware(datetime.now() + timedelta(days=3))
+        'date_time_between',
+        start_date='now',
+        end_date='+3d',
+        tzinfo=tz.now().tzinfo
     )
     end = factory.Faker(
         'date_time_between_dates',
         datetime_start=factory.SelfAttribute('..start'),
         datetime_end=factory.LazyAttribute(
-            lambda self: tz.make_aware(self.datetime_start + timedelta(hours=2))
+            lambda self: self.datetime_start + timedelta(hours=2)
         ),
+        tzinfo=tz.now().tzinfo
     )
 
     all_day = False
