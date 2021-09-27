@@ -47,7 +47,7 @@ class TestPrereportViewSet(TestCase):
 
         assert project.status == 'prereport'
 
-        user = self.login()
+        user = self.login(project.engineering.user)
 
         response = self.client.patch(
             '/somsolet-api/prereport/?projectId=1',
@@ -134,13 +134,10 @@ class TestPrereportViewSet(TestCase):
 
 class TestSignatureViewSet(TestCase):
 
-    def login(self):
+    def login(self, user):
 
-        user = UserFactory()
-        user.set_password('1234')
-        user.save()
         self.client.login(username=user.username, password='1234')
-        permission = Permission.objects.get(codename='view_project')
+        permission = Permission.objects.get(codename='change_project')
         user.user_permissions.add(permission)
 
         return user
@@ -176,7 +173,7 @@ class TestSignatureViewSet(TestCase):
         assert project.signature.upload.name is None
         assert project.status == 'offer'
 
-        user = self.login()
+        user = self.login(project.engineering.user)
 
         signature_image = SimpleUploadedFile(
             name='contract_signed.jpg', content=b'something', content_type="image/jpeg"
@@ -202,7 +199,7 @@ class TestSignatureViewSet(TestCase):
         assert project.signature.upload.name is None
         assert project.status == 'empty status'
 
-        user = self.login()
+        user = self.login(project.engineering.user)
 
         signature_image = SimpleUploadedFile(
             name='contract_signed.jpg', content=b'something', content_type="image/jpeg"
@@ -306,13 +303,10 @@ class TestPermitViewSet(TestCase):
 
 class TestOfferViewSet(TestCase):
 
-    def login(self):
+    def login(self, user):
 
-        user = UserFactory()
-        user.set_password('1234')
-        user.save()
         self.client.login(username=user.username, password='1234')
-        permission = Permission.objects.get(codename='view_project')
+        permission = Permission.objects.get(codename='change_project')
         user.user_permissions.add(permission)
 
         return user
@@ -326,7 +320,7 @@ class TestOfferViewSet(TestCase):
 
         assert project.status == 'report'
 
-        user = self.login()
+        user = self.login(project.engineering.user)
 
         response = self.client.patch(
             '/somsolet-api/offer/?projectId=1',
@@ -348,7 +342,7 @@ class TestOfferViewSet(TestCase):
         assert project.offer.upload.name is None
         assert project.status == 'report'
 
-        user = self.login()
+        user = self.login(project.engineering.user)
 
         offer_image = SimpleUploadedFile(
             name='offer.jpg', content=b'something', content_type="image/jpeg"
@@ -373,7 +367,7 @@ class TestOfferViewSet(TestCase):
         assert project.permit.upload.name is None
         assert project.status == 'empty status'
 
-        user = self.login()
+        user = self.login(project.engineering.user)
 
         offer_image = SimpleUploadedFile(
             name='offer.jpg', content=b'something', content_type="image/jpeg"
@@ -392,13 +386,10 @@ class TestOfferViewSet(TestCase):
 
 class TestSecondInvoiceViewSet(TestCase):
 
-    def login(self):
+    def login(self, user):
 
-        user = UserFactory()
-        user.set_password('1234')
-        user.save()
         self.client.login(username=user.username, password='1234')
-        permission = Permission.objects.get(codename='view_project')
+        permission = Permission.objects.get(codename='change_project')
         user.user_permissions.add(permission)
 
         return user
@@ -412,7 +403,7 @@ class TestSecondInvoiceViewSet(TestCase):
 
         assert project.status == 'end installation'
 
-        user = self.login()
+        user = self.login(project.engineering.user)
 
         response = self.client.patch(
             '/somsolet-api/second_invoice/?projectId=1',
@@ -435,7 +426,7 @@ class TestSecondInvoiceViewSet(TestCase):
         assert project.second_invoice.upload.name is None
         assert project.status == 'end installation'
 
-        user = self.login()
+        user = self.login(project.engineering.user)
 
         second_invoice_image = SimpleUploadedFile(
             name='second_invoice.jpg', content=b'something', content_type="image/jpeg"
@@ -460,7 +451,7 @@ class TestSecondInvoiceViewSet(TestCase):
         assert project.second_invoice.upload.name is None
         assert project.status == 'empty status'
 
-        user = self.login()
+        user = self.login(project.engineering.user)
 
         second_invoice_image = SimpleUploadedFile(
             name='second_invoice.jpg', content=b'something', content_type="image/jpeg"
@@ -479,13 +470,10 @@ class TestSecondInvoiceViewSet(TestCase):
 
 class TestLegalRegistrationViewSet(TestCase):
 
-    def login(self):
+    def login(self, user):
 
-        user = UserFactory()
-        user.set_password('1234')
-        user.save()
         self.client.login(username=user.username, password='1234')
-        permission = Permission.objects.get(codename='view_project')
+        permission = Permission.objects.get(codename='change_project')
         user.user_permissions.add(permission)
 
         return user
@@ -499,7 +487,7 @@ class TestLegalRegistrationViewSet(TestCase):
 
         assert project.status == 'end installation'
 
-        user = self.login()
+        user = self.login(project.engineering.user)
 
         response = self.client.patch(
             '/somsolet-api/legal_registration/?projectId=1',
@@ -522,7 +510,7 @@ class TestLegalRegistrationViewSet(TestCase):
         assert project.legal_registration.upload.name is None
         assert project.status == 'end installation'
 
-        user = self.login()
+        user = self.login(project.engineering.user)
 
         legal_registration_image = SimpleUploadedFile(
             name='legal_registration.jpg', content=b'something', content_type="image/jpeg"
@@ -547,7 +535,7 @@ class TestLegalRegistrationViewSet(TestCase):
         assert project.legal_registration.upload.name is None
         assert project.status == 'empty status'
 
-        user = self.login()
+        user = self.login(project.engineering.user)
 
         legal_registration_image = SimpleUploadedFile(
             name='legal_registration.jpg', content=b'something', content_type="image/jpeg"
@@ -566,13 +554,10 @@ class TestLegalRegistrationViewSet(TestCase):
 
 class TestLegalizationViewSet(TestCase):
 
-    def login(self):
-        # Extract in BaseTestViewSet (?)
-        user = UserFactory()
-        user.set_password('1234')
-        user.save()
+    def login(self, user):
+
         self.client.login(username=user.username, password='1234')
-        permission = Permission.objects.get(codename='view_project')
+        permission = Permission.objects.get(codename='change_project')
         user.user_permissions.add(permission)
 
         return user
@@ -586,7 +571,7 @@ class TestLegalizationViewSet(TestCase):
 
         assert project.status == 'last payment'
 
-        user = self.login()
+        user = self.login(project.engineering.user)
 
         response = self.client.patch(
             '/somsolet-api/legalization/?projectId=1',
@@ -611,7 +596,7 @@ class TestLegalizationViewSet(TestCase):
         assert project.legalization.cie_file.name is None
         assert project.status == 'last payment'
 
-        user = self.login()
+        user = self.login(project.engineering.user)
 
         legalization_RAC = SimpleUploadedFile(
             name='RAC.jpg', content=b'something', content_type="image/jpeg"
@@ -649,7 +634,7 @@ class TestLegalizationViewSet(TestCase):
         assert project.legalization.cie_file.name is None
         assert project.status == 'empty status'
 
-        user = self.login()
+        user = self.login(project.engineering.user)
 
         legalization_image = SimpleUploadedFile(
             name='legalization.jpg', content=b'something', content_type="image/jpeg"
@@ -668,13 +653,10 @@ class TestLegalizationViewSet(TestCase):
 
 class TestDeliveryCertificateViewSet(TestCase):
 
-    def login(self):
+    def login(self, user):
 
-        user = UserFactory()
-        user.set_password('1234')
-        user.save()
         self.client.login(username=user.username, password='1234')
-        permission = Permission.objects.get(codename='view_project')
+        permission = Permission.objects.get(codename='change_project')
         user.user_permissions.add(permission)
 
         return user
@@ -688,7 +670,7 @@ class TestDeliveryCertificateViewSet(TestCase):
 
         assert project.status == 'date installation set'
 
-        user = self.login()
+        user = self.login(project.engineering.user)
 
         response = self.client.patch(
             '/somsolet-api/delivery_certificate/?projectId=1',
@@ -711,7 +693,7 @@ class TestDeliveryCertificateViewSet(TestCase):
         assert project.delivery_certificate.upload.name is None
         assert project.status == 'date installation set'
 
-        user = self.login()
+        user = self.login(project.engineering.user)
 
         delivery_certificate_image = SimpleUploadedFile(
             name='delivery_certificate.jpg', content=b'something', content_type="image/jpeg"
@@ -736,7 +718,7 @@ class TestDeliveryCertificateViewSet(TestCase):
         assert project.delivery_certificate.upload.name is None
         assert project.status == 'empty status'
 
-        user = self.login()
+        user = self.login(project.engineering.user)
 
         delivery_certificate_image = SimpleUploadedFile(
             name='delivery_certificate.jpg', content=b'something', content_type="image/jpeg"
