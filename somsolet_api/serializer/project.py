@@ -83,9 +83,9 @@ class ProjectSerializer(serializers.HyperlinkedModelSerializer):
                 'action': 'link_to_somrenkonto',
             },
             'report': {
-                'date': obj.date_report,
-                'invalid': obj.is_invalid_report,
-                'file': obj.upload_report.url
+                'date': obj.report.date,
+                'invalid': obj.report.check,
+                'file': obj.report.upload.url
             },
             'offer': {
                 'date': obj.offer.date,
