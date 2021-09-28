@@ -2,8 +2,7 @@ import pytest
 from django.core.files.uploadedfile import SimpleUploadedFile
 from somsolet.tests.factories import (CampaignFactory, ProjectFactory,
                                       TechnicalDetailsFactory)
-from somsolet_api.serializer import (ReportSerializer,
-                                     StatsSerializer,
+from somsolet_api.serializer import (StatsSerializer,
                                      TechnicalDetailsSerializer,
                                      FirstInvoiceSerializer,
                                      LastInvoiceSerializer,
