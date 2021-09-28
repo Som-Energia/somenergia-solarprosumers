@@ -20,6 +20,23 @@ class PrereportStageSerializer(serializers.HyperlinkedModelSerializer):
         )
 
 
+class ReportStageSerializer(serializers.HyperlinkedModelSerializer):
+
+    reportDate = serializers.DateField(source='report.date')
+    invalidReport = serializers.BooleanField(source='report.check')
+    reportUpload = serializers.FileField(source='report.upload')
+
+    class Meta:
+        model = Project
+        fields = (
+            'id',
+            'reportDate',
+            'invalidReport',
+            'reportUpload',
+            'status'
+        )
+
+
 class SignatureStageSerializer(serializers.HyperlinkedModelSerializer):
 
     signatureDate = serializers.DateField(source='signature.date')

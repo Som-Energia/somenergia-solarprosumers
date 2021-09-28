@@ -3,7 +3,7 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from somsolet.tests.factories import ProjectFactory
 from somsolet_api.serializer import (SignatureStageSerializer, PermitStageSerializer,
                                      LegalRegistrationStageSerializer, LegalizationStageSerializer,
-                                     PrereportStageSerializer, OfferStageSerializer,
+                                     PrereportStageSerializer, ReportStageSerializer, OfferStageSerializer,
                                      SecondInvoiceStageSerializer, DeliveryCertificateStageSerializer)
 
 
@@ -68,6 +68,66 @@ class TestPrereportStageSerializer:
             status='prereport'
         )
 
+
+class TestReportStageSerializer:
+
+    @pytest.mark.django_db
+    def test_report_stage_serializer__base_case(self):
+        project = ProjectFactory()
+        project.id = 1
+        report_serializer = ReportStageSerializer(
+            instance=project
+        )
+
+        assert report_serializer.data == dict(
+            id=1,
+            reportDate='2021-06-01',
+            reportUpload=None,
+            invalidReport=False,
+            status='empty status'
+        )
+
+    @pytest.mark.django_db
+    def test_report_stage_serializer__with_data(self):
+        project = ProjectFactory()
+        project.id = 1
+        project.report.check = True
+        project.status = 'report'
+
+        report_serializer = ReportStageSerializer(
+            instance=project
+        )
+
+        assert report_serializer.data == dict(
+            id=1,
+            reportDate='2021-06-01',
+            reportUpload=None,
+            invalidReport=True,
+            status='report'
+        )
+
+    @pytest.mark.django_db
+    def test_report_stage_serializer__with_attachment(self):
+        project = ProjectFactory()
+        project.id = 1
+        project.report.check = True
+        project.status = 'report'
+        report_image = SimpleUploadedFile(
+            "report.jpg", b"file_content", content_type="image/jpeg"
+        )
+        project.report.upload = report_image
+        report_serializer = ReportStageSerializer(
+            instance=project
+        )
+
+        # TODO: find out how to create directories with factories
+        assert report_serializer.data == dict(
+            id=1,
+            reportDate='2021-06-01',
+            reportUpload='/uploaded_files/report.jpg',
+            invalidReport=True,
+            status='report'
+        )
 
 class TestSignatureStageSerializer:
 

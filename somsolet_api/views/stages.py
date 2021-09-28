@@ -9,7 +9,7 @@ from somsolet_api.common.permissions import SomsoletAPIModelPermissions
 
 from somsolet_api.serializer import (SignatureStageSerializer, PermitStageSerializer,
                                      LegalRegistrationStageSerializer, LegalizationStageSerializer,
-                                     PrereportStageSerializer, OfferStageSerializer,
+                                     PrereportStageSerializer, ReportStageSerializer, OfferStageSerializer,
                                      SecondInvoiceStageSerializer, DeliveryCertificateStageSerializer)
 
 
@@ -93,6 +93,14 @@ class PrereportViewSet(StagesBaseViewSet):
     serializer_class = PrereportStageSerializer
     allowed_status = ['registered', 'prereport', 'prereport review']
     project_stage = 'prereport'
+
+
+class ReportViewSet(StagesBaseViewSet):
+
+    serializer_class = ReportStageSerializer
+    allowed_status = ['prereport', 'report', 'report review']
+    project_stage = 'report'
+
 
 class OfferViewSet(StagesBaseViewSet):
 

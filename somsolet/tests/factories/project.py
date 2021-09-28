@@ -9,8 +9,8 @@ from .admin import EngineeringFactory, InventsPacoEngineeringFactory
 
 from .stages import (SignatureStageFactory, SignatureStageBaseFactory, PermitStageFactory,
                      LegalRegistrationStageBaseFactory, LegalRegistrationStageFactory,
-                     LegalizationStageFactory, PrereportStageFactory, OfferStageFactory,
-                     SecondInvoiceStageFactory, DeliveryCertificateStageFactory)
+                     LegalizationStageFactory, PrereportStageFactory, ReportStageFactory,
+                     OfferStageFactory, SecondInvoiceStageFactory, DeliveryCertificateStageFactory)
 
 
 
@@ -33,9 +33,7 @@ class ProjectFactory(DjangoModelFactory):
     date_cch_download = None
     prereport = factory.SubFactory(PrereportStageFactory)
     date_technical_visit = factory.Faker('date_time')
-    date_report = None
-    is_invalid_report = False
-    upload_report = False
+    report = factory.SubFactory(ReportStageFactory)
     date_first_invoice = None
     is_paid_first_invoice = False
     upload_first_invoice = None

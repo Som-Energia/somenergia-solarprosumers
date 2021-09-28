@@ -71,6 +71,18 @@ class PrereportStage(BaseFile):
         }
 
 
+class ReportStage(BaseFile):
+    next_status = 'report'
+    current_status = 'prereport'
+    review_status = 'report review'
+
+    upload = models.FileField(
+        upload_to='uploaded_files/report',
+        default='uploaded_files/report/som.png',
+        verbose_name=_('Upload File')
+    )
+
+
 class SignatureStage(BaseFile):
 
     next_status = 'signature'

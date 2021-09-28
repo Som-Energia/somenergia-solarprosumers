@@ -21,68 +21,6 @@ class TestTechnicalDetailsSerializer:
         assert serializer.data['town'] == 'Speightstown'
 
 
-class TestReportSerializer:
-
-    @pytest.mark.django_db
-    def test_report_serializer__base_case(self):
-        project = ProjectFactory()
-        project.id = 1
-        report_serializer = ReportSerializer(
-            instance=project
-        )
-
-        assert report_serializer.data == dict(
-            id=1,
-            name='Instalació plaques Montserrat Escayola',
-            date_report=None,
-            is_invalid_report=False,
-            upload_report=None,
-            status='empty status'
-        )
-
-    @pytest.mark.django_db
-    def test_report_serializer__with_data(self):
-        project = ProjectFactory()
-        project.id = 1
-        project.date_report = '2020-01-01'
-        project.status = 'report review'
-        report_serializer = ReportSerializer(
-            instance=project
-        )
-
-        assert report_serializer.data == dict(
-            id=1,
-            name='Instalació plaques Montserrat Escayola',
-            date_report='2020-01-01',
-            is_invalid_report=False,
-            upload_report=None,
-            status='report review'
-        )
-
-    @pytest.mark.django_db
-    def test_report_serializer__with_attachment(self):
-        project = ProjectFactory()
-        project.id = 1
-        project.date_report = '2020-01-01'
-        project.is_invalid_report = True
-        project.status = 'report'
-        report_image = SimpleUploadedFile(
-            "report.jpg", b"file_content", content_type="image/jpeg"
-        )
-        project.upload_report = report_image
-        report_serializer = ReportSerializer(
-            instance=project
-        )
-
-        assert report_serializer.data == dict(
-            id=1,
-            name='Instalació plaques Montserrat Escayola',
-            date_report='2020-01-01',
-            is_invalid_report=True,
-            upload_report='/uploaded_files/report.jpg',
-            status='report'
-        )
-
 class TestLastInvoiceSerializer:
 
     @pytest.mark.django_db

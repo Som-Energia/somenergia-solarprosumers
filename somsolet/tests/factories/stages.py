@@ -12,6 +12,16 @@ class PrereportStageFactory(DjangoModelFactory):
     check = False
 
 
+class ReportStageFactory(DjangoModelFactory):
+
+    class Meta:
+        model = 'somsolet.ReportStage'
+
+    date = '2021-06-01'
+    upload = None
+    check = False
+
+
 class SignatureStageBaseFactory(DjangoModelFactory):
 
     class Meta:

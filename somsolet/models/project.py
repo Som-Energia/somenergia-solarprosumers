@@ -13,7 +13,8 @@ from .choices_options import (BATERY_BRAND, INVERSOR_BRAND, ITEM_ANGLES,
 
 from .stage_file import (SignatureStage, PermitStage, LegalRegistrationStage,
                          LegalizationStage, PrereportStage, OfferStage,
-                         SecondInvoiceStage, DeliveryCertificateStage)
+                         SecondInvoiceStage, DeliveryCertificateStage,
+                         ReportStage)
 
 class Project(models.Model):
     name = models.CharField(
@@ -114,6 +115,14 @@ class Project(models.Model):
         null=True,
         blank=True,
         verbose_name=_('Date technical visit'),
+    )
+
+    report = models.ForeignKey(
+        ReportStage,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        verbose_name=_('Report data')
     )
 
     date_report = models.DateField(
