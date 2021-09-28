@@ -127,3 +127,4 @@ uploaded_files
 
 #log files
 log/*
+*.log
