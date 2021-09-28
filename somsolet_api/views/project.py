@@ -55,7 +55,6 @@ class ProjectViewSet(viewsets.ModelViewSet):
         event = technical_visit.set_technical_visit(
             calendar=calendar,
             project=project,
-            created_by=request.user
         )
 
         return Response(technical_visit.to_representation(event))

@@ -136,10 +136,10 @@ class TestProject(TestCase):
 
     def test_set_technical_visit(self):
         # given
-        # a technical visit, an admin, a calendar and a project
-        technical_visit = TechnicalVisitDataFactory.data_ok()
-        admin_user = user = SuperuserFactory.create()
+        # an admin user, a calendar, a technical visit, and a project
+        admin_user = SuperuserFactory.create()
         calendar = CalendarConfigMonthViewFactory.create()
+        technical_visit = TechnicalVisitDataFactory.data_ok()
         montse_project = ProjectFactory.create()
         calendar.calendar.create_relation(montse_project.engineering.user)
 

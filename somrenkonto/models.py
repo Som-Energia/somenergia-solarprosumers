@@ -1,7 +1,8 @@
 import json
-from datetime import datetime, time
+from datetime import datetime, time, tzinfo
 
 from django.db import models
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django_currentuser.middleware import get_current_authenticated_user
 from schedule.models import Calendar, Event
@@ -117,8 +118,10 @@ class RenkontoEvent(Event, Base):
         self = cls()
         self.title = title
         self.description = description
-        self.start = datetime.combine(start_date, start_time or time(0, 0))
-        self.end = datetime.combine(end_date, end_time or time(0, 0))
+        self.start = datetime.combine(start_date, start_time or \
+            time(0, 0, tzinfo=timezone.get_current_timezone()))
+        self.end = datetime.combine(end_date, end_time or \
+            time(0, 0, tzinfo=timezone.get_current_timezone()))
         self.all_day = all_day or False
         self.calendar = Calendar.objects.get(id=calendar)
         self.event_type = event_type

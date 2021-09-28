@@ -1,7 +1,6 @@
 from django.utils.translation import gettext_lazy as _
 from rest_framework import serializers
 from somrenkonto.models import RenkontoEvent, EventChoices
-from datetime import datetime
 
 
 class TechnicalVisitEventValues:
@@ -43,31 +42,28 @@ class RenkontoEventSerializer(serializers.HyperlinkedModelSerializer):
             'event_type', 'project', 'campaign'
         )
 
-    def set_technical_visit(self, calendar, project, created_by):
+    def set_technical_visit(self, calendar, project):
         event_data = TechnicalVisitEventValues.default_technical_visit_values(
-            calendar=calendar,
-            project=project
+            calendar=calendar, project=project
         )
         technical_visit = self.create(
-            created_by=created_by,
             event_data={**event_data, **self.validated_data}
         )
         return technical_visit
 
-    def create(self, created_by, event_data):
+    def create(self, event_data):
         return RenkontoEvent.create(
             title=event_data.get('title'),
             description=event_data.get('description'),
             start_date=event_data.get('start').date(),
-            start_time=event_data.get('start').time(),
+            start_time=event_data.get('start').timetz(),
             end_date=event_data.get('end').date(),
-            end_time=event_data.get('end').time(),
+            end_time=event_data.get('end').timetz(),
             all_day=event_data.get('all_day'),
             calendar=event_data.get('calendar').id,
             event_type=event_data.get('event_type'),
             campaing_name=event_data.get('campaign').name,
             installation_name=event_data.get('project').name,
-            created_by=created_by
         )
 
     def to_representation(self, instance):

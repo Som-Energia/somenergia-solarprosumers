@@ -9,10 +9,10 @@ Faker = Factory.create
 
 class TechnicalVisitDataFactory(factory.StubFactory):
 
+    @staticmethod
     def data_ok():
         fake = Faker()
         fake.seed(0)
-        start = timezone.now()
         tz = timezone.get_current_timezone()
         start = fake.date_time_between(tzinfo=tz)
         end = start + timedelta(minutes=60)

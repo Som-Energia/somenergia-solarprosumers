@@ -1,5 +1,6 @@
 import pytest
 from django.urls import reverse
+from django_currentuser.middleware import _set_current_user
 
 from somrenkonto.models import RenkontoEvent, EventChoices
 from somsolet_api.serializer import RenkontoEventSerializer
@@ -29,17 +30,16 @@ class TestRenkontoEventSerializer:
         # a calendar
         # a project
         # and an authenticated user
+        _set_current_user(authenticated_user)
 
         # when we set a new technical visit for that project
         event_serializer = RenkontoEventSerializer(
             data=technical_event, partial=True
         )
-
         event_serializer.is_valid()
         event = event_serializer.set_technical_visit(
             calendar=calendar,
             project=montse_project,
-            created_by=authenticated_user
         )
 
         # then the event was created with the expected data
