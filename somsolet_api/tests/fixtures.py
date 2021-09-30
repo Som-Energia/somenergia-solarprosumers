@@ -3,6 +3,7 @@ from datetime import datetime
 import factory
 import pytest
 from django.contrib.auth import authenticate
+from django_currentuser.middleware import _set_current_user
 from django.utils import timezone
 
 from somrenkonto.fixtures import *
@@ -23,6 +24,8 @@ from .factories import TechnicalVisitDataFactory
 def authenticated_user():
     user = InventsPacoFactory.create()
     user_authenticated = authenticate(username=user.username, password="1234")
+
+    _set_current_user(user_authenticated)
     return user_authenticated
 
 
@@ -30,6 +33,8 @@ def authenticated_user():
 def authenticated_superuser():
     user = SuperuserFactory.create()
     user_authenticated = authenticate(username=user.username, password="1234")
+
+    _set_current_user(user_authenticated)
     return user_authenticated
 
 

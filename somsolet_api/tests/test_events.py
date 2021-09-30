@@ -30,7 +30,6 @@ class TestRenkontoEventSerializer:
         # a calendar
         # a project
         # and an authenticated user
-        _set_current_user(authenticated_user)
 
         # when we set a new technical visit for that project
         event_serializer = RenkontoEventSerializer(
