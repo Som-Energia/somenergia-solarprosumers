@@ -257,7 +257,6 @@ class TestOfferStageSerializer:
             id=1,
             offerDate='2021-06-29',
             offerUpload=None,
-            isOfferAccepted=False,
             status='empty status'
         )
 
@@ -265,7 +264,7 @@ class TestOfferStageSerializer:
     def test_offer_serializer__with_data(self):
         project = ProjectFactory()
         project.id = 1
-        project.status = 'offer'
+        project.status = 'offer review'
 
         offer_serializer = OfferStageSerializer(
             instance=project
@@ -273,17 +272,16 @@ class TestOfferStageSerializer:
 
         assert offer_serializer.data == dict(
             id=1,
-            isOfferAccepted=False,
             offerDate='2021-06-29',
             offerUpload=None,
-            status='offer'
+            status='offer review'
         )
 
     @pytest.mark.django_db
     def test_offer_serializer__with_attachment(self):
         project = ProjectFactory()
         project.id = 1
-        project.status = 'offer'
+        project.status = 'offer review'
         offer_image = SimpleUploadedFile(
             "offer.jpg", b"file_content", content_type="image/jpeg"
         )
@@ -296,8 +294,7 @@ class TestOfferStageSerializer:
             id=1,
             offerDate='2021-06-29',
             offerUpload='/uploaded_files/offer.jpg',
-            isOfferAccepted=False,
-            status='offer'
+            status='offer review'
         )
 
 

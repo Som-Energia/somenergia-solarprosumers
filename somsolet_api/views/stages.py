@@ -105,8 +105,11 @@ class ReportViewSet(StagesBaseViewSet):
 class OfferViewSet(StagesBaseViewSet):
 
     serializer_class = OfferStageSerializer
-    allowed_status = ['report', 'offer_review', 'offer']
+    allowed_status = ['report', 'offer review', 'offer accepted']
     project_stage = 'offer'
+
+    def patch(self, request, *args, **kwargs):
+        return Response('Patch is not allowed', status=status.HTTP_400_BAD_REQUEST)
 
 
 class SecondInvoiceViewSet(StagesBaseViewSet):

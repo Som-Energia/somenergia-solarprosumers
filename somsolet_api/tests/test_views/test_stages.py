@@ -455,7 +455,7 @@ class TestOfferViewSet(TestCase):
         return user
 
     @pytest.mark.django_db
-    def test_offer_patch__supported(self):
+    def test_offer_patch__not_supported(self):
         project = ProjectFactory()
         project.id = 1
         project.status = 'report'
@@ -472,8 +472,8 @@ class TestOfferViewSet(TestCase):
         )
 
         project.refresh_from_db()
-        assert response.status_code == 200
-        assert project.status == 'offer'  
+        assert response.status_code == 400
+        assert project.status == 'report' 
   
     @pytest.mark.django_db
     def test_offer_put__base_case(self):
@@ -499,7 +499,7 @@ class TestOfferViewSet(TestCase):
 
         project.refresh_from_db()
         assert response.status_code == 200
-        assert project.status == 'offer'
+        assert project.status == 'offer review'
 
     @pytest.mark.django_db
     def test_offer_put__wrong_stage(self):

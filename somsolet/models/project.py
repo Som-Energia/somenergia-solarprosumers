@@ -13,7 +13,7 @@ from .choices_options import (BATERY_BRAND, INVERSOR_BRAND, ITEM_ANGLES,
 
 from .stage_file import (SignatureStage, PermitStage, LegalRegistrationStage,
                          LegalizationStage, PrereportStage, OfferStage,
-                         SecondInvoiceStage, DeliveryCertificateStage,
+                         OfferAcceptedStage, SecondInvoiceStage, DeliveryCertificateStage,
                          ReportStage)
 
 class Project(models.Model):
@@ -199,6 +199,14 @@ class Project(models.Model):
 
     offer = models.ForeignKey(
         OfferStage,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        verbose_name=_('Offer data')
+    )
+
+    offer_accepted = models.ForeignKey(
+        OfferAcceptedStage,
         null=True,
         blank=True,
         on_delete=models.SET_NULL,

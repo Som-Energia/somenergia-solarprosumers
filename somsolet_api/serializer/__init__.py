@@ -8,4 +8,5 @@ from .stats import StatsSerializer
 from .stages import (SignatureStageSerializer, PermitStageSerializer,
                      LegalRegistrationStageSerializer, LegalizationStageSerializer,
                      PrereportStageSerializer, ReportStageSerializer, OfferStageSerializer,
-                     SecondInvoiceStageSerializer, DeliveryCertificateStageSerializer)
+                     OfferAcceptedStageSerializer, SecondInvoiceStageSerializer,
+                     DeliveryCertificateStageSerializer)
