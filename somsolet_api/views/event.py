@@ -1,4 +1,5 @@
-from rest_framework import permissions
+from django.utils.translation import gettext_lazy as _
+from rest_framework import permissions, serializers
 from rest_framework.views import APIView
 
 from somrenkonto.models import RenkontoEvent
@@ -20,6 +21,16 @@ class RenkontoEventView(MakeResponseMixin, APIView):
 
         response = self.make_response(events, request)
         return response
+
+    def post(self, request, engineering_id):
+        if not self._engineering_exists(engineering_id):
+            raise serializers.ValidationError(_('Engineering not found'))
+
+        event_serializer = RenkontoEventSerializer(request.POST)
+        event_serializer.is_valid(raise_exception=True)
+        event = event_serializer.create(event_serializer.validated_data)
+
+        return self.make_succesfull_response(event, request)
 
     def _engineering_exists(self, engineering_id):
         return Engineering.engineerings.get_engineering_by_id(engineering_id) is not None

@@ -18,8 +18,7 @@ class TestRenkontoEventSerializer:
             'allDay': bounded_event.all_day,
             'campaignId': bounded_event.campaign.id,
             'eventType': bounded_event.event_type,
-            'installationId': bounded_event.project.id,
-            'address': None
+            'installationId': bounded_event.project.id
         }
 
     @pytest.mark.django_db
@@ -54,7 +53,6 @@ class TestRenkontoEventSerializer:
             'campaignId': montse_project.campaign.id,
             'eventType': EventChoices.TECHNICAL_VISIT,
             'installationId': montse_project.id,
-            'address': None
         }
 
         # and has the given project and calendar

@@ -34,7 +34,6 @@ class TestSetTechnicalVisitView:
             'dateEnd': technical_visit_data.get('date_end'),
             'allDay': False,
             'eventType': 'TECH',
-            'address': None,
             'installationId': montse_project.id,
             'campaignId': montse_project.campaign_id
         }

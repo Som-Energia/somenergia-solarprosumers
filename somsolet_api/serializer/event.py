@@ -23,6 +23,17 @@ class TechnicalVisitEventValues:
 
 class RenkontoEventSerializer(serializers.HyperlinkedModelSerializer):
 
+    DATE_ERROR_MSG = _('Date end must occur after date start')
+    CALENDAR_NOT_FOUND_MSG = _('Engineering has not a calendar defined')
+    CAMPAIGN_NOT_DEFINED_MSG = _('Campaign, project or both are not defined')
+
+    class Meta:
+        model = RenkontoEvent
+        fields = (
+            'title', 'description', 'date_start', 'date_end', 'all_day',
+            'event_type', 'campaign', 'project',
+        )
+
     date_start = serializers.DateTimeField(
         source='start',
         format='%Y-%m-%dT%H:%M:%S%z'
@@ -33,14 +44,19 @@ class RenkontoEventSerializer(serializers.HyperlinkedModelSerializer):
         format='%Y-%m-%dT%H:%M:%S%z'
     )
 
-    address = serializers.CharField(required=False)
+    def validate(self, data):
+        # import pdb; pdb.set_trace()
+        if data['start'] > data['end']:
+            raise serializers.ValidationError(self.DATE_ERROR_MSG)
 
-    class Meta:
-        model = RenkontoEvent
-        fields = (
-            'date_start', 'date_end', 'all_day', 'address',
-            'event_type', 'project', 'campaign'
-        )
+        # if not self._calendar_exists(data['project']):
+        #     raise serializers.ValidationError(self.CALENDAR_NOT_FOUND_MSG)
+
+        # if not self._campaign_defined(data['campaign'], data['project']):
+        #     raise serializers.ValidationError(self.CAMPAIGN_NOT_DEFINED_MSG)
+
+        return data
+
 
     def set_technical_visit(self, calendar, project):
         event_data = TechnicalVisitEventValues.default_technical_visit_values(
@@ -71,7 +87,6 @@ class RenkontoEventSerializer(serializers.HyperlinkedModelSerializer):
         return {
             'dateStart': data.get('date_start'),
             'dateEnd': data.get('date_end'),
-            'address': data.get('address'),
             'allDay': instance.all_day,
             'eventType': instance.event_type,
             'installationId': instance.project.id,
