@@ -45,15 +45,14 @@ class RenkontoEventSerializer(serializers.HyperlinkedModelSerializer):
     )
 
     def validate(self, data):
-        # import pdb; pdb.set_trace()
         if data['start'] > data['end']:
             raise serializers.ValidationError(self.DATE_ERROR_MSG)
 
-        # if not self._calendar_exists(data['project']):
-        #     raise serializers.ValidationError(self.CALENDAR_NOT_FOUND_MSG)
+        if data.get('project') and not self._calendar_exists(data['project']):
+            raise serializers.ValidationError(self.CALENDAR_NOT_FOUND_MSG)
 
-        # if not self._campaign_defined(data['campaign'], data['project']):
-        #     raise serializers.ValidationError(self.CAMPAIGN_NOT_DEFINED_MSG)
+        if data.get('campaign') and not self._campaign_defined(data['campaign'], data['project']):
+            raise serializers.ValidationError(self.CAMPAIGN_NOT_DEFINED_MSG)
 
         return data
 

@@ -110,3 +110,22 @@ class TestRenkontoEventView:
                 'results': []
             }
         }
+
+    def test__post_engineering_events(
+        self, authenticated_user, engineering_with_events, technical_visit_event_request, rf
+    ):
+        # given
+        # an authenticated_user
+        # an engineering with events
+        # a new event data
+
+        # when the user post that technical event data
+        url = reverse('events', args=[engineering_with_events.id])
+        request = rf.post(url, technical_visit_event_request)
+        request.user = authenticated_user
+        response = RenkontoEventView.as_view()(request, engineering_with_events.id)
+
+        # then the user obtain a succesfull response and the event was created 
+        assert response.data == {
+            'data': {}
+        }
