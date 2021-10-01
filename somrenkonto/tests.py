@@ -74,7 +74,7 @@ class TestFilterViewMixin:
 @pytest.mark.django_db
 class TestCalendarView:
 
-    def test__edit_calendar_conf(self, rf, calendar_with_conf):
+    def test__edit_calendar_conf(self, rf, authenticated_user, calendar_with_conf):
         # given a calendar
         # calendar_with_conf
 
@@ -87,7 +87,7 @@ class TestCalendarView:
         assert response.status_code == 200
 
     def test__edit_calendar_conf__button_in_calendar_view(
-            self, rf, calendar, engineering_user_paco
+            self, rf, authenticated_user, calendar, engineering_user_paco
     ):
         # given a calendar
         # calendar
@@ -111,7 +111,7 @@ class TestCalendarView:
 @pytest.mark.django_db
 class TestRenkontoEventQuerySet:
 
-    def test__technical_visit(self, technical_visit_event):
+    def test__technical_visit(self, authenticated_user, technical_visit_event):
         # Given a project and technical visit event for that project
         # technical_visit_event
         # technical_visit_event.project
@@ -122,7 +122,7 @@ class TestRenkontoEventQuerySet:
         assert events.count() == 1
         assert events.first() == technical_visit_event
 
-    def test__engineering_events(self, engineering_with_events):
+    def test__engineering_events(self, authenticated_user, engineering_with_events):
         # given
         # an engineering with calendar events
         engineering_id = engineering_with_events.id
@@ -137,7 +137,7 @@ class TestRenkontoEventQuerySet:
         ))
 
     def test__engineering_without_events(
-            self, engineering_without_events, engineering_with_events
+            self, authenticated_user, engineering_without_events, engineering_with_events
     ):
         # given
         # an engineering without events and other engineering with events

@@ -6,7 +6,7 @@ from somsolet.models import Project
 @pytest.mark.django_db
 class TestProjectModel:
 
-    def test__technical_visit_dates(self, technical_visit_event):
+    def test__technical_visit_dates(self, authenticated_user, technical_visit_event):
         # Given a project and technical visit event for that project
         # technical_visit_event.project
         # technical_visit_event

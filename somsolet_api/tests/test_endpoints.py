@@ -1,6 +1,7 @@
 import pytest
 
 from django.contrib.auth.models import User, Permission
+from django_currentuser.middleware import _set_current_user
 from django.test import TestCase
 from django.urls import reverse
 
@@ -138,6 +139,7 @@ class TestProject(TestCase):
         # given
         # an admin user, a calendar, a technical visit, and a project
         admin_user = SuperuserFactory.create()
+        _set_current_user(admin_user)
         calendar = CalendarConfigMonthViewFactory.create()
         technical_visit = TechnicalVisitDataFactory.data_ok()
         montse_project = ProjectFactory.create()
@@ -160,7 +162,6 @@ class TestProject(TestCase):
             'dateEnd': technical_visit.get('date_end'),
             'allDay': False,
             'eventType': 'TECH',
-            'address': None,
             'installationId': montse_project.id,
             'campaignId': montse_project.campaign_id
         }
