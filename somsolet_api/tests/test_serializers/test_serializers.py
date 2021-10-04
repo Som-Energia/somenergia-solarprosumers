@@ -1,4 +1,5 @@
 import pytest
+import datetime
 from django.core.files.uploadedfile import SimpleUploadedFile
 from somsolet.tests.factories import (CampaignFactory, ProjectFactory,
                                       TechnicalDetailsFactory)
@@ -6,11 +7,51 @@ from somsolet_api.serializer import (StatsSerializer,
                                      TechnicalDetailsSerializer,
                                      FirstInvoiceSerializer,
                                      LastInvoiceSerializer,
-                                     DeliveryCertificateStageSerializer)
+                                     DeliveryCertificateStageSerializer,
+                                     ProjectSerializer)
+
+
+class TestProjectSerializer:
+    @pytest.mark.django_db
+    def test__base_case(self):
+        project = ProjectFactory()
+        details = TechnicalDetailsFactory(
+            project=project,
+        )
+        serializer = ProjectSerializer(
+            instance=project,
+        )
+        assert serializer.data['description'] == {
+            'campaignName': 'Solar Paco',
+            'dateStart': None,
+            'engineerings': [],
+            'name': 'Instalació plaques Montserrat Escayola',
+            'projectId': 1,
+            'registeredPerson': {
+                'email': 'montse@somenergia.coop',
+                'language': 'ca',
+                'name': 'Montserrat Escayola',
+                'phoneNumber': '631111380',
+            },
+            'stageId': 'empty status',
+            'supplyPoint': {
+                'address': {
+                    'administrativeDivision': 'Barbados',
+                    'municipality': 'Parroquia de Christ Church',
+                    'postalCode': '08026',
+                    'street': 'Bridgetown Norman',
+                    'town': 'Speightstown'
+                },
+                'cups': 'ES0024123453789101XXYY',
+                'tariff': '2.0A',
+            },
+            'warning': 'No Warn',
+        }
+        # TODO  assert serializer.data['stages'] == {...}
 
 
 class TestTechnicalDetailsSerializer:
-
+ 
     @pytest.mark.django_db
     def test_technical_details_serializer__base_case(self):
         serializer = TechnicalDetailsSerializer(
