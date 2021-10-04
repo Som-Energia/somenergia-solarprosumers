@@ -35,3 +35,15 @@ class TestMailing:
         email = mail.outbox[0]
         assert 'Per qualsevol consulta pots respondre' in email.body
         assert 'support.somenergia.coop' in email.body
+
+    @pytest.mark.usefixtures('mailing_offer')
+    def test_send_pending_notification__with_two_attachments(
+         self, mailing_offer
+    ):
+        scheduler_tasks.send_pending_notification()
+        email_template = 'emails/offer.html'
+
+        assert len(mail.outbox) == 1
+        email = mail.outbox[0]
+        assert "Per qualsevol consulta pots respondre" in email.body
+        assert "Per acceptar l'oferta accedeix" in email.body

@@ -10,8 +10,8 @@ from .admin import EngineeringFactory, InventsPacoEngineeringFactory
 from .stages import (SignatureStageFactory, SignatureStageBaseFactory, PermitStageFactory,
                      LegalRegistrationStageBaseFactory, LegalRegistrationStageFactory,
                      LegalizationStageFactory, PrereportStageFactory, ReportStageFactory,
-                     OfferStageFactory, OfferAcceptedStageFactory, SecondInvoiceStageFactory,
-                     DeliveryCertificateStageFactory)
+                     ReportBaseStageFactory, OfferStageFactory, OfferBaseStageFactory,
+                     OfferAcceptedStageFactory, SecondInvoiceStageFactory, DeliveryCertificateStageFactory)
 
 
 
@@ -34,7 +34,7 @@ class ProjectFactory(DjangoModelFactory):
     date_cch_download = None
     prereport = factory.SubFactory(PrereportStageFactory)
     date_technical_visit = factory.Faker('date_time')
-    report = factory.SubFactory(ReportStageFactory)
+    report = factory.SubFactory(ReportBaseStageFactory)
     date_first_invoice = None
     is_paid_first_invoice = False
     upload_first_invoice = None
@@ -48,7 +48,7 @@ class ProjectFactory(DjangoModelFactory):
     signature = factory.SubFactory(SignatureStageBaseFactory)
     permit = factory.SubFactory(PermitStageFactory)
     date_permit = None
-    offer = factory.SubFactory(OfferStageFactory)
+    offer = factory.SubFactory(OfferBaseStageFactory)
     offer_accepted = factory.SubFactory(OfferAcceptedStageFactory)
     second_invoice = factory.SubFactory(SecondInvoiceStageFactory)
     discarded_type = 'Not discarded'
@@ -67,9 +67,11 @@ class ProjectFactory(DjangoModelFactory):
 
 
 class ProjectStageFactory(ProjectFactory):
+    report = factory.SubFactory(ReportStageFactory)
+    offer = factory.SubFactory(OfferStageFactory)
     signature = factory.SubFactory(SignatureStageFactory)
     legal_registration = factory.SubFactory(LegalRegistrationStageFactory)
-
+ 
 
 class TechnicalDetailsFactory(DjangoModelFactory):
 

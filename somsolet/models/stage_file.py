@@ -66,7 +66,7 @@ class PrereportStage(BaseFile):
             'subject': _(f'PREINFORME [{noti.project}] - {noti.project.campaign}, compra col·lectiva de Som Energia'),
             'template': self.template,
             'message_params': message_params,
-            'attachment': str(os.path.join(base.MEDIA_ROOT, str(noti.project.signature.upload))),
+            'attachment': [str(os.path.join(base.MEDIA_ROOT, str(noti.project.prereport.upload)))],
             'from_email': base.DEFAULT_FROM_EMAIL[0]
         }
 
@@ -176,7 +176,7 @@ class SignatureStage(BaseFile):
             'subject': _(f'CONTRACTE CLAU EN MÀ [{noti.project}] - {noti.project.campaign}, compra col·lectiva de Som Energia'),
             'template': self.template,
             'message_params': message_params,
-            'attachment': str(os.path.join(base.MEDIA_ROOT, str(noti.project.signature.upload))),
+            'attachment': [str(os.path.join(base.MEDIA_ROOT, str(noti.project.signature.upload)))],
             'from_email': base.DEFAULT_FROM_EMAIL[0]
         }
 
@@ -205,9 +205,21 @@ class PermitStage(BaseFile):
             'subject': _(f'TRAMITACIÓ LLICÈNCIA D’OBRES [{noti.project}] - {noti.project.campaign}, compra col·lectiva de Som Energia'),
             'template': self.template,
             'message_params': message_params,
-            'attachment': str(os.path.join(base.MEDIA_ROOT, str(noti.project.permit.upload))),
+            'attachment': [str(os.path.join(base.MEDIA_ROOT, str(noti.project.permit.upload)))],
             'from_email': base.DEFAULT_FROM_EMAIL[0]
         }
+
+
+class DeliveryCertificateStage(BaseFile):
+
+    next_status = 'end installation'
+    current_status = 'date installation set'
+
+    upload = models.FileField(
+        upload_to='uploaded_files/delivery_certificate',
+        default='uploaded_files/delivery_certificate/som.png',
+        verbose_name=_('Upload File')
+    )
 
 
 class SecondInvoiceStage(BaseFile):
@@ -233,7 +245,7 @@ class SecondInvoiceStage(BaseFile):
             'subject': _(f'CONFIRMACIÓ DE PAGAMENT [{noti.project}] - {noti.project.campaign}, compra col·lectiva de Som Energia'),
             'template': self.template,
             'message_params': message_params,
-            'attachment': str(os.path.join(base.MEDIA_ROOT, str(noti.project.legal_registration.upload))),
+            'attachment': [str(os.path.join(base.MEDIA_ROOT, str(noti.project.second_invoice.upload)))],
             'from_email': base.DEFAULT_FROM_EMAIL[0]
         }
 
@@ -263,7 +275,7 @@ class LegalRegistrationStage(BaseFile):
             'subject': _(f'CERTIFICAT TRAMITACIÓ REGISTRE [{noti.project}] - {noti.project.campaign}, compra col·lectiva de Som Energia'),
             'template': self.template,
             'message_params': message_params,
-            'attachment': str(os.path.join(base.MEDIA_ROOT, str(noti.project.legal_registration.upload))),
+            'attachment': [str(os.path.join(base.MEDIA_ROOT, str(noti.project.legal_registration.upload)))],
             'from_email': base.DEFAULT_FROM_EMAIL[0]
         }
 
@@ -319,18 +331,10 @@ class LegalizationStage(BaseFile):
             'subject': _(f'CERTIFICAT LEGALITZACIÓ [{noti.project}] - {noti.project.campaign}, compra col·lectiva de Som Energia'),
             'template': self.template,
             'message_params': message_params,
-            'attachment': str(os.path.join(base.MEDIA_ROOT, str(noti.project.legal_registration.upload))),
+            'attachment': [
+                str(os.path.join(base.MEDIA_ROOT, str(noti.project.rac_file.upload))),
+                str(os.path.join(base.MEDIA_ROOT, str(noti.project.ritsic_file.upload))),
+                str(os.path.join(base.MEDIA_ROOT, str(noti.project.cie_file.upload))),
+            ],
             'from_email': base.DEFAULT_FROM_EMAIL[0]
         }
-
-
-class DeliveryCertificateStage(BaseFile):
-
-    next_status = 'end installation'
-    current_status = 'date installation set'
-
-    upload = models.FileField(
-        upload_to='uploaded_files/delivery_certificate',
-        default='uploaded_files/delivery_certificate/som.png',
-        verbose_name=_('Upload File')
-    )
