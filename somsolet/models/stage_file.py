@@ -127,12 +127,6 @@ class OfferAcceptedStage(BaseFile):
     current_status = 'offer review'
     template = 'emails/offer_accepted.html'
 
-    upload = models.FileField(
-        upload_to='uploaded_files/offer',
-        default='uploaded_files/offer/som.png',
-        verbose_name=_('Upload File')
-    )
-
     def get_status(self):
         if self.check:
             return self.next_status

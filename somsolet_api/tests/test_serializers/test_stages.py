@@ -4,7 +4,8 @@ from somsolet.tests.factories import ProjectFactory
 from somsolet_api.serializer import (SignatureStageSerializer, PermitStageSerializer,
                                      LegalRegistrationStageSerializer, LegalizationStageSerializer,
                                      PrereportStageSerializer, ReportStageSerializer, OfferStageSerializer,
-                                     SecondInvoiceStageSerializer, DeliveryCertificateStageSerializer)
+                                     OfferAcceptedStageSerializer, SecondInvoiceStageSerializer,
+                                     DeliveryCertificateStageSerializer)
 
 
 
@@ -295,6 +296,42 @@ class TestOfferStageSerializer:
             offerDate='2021-06-29',
             offerUpload='/uploaded_files/offer.jpg',
             status='offer review'
+        )
+
+
+class TestOfferAcceptedStageSerializer:
+
+    @pytest.mark.django_db
+    def test_offer_accepted_stage_serializer__base_case(self):
+        project = ProjectFactory()
+        project.id = 1
+        offer_serializer = OfferAcceptedStageSerializer(
+            instance=project
+        )
+
+        assert offer_serializer.data == dict(
+            id=1,
+            offerAcceptedDate='2021-06-29',
+            isOfferAccepted=False,
+            status='empty status'
+        )
+
+    @pytest.mark.django_db
+    def test_offer_accepted_serializer__with_data(self):
+        project = ProjectFactory()
+        project.id = 1
+        project.offer_accepted.check = True
+        project.status = 'offer accepted'
+
+        offer_serializer = OfferAcceptedStageSerializer(
+            instance=project
+        )
+
+        assert offer_serializer.data == dict(
+            id=1,
+            offerAcceptedDate='2021-06-29',
+            isOfferAccepted=True,
+            status='offer accepted'
         )
 
 

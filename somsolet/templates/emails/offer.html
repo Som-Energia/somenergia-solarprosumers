@@ -1,7 +1,25 @@
 {% load i18n %}
 
 <body style="margin:0; padding:1rem; background-color:#F2F2F2; color: #333333; font-family: Arial,Helvetica,sans-serif;">
-  <center>
+<style>
+.button {
+
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: auto;
+    cursor: pointer;
+    background-color:  #aec122;
+    border-radius: 8pt;
+    box-shadow: 2px 2px 7px #4D4D4D;
+    }
+</style>
+
+    <center>
         <table width="640" cellspacing="0" cellpadding="0" border="0" align="center" style="max-width:640px; width:100%;" bgcolor="#FFFFFF">
             <tr>
                 <td align="center" valign="top" style="padding:10px;">
@@ -14,8 +32,21 @@
                     <tr>
                         <td align="left" valign="top" style="padding:10px; color: #333333;">
                             <p>{{ header }}</p>
-                            <p>{% trans "Adjunt a aquest correu et fem arribar novament <b>l’oferta que has acceptat</b>." %}</p>
-                            <p>{% trans "Properament l'empresa instal·ladora " %} {{engineering}},  {% trans "et farà arribar el <b>contracte clau en mà</b> per a la seva signatura. Una vegada signat el contracte clau en mà l'empresa instal·ladora procedirà a tramitar la sol·licitud de llicència d'obres. Una vegada s'obtingui aquest permís l'empresa instal·ladora contactarà amb tu per triar data d'inici d'obres." %}</p>
+                            <p>{% trans "Adjunt a aquest correu et fem arribar l'informe tècnic mès després de la visita tècnica realitzada i la oferta tècnic-econòmica amb el detall del que vau acordar amb l'empresa instal·ladora." %}</p>
+                            <p>{% trans "Ara cal que confirmis l'acceptació o renúncia de la oferta. Si acceptes l'oferta rebràs en els propers dies el contracte clau en mà, si per el contrari rebutges la oferta, t’agrairem que indiquis de forma resumida el motiu pel qual no estàs conforme i l'has rebutjat per tal que l'enginyeria es pugui posar en contacte amb tu. Recorda que si hi han costos addicionals per motius tècnics, pots donar-te de baixa de la campanya i se't farà el retorn íntegre de la bestreta dipositada en el moment de la inscripció." %}</p>
+                            <p>{% trans "Per acceptar l'oferta accedeix a l'apartat de 'Producció' > 'Les meves compres col·lectives' de la teva "%} <a href="https://oficinavirtual.somenergia.coop/" target="_blank" style="color:#707a1a; text-decoration:underline;" rel="noopener noreferrer"> Oficina Virtual. </a> {% trans "Pots fer-ho fent click en el següent botó:"%}</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="top" style="padding:10px; color: #333333;">
+                            <a class="button button" href="https://oficinavirtual.somenergia.coop/" target="_blank" rel="noopener noreferrer"> {% trans "Les meves compres col·lectives"%}</a>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" valign="top" style="padding:10px; color: #333333;">
+                            <p>{% trans Per rebutjar la oferta fes un correu a " %}  {{email}} {% trans "i indica el motiu del rebuig." %}</p>
+                            <p>{% trans "Si el que vols és donar-te de baixa de la campanya respon aquest mateix correu i indica el motiu. Recorda que si es tracta d'una baixa voluntària no es farà el retorn de la bestreta." %}</p>
                             <p>{% trans "Per qualsevol consulta pots respondre a aquest mateix correu per dirigir-te a Som Energia o bé contactar directament amb "%} {{engineering}}: {{email}} </p>
                         </td>
                     </tr>

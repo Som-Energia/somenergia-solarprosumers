@@ -90,7 +90,7 @@ class OfferAcceptedStageSerializer(serializers.HyperlinkedModelSerializer):
         model = Project
         fields = (
             'id',
-            'offerDate',
+            'offerAcceptedDate',
             'isOfferAccepted',
             'status'
         )

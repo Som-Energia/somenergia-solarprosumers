@@ -304,11 +304,11 @@ class TestSignatureViewSet(TestCase):
     def test_signature_put__base_case(self):
         project = ProjectFactory()
         project.id = 1
-        project.status = 'offer'
+        project.status = 'offer accepted'
         project.save()
 
         assert project.signature.upload.name is None
-        assert project.status == 'offer'
+        assert project.status == 'offer accepted'
 
         user = self.login()
 
@@ -473,7 +473,7 @@ class TestOfferViewSet(TestCase):
 
         project.refresh_from_db()
         assert response.status_code == 400
-        assert project.status == 'report' 
+        assert project.status == 'report'
   
     @pytest.mark.django_db
     def test_offer_put__base_case(self):
@@ -525,6 +525,67 @@ class TestOfferViewSet(TestCase):
         project.refresh_from_db()
         assert response.status_code == 409
         assert project.status == 'empty status'
+
+
+class TestOfferAcceptedViewSet(TestCase):
+
+    def login(self):
+
+        user = UserFactory()
+        user.set_password('1234')
+        user.save()
+        self.client.login(username=user.username, password='1234')
+        permission = Permission.objects.get(codename='view_project')
+        user.user_permissions.add(permission)
+
+        return user
+
+    @pytest.mark.django_db
+    def test_offer_accepted_patch__supported(self):
+        project = ProjectFactory()
+        project.id = 1
+        project.status = 'offer review'
+        project.save()
+
+        assert project.status == 'offer review'
+
+        user = self.login()
+
+        response = self.client.patch(
+            '/somsolet-api/offer_accepted/?projectId=1',
+            data={'is_checked': True},
+            content_type='application/json'
+        )
+
+        project.refresh_from_db()
+        assert response.status_code == 200
+        assert project.status == 'offer accepted'
+  
+    @pytest.mark.django_db
+    def test_offer_put__not_supported(self):
+        project = ProjectFactory()
+        project.id = 1
+        project.status = 'report'
+        project.save()
+
+        assert project.offer.upload.name is None
+        assert project.status == 'report'
+
+        user = self.login()
+
+        offer_image = SimpleUploadedFile(
+            name='offer.jpg', content=b'something', content_type="image/jpeg"
+        )
+        # TODO: request.data is {} on backend, see issue: https://github.com/encode/django-rest-framework/issues/3951
+        response = self.client.generic(method="PUT",
+            path='/somsolet-api/offer/?projectId=1',
+            data={'upload': offer_image},
+            content_type='multipart/form-data'
+        )
+
+        project.refresh_from_db()
+        assert response.status_code == 200
+        assert project.status == 'offer review'
 
 
 class TestSecondInvoiceViewSet(TestCase):

@@ -51,8 +51,16 @@ class OfferStageFactory(DjangoModelFactory):
         model = 'somsolet.OfferStage'
 
     date = '2021-06-29'
-    check = False
     upload = None
+
+
+class OfferAcceptedStageFactory(DjangoModelFactory):
+
+    class Meta:
+        model = 'somsolet.OfferAcceptedStage'
+
+    date = '2021-06-29'
+    check = False
 
 
 class SecondInvoiceStageFactory(DjangoModelFactory):
