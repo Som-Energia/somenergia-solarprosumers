@@ -2,6 +2,8 @@ from django.utils.translation import gettext_lazy as _
 from rest_framework import serializers
 from somrenkonto.models import RenkontoEvent, EventChoices
 
+from somsolet.models.campaign import Campaign
+from somsolet.models.project import Project
 
 class TechnicalVisitEventValues:
 
@@ -44,6 +46,15 @@ class RenkontoEventSerializer(serializers.HyperlinkedModelSerializer):
         format='%Y-%m-%dT%H:%M:%S%z'
     )
 
+    campaign = serializers.PrimaryKeyRelatedField(
+        queryset=Campaign.objects,
+        
+    )
+
+    project = serializers.PrimaryKeyRelatedField(
+        queryset=Project.objects
+    )
+
     def validate(self, data):
         if data['start'] > data['end']:
             raise serializers.ValidationError(self.DATE_ERROR_MSG)
@@ -53,9 +64,8 @@ class RenkontoEventSerializer(serializers.HyperlinkedModelSerializer):
 
         if data.get('campaign') and not self._campaign_defined(data['campaign'], data['project']):
             raise serializers.ValidationError(self.CAMPAIGN_NOT_DEFINED_MSG)
-
+        
         return data
-
 
     def set_technical_visit(self, calendar, project):
         event_data = TechnicalVisitEventValues.default_technical_visit_values(

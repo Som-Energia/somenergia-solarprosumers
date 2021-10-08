@@ -22,6 +22,21 @@ class TestRenkontoEventSerializer:
         }
 
     @pytest.mark.django_db
+    def test__event_serializer__without_object(self, technical_visit_event_request):
+        event_serializer = RenkontoEventSerializer(
+            technical_visit_event_request,
+            context={'request': None}
+        )
+        assert event_serializer.data == {
+            'dateStart': technical_visit_event_request['start'],
+            'dateEnd': technical_visit_event_request['end'],
+            'allDay': technical_visit_event_request['all_day'],
+            'campaignId': technical_visit_event_request['campaign'],
+            'eventType': technical_visit_event_request['event_type'],
+            'installationId': technical_visit_event_request['project']
+        }
+
+    @pytest.mark.django_db
     def test__set_technical_visit(
         self, authenticated_user, technical_event, calendar, montse_project
     ):

@@ -4,6 +4,7 @@ from rest_framework.views import APIView
 
 from somrenkonto.models import RenkontoEvent
 from somsolet.models import Engineering
+from somsolet.models.project import Project
 from somsolet_api.serializer import RenkontoEventSerializer
 from somsolet_api.common.mixins import MakeResponseMixin
 
@@ -25,7 +26,10 @@ class RenkontoEventView(MakeResponseMixin, APIView):
     def post(self, request, engineering_id):
         if not self._engineering_exists(engineering_id):
             raise serializers.ValidationError(_('Engineering not found'))
-        event_serializer = RenkontoEventSerializer(data=request.POST)
+        data = request.POST.dict()
+        event_serializer = RenkontoEventSerializer(
+            data=data, context={'request': request}
+        )
         event_serializer.is_valid(raise_exception=True)
         event = event_serializer.create(event_serializer.validated_data)
 

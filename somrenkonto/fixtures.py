@@ -35,8 +35,8 @@ def technical_visit_event_request():
     return dict(
         title='Visita técnica',
         description='Visita técnica per evaluar si es poden posar plaques solars',
-        date_start=datetime.strftime(start, '%Y-%m-%dT%H:%M:%S%z'),
-        date_end=datetime.strftime(end, '%Y-%m-%dT%H:%M:%S%z'),
+        start=datetime.strftime(start, '%Y-%m-%dT%H:%M:%S%z'),
+        end=datetime.strftime(end, '%Y-%m-%dT%H:%M:%S%z'),
         all_day=False,
         calendar=calendar.id,
         event_type=EventChoices.TECHNICAL_VISIT,
