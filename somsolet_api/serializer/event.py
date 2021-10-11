@@ -1,9 +1,8 @@
 from django.utils.translation import gettext_lazy as _
 from rest_framework import serializers
+from schedule.models.calendars import Calendar
 from somrenkonto.models import RenkontoEvent, EventChoices
 
-from somsolet.models.campaign import Campaign
-from somsolet.models.project import Project
 
 class TechnicalVisitEventValues:
 
@@ -23,17 +22,16 @@ class TechnicalVisitEventValues:
         }
 
 
-class RenkontoEventSerializer(serializers.HyperlinkedModelSerializer):
+class RenkontoEventSerializer(serializers.ModelSerializer):
 
     DATE_ERROR_MSG = _('Date end must occur after date start')
-    CALENDAR_NOT_FOUND_MSG = _('Engineering has not a calendar defined')
     CAMPAIGN_NOT_DEFINED_MSG = _('Campaign, project or both are not defined')
 
     class Meta:
         model = RenkontoEvent
         fields = (
             'title', 'description', 'date_start', 'date_end', 'all_day',
-            'event_type', 'campaign', 'project',
+            'event_type', 'campaign', 'project', 'calendar', 'engineering'
         )
 
     date_start = serializers.DateTimeField(
@@ -46,26 +44,22 @@ class RenkontoEventSerializer(serializers.HyperlinkedModelSerializer):
         format='%Y-%m-%dT%H:%M:%S%z'
     )
 
-    campaign = serializers.PrimaryKeyRelatedField(
-        queryset=Campaign.objects,
-        
-    )
-
-    project = serializers.PrimaryKeyRelatedField(
-        queryset=Project.objects
-    )
-
     def validate(self, data):
         if data['start'] > data['end']:
             raise serializers.ValidationError(self.DATE_ERROR_MSG)
 
-        if data.get('project') and not self._calendar_exists(data['project']):
-            raise serializers.ValidationError(self.CALENDAR_NOT_FOUND_MSG)
+        if data.get('project', False):
+            campaign_defined = self._campaign_defined(
+                data['engineering'], data['campaign'], data['project']
+            )
+            if not campaign_defined:
+                raise serializers.ValidationError(self.CAMPAIGN_NOT_DEFINED_MSG)
 
-        if data.get('campaign') and not self._campaign_defined(data['campaign'], data['project']):
-            raise serializers.ValidationError(self.CAMPAIGN_NOT_DEFINED_MSG)
-        
         return data
+
+    def _campaign_defined(self, engineering, campaign, project):
+        return project.campaign.id == campaign.id \
+            and project.engineering.id == engineering.id
 
     def set_technical_visit(self, calendar, project):
         event_data = TechnicalVisitEventValues.default_technical_visit_values(
@@ -93,11 +87,12 @@ class RenkontoEventSerializer(serializers.HyperlinkedModelSerializer):
 
     def to_representation(self, instance):
         data = super(RenkontoEventSerializer, self).to_representation(instance)
+
         return {
             'dateStart': data.get('date_start'),
             'dateEnd': data.get('date_end'),
-            'allDay': instance.all_day,
-            'eventType': instance.event_type,
-            'installationId': instance.project.id,
-            'campaignId': instance.campaign.id
+            'allDay': data.get('all_day'),
+            'eventType': data.get('event_type'),
+            'installationId': data.get('project'),
+            'campaignId': data.get('campaign')
         }

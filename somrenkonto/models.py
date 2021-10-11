@@ -39,8 +39,7 @@ class RenkontoEventQuerySet(models.QuerySet):
 
     def visit(self, visit_type, project):
         return self.filter(
-            event_type=visit_type,
-            project=project
+            event_type=visit_type, project=project
         )
 
     def technical_visit(self, project):

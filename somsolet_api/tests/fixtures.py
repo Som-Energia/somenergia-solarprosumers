@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
 import factory
 import pytest
@@ -10,11 +10,9 @@ from somrenkonto.fixtures import *
 from somrenkonto.factories import (CalendarFactory, CampaignFactory,
                                    ProjectFactory, RenkontoEventFactory)
 from somrenkonto.models import EventChoices
-from somsolet.tests.fixtures import engineering_user_paco
 from somsolet.tests.factories import (InventsPacoEngineeringFactory,
                                       InventsPacoFactory,
                                       SolarWindPowerEngineeringFactory,
-                                      SolarWindPowerFactory,
                                       SuperuserFactory)
 
 from .factories import TechnicalVisitDataFactory
@@ -64,7 +62,34 @@ def bounded_event():
         created_by=created_by,
         modified_by=created_by
     )
-    return RenkontoEventFactory.build(**bounded_event_data)
+    return RenkontoEventFactory.create(**bounded_event_data)
+
+
+@pytest.fixture
+def technical_visit_event_request():
+    calendar = CalendarFactory()
+    campaign = CampaignFactory()
+    project = ProjectFactory()
+    engineering = InventsPacoEngineeringFactory()
+
+    fake = Faker()
+    fake.seed(0)
+    tz = timezone.get_current_timezone()
+    start = fake.date_time_between(tzinfo=tz)
+    end = start + timedelta(minutes=60)
+
+    return dict(
+        title='Visita técnica',
+        description='Visita técnica per evaluar si es poden posar plaques solars',
+        date_start=datetime.strftime(start, '%Y-%m-%dT%H:%M:%S%z'),
+        date_end=datetime.strftime(end, '%Y-%m-%dT%H:%M:%S%z'),
+        all_day=False,
+        calendar=calendar.id,
+        event_type=EventChoices.TECHNICAL_VISIT,
+        campaign=campaign.id,
+        project=project.id,
+        engineering=engineering.id,
+    )
 
 
 @pytest.fixture

@@ -5,14 +5,15 @@ from django_currentuser.middleware import _set_current_user
 from somrenkonto.models import RenkontoEvent, EventChoices
 from somsolet_api.serializer import RenkontoEventSerializer
 from somsolet_api.views import RenkontoEventView
+from .fixtures import authenticated_user
 
 
 class TestRenkontoEventSerializer:
 
     @pytest.mark.django_db
-    def test__event_serializer(self, bounded_event):
+    def test__event_serializer(self, authenticated_user, bounded_event):
         event_serializer = RenkontoEventSerializer(bounded_event)
-        assert event_serializer.data == {
+        assert event_serializer.data == { 
             'dateStart': bounded_event.start.strftime('%Y-%m-%dT%H:%M:%S%z'),
             'dateEnd': bounded_event.end.strftime('%Y-%m-%dT%H:%M:%S%z'),
             'allDay': bounded_event.all_day,
@@ -24,12 +25,14 @@ class TestRenkontoEventSerializer:
     @pytest.mark.django_db
     def test__event_serializer__without_object(self, technical_visit_event_request):
         event_serializer = RenkontoEventSerializer(
-            technical_visit_event_request,
+            data=technical_visit_event_request,
             context={'request': None}
         )
+
+        assert event_serializer.is_valid()
         assert event_serializer.data == {
-            'dateStart': technical_visit_event_request['start'],
-            'dateEnd': technical_visit_event_request['end'],
+            'dateStart': technical_visit_event_request['date_start'],
+            'dateEnd': technical_visit_event_request['date_end'],
             'allDay': technical_visit_event_request['all_day'],
             'campaignId': technical_visit_event_request['campaign'],
             'eventType': technical_visit_event_request['event_type'],
