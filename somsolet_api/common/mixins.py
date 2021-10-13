@@ -23,3 +23,10 @@ class MakeResponseMixin:
             }
         })
         return response
+
+    def make_succesfull_response(self, results_query, request):
+        response = Response({
+            'data': {
+            }
+        })
+        return response
