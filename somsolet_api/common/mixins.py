@@ -27,6 +27,8 @@ class MakeResponseMixin:
     def make_succesfull_response(self, results_query, request):
         response = Response({
             'data': {
+                'count': len(results_query),
+                'results': [result_query.id for result_query in results_query]
             }
         })
         return response

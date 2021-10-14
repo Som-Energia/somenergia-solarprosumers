@@ -144,6 +144,13 @@ class TestRenkontoEventView:
         response = RenkontoEventView.as_view()(request, engineering_with_events.id)
 
         # then the user obtain a succesfull response and the event was created 
+        created_event = event = RenkontoEvent.objects.get(
+            project_id=technical_visit_event_request['project'],
+            title=technical_visit_event_request['title']
+        )
         assert response.data == {
-            'data': {}
+            'data': {
+                'count': 1,
+                'results': [created_event.id]
+            }
         }

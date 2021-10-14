@@ -33,7 +33,7 @@ class RenkontoEventView(MakeResponseMixin, APIView):
         event_serializer.is_valid(raise_exception=True)
         event = event_serializer.create(event_serializer.validated_data)
 
-        return self.make_succesfull_response(event, request)
+        return self.make_succesfull_response([event], request)
 
     def _engineering_exists(self, engineering_id):
         return Engineering.engineerings.get_engineering_by_id(engineering_id) is not None
