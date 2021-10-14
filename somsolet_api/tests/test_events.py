@@ -154,3 +154,54 @@ class TestRenkontoEventView:
                 'results': [created_event.id]
             }
         }
+
+    def test__post_engineering_events__dates_error(
+        self, authenticated_user, engineering_with_events, event_request_with_bad_dates, rf
+    ):
+        # given
+        # an authenticated_user
+        # an engineering with events
+        # a new event data with incorrect dates
+
+        # when the user post that technical event data
+        url = reverse('events', args=[engineering_with_events.id])
+        request = rf.post(url, event_request_with_bad_dates)
+        request.user = authenticated_user
+        response = RenkontoEventView.as_view()(request, engineering_with_events.id)
+
+        # then we have a 400 error
+        assert response.status_code == 400
+
+    def test__post_engineering_events__campaign_not_defined(
+        self, authenticated_user, engineering_with_events, event_request_with_undefined_campaign, rf
+    ):
+        # given
+        # an authenticated_user
+        # an engineering with events
+        # a new event data with a campaign that not exists
+
+        # when the user post that technical event data
+        url = reverse('events', args=[engineering_with_events.id])
+        request = rf.post(url, event_request_with_undefined_campaign)
+        request.user = authenticated_user
+        response = RenkontoEventView.as_view()(request, engineering_with_events.id)
+
+        # then we have a 400 error
+        assert response.status_code == 400
+
+    def test__post_engineering_events__engineering_not_exists(
+        self, authenticated_user, engineering_with_events, event_request_engineering_not_exists, rf
+    ):
+        # given
+        # an authenticated_user
+        # an engineering with events
+        # a new event data
+
+        # when the user post that technical event data
+        url = reverse('events', args=[engineering_with_events.id])
+        request = rf.post(url, event_request_engineering_not_exists)
+        request.user = authenticated_user
+        response = RenkontoEventView.as_view()(request, engineering_with_events.id)
+
+        # then we have a 400 error
+        assert response.status_code == 400

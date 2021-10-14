@@ -15,7 +15,7 @@ from somsolet.tests.factories import (InventsPacoEngineeringFactory,
                                       SolarWindPowerEngineeringFactory,
                                       SuperuserFactory)
 
-from .factories import TechnicalVisitDataFactory
+from .factories import TechnicalVisitDataFactory, TechnicalVisitRequestDataFactory
 
 
 @pytest.fixture
@@ -67,29 +67,28 @@ def bounded_event():
 
 @pytest.fixture
 def technical_visit_event_request():
-    calendar = CalendarFactory()
-    campaign = CampaignFactory()
-    project = ProjectFactory()
-    engineering = InventsPacoEngineeringFactory()
+    return TechnicalVisitRequestDataFactory.data_ok()
 
-    fake = Faker()
-    fake.seed(0)
-    tz = timezone.get_current_timezone()
-    start = fake.date_time_between(tzinfo=tz)
-    end = start + timedelta(minutes=60)
 
-    return dict(
-        title='Visita técnica',
-        description='Visita técnica per evaluar si es poden posar plaques solars',
-        date_start=datetime.strftime(start, '%Y-%m-%dT%H:%M:%S%z'),
-        date_end=datetime.strftime(end, '%Y-%m-%dT%H:%M:%S%z'),
-        all_day=False,
-        calendar=calendar.id,
-        event_type=EventChoices.TECHNICAL_VISIT,
-        campaign=campaign.id,
-        project=project.id,
-        engineering=engineering.id,
-    )
+@pytest.fixture
+def event_request_with_bad_dates():
+    base = TechnicalVisitRequestDataFactory.data_ok()
+    base['date_start'], base['date_end'] = base['date_end'], base['date_start']
+    return base
+
+
+@pytest.fixture
+def event_request_with_undefined_campaign():
+    base_data = TechnicalVisitRequestDataFactory.data_ok()
+    base_data['campaign'] = base_data['campaign'] + 1
+    return base_data
+
+
+@pytest.fixture
+def event_request_engineering_not_exists():
+    base_data = TechnicalVisitRequestDataFactory.data_ok()
+    base_data['engineering'] = base_data['engineering'] + 1
+    return base_data
 
 
 @pytest.fixture

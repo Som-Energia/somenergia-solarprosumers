@@ -24,8 +24,6 @@ class RenkontoEventView(MakeResponseMixin, APIView):
         return response
 
     def post(self, request, engineering_id):
-        if not self._engineering_exists(engineering_id):
-            raise serializers.ValidationError(_('Engineering not found'))
         data = request.POST.dict()
         event_serializer = RenkontoEventSerializer(
             data=data, context={'request': request}
