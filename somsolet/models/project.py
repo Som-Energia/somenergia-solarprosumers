@@ -151,6 +151,7 @@ class Project(models.Model):
     )
 
     date_technical_visit = models.DateField(
+        null=True,
         blank=True,
         verbose_name=_('Date technical visit'),
     )
