@@ -15,6 +15,7 @@ class ClientFactory(DjangoModelFactory):
 
     class Meta:
         model = 'somsolet.Client'
+        django_get_or_create = ('dni', 'membership_number')
 
     name = 'Montserrat Escayola'
     membership_number = '44630'

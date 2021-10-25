@@ -8,4 +8,7 @@ from .stages import (StagesListViewSet, SignatureViewSet, PermitViewSet,
                      SecondInvoiceViewSet, DeliveryCertificateViewSet)
 
 from .event import RenkontoEventView
+from .project import (CchDownloadViewSet, FirstInvoiceViewSet,
+                      LastInvoiceViewSet, ProjectViewSet,
+                      TechnicalDetailsViewSet)
 from .stats import StatsViewSet

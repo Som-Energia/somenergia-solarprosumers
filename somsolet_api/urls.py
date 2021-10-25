@@ -2,12 +2,13 @@ from django.urls import include, path
 from rest_framework import routers
 from rest_framework.authtoken import views
 
-from .views import (CampaignViewSet, CchDownloadViewSet, PrereportViewSet,
-                    ProjectViewSet, RenkontoEventView,  ReportViewSet,
-                    StagesListViewSet, StatsViewSet, TechnicalDetailsViewSet,
-                    FirstInvoiceViewSet, LastInvoiceViewSet, SignatureViewSet,
-                    PermitViewSet, OfferViewSet, OfferAcceptedViewSet, LegalRegistrationViewSet,
-                    LegalizationViewSet, SecondInvoiceViewSet, DeliveryCertificateViewSet)
+from .views import (CampaignViewSet, CchDownloadViewSet,
+                    DeliveryCertificateViewSet, FirstInvoiceViewSet,
+                    LastInvoiceViewSet, LegalizationViewSet,
+                    LegalRegistrationViewSet, OfferViewSet, OfferAcceptedViewSet, PermitViewSet,
+                    PrereportViewSet, ProjectViewSet, RenkontoEventView,
+                    ReportViewSet, SecondInvoiceViewSet, SignatureViewSet,
+                    StagesListViewSet, StatsViewSet, TechnicalDetailsViewSet)
 
 router = routers.DefaultRouter()
 router.register(r'campaign', CampaignViewSet, basename='campaign')

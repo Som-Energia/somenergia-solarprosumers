@@ -1,19 +1,26 @@
-from datetime import datetime
-
 from rest_framework import status, viewsets
-from rest_framework.authentication import SessionAuthentication, TokenAuthentication
+from rest_framework.authentication import (SessionAuthentication,
+                                           TokenAuthentication)
+from rest_framework.decorators import action
+from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
+from schedule.models import Calendar
 from somsolet.models import Project, Technical_details
 from somsolet_api.common.permissions import SomsoletAPIModelPermissions
-from somsolet_api.serializer import (DownloadCchSerializer, ProjectSerializer,
-                                     TechnicalDetailsSerializer,
-                                     FirstInvoiceSerializer, LastInvoiceSerializer)
+from somsolet_api.serializer import (DownloadCchSerializer,
+                                     FirstInvoiceSerializer,
+                                     LastInvoiceSerializer, ProjectSerializer,
+                                     RenkontoEventSerializer,
+                                     TechnicalDetailsSerializer)
+from somsolet_api.shortcuts import (not_found_response,
+                                    validation_error_response)
 
 
 class ProjectViewSet(viewsets.ModelViewSet):
     permission_classes = [SomsoletAPIModelPermissions]
     authentication_classes = [TokenAuthentication, SessionAuthentication]
 
+    renderer_classes = [JSONRenderer]
     serializer_class = ProjectSerializer
 
     def get_queryset(self):
@@ -31,6 +38,26 @@ class ProjectViewSet(viewsets.ModelViewSet):
             return queryset.filter(id=project)
         else:
             return queryset
+
+    @action(detail=True, methods=['put'], name='set_technical_visit')
+    def set_technical_visit(self, request, pk):
+        project = Project.projects.get_project(pk, request.user)
+        if not project:
+            return not_found_response()
+        technical_visit = RenkontoEventSerializer(
+            data=request.data, partial=True, context={'request': request}
+        )
+        if not technical_visit.is_valid():
+            return validation_error_response(technical_visit)
+
+        calendar = Calendar.objects.get_calendar_for_object(project.engineering.user)
+
+        event = technical_visit.set_technical_visit(
+            calendar=calendar,
+            project=project,
+        )
+
+        return Response(technical_visit.to_representation(event))
 
 
 class FirstInvoiceViewSet(viewsets.ModelViewSet):

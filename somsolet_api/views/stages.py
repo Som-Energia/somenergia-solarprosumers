@@ -122,16 +122,6 @@ class OfferAcceptedViewSet(StagesBaseViewSet):
         return Response('Put is not allowed', status=status.HTTP_400_BAD_REQUEST)
 
 
-class SecondInvoiceViewSet(StagesBaseViewSet):
-
-    serializer_class = SecondInvoiceStageSerializer
-    allowed_status = ['end installation', 'second invoice']
-    project_stage = 'second_invoice'
-
-    def patch(self, request, *args, **kwargs):
-        return Response('Patch is not allowed', status=status.HTTP_400_BAD_REQUEST)
-
-
 class SignatureViewSet(StagesBaseViewSet):
 
     serializer_class = SignatureStageSerializer
@@ -147,6 +137,16 @@ class PermitViewSet(StagesBaseViewSet):
     serializer_class = PermitStageSerializer
     allowed_status = ['signature', 'permit']
     project_stage = 'permit'
+
+    def patch(self, request, *args, **kwargs):
+        return Response('Patch is not allowed', status=status.HTTP_400_BAD_REQUEST)
+
+
+class SecondInvoiceViewSet(StagesBaseViewSet):
+
+    serializer_class = SecondInvoiceStageSerializer
+    allowed_status = ['end installation', 'second invoice']
+    project_stage = 'second_invoice'
 
     def patch(self, request, *args, **kwargs):
         return Response('Patch is not allowed', status=status.HTTP_400_BAD_REQUEST)

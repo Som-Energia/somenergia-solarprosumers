@@ -21,6 +21,15 @@ class InventsPacoFactory(UserFactory):
     first_name = 'Invents Paco i asociats'
 
 
+class SuperuserFactory(UserFactory):
+
+    username = '00805218B'
+    password = factory.LazyAttribute(lambda o: make_password('1234'))
+    email = 'ov@pacoinvents.coop'
+    first_name = 'Invents Paco i asociats'
+    is_superuser = True
+
+
 class SolarWindPowerFactory(UserFactory):
 
     username = 'V00861641'
@@ -33,6 +42,7 @@ class LocalGroupFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = 'somsolet.LocalGroup'
+        django_get_or_create = ('name', 'email')
 
     name = 'Islas Barbados Local Group'
     phone_number = '631111380'
@@ -44,9 +54,10 @@ class EngineeringFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = 'somsolet.Engineering'
-        django_get_or_create = ('user',)
+        django_get_or_create = ('tin', 'user',)
 
     user = factory.SubFactory(UserFactory)
+    tin = factory.SelfAttribute('user.username')
 
 
 class InventsPacoEngineeringFactory(EngineeringFactory):

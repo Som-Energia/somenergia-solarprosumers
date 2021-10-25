@@ -37,22 +37,24 @@ class ProjectSerializer(serializers.HyperlinkedModelSerializer):
         } if obj.client else {}
 
     def get_supplyPoint(self, obj):
-        technical_details = Technical_details.objects.get(
-            project__name=obj.name,
-        )
-        return {
-            'cups': technical_details.cups,
-            'address':
+        technical_details = Technical_details.objects.filter(
+            project=obj,
+        ).first()
+        if technical_details:
+            return {
+                'cups': technical_details.cups,
+                'address':
                 {
-                  'administrativeDivision': technical_details.administrative_division,
-                  'municipality': technical_details.municipality,
-                  'town': technical_details.town,
-                  'street': technical_details.street,
-                  'postalCode': technical_details.postal_code,
+                    'administrativeDivision': technical_details.administrative_division,
+                    'municipality': technical_details.municipality,
+                    'town': technical_details.town,
+                    'street': technical_details.street,
+                    'postalCode': technical_details.postal_code,
                 },
-            #'power': not implemented,
-            'tariff': technical_details.tariff,
-        }
+                #'power': not implemented,
+                'tariff': technical_details.tariff,
+            }
+        return {}
 
     def get_project_details(self, obj):
         return {
@@ -78,10 +80,10 @@ class ProjectSerializer(serializers.HyperlinkedModelSerializer):
                 'invalid': obj.prereport.check,
                 'file': obj.prereport.upload,
             },
-            'technicalVisit': {
-                'date': obj.date_technical_visit,
+            'technicalVisits': [{
+                'date': date.start_date,
                 'action': 'link_to_somrenkonto',
-            },
+            } for date in obj.technical_visit_dates],
             'report': {
                 'date': obj.report.date,
                 'invalid': obj.report.check,

@@ -18,7 +18,7 @@ from .forms import (ConstructionPermitForm, DeliveryCertificateForm,
                     InstallationDateForm, LegalizationForm,
                     LegalRegistrationForm, OfferForm, PrereportForm,
                     ReportForm, SignedContractForm, TechnicalCampaignsForm,
-                    TechnicalDetailsForm, TechnicalVisitForm, UserForm)
+                    TechnicalDetailsForm, UserForm, TechnicalVisitForm)
 from .models import (Campaign, Client, Mailing, Project, Technical_campaign,
                      Technical_details)
 from .tables import CampaignTable, ProjectTable

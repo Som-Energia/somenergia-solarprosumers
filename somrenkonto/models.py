@@ -1,27 +1,31 @@
 import json
-from datetime import datetime, time
+from datetime import datetime, time, tzinfo
 
 from django.db import models
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django_currentuser.middleware import get_current_authenticated_user
 from schedule.models import Calendar, Event
 
-from somsolet.models import Campaign, Project, Engineering
+from somsolet.models import Campaign, Engineering, Project
+
 from .common import Base
 
 
 class EventChoices(object):
 
     APPOINTMENT = 'APPO'
-
     UNAVAILABILITY = 'UNAVAIL'
-
     AVAILABILITY = 'AVAIL'
+    TECHNICAL_VISIT = 'TECH'
+    INSTALATION_VISIT = 'INST'
 
     choices = [
         (APPOINTMENT, _('Appointment')),
         (UNAVAILABILITY, _('Unavailability')),
-        (AVAILABILITY, _('Availability hours'))
+        (AVAILABILITY, _('Availability hours')),
+        (TECHNICAL_VISIT, _('Technical visit')),
+        (INSTALATION_VISIT, _('Installation work visit'))
     ]
 
 
@@ -32,6 +36,17 @@ class RenkontoEventQuerySet(models.QuerySet):
 
     def filter_events(self, filters):
         return self.filter(*filters)
+
+    def visit(self, visit_type, project):
+        return self.filter(
+            event_type=visit_type, project=project
+        )
+
+    def technical_visit(self, project):
+        return self.visit(EventChoices.TECHNICAL_VISIT, project)
+
+    def installation_visit(self, project):
+        return self.visit(EventChoices.INSTALATION_VISIT, project)
 
     def engineering_events(self, engineering_id):
         return self.filter(
@@ -63,6 +78,7 @@ class RenkontoEvent(Event, Base):
 
     project = models.ForeignKey(
         Project,
+        related_name='events',
         on_delete=models.CASCADE,
         verbose_name=_('Project'),
         help_text=_('Project of this event')
@@ -93,34 +109,34 @@ class RenkontoEvent(Event, Base):
 
     @classmethod
     def create(
-            cls,
-            title, description,
-            start_date, start_time, end_date, end_time, all_day,
-            calendar, event_type, campaing_name, installation_name
+        cls,
+        title, description,
+        start_date, start_time, end_date, end_time, all_day,
+        calendar, event_type, campaing_name, installation_name
     ):
         self = cls()
         self.title = title
         self.description = description
-        self.start = datetime.combine(start_date, start_time or time(0, 0))
-        self.end = datetime.combine(end_date, end_time or time(0, 0))
-        self.all_day = all_day
+        self.start = datetime.combine(start_date, start_time or \
+            time(0, 0, tzinfo=timezone.get_current_timezone()))
+        self.end = datetime.combine(end_date, end_time or \
+            time(0, 0, tzinfo=timezone.get_current_timezone()))
+        self.all_day = all_day or False
         self.calendar = Calendar.objects.get(id=calendar)
         self.event_type = event_type
 
         self.campaign = Campaign.objects.get(name=campaing_name)
         self.project = Project.objects.get(name=installation_name)
         self.engineering = self.project.engineering
-
         self.created_by = get_current_authenticated_user()
         self.modified_by = self.created_by
-
         self.save()
         return self
 
 
 class CalendarViewChoices(object):
     MONTH_VIEW = 'dayGridMonth'
-    
+
     TIMEGRID_VIEW = 'timeGridWeek'
 
     LIST_VIEW = 'listWeek'
@@ -193,7 +209,7 @@ class WorkingDay(Base):
         verbose_name=_('Start'),
         help_text=_('At what time starts your work journey')
     )
-    
+
     end = models.TimeField(
         verbose_name=_('End'),
         help_text=_('At what time ends your work journey'),

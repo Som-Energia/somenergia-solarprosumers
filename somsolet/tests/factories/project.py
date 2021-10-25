@@ -1,11 +1,10 @@
-from datetime import datetime
-
 import factory
 from factory.django import DjangoModelFactory
 
+from .admin import InventsPacoEngineeringFactory
 from .campaign import CampaignFactory
 from .client import ClientFactory
-from .admin import EngineeringFactory, InventsPacoEngineeringFactory
+from .admin import InventsPacoEngineeringFactory
 
 from .stages import (SignatureStageFactory, SignatureStageBaseFactory, PermitStageFactory,
                      LegalRegistrationStageBaseFactory, LegalRegistrationStageFactory,
@@ -19,6 +18,7 @@ class ProjectFactory(DjangoModelFactory):
 
     class Meta:
         model = 'somsolet.Project'
+        django_get_or_create = ('name', )
 
     name = 'Instalació plaques Montserrat Escayola'
     campaign = factory.SubFactory(CampaignFactory)
@@ -72,6 +72,61 @@ class ProjectStageFactory(ProjectFactory):
     signature = factory.SubFactory(SignatureStageFactory)
     legal_registration = factory.SubFactory(LegalRegistrationStageFactory)
  
+
+class ProjectEmptyStatusStageFactory(ProjectFactory):
+    id = 1
+    status = 'empty status'
+
+
+class ProjectPrereportRegisteredStageFactory(ProjectFactory):
+    id = 1
+    status = 'registered'
+
+
+class ProjectPrereportStageFactory(ProjectFactory):
+    id = 1
+    status = 'prereport'
+
+
+class ProjectSignatureStageFactory(ProjectFactory):
+    id = 1
+    status = 'offer accepted'
+
+
+class ProjectPermitStageFactory(ProjectFactory):
+    id = 1
+    status = 'signature'
+
+
+class ProjectOfferStageFactory(ProjectFactory):
+    id = 1
+    status = 'report'
+
+
+class ProjectOfferAcceptedStageFactory(ProjectFactory):
+    id = 1
+    status = 'offer review'
+
+
+class ProjectSecondInvoiceStageFactory(ProjectFactory):
+    id = 1
+    status = 'end installation'
+
+
+class ProjectLegalRegistrationStageFactory(ProjectFactory):
+    id = 1
+    status = 'end installation'
+
+
+class ProjectLegalizationStageFactory(ProjectFactory):
+    id = 1
+    status = 'last payment'
+
+
+class ProjectDeliveryCertificateStageFactory(ProjectFactory):
+    id = 1
+    status = 'date installation set'
+
 
 class TechnicalDetailsFactory(DjangoModelFactory):
 

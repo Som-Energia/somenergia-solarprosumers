@@ -2,33 +2,39 @@ import pytest
 from django.contrib.auth.models import Permission
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
-from somsolet.tests.factories import ProjectFactory, UserFactory
+from somsolet.tests.factories import (ProjectDeliveryCertificateStageFactory,
+                                      ProjectEmptyStatusStageFactory,
+                                      ProjectFactory,
+                                      ProjectLegalizationStageFactory,
+                                      ProjectLegalRegistrationStageFactory,
+                                      ProjectOfferStageFactory,
+                                      ProjectOfferAcceptedStageFactory,
+                                      ProjectPermitStageFactory,
+                                      ProjectPrereportRegisteredStageFactory,
+                                      ProjectPrereportStageFactory,
+                                      ProjectSecondInvoiceStageFactory,
+                                      ProjectSignatureStageFactory,
+                                    )
 
 
 class TestPrereportViewSet(TestCase):
 
-    def login(self):
+    def login(self, user):
 
-        user = UserFactory()
-        user.set_password('1234')
-        user.save()
         self.client.login(username=user.username, password='1234')
-        permission = Permission.objects.get(codename='view_project')
+        permission = Permission.objects.get(codename='change_project')
         user.user_permissions.add(permission)
 
         return user
 
     @pytest.mark.django_db
     def test_prereport_patch__base_case(self):
-        project = ProjectFactory()
-        project.id = 1
-        project.status = 'registered'
-        project.save()
+        project = ProjectPrereportRegisteredStageFactory()
 
         assert project.prereport.check is False
         assert project.status == 'registered'
 
-        user = self.login()
+        user = self.login(project.engineering.user)
 
         response = self.client.patch(
             '/somsolet-api/prereport/?projectId=1',
@@ -43,14 +49,11 @@ class TestPrereportViewSet(TestCase):
 
     @pytest.mark.django_db
     def test_prereport_patch__review_status(self):
-        project = ProjectFactory()
-        project.id = 1
-        project.status = 'prereport'
-        project.save()
+        project = ProjectPrereportStageFactory()
 
         assert project.status == 'prereport'
 
-        user = self.login()
+        user = self.login(project.engineering.user)
 
         response = self.client.patch(
             '/somsolet-api/prereport/?projectId=1',
@@ -65,13 +68,11 @@ class TestPrereportViewSet(TestCase):
 
     @pytest.mark.django_db
     def test_prereport_patch__wrong_stage(self):
-        project = ProjectFactory()
-        project.id = 1
-        project.save()
+        project = ProjectEmptyStatusStageFactory()
         assert project.prereport.check is False
         assert project.status == 'empty status'
 
-        user = self.login()
+        user = self.login(project.engineering.user)
 
         response = self.client.patch(
             '/somsolet-api/prereport/?projectId=1',
@@ -85,15 +86,12 @@ class TestPrereportViewSet(TestCase):
 
     @pytest.mark.django_db
     def test_prereport_put__base_case(self):
-        project = ProjectFactory()
-        project.id = 1
-        project.status = 'registered'
-        project.save()
+        project = ProjectPrereportRegisteredStageFactory()
 
         assert project.prereport.upload.name is None
         assert project.status == 'registered'
 
-        user = self.login()
+        user = self.login(project.engineering.user)
 
         prereport_image = SimpleUploadedFile(
             name='prereport.jpg', content=b'something', content_type="image/jpeg"
@@ -111,14 +109,12 @@ class TestPrereportViewSet(TestCase):
 
     @pytest.mark.django_db
     def test_prereport_put__wrong_stage(self):
-        project = ProjectFactory()
-        project.id = 1
-        project.save()
+        project = ProjectEmptyStatusStageFactory()
 
         assert project.prereport.upload.name is None
         assert project.status == 'empty status'
 
-        user = self.login()
+        user = self.login(project.engineering.user)
 
         prereport_image = SimpleUploadedFile(
             name='prereport.jpg', content=b'something', content_type="image/jpeg"
@@ -137,13 +133,9 @@ class TestPrereportViewSet(TestCase):
 
 class TestReportViewSet(TestCase):
 
-    def login(self):
-
-        user = UserFactory()
-        user.set_password('1234')
-        user.save()
+    def login(self, user):
         self.client.login(username=user.username, password='1234')
-        permission = Permission.objects.get(codename='view_project')
+        permission = Permission.objects.get(codename='change_project')
         user.user_permissions.add(permission)
 
         return user
@@ -158,7 +150,7 @@ class TestReportViewSet(TestCase):
         assert project.report.check is False
         assert project.status == 'prereport'
 
-        user = self.login()
+        user = self.login(project.engineering.user)
 
         response = self.client.patch(
             '/somsolet-api/report/?projectId=1',
@@ -180,7 +172,7 @@ class TestReportViewSet(TestCase):
 
         assert project.status == 'report'
 
-        user = self.login()
+        user = self.login(project.engineering.user)
 
         response = self.client.patch(
             '/somsolet-api/report/?projectId=1',
@@ -201,7 +193,7 @@ class TestReportViewSet(TestCase):
         assert project.report.check is False
         assert project.status == 'empty status'
 
-        user = self.login()
+        user = self.login(project.engineering.user)
 
         response = self.client.patch(
             '/somsolet-api/report/?projectId=1',
@@ -223,7 +215,7 @@ class TestReportViewSet(TestCase):
         assert project.report.upload.name is None
         assert project.status == 'prereport'
 
-        user = self.login()
+        user = self.login(project.engineering.user)
 
         report_image = SimpleUploadedFile(
             name='report.jpg', content=b'something', content_type="image/jpeg"
@@ -248,7 +240,7 @@ class TestReportViewSet(TestCase):
         assert project.report.upload.name is None
         assert project.status == 'empty status'
 
-        user = self.login()
+        user = self.login(project.engineering.user)
 
         report_image = SimpleUploadedFile(
             name='report.jpg', content=b'something', content_type="image/jpeg"
@@ -268,27 +260,21 @@ class TestReportViewSet(TestCase):
 
 class TestSignatureViewSet(TestCase):
 
-    def login(self):
+    def login(self, user):
 
-        user = UserFactory()
-        user.set_password('1234')
-        user.save()
         self.client.login(username=user.username, password='1234')
-        permission = Permission.objects.get(codename='view_project')
+        permission = Permission.objects.get(codename='change_project')
         user.user_permissions.add(permission)
 
         return user
 
     @pytest.mark.django_db
-    def test_permit_patch__not_supported(self):
-        project = ProjectFactory()
-        project.id = 1
-        project.status = 'offer'
-        project.save()
+    def test_signature_patch__not_supported(self):
+        project = ProjectSignatureStageFactory()
 
-        assert project.status == 'offer'
+        assert project.status == 'offer accepted'
 
-        user = self.login()
+        user = self.login(project.engineering.user)
 
         response = self.client.patch(
             '/somsolet-api/signature/?projectId=1',
@@ -298,19 +284,16 @@ class TestSignatureViewSet(TestCase):
 
         project.refresh_from_db()
         assert response.status_code == 400
-        assert project.status == 'offer'
+        assert project.status == 'offer accepted'
 
     @pytest.mark.django_db
     def test_signature_put__base_case(self):
-        project = ProjectFactory()
-        project.id = 1
-        project.status = 'offer accepted'
-        project.save()
+        project = ProjectSignatureStageFactory()
 
         assert project.signature.upload.name is None
         assert project.status == 'offer accepted'
 
-        user = self.login()
+        user = self.login(project.engineering.user)
 
         signature_image = SimpleUploadedFile(
             name='contract_signed.jpg', content=b'something', content_type="image/jpeg"
@@ -329,14 +312,12 @@ class TestSignatureViewSet(TestCase):
 
     @pytest.mark.django_db
     def test_signature_put__wrong_stage(self):
-        project = ProjectFactory()
-        project.id = 1
-        project.save()
+        project = ProjectEmptyStatusStageFactory()
 
         assert project.signature.upload.name is None
         assert project.status == 'empty status'
 
-        user = self.login()
+        user = self.login(project.engineering.user)
 
         signature_image = SimpleUploadedFile(
             name='contract_signed.jpg', content=b'something', content_type="image/jpeg"
@@ -355,27 +336,21 @@ class TestSignatureViewSet(TestCase):
 
 class TestPermitViewSet(TestCase):
 
-    def login(self):
+    def login(self, user):
 
-        user = UserFactory()
-        user.set_password('1234')
-        user.save()
         self.client.login(username=user.username, password='1234')
-        permission = Permission.objects.get(codename='view_project')
+        permission = Permission.objects.get(codename='change_project')
         user.user_permissions.add(permission)
 
         return user
 
     @pytest.mark.django_db
     def test_permit_patch__not_supported(self):
-        project = ProjectFactory()
-        project.id = 1
-        project.status = 'signature'
-        project.save()
+        project = ProjectPermitStageFactory()
 
         assert project.status == 'signature'
 
-        user = self.login()
+        user = self.login(project.engineering.user)
 
         response = self.client.patch(
             '/somsolet-api/permit/?projectId=1',
@@ -390,15 +365,12 @@ class TestPermitViewSet(TestCase):
 
     @pytest.mark.django_db
     def test_permit_put__base_case(self):
-        project = ProjectFactory()
-        project.id = 1
-        project.status = 'signature'
-        project.save()
+        project = ProjectPermitStageFactory()
 
         assert project.permit.upload.name is None
         assert project.status == 'signature'
 
-        user = self.login()
+        user = self.login(project.engineering.user)
 
         permit_image = SimpleUploadedFile(
             name='permit.jpg', content=b'something', content_type="image/jpeg"
@@ -417,14 +389,12 @@ class TestPermitViewSet(TestCase):
 
     @pytest.mark.django_db
     def test_permit_put__wrong_stage(self):
-        project = ProjectFactory()
-        project.id = 1
-        project.save()
+        project = ProjectEmptyStatusStageFactory()
 
         assert project.permit.upload.name is None
         assert project.status == 'empty status'
 
-        user = self.login()
+        user = self.login(project.engineering.user)
 
         permit_image = SimpleUploadedFile(
             name='permit.jpg', content=b'something', content_type="image/jpeg"
@@ -443,27 +413,21 @@ class TestPermitViewSet(TestCase):
 
 class TestOfferViewSet(TestCase):
 
-    def login(self):
+    def login(self, user):
 
-        user = UserFactory()
-        user.set_password('1234')
-        user.save()
         self.client.login(username=user.username, password='1234')
-        permission = Permission.objects.get(codename='view_project')
+        permission = Permission.objects.get(codename='change_project')
         user.user_permissions.add(permission)
 
         return user
 
     @pytest.mark.django_db
     def test_offer_patch__not_supported(self):
-        project = ProjectFactory()
-        project.id = 1
-        project.status = 'report'
-        project.save()
+        project = ProjectOfferStageFactory()
 
         assert project.status == 'report'
 
-        user = self.login()
+        user = self.login(project.engineering.user)
 
         response = self.client.patch(
             '/somsolet-api/offer/?projectId=1',
@@ -477,15 +441,12 @@ class TestOfferViewSet(TestCase):
   
     @pytest.mark.django_db
     def test_offer_put__base_case(self):
-        project = ProjectFactory()
-        project.id = 1
-        project.status = 'report'
-        project.save()
+        project = ProjectOfferStageFactory()
 
         assert project.offer.upload.name is None
         assert project.status == 'report'
 
-        user = self.login()
+        user = self.login(project.engineering.user)
 
         offer_image = SimpleUploadedFile(
             name='offer.jpg', content=b'something', content_type="image/jpeg"
@@ -503,14 +464,12 @@ class TestOfferViewSet(TestCase):
 
     @pytest.mark.django_db
     def test_offer_put__wrong_stage(self):
-        project = ProjectFactory()
-        project.id = 1
-        project.save()
+        project = ProjectEmptyStatusStageFactory()
 
         assert project.permit.upload.name is None
         assert project.status == 'empty status'
 
-        user = self.login()
+        user = self.login(project.engineering.user)
 
         offer_image = SimpleUploadedFile(
             name='offer.jpg', content=b'something', content_type="image/jpeg"
@@ -529,27 +488,20 @@ class TestOfferViewSet(TestCase):
 
 class TestOfferAcceptedViewSet(TestCase):
 
-    def login(self):
+    def login(self, user):
 
-        user = UserFactory()
-        user.set_password('1234')
-        user.save()
         self.client.login(username=user.username, password='1234')
-        permission = Permission.objects.get(codename='view_project')
+        permission = Permission.objects.get(codename='change_project')
         user.user_permissions.add(permission)
 
         return user
 
     @pytest.mark.django_db
     def test_offer_accepted_patch__supported(self):
-        project = ProjectFactory()
-        project.id = 1
-        project.status = 'offer review'
-        project.save()
-
+        project = ProjectOfferAcceptedStageFactory()
         assert project.status == 'offer review'
 
-        user = self.login()
+        user = self.login(project.engineering.user)
 
         response = self.client.patch(
             '/somsolet-api/offer_accepted/?projectId=1',
@@ -563,54 +515,43 @@ class TestOfferAcceptedViewSet(TestCase):
   
     @pytest.mark.django_db
     def test_offer_put__not_supported(self):
-        project = ProjectFactory()
-        project.id = 1
-        project.status = 'report'
-        project.save()
+        project = ProjectOfferAcceptedStageFactory()
+        assert project.status == 'offer review'
 
-        assert project.offer.upload.name is None
-        assert project.status == 'report'
-
-        user = self.login()
+        user = self.login(project.engineering.user)
 
         offer_image = SimpleUploadedFile(
             name='offer.jpg', content=b'something', content_type="image/jpeg"
         )
         # TODO: request.data is {} on backend, see issue: https://github.com/encode/django-rest-framework/issues/3951
         response = self.client.generic(method="PUT",
-            path='/somsolet-api/offer/?projectId=1',
+            path='/somsolet-api/offer_accepted/?projectId=1',
             data={'upload': offer_image},
             content_type='multipart/form-data'
         )
 
         project.refresh_from_db()
-        assert response.status_code == 200
+        assert response.status_code == 400
         assert project.status == 'offer review'
 
 
 class TestSecondInvoiceViewSet(TestCase):
 
-    def login(self):
+    def login(self, user):
 
-        user = UserFactory()
-        user.set_password('1234')
-        user.save()
         self.client.login(username=user.username, password='1234')
-        permission = Permission.objects.get(codename='view_project')
+        permission = Permission.objects.get(codename='change_project')
         user.user_permissions.add(permission)
 
         return user
 
     @pytest.mark.django_db
     def test_second_invoice_patch__not_supported(self):
-        project = ProjectFactory()
-        project.id = 1
-        project.status = 'end installation'
-        project.save()
+        project = ProjectSecondInvoiceStageFactory()
 
         assert project.status == 'end installation'
 
-        user = self.login()
+        user = self.login(project.engineering.user)
 
         response = self.client.patch(
             '/somsolet-api/second_invoice/?projectId=1',
@@ -625,15 +566,12 @@ class TestSecondInvoiceViewSet(TestCase):
 
     @pytest.mark.django_db
     def test_second_invoice_put__base_case(self):
-        project = ProjectFactory()
-        project.id = 1
-        project.status = 'end installation'
-        project.save()
+        project = ProjectSecondInvoiceStageFactory()
 
         assert project.second_invoice.upload.name is None
         assert project.status == 'end installation'
 
-        user = self.login()
+        user = self.login(project.engineering.user)
 
         second_invoice_image = SimpleUploadedFile(
             name='second_invoice.jpg', content=b'something', content_type="image/jpeg"
@@ -651,14 +589,12 @@ class TestSecondInvoiceViewSet(TestCase):
 
     @pytest.mark.django_db
     def test_second_invoice_put__wrong_stage(self):
-        project = ProjectFactory()
-        project.id = 1
-        project.save()
+        project = ProjectEmptyStatusStageFactory()
 
         assert project.second_invoice.upload.name is None
         assert project.status == 'empty status'
 
-        user = self.login()
+        user = self.login(project.engineering.user)
 
         second_invoice_image = SimpleUploadedFile(
             name='second_invoice.jpg', content=b'something', content_type="image/jpeg"
@@ -677,27 +613,21 @@ class TestSecondInvoiceViewSet(TestCase):
 
 class TestLegalRegistrationViewSet(TestCase):
 
-    def login(self):
+    def login(self, user):
 
-        user = UserFactory()
-        user.set_password('1234')
-        user.save()
         self.client.login(username=user.username, password='1234')
-        permission = Permission.objects.get(codename='view_project')
+        permission = Permission.objects.get(codename='change_project')
         user.user_permissions.add(permission)
 
         return user
 
     @pytest.mark.django_db
     def test_legal_registration_patch__not_supported(self):
-        project = ProjectFactory()
-        project.id = 1
-        project.status = 'end installation'
-        project.save()
+        project = ProjectLegalRegistrationStageFactory()
 
         assert project.status == 'end installation'
 
-        user = self.login()
+        user = self.login(project.engineering.user)
 
         response = self.client.patch(
             '/somsolet-api/legal_registration/?projectId=1',
@@ -712,15 +642,12 @@ class TestLegalRegistrationViewSet(TestCase):
 
     @pytest.mark.django_db
     def test_legal_registration_put__base_case(self):
-        project = ProjectFactory()
-        project.id = 1
-        project.status = 'end installation'
-        project.save()
+        project = ProjectLegalRegistrationStageFactory()
 
         assert project.legal_registration.upload.name is None
         assert project.status == 'end installation'
 
-        user = self.login()
+        user = self.login(project.engineering.user)
 
         legal_registration_image = SimpleUploadedFile(
             name='legal_registration.jpg', content=b'something', content_type="image/jpeg"
@@ -738,14 +665,12 @@ class TestLegalRegistrationViewSet(TestCase):
 
     @pytest.mark.django_db
     def test_legal_registration_put__wrong_stage(self):
-        project = ProjectFactory()
-        project.id = 1
-        project.save()
+        project = ProjectEmptyStatusStageFactory()
 
         assert project.legal_registration.upload.name is None
         assert project.status == 'empty status'
 
-        user = self.login()
+        user = self.login(project.engineering.user)
 
         legal_registration_image = SimpleUploadedFile(
             name='legal_registration.jpg', content=b'something', content_type="image/jpeg"
@@ -764,27 +689,21 @@ class TestLegalRegistrationViewSet(TestCase):
 
 class TestLegalizationViewSet(TestCase):
 
-    def login(self):
-        # Extract in BaseTestViewSet (?)
-        user = UserFactory()
-        user.set_password('1234')
-        user.save()
+    def login(self, user):
+
         self.client.login(username=user.username, password='1234')
-        permission = Permission.objects.get(codename='view_project')
+        permission = Permission.objects.get(codename='change_project')
         user.user_permissions.add(permission)
 
         return user
 
     @pytest.mark.django_db
     def test_legalization_patch__not_supported(self):
-        project = ProjectFactory()
-        project.id = 1
-        project.status = 'last payment'
-        project.save()
+        project = ProjectLegalizationStageFactory()
 
         assert project.status == 'last payment'
 
-        user = self.login()
+        user = self.login(project.engineering.user)
 
         response = self.client.patch(
             '/somsolet-api/legalization/?projectId=1',
@@ -799,17 +718,14 @@ class TestLegalizationViewSet(TestCase):
 
     @pytest.mark.django_db
     def test_legalization_put__base_case(self):
-        project = ProjectFactory()
-        project.id = 1
-        project.status = 'last payment'
-        project.save()
+        project = ProjectLegalizationStageFactory()
 
         assert project.legalization.rac_file.name is None
         assert project.legalization.ritsic_file.name is None
         assert project.legalization.cie_file.name is None
         assert project.status == 'last payment'
 
-        user = self.login()
+        user = self.login(project.engineering.user)
 
         legalization_RAC = SimpleUploadedFile(
             name='RAC.jpg', content=b'something', content_type="image/jpeg"
@@ -838,16 +754,14 @@ class TestLegalizationViewSet(TestCase):
 
     @pytest.mark.django_db
     def test_legalization_put__wrong_stage(self):
-        project = ProjectFactory()
-        project.id = 1
-        project.save()
+        project = ProjectEmptyStatusStageFactory()
 
         assert project.legalization.rac_file.name is None
         assert project.legalization.ritsic_file.name is None
         assert project.legalization.cie_file.name is None
         assert project.status == 'empty status'
 
-        user = self.login()
+        user = self.login(project.engineering.user)
 
         legalization_image = SimpleUploadedFile(
             name='legalization.jpg', content=b'something', content_type="image/jpeg"
@@ -866,27 +780,21 @@ class TestLegalizationViewSet(TestCase):
 
 class TestDeliveryCertificateViewSet(TestCase):
 
-    def login(self):
+    def login(self, user):
 
-        user = UserFactory()
-        user.set_password('1234')
-        user.save()
         self.client.login(username=user.username, password='1234')
-        permission = Permission.objects.get(codename='view_project')
+        permission = Permission.objects.get(codename='change_project')
         user.user_permissions.add(permission)
 
         return user
 
     @pytest.mark.django_db
     def test_delivery_certificate_patch__not_supported(self):
-        project = ProjectFactory()
-        project.id = 1
-        project.status = 'date installation set'
-        project.save()
+        project = ProjectDeliveryCertificateStageFactory()
 
         assert project.status == 'date installation set'
 
-        user = self.login()
+        user = self.login(project.engineering.user)
 
         response = self.client.patch(
             '/somsolet-api/delivery_certificate/?projectId=1',
@@ -901,15 +809,12 @@ class TestDeliveryCertificateViewSet(TestCase):
 
     @pytest.mark.django_db
     def test_delivery_certificate_put__base_case(self):
-        project = ProjectFactory()
-        project.id = 1
-        project.status = 'date installation set'
-        project.save()
+        project = ProjectDeliveryCertificateStageFactory()
 
         assert project.delivery_certificate.upload.name is None
         assert project.status == 'date installation set'
 
-        user = self.login()
+        user = self.login(project.engineering.user)
 
         delivery_certificate_image = SimpleUploadedFile(
             name='delivery_certificate.jpg', content=b'something', content_type="image/jpeg"
@@ -927,14 +832,12 @@ class TestDeliveryCertificateViewSet(TestCase):
 
     @pytest.mark.django_db
     def test_delivery_certificate_put__wrong_stage(self):
-        project = ProjectFactory()
-        project.id = 1
-        project.save()
+        project = ProjectEmptyStatusStageFactory()
 
         assert project.delivery_certificate.upload.name is None
         assert project.status == 'empty status'
 
-        user = self.login()
+        user = self.login(project.engineering.user)
 
         delivery_certificate_image = SimpleUploadedFile(
             name='delivery_certificate.jpg', content=b'something', content_type="image/jpeg"

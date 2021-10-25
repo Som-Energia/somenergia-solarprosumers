@@ -1,16 +1,11 @@
+secret_key: super_secret_key
+
 databases:
-  develop:
-    name: database_name
-    host: host
-    port: port
-    user: user
-    password: password
-  test:
-    name: database_name
-    host: host
-    port: port
-    user: user
-    password: passwrod
+  name: database_name
+  host: host
+  port: port
+  user: user
+  password: password
 
 mongodb:
   host: host
@@ -19,7 +14,8 @@ mongodb:
   password: passwd
   name: colectioname
  
-secret_key: super_secret_key
+redis:
+  url: redis://redis_uri
 
 sendgrid_api_key: api_key
 
@@ -32,4 +28,3 @@ cors:
     - https://host:port
   allowed:headers:
     - allowed_header
-
