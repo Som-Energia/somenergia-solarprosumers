@@ -12,7 +12,10 @@ from import_export.widgets import ForeignKeyWidget
 from scheduler_tasks import send_email
 
 from .models import (Campaign, Client, ClientFile, Engineering, LocalGroup,
-                     Project, Technical_campaign, Technical_details)
+                     Project, Technical_campaign, Technical_details,
+                     PrereportStage, ReportStage, OfferStage, OfferAcceptedStage,
+                     SignatureStage, PermitStage, DeliveryCertificateStage,
+                     SecondInvoiceStage, LegalRegistrationStage, LegalizationStage)
 
 logger = logging.getLogger('admin')
 
@@ -54,6 +57,7 @@ class ProjectAdmin(ImportExportModelAdmin):
     )
     list_filter = ('campaign', 'status', 'discarded_type')
     resource_class = ProjectResource
+    search_fields = ['name', 'client__email', 'client__name', 'client__dni']
 
 
 @admin.register(Campaign)
@@ -77,6 +81,7 @@ class Technical_CampaignAdmin(ImportExportModelAdmin):
 @admin.register(Engineering)
 class EngineeringAdmin(ImportExportModelAdmin):
     list_display = ('name', 'phone_number', 'email')
+    search_fields = ['name', 'email']
 
 
 class Technical_detailsResource(resources.ModelResource):
@@ -212,3 +217,14 @@ class ClientFileAdmin(admin.ModelAdmin):
 class LocalGroupAdmin(ImportExportModelAdmin):
     list_display = ('name', 'phone_number', 'email')
     search_fields = ['name', 'email']
+
+
+@admin.register(PrereportStage, ReportStage, OfferStage, OfferAcceptedStage,
+    SignatureStage, PermitStage, DeliveryCertificateStage, SecondInvoiceStage,
+    LegalRegistrationStage, LegalizationStage)
+class PrereportStageAdmin(admin.ModelAdmin):
+    def get_model_perms(self, request):
+        """
+        Return empty perms dict thus hiding the model from admin index.
+        """
+        return {}
