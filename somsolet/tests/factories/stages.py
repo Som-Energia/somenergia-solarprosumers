@@ -12,6 +12,19 @@ class PrereportStageFactory(DjangoModelFactory):
     check = False
 
 
+class ReportBaseStageFactory(DjangoModelFactory):
+
+    class Meta:
+        model = 'somsolet.ReportStage'
+
+    date = '2021-06-01'
+    upload = None
+    check = False
+
+class ReportStageFactory(ReportBaseStageFactory):
+    upload = 'uploaded_files/contract/ups.png'
+
+
 class SignatureStageBaseFactory(DjangoModelFactory):
 
     class Meta:
@@ -35,14 +48,26 @@ class PermitStageFactory(DjangoModelFactory):
     upload = None
 
 
-class OfferStageFactory(DjangoModelFactory):
+class OfferBaseStageFactory(DjangoModelFactory):
 
     class Meta:
         model = 'somsolet.OfferStage'
 
     date = '2021-06-29'
-    check = False
     upload = None
+
+
+class OfferStageFactory(OfferBaseStageFactory):
+    upload = 'uploaded_files/contract/ups.png'
+
+
+class OfferAcceptedStageFactory(DjangoModelFactory):
+
+    class Meta:
+        model = 'somsolet.OfferAcceptedStage'
+
+    date = '2021-06-29'
+    check = False
 
 
 class SecondInvoiceStageFactory(DjangoModelFactory):

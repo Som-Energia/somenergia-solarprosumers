@@ -7,55 +7,6 @@ from somsolet.tests.factories import (ProjectFactory, TechnicalDetailsFactory,
                                       UserFactory)
 
 
-class TestProjectViewSet(TestCase):
-
-    @pytest.mark.django_db
-    def test_report_patch__base_case(self):
-        project = ProjectFactory()
-        project.id = 1
-        project.save()
-        assert project.is_invalid_report is False
-
-        user = UserFactory()
-        user.set_password('1234')
-        user.save()
-        self.client.login(username=user.username, password='1234')
-        permission = Permission.objects.get(codename='view_project')
-        user.user_permissions.add(permission)
-
-        request = self.client.patch(
-            '/somsolet-api/report/?projectId=1',
-            data={'is_invalid_report': True},
-            content_type='application/json'
-        )
-        assert request.status_code == 200
-        assert request.data['is_invalid_report'] is True
-
-    @pytest.mark.django_db
-    def test_report_put__base_case(self):
-        project = ProjectFactory()
-        project.id = 1
-        project.save()
-        assert project.prereport.upload.name is None
-
-        user = UserFactory()
-        user.set_password('1234')
-        user.save()
-        self.client.login(username=user.username, password='1234')
-        permission = Permission.objects.get(codename='view_project')
-        user.user_permissions.add(permission)
-
-        report_image = SimpleUploadedFile(
-            "report.jpg", b"file_content", content_type="image/jpeg"
-        )
-        request = self.client.put(
-            '/somsolet-api/report/?projectId=1',
-            data={'upload_report': report_image},
-            content_type='multipart/form-data'
-        )
-        assert request.status_code == 200
-
-
 class TestTechnicalDetailsViewSet(TestCase):
 
     @pytest.mark.django_db
@@ -108,7 +59,7 @@ class TestInvoicesViewSet(TestCase):
         user.set_password('1234')
         user.save()
         self.client.login(username=user.username, password='1234')
-        permission = Permission.objects.get(codename='view_project')
+        permission = Permission.objects.get(codename='change_project')
         user.user_permissions.add(permission)
 
         request = self.client.patch(
@@ -130,7 +81,7 @@ class TestInvoicesViewSet(TestCase):
         user.set_password('1234')
         user.save()
         self.client.login(username=user.username, password='1234')
-        permission = Permission.objects.get(codename='view_project')
+        permission = Permission.objects.get(codename='change_project')
         user.user_permissions.add(permission)
 
         request = self.client.patch(
@@ -153,7 +104,7 @@ class TestInvoicesViewSet(TestCase):
         user.set_password('1234')
         user.save()
         self.client.login(username=user.username, password='1234')
-        permission = Permission.objects.get(codename='view_project')
+        permission = Permission.objects.get(codename='change_project')
         user.user_permissions.add(permission)
 
         invoice_image = SimpleUploadedFile(
@@ -178,7 +129,7 @@ class TestInvoicesViewSet(TestCase):
         user.set_password('1234')
         user.save()
         self.client.login(username=user.username, password='1234')
-        permission = Permission.objects.get(codename='view_project')
+        permission = Permission.objects.get(codename='change_project')
         user.user_permissions.add(permission)
 
         invoice_image = SimpleUploadedFile(

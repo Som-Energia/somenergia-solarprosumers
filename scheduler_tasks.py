@@ -206,8 +206,9 @@ def stats_report(toSomEnergia, campaign, language):
     return message_params
 
 
-def send_email(to_email, subject, message_params, email_template, filename=False, from_email=''):
+def send_email(to_email, subject, message_params, email_template, files=False, from_email=''):
     logger.info(to_email)
+
     html_body = render_to_string(
         email_template,
         message_params
@@ -219,7 +220,8 @@ def send_email(to_email, subject, message_params, email_template, filename=False
         to_email,
         BCC,
     )
-    if filename:
+
+    for filename in files or []:
         msg.attach_file(filename)
     msg.content_subtype = "html"
     msg.send()

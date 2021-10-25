@@ -1,15 +1,14 @@
 import pytest
 
-from factory import RelatedFactory, SubFactory
-
-from .factories import (CampaignFactory, ClientFactory, EngineeringFactory, InventsPacoEngineeringFactory,
-                        ProjectFactory, TechnicalDetailsFactory, UserFactory, LocalGroupFactory,
-                        MailingFactory)
+from .factories import (CampaignFactory, ClientFactory, EngineeringFactory,
+                        InventsPacoEngineeringFactory, InventsPacoFactory,
+                        LocalGroupFactory, ProjectFactory,
+                        TechnicalDetailsFactory, UserFactory, MailingFactory)
 
 __all__ = (
-    'engineering_user', 'engineering', 'campaign__solar_paco',
+    'engineering_user', 'engineering',
     'technical_details', 'project', 'client', 'local_group', 'mailing_signature',
-    'mailing_legal_registration'
+    'mailing_legal_registration', 'mailing_offer'
 )
 
 
@@ -19,16 +18,23 @@ def engineering_user(db):
 
 
 @pytest.fixture
+def engineering_user_paco(db):
+    return InventsPacoFactory.create()
+
+
+@pytest.fixture
 def engineering(db):
     return EngineeringFactory()
 
 
 @pytest.fixture
-def campaign__solar_paco(db):
-    campaign = CampaignFactory.build()
-    campaign.save()
-    campaign.engineerings.add(InventsPacoEngineeringFactory())
-    return campaign
+def engineering__solar_paco(db):
+    return InventsPacoEngineeringFactory.create()
+
+
+@pytest.fixture
+def campaing__solar_paco(db):
+    return CampaignFactory()
 
 
 @pytest.fixture
@@ -61,5 +67,12 @@ def mailing_signature(db):
 def mailing_legal_registration(db):
     mailing = MailingFactory()
     mailing.notification_status = 'legal_registration'
+    mailing.save()
+    return mailing
+
+@pytest.fixture
+def mailing_offer(db):
+    mailing = MailingFactory()
+    mailing.notification_status = 'offer'
     mailing.save()
     return mailing

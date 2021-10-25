@@ -1,23 +1,38 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
 import factory
 import pytest
 from django.contrib.auth import authenticate
+from django_currentuser.middleware import _set_current_user
 from django.utils import timezone
 
+from somrenkonto.fixtures import *
 from somrenkonto.factories import (CalendarFactory, CampaignFactory,
                                    ProjectFactory, RenkontoEventFactory)
 from somrenkonto.models import EventChoices
 from somsolet.tests.factories import (InventsPacoEngineeringFactory,
                                       InventsPacoFactory,
                                       SolarWindPowerEngineeringFactory,
-                                      SolarWindPowerFactory)
+                                      SuperuserFactory)
+
+from .factories import TechnicalVisitDataFactory, TechnicalVisitRequestDataFactory
 
 
 @pytest.fixture
 def authenticated_user():
     user = InventsPacoFactory.create()
     user_authenticated = authenticate(username=user.username, password="1234")
+
+    _set_current_user(user_authenticated)
+    return user_authenticated
+
+
+@pytest.fixture
+def authenticated_superuser():
+    user = SuperuserFactory.create()
+    user_authenticated = authenticate(username=user.username, password="1234")
+
+    _set_current_user(user_authenticated)
     return user_authenticated
 
 
@@ -47,12 +62,48 @@ def bounded_event():
         created_by=created_by,
         modified_by=created_by
     )
-    return RenkontoEventFactory.build(**bounded_event_data)
+    return RenkontoEventFactory.create(**bounded_event_data)
+
+
+@pytest.fixture
+def technical_visit_event_request():
+    return TechnicalVisitRequestDataFactory.data_ok()
+
+
+@pytest.fixture
+def event_request_with_bad_dates():
+    base = TechnicalVisitRequestDataFactory.data_ok()
+    base['date_start'], base['date_end'] = base['date_end'], base['date_start']
+    return base
+
+
+@pytest.fixture
+def event_request_with_undefined_campaign():
+    base_data = TechnicalVisitRequestDataFactory.data_ok()
+    base_data['campaign'] = base_data['campaign'] + 1
+    return base_data
+
+
+@pytest.fixture
+def event_request_engineering_not_exists():
+    base_data = TechnicalVisitRequestDataFactory.data_ok()
+    base_data['engineering'] = base_data['engineering'] + 1
+    return base_data
+
+
+@pytest.fixture
+def technical_event():
+    return TechnicalVisitDataFactory.data_ok()
 
 
 @pytest.fixture
 def engineering():
     return SolarWindPowerEngineeringFactory.create()
+
+
+@pytest.fixture
+def montse_project():
+    return ProjectFactory.create()
 
 
 @pytest.fixture
@@ -97,6 +148,7 @@ def engineering_with_events():
 
     return engineering
 
+
 @pytest.fixture
 def stats():
     stats_data = dict(
@@ -111,4 +163,3 @@ def stats():
         )
     )
     return stats_data
-

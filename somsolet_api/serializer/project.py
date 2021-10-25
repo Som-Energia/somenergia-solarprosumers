@@ -37,22 +37,24 @@ class ProjectSerializer(serializers.HyperlinkedModelSerializer):
         } if obj.client else {}
 
     def get_supplyPoint(self, obj):
-        technical_details = Technical_details.objects.get(
-            project__name=obj.name,
-        )
-        return {
-            'cups': technical_details.cups,
-            'address':
+        technical_details = Technical_details.objects.filter(
+            project=obj,
+        ).first()
+        if technical_details:
+            return {
+                'cups': technical_details.cups,
+                'address':
                 {
-                  'administrativeDivision': technical_details.administrative_division,
-                  'municipality': technical_details.municipality,
-                  'town': technical_details.town,
-                  'street': technical_details.street,
-                  'postalCode': technical_details.postal_code,
+                    'administrativeDivision': technical_details.administrative_division,
+                    'municipality': technical_details.municipality,
+                    'town': technical_details.town,
+                    'street': technical_details.street,
+                    'postalCode': technical_details.postal_code,
                 },
-            #'power': not implemented,
-            'tariff': technical_details.tariff,
-        }
+                #'power': not implemented,
+                'tariff': technical_details.tariff,
+            }
+        return {}
 
     def get_project_details(self, obj):
         return {
@@ -76,29 +78,32 @@ class ProjectSerializer(serializers.HyperlinkedModelSerializer):
             'prereport': {
                 'date': obj.prereport.date,
                 'invalid': obj.prereport.check,
-                'file': obj.prereport.upload.url
+                'file': obj.prereport.upload,
             },
-            'technicalVisit': {
-                'date': obj.date_technical_visit,
+            'technicalVisits': [{
+                'date': date.start_date,
                 'action': 'link_to_somrenkonto',
-            },
+            } for date in obj.technical_visit_dates],
             'report': {
-                'date': obj.date_report,
-                'invalid': obj.is_invalid_report,
-                'file': obj.upload_report.url
+                'date': obj.report.date,
+                'invalid': obj.report.check,
+                'file': obj.report.upload,
             },
             'offer': {
                 'date': obj.offer.date,
+                'file': obj.offer.upload,
+            },
+            'offer_accepted': {
+                'date': obj.offer.date,
                 'accepted': obj.offer.check,
-                'file': obj.offer.upload.url
             },
             'signature': {
                 'date': obj.signature.date,
-                'file': obj.signature.upload.url,
+                'file': obj.signature.upload,
             },
             'constructionPermit': {
                 'date': obj.permit.date,
-                'file': obj.permit.upload.url
+                'file': obj.permit.upload,
             },
             'installation': {
                 'date': obj.date_start_installation,
@@ -108,50 +113,35 @@ class ProjectSerializer(serializers.HyperlinkedModelSerializer):
             },
             'deliveryCertificate': {
                 'date': obj.delivery_certificate.date,
-                'file': obj.delivery_certificate.url
+                'file': obj.delivery_certificate.upload,
             },
             'legalRegistration': {
                 'date': obj.legal_registration.date,
-                'file': obj.legal_registration.upload.url
+                'file': obj.legal_registration.upload,
             },
             'legalization': {
                 'date': obj.legalization.date,
-                'racFile': obj.legalization.rac_file.url,
-                'ritsicFile':legalization.ritsic_file.url,
-                'cieFile':legalization.cie_file.url
+                'racFile': obj.legalization.rac_file,
+                'ritsicFile': obj.legalization.ritsic_file,
+                'cieFile': obj.legalization.cie_file,
             },
             'invoices': {
                 'first': {
                     'date': obj.date_first_invoice,
-                    'file': obj.upload_first_invoice.url
+                    'file': obj.upload_first_invoice,
                 },
                 'second': {
                     'date': obj.second_invoice.date,
-                    'file': obj.second_invoice.upload.url
+                    'file': obj.second_invoice.upload,
                 },
                 'last': {
                     'date': obj.date_last_invoice,
-                    'file': obj.upload_last_invoice.url
+                    'file': obj.upload_last_invoice,
                 }
             }
             # To Do:
             # 'discardedType'  not implemented
         }
-
-
-
-class ReportSerializer(serializers.HyperlinkedModelSerializer):
-
-    class Meta:
-        model = Project
-        fields = (
-            'id',
-            'name',
-            'date_report',
-            'is_invalid_report',
-            'upload_report',
-            'status'
-        )
 
 
 class FirstInvoiceSerializer(serializers.HyperlinkedModelSerializer):

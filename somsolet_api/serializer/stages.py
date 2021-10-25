@@ -20,6 +20,23 @@ class PrereportStageSerializer(serializers.HyperlinkedModelSerializer):
         )
 
 
+class ReportStageSerializer(serializers.HyperlinkedModelSerializer):
+
+    reportDate = serializers.DateField(source='report.date')
+    invalidReport = serializers.BooleanField(source='report.check')
+    reportUpload = serializers.FileField(source='report.upload')
+
+    class Meta:
+        model = Project
+        fields = (
+            'id',
+            'reportDate',
+            'invalidReport',
+            'reportUpload',
+            'status'
+        )
+
+
 class SignatureStageSerializer(serializers.HyperlinkedModelSerializer):
 
     signatureDate = serializers.DateField(source='signature.date')
@@ -54,7 +71,6 @@ class OfferStageSerializer(serializers.HyperlinkedModelSerializer):
 
     offerDate = serializers.DateField(source='offer.date')
     offerUpload = serializers.FileField(source='offer.upload')
-    isOfferAccepted = serializers.BooleanField(source='offer.check')
 
     class Meta:
         model = Project
@@ -62,6 +78,19 @@ class OfferStageSerializer(serializers.HyperlinkedModelSerializer):
             'id',
             'offerDate',
             'offerUpload',
+            'status'
+        )
+
+class OfferAcceptedStageSerializer(serializers.HyperlinkedModelSerializer):
+
+    offerAcceptedDate = serializers.DateField(source='offer_accepted.date')
+    isOfferAccepted = serializers.BooleanField(source='offer_accepted.check')
+
+    class Meta:
+        model = Project
+        fields = (
+            'id',
+            'offerAcceptedDate',
             'isOfferAccepted',
             'status'
         )

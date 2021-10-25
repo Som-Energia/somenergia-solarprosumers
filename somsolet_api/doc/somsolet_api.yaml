@@ -225,7 +225,7 @@ paths:
       parameters:
       - name: projectId
         in: path
-        description: ksksks
+        description: Id of the project 
         required: true
         schema:
           type: string
@@ -238,26 +238,53 @@ paths:
               schema:
                 type: object
                 properties:
-                  count:
-                    type: integer
-                    description: number of results
-                    example: 234
                   data:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/project'
-                  links:
-                    type: object
-                    properties:
-                      next:
-                        type: string
-                        description: url of next results. If null, you are in the last page
-                        example: "https://somsolet-api.somenergia.coop/contracts?limit=5&cursor=dXNlcjpVMEc5V0ZYTlo"
+                    $ref: '#/components/schemas/project'
         400:
           description: Invalid status value
           content: {}
       security:
         - jwt: []
+  /project/{projectId}/technical_visit:
+    put:
+      tags:
+        - project
+      description: Set or update a date when the engineering will visit the client to make its technical visist
+      parameters:
+        - name: projectId
+          in: path
+          description: Id of the project 
+          required: true
+          schema:
+            type: string
+            example: 'SS001'
+      requestBody:
+        description: Necessary information to create or update a technical visit
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                dateStart:
+                  type: string
+                  format: date-time
+                  description: When the technical visit starts
+                  example: '2020-06-12T10:20:50.52Z'
+                dateEnd:
+                  type: string
+                  format: date-time
+                  description: When the technical visit ends
+                  example: '2020-06-12T12:20:50.52Z'
+      responses:
+        200:
+          description: Project has been updated with a new technical visit
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/event'
   /stage:
     get:
       tags:
@@ -878,18 +905,30 @@ components:
     event:
       type: object
       properties:
-        date_start:
+        dateStart:
           type: string
           format: date-time
-        date_end:
+        dateEnd:
           type: string
           format: date-time
-        all_day:
+        allDay:
           type: boolean
+        eventType:
+          type: string
+        address:
+          type: string
+        installationId:
+          type: integer
+        campaignId:
+          type: integer
       example:
-          date_start: "2020-12-29T10:15"
-          date_end: "2020-12-29T11:30"
-          all_day: false
+          dateStart: '2020-06-12T10:20:50.52Z'
+          dateEnd: '2020-06-12T12:20:50.52Z'
+          allDay: false
+          eventType: 'TECHNICAL_VISIT'
+          address: 'Carrer Belcaire 67'
+          installationId: 1,
+          campaignId: 3,
     
     links_response:
       type: object

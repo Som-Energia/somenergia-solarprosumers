@@ -1,9 +1,12 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
-
+from django_currentuser.middleware import get_current_authenticated_user
 
 class Base(models.Model):
+
+    class Meta:
+        abstract = True
 
     created_by = models.ForeignKey(
         get_user_model(),
@@ -40,5 +43,9 @@ class Base(models.Model):
         help_text=_('when was deleted this object')
     )
 
-    class Meta:
-        abstract = True
+    def save(self, *args, **kwargs):
+        current_user = get_current_authenticated_user()
+        if not self.id:
+            self.created_by = current_user
+        self.modified_by = current_user
+        super().save(*args, **kwargs)

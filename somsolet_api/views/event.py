@@ -1,8 +1,10 @@
-from rest_framework import permissions
+from django.utils.translation import gettext_lazy as _
+from rest_framework import permissions, serializers
 from rest_framework.views import APIView
 
 from somrenkonto.models import RenkontoEvent
 from somsolet.models import Engineering
+from somsolet.models.project import Project
 from somsolet_api.serializer import RenkontoEventSerializer
 from somsolet_api.common.mixins import MakeResponseMixin
 
@@ -18,8 +20,18 @@ class RenkontoEventView(MakeResponseMixin, APIView):
 
         events = self._get_engineering_events(engineering_id)
 
-        response = self.make_response(events)
+        response = self.make_response(events, request)
         return response
+
+    def post(self, request, engineering_id):
+        data = request.POST.dict()
+        event_serializer = RenkontoEventSerializer(
+            data=data, context={'request': request}
+        )
+        event_serializer.is_valid(raise_exception=True)
+        event = event_serializer.create(event_serializer.validated_data)
+
+        return self.make_succesfull_response([event], request)
 
     def _engineering_exists(self, engineering_id):
         return Engineering.engineerings.get_engineering_by_id(engineering_id) is not None
