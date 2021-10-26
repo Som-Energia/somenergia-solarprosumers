@@ -45,6 +45,7 @@ THIRD_PART_APPS = [
     'rest_framework.authtoken',
     'corsheaders',
     'schedule',
+    'django_admin_multiple_choice_list_filter',
 ]
 
 LOCAL_APPS = [

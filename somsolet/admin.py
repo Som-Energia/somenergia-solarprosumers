@@ -10,12 +10,14 @@ from import_export import fields, resources
 from import_export.admin import ImportExportModelAdmin
 from import_export.widgets import ForeignKeyWidget
 from scheduler_tasks import send_email
+from django_admin_multiple_choice_list_filter.list_filters import MultipleChoiceListFilter
 
 from .models import (Campaign, Client, ClientFile, Engineering, LocalGroup,
                      Project, Technical_campaign, Technical_details,
                      PrereportStage, ReportStage, OfferStage, OfferAcceptedStage,
                      SignatureStage, PermitStage, DeliveryCertificateStage,
-                     SecondInvoiceStage, LegalRegistrationStage, LegalizationStage)
+                     SecondInvoiceStage, LegalRegistrationStage, LegalizationStage,
+                     choices_options)
 
 logger = logging.getLogger('admin')
 
@@ -45,6 +47,14 @@ class ProjectResource(resources.ModelResource):
             instance.save()
 
 
+class StatusListFilter(MultipleChoiceListFilter):
+    title = 'Status'
+    parameter_name = 'status__in'
+
+    def lookups(self, request, model_admin):
+        return choices_options.ITEM_STATUS
+
+
 @admin.register(Project)
 class ProjectAdmin(ImportExportModelAdmin):
     list_display = (
@@ -55,7 +65,7 @@ class ProjectAdmin(ImportExportModelAdmin):
         'warning',
         'warning_date'
     )
-    list_filter = ('campaign', 'status', 'discarded_type')
+    list_filter = ('campaign', StatusListFilter, 'discarded_type')
     resource_class = ProjectResource
     search_fields = ['name', 'client__email', 'client__name', 'client__dni']
 

@@ -25,6 +25,7 @@ connexion
 python-jose
 djangorestframework
 django-cors-headers
+django-admin-multiple-choice-list-filter
 
 # dev 
 pytest==5.4.3
