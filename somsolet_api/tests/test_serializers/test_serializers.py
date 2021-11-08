@@ -1,16 +1,57 @@
 import pytest
+import datetime
 from django.core.files.uploadedfile import SimpleUploadedFile
 from somsolet.tests.factories import (CampaignFactory, ProjectFactory,
                                       TechnicalDetailsFactory)
-from somsolet_api.serializer import (ReportSerializer,
-                                     StatsSerializer,
+from somsolet_api.serializer import (StatsSerializer,
                                      TechnicalDetailsSerializer,
                                      FirstInvoiceSerializer,
-                                     LastInvoiceSerializer)
+                                     LastInvoiceSerializer,
+                                     DeliveryCertificateStageSerializer,
+                                     ProjectSerializer)
+
+
+class TestProjectSerializer:
+    @pytest.mark.django_db
+    def test__base_case(self):
+        project = ProjectFactory()
+        details = TechnicalDetailsFactory(
+            project=project,
+        )
+        serializer = ProjectSerializer(
+            instance=project,
+        )
+        assert serializer.data['description'] == {
+            'campaignName': 'Solar Paco',
+            'dateStart': None,
+            'engineerings': [],
+            'name': 'Instalació plaques Montserrat Escayola',
+            'projectId': 73,
+            'registeredPerson': {
+                'email': 'montse@somenergia.coop',
+                'language': 'ca',
+                'name': 'Montserrat Escayola',
+                'phoneNumber': '631111380',
+            },
+            'stageId': 'empty status',
+            'supplyPoint': {
+                'address': {
+                    'administrativeDivision': 'Barbados',
+                    'municipality': 'Parroquia de Christ Church',
+                    'postalCode': '08026',
+                    'street': 'Bridgetown Norman',
+                    'town': 'Speightstown'
+                },
+                'cups': 'ES0024123453789101XXYY',
+                'tariff': '2.0A',
+            },
+            'warning': 'No Warn',
+        }
+        # TODO  assert serializer.data['stages'] == {...}
 
 
 class TestTechnicalDetailsSerializer:
-
+ 
     @pytest.mark.django_db
     def test_technical_details_serializer__base_case(self):
         serializer = TechnicalDetailsSerializer(
@@ -19,68 +60,6 @@ class TestTechnicalDetailsSerializer:
         assert serializer.data['administrative_division'] == 'Barbados'
         assert serializer.data['town'] == 'Speightstown'
 
-
-class TestReportSerializer:
-
-    @pytest.mark.django_db
-    def test_report_serializer__base_case(self):
-        project = ProjectFactory()
-        project.id = 1
-        report_serializer = ReportSerializer(
-            instance=project
-        )
-
-        assert report_serializer.data == dict(
-            id=1,
-            name='Instalació plaques Montserrat Escayola',
-            date_report=None,
-            is_invalid_report=False,
-            upload_report=None,
-            status='empty status'
-        )
-
-    @pytest.mark.django_db
-    def test_report_serializer__with_data(self):
-        project = ProjectFactory()
-        project.id = 1
-        project.date_report = '2020-01-01'
-        project.status = 'report review'
-        report_serializer = ReportSerializer(
-            instance=project
-        )
-
-        assert report_serializer.data == dict(
-            id=1,
-            name='Instalació plaques Montserrat Escayola',
-            date_report='2020-01-01',
-            is_invalid_report=False,
-            upload_report=None,
-            status='report review'
-        )
-
-    @pytest.mark.django_db
-    def test_report_serializer__with_attachment(self):
-        project = ProjectFactory()
-        project.id = 1
-        project.date_report = '2020-01-01'
-        project.is_invalid_report = True
-        project.status = 'report'
-        report_image = SimpleUploadedFile(
-            "report.jpg", b"file_content", content_type="image/jpeg"
-        )
-        project.upload_report = report_image
-        report_serializer = ReportSerializer(
-            instance=project
-        )
-
-        assert report_serializer.data == dict(
-            id=1,
-            name='Instalació plaques Montserrat Escayola',
-            date_report='2020-01-01',
-            is_invalid_report=True,
-            upload_report='/uploaded_files/report.jpg',
-            status='report'
-        )
 
 class TestLastInvoiceSerializer:
 

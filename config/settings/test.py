@@ -13,3 +13,11 @@ DATABASES = {
     }
 }
 
+RQ_QUEUES = {
+    'default': {
+        'URL': config['redis']['url'],
+    },
+    'low': {
+        'URL': config['redis']['url'],
+    }
+}

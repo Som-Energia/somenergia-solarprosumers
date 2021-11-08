@@ -9,8 +9,8 @@ from somsolet_api.common.permissions import SomsoletAPIModelPermissions
 
 from somsolet_api.serializer import (SignatureStageSerializer, PermitStageSerializer,
                                      LegalRegistrationStageSerializer, LegalizationStageSerializer,
-                                     PrereportStageSerializer, OfferStageSerializer,
-                                     SecondInvoiceStageSerializer)
+                                     PrereportStageSerializer, ReportStageSerializer, OfferStageSerializer,
+                                     SecondInvoiceStageSerializer, DeliveryCertificateStageSerializer)
 
 
 class StagesListViewSet(viewsets.ViewSet):
@@ -57,11 +57,11 @@ class StagesBaseViewSet(viewsets.ModelViewSet):
         if not serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        if instance.status not in self.allowed_stages:
+        if instance.status not in self.allowed_status:
             return Response(serializer.errors, status=status.HTTP_409_CONFLICT)
 
-        getattr(instance, self.stage).set_check(request.data.get('is_checked'))
-        instance.status = getattr(instance, self.stage).get_status()
+        getattr(instance, self.project_stage).set_check(request.data.get('is_checked'))
+        instance.status = getattr(instance, self.project_stage).get_status()
         instance.save()
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -78,11 +78,11 @@ class StagesBaseViewSet(viewsets.ModelViewSet):
         if not serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        if instance.status not in self.allowed_stages:
+        if instance.status not in self.allowed_status:
             return Response(serializer.errors, status=status.HTTP_409_CONFLICT)
 
-        getattr(instance, self.stage).update_upload(request.data.get('upload'))
-        instance.status = getattr(instance, self.stage).get_status()
+        getattr(instance, self.project_stage).update_upload(request.data.get('upload'))
+        instance.status = getattr(instance, self.project_stage).get_status()
         instance.save()
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -91,32 +91,42 @@ class StagesBaseViewSet(viewsets.ModelViewSet):
 class PrereportViewSet(StagesBaseViewSet):
 
     serializer_class = PrereportStageSerializer
-    allowed_stages = ['registered', 'prereport', 'prereport review']
-    stage = 'prereport'
+    allowed_status = ['registered', 'prereport', 'prereport review']
+    project_stage = 'prereport'
+
+
+class ReportViewSet(StagesBaseViewSet):
+
+    serializer_class = ReportStageSerializer
+    allowed_status = ['prereport', 'report', 'report review']
+    project_stage = 'report'
 
 
 class OfferViewSet(StagesBaseViewSet):
 
     serializer_class = OfferStageSerializer
-    allowed_stages = ['report', 'offer_review', 'offer']
-    stage = 'offer'
-
-
-class SecondInvoiceViewSet(StagesBaseViewSet):
-
-    serializer_class = SecondInvoiceStageSerializer
-    allowed_stages = ['end installation', 'second invoice']
-    stage = 'second_invoice'
+    allowed_status = ['report', 'offer review', 'offer accepted']
+    project_stage = 'offer'
 
     def patch(self, request, *args, **kwargs):
         return Response('Patch is not allowed', status=status.HTTP_400_BAD_REQUEST)
 
 
+class OfferAcceptedViewSet(StagesBaseViewSet):
+
+    serializer_class = OfferStageSerializer
+    allowed_status = ['offer review', 'offer accepted']
+    project_stage = 'offer_accepted'
+
+    def put(self, request, *args, **kwargs):
+        return Response('Put is not allowed', status=status.HTTP_400_BAD_REQUEST)
+
+
 class SignatureViewSet(StagesBaseViewSet):
 
     serializer_class = SignatureStageSerializer
-    allowed_stages = ['offer', 'signature']
-    stage = 'signature'
+    allowed_status = ['offer accepted', 'signature']
+    project_stage = 'signature'
 
     def patch(self, request, *args, **kwargs):
         return Response('Patch is not allowed', status=status.HTTP_400_BAD_REQUEST)
@@ -125,8 +135,18 @@ class SignatureViewSet(StagesBaseViewSet):
 class PermitViewSet(StagesBaseViewSet):
 
     serializer_class = PermitStageSerializer
-    allowed_stages = ['signature', 'permit']
-    stage = 'permit'
+    allowed_status = ['signature', 'permit']
+    project_stage = 'permit'
+
+    def patch(self, request, *args, **kwargs):
+        return Response('Patch is not allowed', status=status.HTTP_400_BAD_REQUEST)
+
+
+class SecondInvoiceViewSet(StagesBaseViewSet):
+
+    serializer_class = SecondInvoiceStageSerializer
+    allowed_status = ['end installation', 'second invoice']
+    project_stage = 'second_invoice'
 
     def patch(self, request, *args, **kwargs):
         return Response('Patch is not allowed', status=status.HTTP_400_BAD_REQUEST)
@@ -135,8 +155,8 @@ class PermitViewSet(StagesBaseViewSet):
 class LegalRegistrationViewSet(StagesBaseViewSet):
 
     serializer_class = LegalRegistrationStageSerializer
-    allowed_stages = ['end installation', 'legal registration']
-    stage = 'legal_registration'
+    allowed_status = ['end installation', 'legal registration']
+    project_stage = 'legal_registration'
 
     def patch(self, request, *args, **kwargs):
         return Response('Patch is not allowed', status=status.HTTP_400_BAD_REQUEST)
@@ -145,8 +165,8 @@ class LegalRegistrationViewSet(StagesBaseViewSet):
 class LegalizationViewSet(StagesBaseViewSet):
 
     serializer_class = LegalizationStageSerializer
-    allowed_stages = ['last payment', 'legalization']
-    stage = 'legalization'
+    allowed_status = ['last payment', 'legalization']
+    project_stage = 'legalization'
 
     def patch(self, request, *args, **kwargs):
         return Response('Patch is not allowed', status=status.HTTP_400_BAD_REQUEST)
@@ -163,17 +183,27 @@ class LegalizationViewSet(StagesBaseViewSet):
         if not serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        if instance.status not in self.allowed_stages:
+        if instance.status not in self.allowed_status:
             return Response(serializer.errors, status=status.HTTP_409_CONFLICT)
 
         file_types = request.data.keys()
         if 'rac_file' in file_types:
-            getattr(instance, self.stage).update_rac(request.data.get('rac_file'))
+            getattr(instance, self.project_stage).update_rac(request.data.get('rac_file'))
         if 'ritsic_file' in file_types:
-            getattr(instance, self.stage).update_ritsic(request.data.get('ritsic_file'))
+            getattr(instance, self.project_stage).update_ritsic(request.data.get('ritsic_file'))
         if 'cie_file' in file_types:
-            getattr(instance, self.stage).update_cie(request.data.get('cie_file'))
-        instance.status = getattr(instance, self.stage).get_status()
+            getattr(instance, self.project_stage).update_cie(request.data.get('cie_file'))
+        instance.status = getattr(instance, self.project_stage).get_status()
         instance.save()
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class DeliveryCertificateViewSet(StagesBaseViewSet):
+
+    serializer_class = DeliveryCertificateStageSerializer
+    allowed_status = ['date installation set', 'end installation']
+    project_stage = 'delivery_certificate'
+
+    def patch(self, request, *args, **kwargs):
+        return Response('Patch is not allowed', status=status.HTTP_400_BAD_REQUEST)

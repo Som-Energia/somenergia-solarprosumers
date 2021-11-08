@@ -1,6 +1,7 @@
 import json
 import logging
 
+from django.db import transaction
 from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
@@ -66,7 +67,7 @@ class CalendarView(FilterViewMixin, View):
             slug=slugify(name)
         )
         calendar.save()
-        CalendarConfig.object.get_or_create(
+        CalendarConfig.objects.get_or_create(
             calendar=calendar
         )
         return calendar
@@ -102,6 +103,7 @@ class CalendarView(FilterViewMixin, View):
                 template='calendar.html'
             )
 
+    @transaction.atomic()
     def post(self, request):
         calendar_form = CalendarForm(request.POST)
         if calendar_form.is_valid():

@@ -112,18 +112,20 @@ venv.bak/
 # mypy
 .mypy_cache/
 
-#editor
+# editor
 *.sublime-project
 *.sublime-workspace
 
-#config
+# config
 
 config.yaml
 
-#files
+# files
 *.csv
 json4test.yaml
 uploaded_files
 
-#log files
+# log files
 log/*
+*.log
+log

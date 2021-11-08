@@ -3,8 +3,9 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from somsolet.tests.factories import ProjectFactory
 from somsolet_api.serializer import (SignatureStageSerializer, PermitStageSerializer,
                                      LegalRegistrationStageSerializer, LegalizationStageSerializer,
-                                     PrereportStageSerializer, OfferStageSerializer,
-                                     SecondInvoiceStageSerializer)
+                                     PrereportStageSerializer, ReportStageSerializer, OfferStageSerializer,
+                                     OfferAcceptedStageSerializer, SecondInvoiceStageSerializer,
+                                     DeliveryCertificateStageSerializer)
 
 
 
@@ -68,6 +69,66 @@ class TestPrereportStageSerializer:
             status='prereport'
         )
 
+
+class TestReportStageSerializer:
+
+    @pytest.mark.django_db
+    def test_report_stage_serializer__base_case(self):
+        project = ProjectFactory()
+        project.id = 1
+        report_serializer = ReportStageSerializer(
+            instance=project
+        )
+
+        assert report_serializer.data == dict(
+            id=1,
+            reportDate='2021-06-01',
+            reportUpload=None,
+            invalidReport=False,
+            status='empty status'
+        )
+
+    @pytest.mark.django_db
+    def test_report_stage_serializer__with_data(self):
+        project = ProjectFactory()
+        project.id = 1
+        project.report.check = True
+        project.status = 'report'
+
+        report_serializer = ReportStageSerializer(
+            instance=project
+        )
+
+        assert report_serializer.data == dict(
+            id=1,
+            reportDate='2021-06-01',
+            reportUpload=None,
+            invalidReport=True,
+            status='report'
+        )
+
+    @pytest.mark.django_db
+    def test_report_stage_serializer__with_attachment(self):
+        project = ProjectFactory()
+        project.id = 1
+        project.report.check = True
+        project.status = 'report'
+        report_image = SimpleUploadedFile(
+            "report.jpg", b"file_content", content_type="image/jpeg"
+        )
+        project.report.upload = report_image
+        report_serializer = ReportStageSerializer(
+            instance=project
+        )
+
+        # TODO: find out how to create directories with factories
+        assert report_serializer.data == dict(
+            id=1,
+            reportDate='2021-06-01',
+            reportUpload='/uploaded_files/report.jpg',
+            invalidReport=True,
+            status='report'
+        )
 
 class TestSignatureStageSerializer:
 
@@ -197,7 +258,6 @@ class TestOfferStageSerializer:
             id=1,
             offerDate='2021-06-29',
             offerUpload=None,
-            isOfferAccepted=False,
             status='empty status'
         )
 
@@ -205,7 +265,7 @@ class TestOfferStageSerializer:
     def test_offer_serializer__with_data(self):
         project = ProjectFactory()
         project.id = 1
-        project.status = 'offer'
+        project.status = 'offer review'
 
         offer_serializer = OfferStageSerializer(
             instance=project
@@ -213,17 +273,16 @@ class TestOfferStageSerializer:
 
         assert offer_serializer.data == dict(
             id=1,
-            isOfferAccepted=False,
             offerDate='2021-06-29',
             offerUpload=None,
-            status='offer'
+            status='offer review'
         )
 
     @pytest.mark.django_db
     def test_offer_serializer__with_attachment(self):
         project = ProjectFactory()
         project.id = 1
-        project.status = 'offer'
+        project.status = 'offer review'
         offer_image = SimpleUploadedFile(
             "offer.jpg", b"file_content", content_type="image/jpeg"
         )
@@ -236,8 +295,43 @@ class TestOfferStageSerializer:
             id=1,
             offerDate='2021-06-29',
             offerUpload='/uploaded_files/offer.jpg',
+            status='offer review'
+        )
+
+
+class TestOfferAcceptedStageSerializer:
+
+    @pytest.mark.django_db
+    def test_offer_accepted_stage_serializer__base_case(self):
+        project = ProjectFactory()
+        project.id = 1
+        offer_serializer = OfferAcceptedStageSerializer(
+            instance=project
+        )
+
+        assert offer_serializer.data == dict(
+            id=1,
+            offerAcceptedDate='2021-06-29',
             isOfferAccepted=False,
-            status='offer'
+            status='empty status'
+        )
+
+    @pytest.mark.django_db
+    def test_offer_accepted_serializer__with_data(self):
+        project = ProjectFactory()
+        project.id = 1
+        project.offer_accepted.check = True
+        project.status = 'offer accepted'
+
+        offer_serializer = OfferAcceptedStageSerializer(
+            instance=project
+        )
+
+        assert offer_serializer.data == dict(
+            id=1,
+            offerAcceptedDate='2021-06-29',
+            isOfferAccepted=True,
+            status='offer accepted'
         )
 
 
@@ -420,4 +514,60 @@ class TestLegalizationStageSerializer:
             legalizationRitsic='/uploaded_files/RITSIC.jpg',
             legalizationCie='/uploaded_files/CIE.jpg',
             status='legalization'
+        )
+
+
+class TestDeliveryCertificateStageSerializer:
+
+    @pytest.mark.django_db
+    def test_delivery_certificate_stage_serializer__base_case(self):
+        project = ProjectFactory()
+        project.id = 1
+        delivery_certificate_serializer = DeliveryCertificateStageSerializer(
+            instance=project
+        )
+
+        assert delivery_certificate_serializer.data == dict(
+            id=1,
+            deliveryCertificateDate='2021-06-01',
+            deliveryCertificateUpload=None,
+            status='empty status'
+        )
+
+    @pytest.mark.django_db
+    def test_delivery_certificate_stage_serializer__with_data(self):
+        project = ProjectFactory()
+        project.id = 1
+        project.status = 'date installation set'
+
+        delivery_certificate_serializer = DeliveryCertificateStageSerializer(
+            instance=project
+        )
+
+        assert delivery_certificate_serializer.data == dict(
+            id=1,
+            deliveryCertificateDate='2021-06-01',
+            deliveryCertificateUpload=None,
+            status='date installation set'
+        )
+
+    @pytest.mark.django_db
+    def test_delivery_certificate_stage_serializer__with_attachment(self):
+        project = ProjectFactory()
+        project.id = 1
+        project.status = 'date installation set'
+        delivery_certificate_image = SimpleUploadedFile(
+            "delivery_certificate.jpg", b"file_content", content_type="image/jpeg"
+        )
+        project.delivery_certificate.upload = delivery_certificate_image
+        delivery_certificate_serializer = DeliveryCertificateStageSerializer(
+            instance=project
+        )
+
+        # TODO: find out how to create directories with factories
+        assert delivery_certificate_serializer.data == dict(
+            id=1,
+            deliveryCertificateDate='2021-06-01',
+            deliveryCertificateUpload='/uploaded_files/delivery_certificate.jpg',
+            status='date installation set'
         )

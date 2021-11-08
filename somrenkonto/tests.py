@@ -1,28 +1,12 @@
 import pytest
-from django.contrib.auth import get_user_model
 from django.db.models import Q
 from django.test import Client
 from django.urls import reverse
 
-from somsolet.models import Engineering
-from . import factories
 from .models import RenkontoEvent
 from .views import CalendarView, EditCalendarView, FilterViewMixin
 
 client = Client()
-
-
-@pytest.mark.skip
-@pytest.mark.django_db
-def test__calendar_view(rf):
-    User = get_user_model()
-    url = reverse('somrenkonto')
-    request = rf.get(url)
-    request.user = User.objects.first()
-
-    response = CalendarView.as_view()(request)
-
-    assert 'Obras' in response.content.decode()
 
 
 @pytest.mark.django_db
@@ -89,34 +73,56 @@ class TestFilterViewMixin:
 
 @pytest.mark.django_db
 class TestCalendarView:
-   
-    def test__edit_calendar_conf(self, rf):
-       calendar_conf_id = 1
-       url = reverse('edit_calendar', kwargs={'pk': calendar_conf_id})
-       request = rf.get(url)
 
-       response = EditCalendarView.as_view()(request, pk=calendar_conf_id)
+    def test__edit_calendar_conf(self, rf, authenticated_user, calendar_with_conf):
+        # given a calendar
+        # calendar_with_conf
 
-       assert response.status_code == 200
-    
-    @pytest.mark.skip
-    def test__edit_calendar_conf__button_in_calendar_view(self, rf):
-        User = get_user_model()
-        url = reverse('somrenkonto')
-        calendar_conf_id = 1
+        # when we access to its configuration
+        url = reverse('edit_calendar', kwargs={'pk': calendar_with_conf.id})
         request = rf.get(url)
-        request.user = User.objects.first()
-        
-        response = CalendarView.as_view()(request)
-        conf_calendar_url = reverse('edit_calendar', kwargs={'pk': calendar_conf_id})
+        response = EditCalendarView.as_view()(request, pk=calendar_with_conf.id)
 
+        # then we obtain a successful response
+        assert response.status_code == 200
+
+    def test__edit_calendar_conf__button_in_calendar_view(
+            self, rf, authenticated_user, calendar, engineering_user_paco
+    ):
+        # given a calendar
+        # calendar
+        # and a user
+        # user
+
+        # when that user visit that calendar
+        url = reverse('somrenkonto')
+        request = rf.get(url)
+        request.user = engineering_user_paco
+        response = CalendarView.as_view()(request)
+        # and check for the calendar button configuration
+        conf_calendar_url = reverse(
+            'edit_calendar', kwargs={'pk': calendar.id}
+        )
+
+        # then the url to go to the configuration is in the button
         assert conf_calendar_url in response.content.decode()
 
 
 @pytest.mark.django_db
 class TestRenkontoEventQuerySet:
 
-    def test__engineering_events(self, engineering_with_events):
+    def test__technical_visit(self, authenticated_user, technical_visit_event):
+        # Given a project and technical visit event for that project
+        # technical_visit_event
+        # technical_visit_event.project
+
+        # when we search for all technical visits
+        events = RenkontoEvent.events.technical_visit(technical_visit_event.project)
+        # then we obtain the same event
+        assert events.count() == 1
+        assert events.first() == technical_visit_event
+
+    def test__engineering_events(self, authenticated_user, engineering_with_events):
         # given
         # an engineering with calendar events
         engineering_id = engineering_with_events.id
@@ -130,12 +136,14 @@ class TestRenkontoEventQuerySet:
             engineering__id=engineering_id
         ))
 
-    def test__engineering_without_events(self, engineering, engineering_with_events):
+    def test__engineering_without_events(
+            self, authenticated_user, engineering_without_events, engineering_with_events
+    ):
         # given
         # an engineering without events and other engineering with events
 
         # when we search all events of the engineering without events
-        events = RenkontoEvent.events.engineering_events(engineering.id)
+        events = RenkontoEvent.events.engineering_events(engineering_without_events.id)
 
         # then we haven't events
         assert len(events) == 0

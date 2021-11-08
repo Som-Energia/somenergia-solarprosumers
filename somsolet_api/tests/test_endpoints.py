@@ -1,6 +1,7 @@
 import pytest
 
 from django.contrib.auth.models import User, Permission
+from django_currentuser.middleware import _set_current_user
 from django.test import TestCase
 from django.urls import reverse
 
@@ -8,6 +9,11 @@ from somsolet.models import (Campaign, Project)
 from somrenkonto.models import RenkontoEvent
 from somsolet_api.views import RenkontoEventView
 from somsolet_api.serializer import RenkontoEventSerializer
+
+from .factories import TechnicalVisitDataFactory
+from somsolet.tests.fixtures import ProjectFactory
+from somsolet.tests.factories import SuperuserFactory
+from somrenkonto.factories import CalendarConfigMonthViewFactory
 
 
 class TestAPI(TestCase):
@@ -95,7 +101,7 @@ class TestCampaign(TestCase):
 
 
 class TestProject(TestCase):
-    
+
     def setUp(self):
         self.base_url = '/somsolet-api/project/'
         self.user = User(username='aitor', password='1234')
@@ -129,12 +135,43 @@ class TestProject(TestCase):
         assert response.status_code == 200
         assert response_body == []
 
+    def test_set_technical_visit(self):
+        # given
+        # an admin user, a calendar, a technical visit, and a project
+        admin_user = SuperuserFactory.create()
+        _set_current_user(admin_user)
+        calendar = CalendarConfigMonthViewFactory.create()
+        technical_visit = TechnicalVisitDataFactory.data_ok()
+        montse_project = ProjectFactory.create()
+        calendar.calendar.create_relation(montse_project.engineering.user)
+
+        # with an engineering with permissions
+        self.client.login(username=admin_user.username, password='1234')
+
+        # when we set a technical visit for a project
+        url = '{base_url}{id}/set_technical_visit/'.format(
+            base_url=self.base_url, id=montse_project.id
+        )
+        response = self.client.put(url, data=technical_visit, content_type='application/json')
+
+        # then everything is ok
+        assert response.status_code == 200
+        response_body = response.json()
+        assert response_body == {
+            'dateStart': technical_visit.get('date_start'),
+            'dateEnd': technical_visit.get('date_end'),
+            'allDay': False,
+            'eventType': 'TECH',
+            'installationId': montse_project.id,
+            'campaignId': montse_project.campaign_id
+        }
+
 
 class TestEvents:
 
     @pytest.mark.django_db
     def test_get_engineering_events(
-        self, authenticated_user, engineering_with_events, client,
+        self, authenticated_user, engineering_with_events, client, rf
     ):
         # given
         # an authenticated_user
@@ -142,13 +179,15 @@ class TestEvents:
 
         # when the user requests for the events of an engineering
         url = reverse('events', args=[engineering_with_events.id])
+        request = rf.get(url)
+        request.user = authenticated_user
         client.login(username=authenticated_user.username, password='1234')
         response = client.get(url)
 
         # then the user obtain a succesfull response and a list with the events of the engineering
         assert response.status_code == 200
         events = [
-            RenkontoEventSerializer(event).data
+            RenkontoEventSerializer(event, context={'request': request}).data
             for event in RenkontoEvent.objects.filter(
                 engineering__id=engineering_with_events.id
             )
