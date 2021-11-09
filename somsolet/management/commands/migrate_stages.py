@@ -7,12 +7,15 @@ class Command(BaseCommand):
     help = 'Migrate old fashion stages in projects to new model structure'
 
     PRE_REPORT_MSG = 'Migrating pre-report'
-    SECOND_INVOICE_MSG = 'Migrating second invoice'
+    REPORT_MSG = 'Migrating report'
     OFFER_MSG = 'Migrating offer'
+    ACCEPTED_OFFER_MSG = 'Migrating accepted offer'
     SIGNATURE_MSG = 'Migrating signature'
     PERMIT_MSG = 'Migrating permit'
+    DELIVERY_CERT_MSG = 'Migrating delivery certificate'
+    SECOND_INVOICE_MSG = 'Migrating second invoice'
     LEGAL_REG_MSG = 'Migrating legal registration'
-    LEGALIZATION_MSG = 'Migrating legaization'
+    LEGALIZATION_MSG = 'Migrating legalization'
 
     def handle(self, *args, **options):
 
@@ -32,6 +35,16 @@ class Command(BaseCommand):
             except Exception as e:
                 self.stderr.write(self.style.ERROR(str(e)))
 
+            self.stdout.write(self.style.NOTICE(self.REPORT_MSG))
+            try:
+                project.create_report_stage(
+                    date=project.date_report,
+                    check=project.is_invalid_report,
+                    report_file=project.upload_report
+                )
+            except Exception as e:
+                self.stderr.write(self.style.ERROR(str(e)))
+
             self.stdout.write(self.style.NOTICE(self.SECOND_INVOICE_MSG))
             try:
                 project.create_second_invoice_stage(
@@ -46,8 +59,16 @@ class Command(BaseCommand):
             try:
                 project.create_offer_stage(
                     date=project.date_offer,
-                    check=project.is_invalid_offer,
                     offer_file=project.upload_offer
+                )
+            except Exception as e:
+                self.stderr.write(self.style.ERROR(str(e)))
+
+            self.stdout.write(self.style.NOTICE(self.ACCEPTED_OFFER_MSG))
+            try:
+                project.create_accepted_offer_stage(
+                    date=project.date_offer,
+                    check=project.is_invalid_offer
                 )
             except Exception as e:
                 self.stderr.write(self.style.ERROR(str(e)))
@@ -72,11 +93,19 @@ class Command(BaseCommand):
             except Exception as e:
                 self.stderr.write(self.style.ERROR(str(e)))
 
+            self.stdout.write(self.style.NOTICE(self.DELIVERY_CERT_MSG))
+            try:
+                project.create_delivery_certificate_stage(
+                    date=project.date_delivery_certificate,
+                    delivery_cert_file=project.upload_delivery_certificate
+                )
+            except Exception as e:
+                self.stderr.write(self.style.ERROR(str(e)))
+
             self.stdout.write(self.style.NOTICE(self.LEGAL_REG_MSG))
             try:
                 project.create_legal_registration_stage(
                     date=project.date_legal_registration_docs,
-                    check=True,
                     legal_file=project.upload_legal_registration_docs
                 )
             except Exception as e:
@@ -86,7 +115,10 @@ class Command(BaseCommand):
             try:
                 project.create_legalization_stage(
                     date=project.date_legal_docs,
-                    rac_file=project.upload_legal_docs
+                    rac_file=project.upload_legal_docs,
+                    ritsic_file=project.upload_legal_docs,
+                    cie_file=project.upload_legal_docs,
+
                 )
             except Exception as e:
                 self.stderr.write(self.style.ERROR(str(e)))
