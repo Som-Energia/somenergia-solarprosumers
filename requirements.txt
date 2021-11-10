@@ -1,5 +1,5 @@
 Django>=2.0,<3.0
-psycopg2<2.9
+psycopg2>=2.8,<2.9
 yamlns
 django-bootstrap4==0.0.8
 django-crispy-forms==1.7.2
@@ -25,6 +25,7 @@ connexion
 python-jose
 djangorestframework
 django-cors-headers
+uwsgi
 
 # dev 
 pytest==5.4.3
