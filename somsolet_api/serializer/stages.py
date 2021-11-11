@@ -52,6 +52,21 @@ class SignatureStageSerializer(serializers.HyperlinkedModelSerializer):
         )
 
 
+class FirstInvoiceStageSerializer(serializers.HyperlinkedModelSerializer):
+
+    firstInvoiceDate = serializers.DateField(source='first_invoice.date')
+    firstInvoiceUpload = serializers.FileField(source='first_invoice.upload')
+
+    class Meta:
+        model = Project
+        fields = (
+            'id',
+            'firstInvoiceDate',
+            'firstInvoiceUpload',
+            'status'
+        )
+
+
 class PermitStageSerializer(serializers.HyperlinkedModelSerializer):
 
     permitDate = serializers.DateField(source='permit.date')

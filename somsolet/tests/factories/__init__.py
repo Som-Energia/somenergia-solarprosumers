@@ -15,8 +15,10 @@ from .project import (ProjectDeliveryCertificateStageFactory,
                       ProjectPrereportRegisteredStageFactory,
                       ProjectPrereportStageFactory,
                       ProjectSecondInvoiceStageFactory,
-                      ProjectSignatureStageFactory, ProjectStageFactory,
-                      TechnicalDetailsFactory)
+                      ProjectSignatureStageFactory,
+                      ProjectStageFactory,
+                      TechnicalDetailsFactory,
+                      ProjectFirstInvoiceStageFactory)
 from .stages import (LegalRegistrationStageBaseFactory,
                      LegalRegistrationStageFactory, SignatureStageBaseFactory,
                      SignatureStageFactory)

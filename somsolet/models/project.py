@@ -13,7 +13,7 @@ from .client import Client
 from .stage_file import (SignatureStage, PermitStage, LegalRegistrationStage,
                          LegalizationStage, PrereportStage, OfferStage,
                          OfferAcceptedStage, SecondInvoiceStage, DeliveryCertificateStage,
-                         ReportStage)
+                         ReportStage, FirstInvoiceStage)
 
 class ProjectQuerySet(models.QuerySet):
 
@@ -186,6 +186,14 @@ class Project(models.Model):
         help_text=_('Report file')
     )
 # -------------------------- FirstInvoiceStage -------------------------
+
+    first_invoice = models.ForeignKey(
+        FirstInvoiceStage,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        verbose_name=_('First invoice')
+    )
 
     date_first_invoice = models.DateField(
         null=True,

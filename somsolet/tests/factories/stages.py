@@ -39,6 +39,15 @@ class SignatureStageFactory(SignatureStageBaseFactory):
     upload = 'uploaded_files/contract/ups.png'
 
 
+class FirstInvoiceStageFactory(DjangoModelFactory):
+
+    class Meta:
+        model = 'somsolet.FirstInvoiceStage'
+
+    date = '2021-06-29'
+    check = False
+    upload = None
+
 class PermitStageFactory(DjangoModelFactory):
 
     class Meta:

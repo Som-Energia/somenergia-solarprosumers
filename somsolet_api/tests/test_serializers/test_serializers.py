@@ -5,7 +5,6 @@ from somsolet.tests.factories import (CampaignFactory, ProjectFactory,
                                       TechnicalDetailsFactory)
 from somsolet_api.serializer import (StatsSerializer,
                                      TechnicalDetailsSerializer,
-                                     FirstInvoiceSerializer,
                                      LastInvoiceSerializer,
                                      DeliveryCertificateStageSerializer,
                                      ProjectSerializer)
@@ -121,69 +120,6 @@ class TestLastInvoiceSerializer:
             date_last_invoice='2020-01-01',
             is_paid_last_invoice=True,
             upload_last_invoice='/uploaded_files/invoice.jpg',
-            status='pending payment'
-        )
-
-class TestFirstInvoiceSerializer:
-
-    @pytest.mark.django_db
-    def test_first_invoice_serializer__base_case(self):
-        project = ProjectFactory()
-        project.id = 1
-        project.status = 'signature'
-        invoice_serializer = FirstInvoiceSerializer(
-            instance=project
-        )
-
-        assert invoice_serializer.data == dict(
-            id=1,
-            name='Instalació plaques Montserrat Escayola',
-            date_first_invoice=None,
-            is_paid_first_invoice=False,
-            upload_first_invoice=None,
-            status='signature'
-        )
-
-    @pytest.mark.django_db
-    def test_first_invoice_serializer__with_data(self):
-        project = ProjectFactory()
-        project.id = 1
-        project.date_first_invoice = '2020-01-01'
-        project.status = 'signature'
-        invoice_serializer = FirstInvoiceSerializer(
-            instance=project
-        )
-
-        assert invoice_serializer.data == dict(
-            id=1,
-            name='Instalació plaques Montserrat Escayola',
-            date_first_invoice='2020-01-01',
-            is_paid_first_invoice=False,
-            upload_first_invoice=None,
-            status='signature'
-        )
-
-    @pytest.mark.django_db
-    def test_first_invoice_serializer__with_attachment(self):
-        project = ProjectFactory()
-        project.id = 1
-        project.date_first_invoice = '2020-01-01'
-        project.is_paid_first_invoice = True
-        project.status = 'pending payment'
-        invoice_image = SimpleUploadedFile(
-            "invoice.jpg", b"file_content", content_type="image/jpeg"
-        )
-        project.upload_first_invoice = invoice_image
-        invoice_serializer = FirstInvoiceSerializer(
-            instance=project
-        )
-
-        assert invoice_serializer.data == dict(
-            id=1,
-            name='Instalació plaques Montserrat Escayola',
-            date_first_invoice='2020-01-01',
-            is_paid_first_invoice=True,
-            upload_first_invoice='/uploaded_files/invoice.jpg',
             status='pending payment'
         )
 

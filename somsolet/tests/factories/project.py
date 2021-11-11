@@ -10,7 +10,8 @@ from .stages import (SignatureStageFactory, SignatureStageBaseFactory, PermitSta
                      LegalRegistrationStageBaseFactory, LegalRegistrationStageFactory,
                      LegalizationStageFactory, PrereportStageFactory, ReportStageFactory,
                      ReportBaseStageFactory, OfferStageFactory, OfferBaseStageFactory,
-                     OfferAcceptedStageFactory, SecondInvoiceStageFactory, DeliveryCertificateStageFactory)
+                     OfferAcceptedStageFactory, SecondInvoiceStageFactory, DeliveryCertificateStageFactory,
+                     FirstInvoiceStageFactory)
 
 
 
@@ -46,6 +47,7 @@ class ProjectFactory(DjangoModelFactory):
     is_offer_accepted = False
     upload_offer = None
     signature = factory.SubFactory(SignatureStageBaseFactory)
+    first_invoice = factory.SubFactory(FirstInvoiceStageFactory)
     permit = factory.SubFactory(PermitStageFactory)
     date_permit = None
     offer = factory.SubFactory(OfferBaseStageFactory)
@@ -91,6 +93,11 @@ class ProjectPrereportStageFactory(ProjectFactory):
 class ProjectSignatureStageFactory(ProjectFactory):
     id = 1
     status = 'offer accepted'
+
+
+class ProjectFirstInvoiceStageFactory(ProjectFactory):
+    id = 1
+    status = 'signature'
 
 
 class ProjectPermitStageFactory(ProjectFactory):

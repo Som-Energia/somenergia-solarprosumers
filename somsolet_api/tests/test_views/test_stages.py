@@ -14,6 +14,7 @@ from somsolet.tests.factories import (ProjectDeliveryCertificateStageFactory,
                                       ProjectPrereportStageFactory,
                                       ProjectSecondInvoiceStageFactory,
                                       ProjectSignatureStageFactory,
+                                      ProjectFirstInvoiceStageFactory
                                     )
 
 
@@ -326,6 +327,82 @@ class TestSignatureViewSet(TestCase):
         response = self.client.generic(method="PUT",
             path='/somsolet-api/signature/?projectId=1',
             data={'upload': signature_image},
+            content_type='multipart/form-data'
+        )
+
+        project.refresh_from_db()
+        assert response.status_code == 409
+        assert project.status == 'empty status'
+
+
+class TestFirstInvoiceViewSet(TestCase):
+
+    def login(self, user):
+
+        self.client.login(username=user.username, password='1234')
+        permission = Permission.objects.get(codename='change_project')
+        user.user_permissions.add(permission)
+
+        return user
+
+    @pytest.mark.django_db
+    def test_first_invoice_patch__not_supported(self):
+        project = ProjectFirstInvoiceStageFactory()
+
+        assert project.status == 'signature'
+
+        user = self.login(project.engineering.user)
+
+        response = self.client.patch(
+            '/somsolet-api/first_invoice/?projectId=1',
+            data={'is_checked': True},
+            content_type='application/json'
+        )
+
+        project.refresh_from_db()
+        assert response.status_code == 400
+        assert project.status == 'signature'
+
+
+    @pytest.mark.django_db
+    def test_first_invoice_put__base_case(self):
+        project = ProjectFirstInvoiceStageFactory()
+
+        assert project.first_invoice.upload.name is None
+        assert project.status == 'signature'
+
+        user = self.login(project.engineering.user)
+
+        first_invoice_image = SimpleUploadedFile(
+            name='first_invoice.jpg', content=b'something', content_type="image/jpeg"
+        )
+        # TODO: request.data is {} on backend, see issue: https://github.com/encode/django-rest-framework/issues/3951
+        response = self.client.generic(method="PUT",
+            path='/somsolet-api/first_invoice/?projectId=1',
+            data={'upload': first_invoice_image},
+            content_type='multipart/form-data'
+        )
+
+        project.refresh_from_db()
+        assert response.status_code == 200
+        assert project.status == 'first invoice'
+
+    @pytest.mark.django_db
+    def test_first_invoice_put__wrong_stage(self):
+        project = ProjectEmptyStatusStageFactory()
+
+        assert project.first_invoice.upload.name is None
+        assert project.status == 'empty status'
+
+        user = self.login(project.engineering.user)
+
+        first_invoice_image = SimpleUploadedFile(
+            name='first_invoice.jpg', content=b'something', content_type="image/jpeg"
+        )
+        # TODO: request.data is {} on backend, see issue: https://github.com/encode/django-rest-framework/issues/3951
+        response = self.client.generic(method="PUT",
+            path='/somsolet-api/first_invoice/?projectId=1',
+            data={'upload': first_invoice_image},
             content_type='multipart/form-data'
         )
 

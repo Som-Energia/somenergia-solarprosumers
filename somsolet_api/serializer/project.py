@@ -127,8 +127,8 @@ class ProjectSerializer(serializers.HyperlinkedModelSerializer):
             },
             'invoices': {
                 'first': {
-                    'date': obj.date_first_invoice,
-                    'file': obj.upload_first_invoice,
+                    'date': obj.first_invoice.date,
+                    'file': obj.first_invoice.upload,
                 },
                 'second': {
                     'date': obj.second_invoice.date,
@@ -142,20 +142,6 @@ class ProjectSerializer(serializers.HyperlinkedModelSerializer):
             # To Do:
             # 'discardedType'  not implemented
         }
-
-
-class FirstInvoiceSerializer(serializers.HyperlinkedModelSerializer):
-
-    class Meta:
-        model = Project
-        fields = (
-            'id',
-            'name',
-            'date_first_invoice',
-            'is_paid_first_invoice',
-            'upload_first_invoice',
-            'status'
-        )
 
 
 class LastInvoiceSerializer(serializers.HyperlinkedModelSerializer):

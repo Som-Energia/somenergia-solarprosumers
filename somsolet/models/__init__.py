@@ -5,5 +5,5 @@ from .project import Project, Technical_details
 from .misc import Mailing
 from .stage_file import (SignatureStage, PermitStage, LegalRegistrationStage,
                          LegalizationStage, PrereportStage, OfferStage,
-                         OfferAcceptedStage, SecondInvoiceStage,
+                         OfferAcceptedStage, SecondInvoiceStage, FirstInvoiceStage,
                          DeliveryCertificateStage)

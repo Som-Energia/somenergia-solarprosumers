@@ -10,7 +10,8 @@ from somsolet_api.common.permissions import SomsoletAPIModelPermissions
 from somsolet_api.serializer import (SignatureStageSerializer, PermitStageSerializer,
                                      LegalRegistrationStageSerializer, LegalizationStageSerializer,
                                      PrereportStageSerializer, ReportStageSerializer, OfferStageSerializer,
-                                     SecondInvoiceStageSerializer, DeliveryCertificateStageSerializer)
+                                     SecondInvoiceStageSerializer, DeliveryCertificateStageSerializer,
+                                     FirstInvoiceStageSerializer)
 
 
 class StagesListViewSet(viewsets.ViewSet):
@@ -132,10 +133,20 @@ class SignatureViewSet(StagesBaseViewSet):
         return Response('Patch is not allowed', status=status.HTTP_400_BAD_REQUEST)
 
 
+class FirstInvoiceViewSet(StagesBaseViewSet):
+
+    serializer_class = FirstInvoiceStageSerializer
+    allowed_status = ['signature', 'first invoice']
+    project_stage = 'first_invoice'
+
+    def patch(self, request, *args, **kwargs):
+        return Response('Patch is not allowed', status=status.HTTP_400_BAD_REQUEST)
+
+
 class PermitViewSet(StagesBaseViewSet):
 
     serializer_class = PermitStageSerializer
-    allowed_status = ['signature', 'permit']
+    allowed_status = ['signature', 'permit', 'first invoice']
     project_stage = 'permit'
 
     def patch(self, request, *args, **kwargs):
@@ -155,7 +166,7 @@ class SecondInvoiceViewSet(StagesBaseViewSet):
 class LegalRegistrationViewSet(StagesBaseViewSet):
 
     serializer_class = LegalRegistrationStageSerializer
-    allowed_status = ['end installation', 'legal registration']
+    allowed_status = ['end installation', 'legal registration', 'second invoice']
     project_stage = 'legal_registration'
 
     def patch(self, request, *args, **kwargs):
