@@ -15,7 +15,7 @@ from somsolet_api.serializer import (SignatureStageSerializer, PermitStageSerial
 
 class StagesListViewSet(viewsets.ViewSet):
     permission_classes = [IsAuthenticated]
-    authentication_classes = [TokenAuthentication, SessionAuthentication]
+    authentication_classes = [TokenAuthentication]
 
     def list(self, request):
 
@@ -30,7 +30,7 @@ class StagesListViewSet(viewsets.ViewSet):
 
 class StagesBaseViewSet(viewsets.ModelViewSet):
     permission_classes = [SomsoletAPIModelPermissions]
-    authentication_classes = [TokenAuthentication, SessionAuthentication]
+    authentication_classes = [TokenAuthentication]
 
     def get_queryset(self):
         queryset = Project.objects.all().order_by('name')

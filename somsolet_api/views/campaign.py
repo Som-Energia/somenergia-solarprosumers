@@ -8,7 +8,7 @@ from somsolet_api.serializer import CampaignSerializer
 
 class CampaignViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticatedOrReadOnly]
-    authentication_classes = [TokenAuthentication, SessionAuthentication]
+    authentication_classes = [TokenAuthentication]
 
     serializer_class = CampaignSerializer
 

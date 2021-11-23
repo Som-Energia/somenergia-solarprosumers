@@ -5,6 +5,9 @@ from django_currentuser.middleware import _set_current_user
 from django.test import TestCase
 from django.urls import reverse
 
+from rest_framework.test import APITestCase, APIClient
+from rest_framework.authtoken.models import Token
+
 from somsolet.models import (Campaign, Project)
 from somrenkonto.models import RenkontoEvent
 from somsolet_api.views import RenkontoEventView
@@ -16,22 +19,37 @@ from somsolet.tests.factories import SuperuserFactory
 from somrenkonto.factories import CalendarConfigMonthViewFactory
 
 
-class TestAPI(TestCase):
+class TestAPI(APITestCase):
 
     def setUp(self):
         self.user = User(username='aitor', password='1234')
         self.user.set_password('1234')
         self.user.save()
+        self.token = Token.objects.create(user=self.user)
+        self.client = APIClient()
 
     def tearDown(self):
         self.user.delete()
 
-    def test_auth(self):
+    # client is APIClient
+    def test_session_auth(self):
         login_response = self.client.login(
             username=self.user.username, password='1234'
         )
         assert login_response == True
 
+    def test_simple_request(self):
+        base_url = '/somsolet-api/stages/'
+
+        self.client.login(user=self.user.username, password='1234')
+        response = self.client.get(base_url, HTTP_AUTHORIZATION=self.token.key)
+
+        self.assertEqual(response.status_code, 201)
+
+    # TODO test a simple request
+    def _test_simple_request_with_APIRequestFactory(self):
+        # TODO use APIRequestFactory and force_authenticate
+        pass
 
 class TestStages(TestCase):
 
@@ -45,7 +63,11 @@ class TestStages(TestCase):
         self.user.delete()
 
     def test_stages_base_case(self):
-        self.client.login(username=self.user.username, password='1234')
+        auth_response = self.client.login(username=self.user.username, password='1234')
+
+        import pdb; pdb.set_trace()
+        # TODO agafar el token enlloc de user-password session en el client.get
+        # m'ho invento: auth_response.get_token
 
         response = self.client.get(self.base_url)
 
