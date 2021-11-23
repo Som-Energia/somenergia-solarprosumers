@@ -41,10 +41,8 @@ class TestAPI(APITestCase):
     def test_simple_request(self):
         base_url = '/somsolet-api/stages/'
 
-        self.client.login(user=self.user.username, password='1234')
-        response = self.client.get(base_url, HTTP_AUTHORIZATION=self.token.key)
-
-        self.assertEqual(response.status_code, 201)
+        response = self.client.get(base_url, HTTP_AUTHORIZATION='Token {}'.format(self.token.key))
+        assert response.status_code == 200
 
     # TODO test a simple request
     def _test_simple_request_with_APIRequestFactory(self):
