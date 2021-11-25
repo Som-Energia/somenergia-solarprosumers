@@ -11,7 +11,7 @@ from import_export.admin import ImportExportModelAdmin
 from import_export.widgets import ForeignKeyWidget
 from scheduler_tasks import send_email
 
-from .models import (Campaign, Client, ClientFile, Engineering, LocalGroup,
+from .models import (Campaign, Client, ClientFile, NotificationAddress, Engineering, LocalGroup,
                      Project, Technical_campaign, Technical_details)
 
 logger = logging.getLogger('admin')
@@ -153,6 +153,22 @@ class ClientResource(resources.ModelResource):
     dni = fields.Field(
         attribute='dni',
         column_name='Número de DNI')
+
+    class Meta:
+        model = Client
+        import_id_fields = ('name', 'membership_number', 'dni')
+
+    def before_import_row(self, row, **kwargs):
+        row['Nom i cognoms'] = row['Nom i cognoms'].title()
+        row['Número de DNI'] = row['Número de DNI'].upper()
+        row['Nom i cognoms'] = row['Nom i cognoms'].title()
+
+
+class NotificationAddressResource(resources.ModelResource):
+    client = fields.Field(
+        attribute='client',
+        column_name="Número de soci/a de Som Energia",
+        widget=ForeignKeyWidget(Client, 'membership_number'))
     phone_number = fields.Field(
         attribute='phone_number',
         column_name='Telèfon de contacte')
@@ -164,14 +180,9 @@ class ClientResource(resources.ModelResource):
         column_name='Idioma')
 
     class Meta:
-        model = Client
-        import_id_fields = ('name', 'membership_number', 'dni')
+        model = NotificationAddress
+        import_id_fields = ('phone_number', 'email')
         exclude = ('id', 'sent_general_conditions', 'file')
-
-    def before_import_row(self, row, **kwargs):
-        row['Nom i cognoms'] = row['Nom i cognoms'].title()
-        row['Número de DNI'] = row['Número de DNI'].upper()
-        row['Nom i cognoms'] = row['Nom i cognoms'].title()
 
     def after_save_instance(self, instance, using_transactions=True, dry_run=False):
         if not dry_run:
@@ -181,7 +192,7 @@ class ClientResource(resources.ModelResource):
             )
             with override(instance.language):
                 message_params = {
-                    'header': _("Hola {},").format(instance.name),
+                    'header': _("Hola {},").format(instance.client.name),
                     'ending': _("Salut i bona energia,"),
                 }
                 send_email(
@@ -198,14 +209,21 @@ class ClientResource(resources.ModelResource):
 
 @admin.register(Client)
 class ClientAdmin(ImportExportModelAdmin):
-    list_display = ('name', 'membership_number', 'email')
+    list_display = ('name', 'membership_number')
     resource_class = ClientResource
-    search_fields = ['name', 'email', 'membership_number']
+    search_fields = ['name', 'membership_number']
 
 
 @admin.register(ClientFile)
 class ClientFileAdmin(admin.ModelAdmin):
     list_display = ('name', 'language')
+
+
+@admin.register(NotificationAddress)
+class NotificationAddressAdmin(ImportExportModelAdmin):
+    list_display = ('email', 'phone_number')
+    resource_class = NotificationAddressResource
+    search_fields = ['email', 'phone_number']
 
 
 @admin.register(LocalGroup)

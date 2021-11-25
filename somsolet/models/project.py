@@ -9,7 +9,7 @@ from .choices_options import (BATERY_BRAND, INVERSOR_BRAND, ITEM_ANGLES,
                               ITEM_DISCARDED_TYPES, ITEM_ORIENTATION,
                               ITEM_STATUS, ITEM_WARNINGS, PANELS_BRAND,
                               PANELS_TYPE)
-from .client import Client
+from .client import Client, NotificationAddress
 from .stage_file import (SignatureStage, PermitStage, LegalRegistrationStage,
                          LegalizationStage, PrereportStage, OfferStage,
                          OfferAcceptedStage, SecondInvoiceStage, DeliveryCertificateStage,
@@ -63,6 +63,15 @@ class Project(models.Model):
         on_delete=models.CASCADE,
         verbose_name=_('Client'),
         help_text=_('Client of this project')
+    )
+
+    notification_address = models.ForeignKey(
+        NotificationAddress,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        verbose_name=_('Notification Address'),
+        help_text=_('Notification address of this project')
     )
 
     status = models.CharField(

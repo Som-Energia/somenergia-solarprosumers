@@ -20,6 +20,13 @@ class ClientFactory(DjangoModelFactory):
     name = 'Montserrat Escayola'
     membership_number = '44630'
     dni = '34956742P'
+
+
+class NotificationAddressFactory(DjangoModelFactory):
+    class Meta:
+        model = 'somsolet.NotificationAddress'
+
+    client = factory.RelatedFactory(ClientFactory)
     phone_number = '631111380'
     email = 'montse@somenergia.coop'
     language = 'ca'

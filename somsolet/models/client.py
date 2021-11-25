@@ -48,6 +48,20 @@ class Client(models.Model):
         verbose_name=_('DNI'),
     )
 
+    def __str__(self):
+        return self.name
+
+
+class NotificationAddress(models.Model):
+    client = models.ForeignKey(
+        Client,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        verbose_name=_('Client'),
+        help_text=_('Client associated with this address')
+    )
+
     phone_number = models.CharField(
         blank=True,
         max_length=9,
@@ -78,5 +92,3 @@ class Client(models.Model):
         verbose_name=_('File')
     )
 
-    def __str__(self):
-        return self.name
