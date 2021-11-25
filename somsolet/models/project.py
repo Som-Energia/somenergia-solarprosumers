@@ -60,7 +60,7 @@ class Project(models.Model):
         Client,
         null=True,
         blank=True,
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
         verbose_name=_('Client'),
         help_text=_('Client of this project')
     )
