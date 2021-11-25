@@ -200,7 +200,7 @@ class NotificationAddressResource(resources.ModelResource):
                     _('Confirmació d’Inscripció a la Compra Col·lectiva Som Energia'),
                     message_params,
                     'emails/message_body_general_conditions.html',
-                    str(os.path.join(base.MEDIA_ROOT, str(filename.file)))
+                    [str(os.path.join(base.MEDIA_ROOT, str(filename.file)))]
                 )
                 instance.sent_general_conditions = True
                 instance.save()
