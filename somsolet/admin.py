@@ -181,7 +181,7 @@ class NotificationAddressResource(resources.ModelResource):
 
     class Meta:
         model = NotificationAddress
-        import_id_fields = ('phone_number', 'email')
+        import_id_fields = ('client', 'phone_number', 'email')
         exclude = ('id', 'sent_general_conditions', 'file')
 
     def after_save_instance(self, instance, using_transactions=True, dry_run=False):
@@ -221,9 +221,9 @@ class ClientFileAdmin(admin.ModelAdmin):
 
 @admin.register(NotificationAddress)
 class NotificationAddressAdmin(ImportExportModelAdmin):
-    list_display = ('email', 'phone_number')
+    list_display = ('client', 'email', 'phone_number')
     resource_class = NotificationAddressResource
-    search_fields = ['email', 'phone_number']
+    search_fields = ['client', 'email', 'phone_number']
 
 
 @admin.register(LocalGroup)
