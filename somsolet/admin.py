@@ -17,6 +17,17 @@ from .models import (Campaign, Client, ClientFile, NotificationAddress, Engineer
 logger = logging.getLogger('admin')
 
 
+class NotificationAddressForeignKeyWidget(ForeignKeyWidget):
+
+    def get_queryset(self, value, row, *args, **kwargs):
+        result = self.model.objects.filter(
+            email__iexact=row["Correu electrònic"],
+            phone_number__iexact=row["Telèfon de contacte"],
+            client__membership_number__iexact=row["Número de soci/a de Som Energia"]
+        )
+        return result
+
+
 class ProjectResource(resources.ModelResource):
     name = fields.Field(
         attribute='name',
@@ -29,17 +40,42 @@ class ProjectResource(resources.ModelResource):
         attribute='client',
         column_name="Número de soci/a de Som Energia",
         widget=ForeignKeyWidget(Client, 'membership_number'))
+    notification_address = fields.Field(
+        attribute='notification_address',
+        column_name="Correu electrònic",
+        widget=NotificationAddressForeignKeyWidget(
+            NotificationAddress, 'email'))
+
 
     class Meta:
         model = Project
-        import_id_fields = ('name', 'campaign', 'client')
-        exclude = ('id', )
+        import_id_fields = ('name', 'campaign', 'client', 'notification_address')
+        exclude = ('id', 'sent_general_conditions', 'file')
+
 
     def after_save_instance(self, instance, using_transactions=True, dry_run=False):
         if not dry_run:
             instance.status = 'registered'
             instance.registration_date = datetime.now()
-            instance.save()
+            filename = ClientFile.objects.get(
+                name='General Conditions',
+                language=instance.notification_address.language
+            )
+            with override(instance.notification_address.language):
+                message_params = {
+                    'header': _("Hola {},").format(instance.client.name),
+                    'ending': _("Salut i bona energia,"),
+                }
+                send_email(
+                    [instance.notification_address.email],
+                    _('Confirmació d’Inscripció a la Compra Col·lectiva Som Energia'),
+                    message_params,
+                    'emails/message_body_general_conditions.html',
+                    [str(os.path.join(base.MEDIA_ROOT, str(filename.file)))]
+                )
+                instance.sent_general_conditions = True
+                instance.save()
+                logger.info("General conditions email sent to imported clients")
 
 
 @admin.register(Project)
@@ -182,29 +218,6 @@ class NotificationAddressResource(resources.ModelResource):
     class Meta:
         model = NotificationAddress
         import_id_fields = ('client', 'phone_number', 'email')
-        exclude = ('id', 'sent_general_conditions', 'file')
-
-    def after_save_instance(self, instance, using_transactions=True, dry_run=False):
-        if not dry_run:
-            filename = ClientFile.objects.get(
-                name='General Conditions',
-                language=instance.language
-            )
-            with override(instance.language):
-                message_params = {
-                    'header': _("Hola {},").format(instance.client.name),
-                    'ending': _("Salut i bona energia,"),
-                }
-                send_email(
-                    [instance.email],
-                    _('Confirmació d’Inscripció a la Compra Col·lectiva Som Energia'),
-                    message_params,
-                    'emails/message_body_general_conditions.html',
-                    [str(os.path.join(base.MEDIA_ROOT, str(filename.file)))]
-                )
-                instance.sent_general_conditions = True
-                instance.save()
-                logger.info("General conditions email sent to imported clients")
 
 
 @admin.register(Client)

@@ -81,14 +81,4 @@ class NotificationAddress(models.Model):
         verbose_name=_('Language'),
     )
 
-    sent_general_conditions = models.BooleanField(
-        default=False,
-        verbose_name=_('General conditions sent')
-    )
-
-    file = models.ManyToManyField(
-        ClientFile,
-        related_name='clients',
-        verbose_name=_('File')
-    )
 

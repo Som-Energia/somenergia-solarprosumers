@@ -9,7 +9,7 @@ from .choices_options import (BATERY_BRAND, INVERSOR_BRAND, ITEM_ANGLES,
                               ITEM_DISCARDED_TYPES, ITEM_ORIENTATION,
                               ITEM_STATUS, ITEM_WARNINGS, PANELS_BRAND,
                               PANELS_TYPE)
-from .client import Client, NotificationAddress
+from .client import Client, NotificationAddress, ClientFile
 from .stage_file import (SignatureStage, PermitStage, LegalRegistrationStage,
                          LegalizationStage, PrereportStage, OfferStage,
                          OfferAcceptedStage, SecondInvoiceStage, DeliveryCertificateStage,
@@ -72,6 +72,17 @@ class Project(models.Model):
         on_delete=models.SET_NULL,
         verbose_name=_('Notification Address'),
         help_text=_('Notification address of this project')
+    )
+
+    sent_general_conditions = models.BooleanField(
+        default=False,
+        verbose_name=_('General conditions sent')
+    )
+
+    client_file = models.ManyToManyField(
+        ClientFile,
+        related_name='clients',
+        verbose_name=_('General conditions File')
     )
 
     status = models.CharField(
