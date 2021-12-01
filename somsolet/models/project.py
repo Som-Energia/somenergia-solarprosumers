@@ -70,6 +70,7 @@ class Project(models.Model):
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
+        related_name='projects',
         verbose_name=_('Notification Address'),
         help_text=_('Notification address of this project')
     )
@@ -79,9 +80,12 @@ class Project(models.Model):
         verbose_name=_('General conditions sent')
     )
 
-    client_file = models.ManyToManyField(
+    client_file = models.ForeignKey(
         ClientFile,
-        related_name='clients',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='projects',
         verbose_name=_('General conditions File')
     )
 
@@ -534,6 +538,26 @@ class Project(models.Model):
             ritsic_file=ritsic_file,
             cie_file=cie_file,
         )
+        self.save()
+
+    @transaction.atomic
+    def create_notification_address(self, client, phone_number, email, language):
+        self.notification_address = NotificationAddress.objects.create(
+            client=client,
+            phone_number=phone_number,
+            email=email,
+            language=language,
+        )
+        self.save()
+
+    @transaction.atomic
+    def create_sent_general_conditions(self, sent_general_conditions):
+        self.sent_general_conditions = sent_general_conditions
+        self.save()
+
+    @transaction.atomic
+    def create_client_file(self, client_file):
+        self.client_file = client_file
         self.save()
 
     objects = models.Manager()
