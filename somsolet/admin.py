@@ -49,7 +49,7 @@ class ProjectResource(resources.ModelResource):
 
     class Meta:
         model = Project
-        import_id_fields = ('name', 'campaign', 'client', 'notification_address')
+        import_id_fields = ('name', 'campaign', 'client')
         exclude = ('id', 'sent_general_conditions', 'file')
 
 
@@ -61,21 +61,22 @@ class ProjectResource(resources.ModelResource):
                 name='General Conditions',
                 language=instance.notification_address.language
             )
-            with override(instance.notification_address.language):
-                message_params = {
-                    'header': _("Hola {},").format(instance.client.name),
-                    'ending': _("Salut i bona energia,"),
-                }
-                send_email(
-                    [instance.notification_address.email],
-                    _('Confirmació d’Inscripció a la Compra Col·lectiva Som Energia'),
-                    message_params,
-                    'emails/message_body_general_conditions.html',
-                    [str(os.path.join(base.MEDIA_ROOT, str(filename.file)))]
-                )
-                instance.sent_general_conditions = True
-                instance.save()
-                logger.info("General conditions email sent to imported clients")
+            if instance.sent_general_conditions == False:
+                with override(instance.notification_address.language):
+                    message_params = {
+                        'header': _("Hola {},").format(instance.client.name),
+                        'ending': _("Salut i bona energia,"),
+                    }
+                    send_email(
+                        [instance.notification_address.email],
+                        _('Confirmació d’Inscripció a la Compra Col·lectiva Som Energia'),
+                        message_params,
+                        'emails/message_body_general_conditions.html',
+                        [str(os.path.join(base.MEDIA_ROOT, str(filename.file)))]
+                    )
+                    instance.sent_general_conditions = True
+                    instance.save()
+                    logger.info("General conditions email sent to imported clients")
 
 
 @admin.register(Project)
@@ -171,6 +172,9 @@ class Technical_detailsResource(resources.ModelResource):
         import_id_fields = ('project', 'campaign', 'client')
         exclude = ('id', )
 
+    def before_import_row(self, row, **kwargs):
+        row['Número de DNI'] = row['Número de DNI'].upper()
+
 
 @admin.register(Technical_details)
 class Technical_detailsAdmin(ImportExportModelAdmin):
@@ -195,7 +199,6 @@ class ClientResource(resources.ModelResource):
         import_id_fields = ('name', 'membership_number', 'dni')
 
     def before_import_row(self, row, **kwargs):
-        row['Nom i cognoms'] = row['Nom i cognoms'].title()
         row['Número de DNI'] = row['Número de DNI'].upper()
         row['Nom i cognoms'] = row['Nom i cognoms'].title()
 
