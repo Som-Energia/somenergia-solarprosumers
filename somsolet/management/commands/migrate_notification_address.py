@@ -33,7 +33,7 @@ class Command(BaseCommand):
             self.stdout.write(self.style.NOTICE(self.CLIENT_FILE_MSG))
             try:
                 project.create_client_file(
-                    client_file=project.client.file,
+                    client_file=project.client.file.first(),
                 )
             except Exception as e:
                 self.stderr.write(self.style.ERROR(str(e)))
