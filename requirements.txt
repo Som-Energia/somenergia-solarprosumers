@@ -26,6 +26,7 @@ python-jose
 djangorestframework
 django-cors-headers
 uwsgi
+djangorestframework-simplejwt
 
 # dev 
 pytest==5.4.3

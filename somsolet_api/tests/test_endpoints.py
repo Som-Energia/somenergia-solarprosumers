@@ -26,7 +26,6 @@ class TestAPI(APITestCase):
         self.user.set_password('1234')
         self.user.save()
         self.token = Token.objects.create(user=self.user)
-        self.client = APIClient()
 
     def tearDown(self):
         self.user.delete()
@@ -56,16 +55,24 @@ class TestStages(TestCase):
         self.user = User(username='aitor', password='1234')
         self.user.set_password('1234')
         self.user.save()
+        self.client = APIClient()
+
+        login_resp = self.client.post(
+            reverse('token_obtain_pair'),
+            data={"username": "aitor", "password": '1234'},
+            format='json'
+        )
+        self.client.credentials(
+            HTTP_AUTHORIZATION='{} {}'.format(
+                'Bearer',
+                login_resp.json().get('access', '')
+            )
+        )
 
     def tearDown(self):
         self.user.delete()
 
     def test_stages_base_case(self):
-        auth_response = self.client.login(username=self.user.username, password='1234')
-
-        import pdb; pdb.set_trace()
-        # TODO agafar el token enlloc de user-password session en el client.get
-        # m'ho invento: auth_response.get_token
 
         response = self.client.get(self.base_url)
 

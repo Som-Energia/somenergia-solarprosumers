@@ -6,6 +6,8 @@ from rest_framework.response import Response
 from somsolet.models import Project
 from somsolet.models.choices_options import ITEM_STATUS
 from somsolet_api.common.permissions import SomsoletAPIModelPermissions
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework.permissions import DjangoModelPermissions # TODO: Custom class
 
 from somsolet_api.serializer import (SignatureStageSerializer, PermitStageSerializer,
                                      LegalRegistrationStageSerializer, LegalizationStageSerializer,
@@ -15,7 +17,7 @@ from somsolet_api.serializer import (SignatureStageSerializer, PermitStageSerial
 
 class StagesListViewSet(viewsets.ViewSet):
     permission_classes = [IsAuthenticated]
-    authentication_classes = [TokenAuthentication]
+    authentication_classes = [JWTAuthentication]
 
     def list(self, request):
 
