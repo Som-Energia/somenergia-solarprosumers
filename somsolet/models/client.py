@@ -89,6 +89,8 @@ class NotificationAddress(models.Model):
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
+        related_name='notification_address',
+        related_query_name='notification_address',
         verbose_name=_('Client'),
         help_text=_('Client associated with this address')
     )
