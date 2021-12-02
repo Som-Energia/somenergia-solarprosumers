@@ -30,5 +30,3 @@ class NotificationAddressFactory(DjangoModelFactory):
     phone_number = '631111380'
     email = 'montse@somenergia.coop'
     language = 'ca'
-    sent_general_conditions = True
-    file = factory.RelatedFactory(ClientFileFactory)
