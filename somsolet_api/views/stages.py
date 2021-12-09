@@ -32,7 +32,7 @@ class StagesListViewSet(viewsets.ViewSet):
 
 class StagesBaseViewSet(viewsets.ModelViewSet):
     permission_classes = [SomsoletAPIModelPermissions]
-    authentication_classes = [TokenAuthentication]
+    authentication_classes = [JWTAuthentication]
 
     def get_queryset(self):
         queryset = Project.objects.all().order_by('name')

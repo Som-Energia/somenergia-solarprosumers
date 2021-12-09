@@ -18,14 +18,18 @@ from somsolet.tests.fixtures import ProjectFactory
 from somsolet.tests.factories import SuperuserFactory
 from somrenkonto.factories import CalendarConfigMonthViewFactory
 
+from somsolet_api.tests.common import LoginMixin
 
-class TestAPI(APITestCase):
+
+class TestAPI(LoginMixin, APITestCase):
 
     def setUp(self):
         self.user = User(username='aitor', password='1234')
         self.user.set_password('1234')
         self.user.save()
-        self.token = Token.objects.create(user=self.user)
+        self.client = APIClient()
+
+        self.login(self.user)
 
     def tearDown(self):
         self.user.delete()
@@ -40,7 +44,7 @@ class TestAPI(APITestCase):
     def test_simple_request(self):
         base_url = '/somsolet-api/stages/'
 
-        response = self.client.get(base_url, HTTP_AUTHORIZATION='Token {}'.format(self.token.key))
+        response = self.client.get(base_url)
         assert response.status_code == 200
 
     # TODO test a simple request
@@ -57,6 +61,11 @@ class TestStages(TestCase):
         self.user.save()
         self.client = APIClient()
 
+
+    def tearDown(self):
+        self.user.delete()
+
+    def test_stages_base_case(self):
         login_resp = self.client.post(
             reverse('token_obtain_pair'),
             data={"username": "aitor", "password": '1234'},
@@ -68,11 +77,6 @@ class TestStages(TestCase):
                 login_resp.json().get('access', '')
             )
         )
-
-    def tearDown(self):
-        self.user.delete()
-
-    def test_stages_base_case(self):
 
         response = self.client.get(self.base_url)
 
