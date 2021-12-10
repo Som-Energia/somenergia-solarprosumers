@@ -1,3 +1,4 @@
+import jwt
 import pytest
 
 from django.contrib.auth.models import User, Permission
@@ -7,6 +8,7 @@ from django.urls import reverse
 
 from rest_framework.test import APITestCase, APIClient
 from rest_framework.authtoken.models import Token
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from somsolet.models import (Campaign, Project)
 from somrenkonto.models import RenkontoEvent
@@ -24,7 +26,13 @@ from somsolet_api.tests.common import LoginMixin
 class TestAPI(LoginMixin, APITestCase):
 
     def setUp(self):
-        self.user = User(username='aitor', password='1234')
+        self.user = User(
+            username='aitor',
+            first_name='Aitor',
+            last_name='Menta',
+            email='aitor.menta@somenergia.coop',
+            password='1234'
+        )
         self.user.set_password('1234')
         self.user.save()
         self.client = APIClient()
@@ -46,6 +54,38 @@ class TestAPI(LoginMixin, APITestCase):
 
         response = self.client.get(base_url)
         assert response.status_code == 200
+
+    def test_jwt_content(self):
+        login_resp = self.client.post(
+            reverse('token_obtain_pair'),
+            data={"username": 'aitor', "password": '1234'},
+            format='json'
+        )
+        token = login_resp.json().get('access')
+
+        payload = jwt.decode(token, options={"verify_signature": False})
+
+        assert payload.get('name', 'JWT content not found') == self.user.get_full_name()
+        assert payload.get('email', 'JWT content not found') == self.user.email
+        assert payload.get('username', 'JWT content not found') == self.user.get_username()
+
+    # TODO replace claims to attempt to perform identity theft, it's not a joke, jim
+    def _test_jwt_attack(self):
+
+        login_resp = self.client.post(
+            reverse('token_obtain_pair'),
+            data={"username": 'tilla', "password": '1234'},
+            format='json'
+        )
+        token = login_resp.json().get('access')
+
+        self.client
+        import pdb; pdb.set_trace()
+
+
+        assert credentials.get('name', 'JWT content not found') == 'aitor'
+        assert credentials.get('email', 'JWT content not found') == ''
+
 
     # TODO test a simple request
     def _test_simple_request_with_APIRequestFactory(self):
@@ -131,7 +171,7 @@ class TestCampaign(TestCase):
         assert response.json() == []
 
 
-class TestProject(TestCase):
+class TestProject(LoginMixin, APITestCase):
 
     def setUp(self):
         self.base_url = '/somsolet-api/project/'
@@ -149,14 +189,14 @@ class TestProject(TestCase):
         assert response.status_code == 401
 
     def test_project_user_not_permitted(self):
-        self.client.login(username=self.user.username, password='1234')
+        self.login(self.user)
 
         response = self.client.get(self.base_url)
 
         assert response.status_code == 403
 
     def test_project_user_permitted(self):
-        self.client.login(username=self.user.username, password='1234')
+        self.login(self.user)
         permission = Permission.objects.get(codename='view_project')
         self.user.user_permissions.add(permission)
 
@@ -177,13 +217,13 @@ class TestProject(TestCase):
         calendar.calendar.create_relation(montse_project.engineering.user)
 
         # with an engineering with permissions
-        self.client.login(username=admin_user.username, password='1234')
+        self.login(admin_user)
 
         # when we set a technical visit for a project
         url = '{base_url}{id}/set_technical_visit/'.format(
             base_url=self.base_url, id=montse_project.id
         )
-        response = self.client.put(url, data=technical_visit, content_type='application/json')
+        response = self.client.put(url, data=technical_visit, format='json')
 
         # then everything is ok
         assert response.status_code == 200

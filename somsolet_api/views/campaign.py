@@ -1,6 +1,6 @@
 from rest_framework import viewsets
-from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
-from rest_framework.authentication import SessionAuthentication, TokenAuthentication
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework_simplejwt.authentication import JWTAuthentication
 from somsolet.models import Campaign
 from somsolet_api.common.permissions import SomsoletAPIModelPermissions
 from somsolet_api.serializer import CampaignSerializer
@@ -8,7 +8,7 @@ from somsolet_api.serializer import CampaignSerializer
 
 class CampaignViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticatedOrReadOnly]
-    authentication_classes = [TokenAuthentication]
+    authentication_classes = [JWTAuthentication]
 
     serializer_class = CampaignSerializer
 

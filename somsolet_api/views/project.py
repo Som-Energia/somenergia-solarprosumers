@@ -1,6 +1,5 @@
 from rest_framework import status, viewsets
-from rest_framework.authentication import (SessionAuthentication,
-                                           TokenAuthentication)
+from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.decorators import action
 from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
@@ -18,7 +17,7 @@ from somsolet_api.shortcuts import (not_found_response,
 
 class ProjectViewSet(viewsets.ModelViewSet):
     permission_classes = [SomsoletAPIModelPermissions]
-    authentication_classes = [TokenAuthentication, SessionAuthentication]
+    authentication_classes = [JWTAuthentication]
 
     renderer_classes = [JSONRenderer]
     serializer_class = ProjectSerializer
