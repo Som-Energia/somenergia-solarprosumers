@@ -3,6 +3,7 @@ import os
 import yaml
 from django.utils.translation import gettext_lazy as _
 from corsheaders.defaults import default_headers
+from datetime import timedelta
 
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -244,3 +245,10 @@ BCC = [config['email']['bcc']]
 
 CORS_ORIGIN_WHITELIST = config['cors']['whitelist']
 CORS_ALLOW_HEADERS = list(default_headers) + config['cors']['allowed_headers']
+
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(hours=1),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'SIGNING_KEY': config['jwt_signing_key'],
+}

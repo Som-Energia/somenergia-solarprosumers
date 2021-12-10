@@ -70,22 +70,38 @@ class TestAPI(LoginMixin, APITestCase):
         assert payload.get('username', 'JWT content not found') == self.user.get_username()
 
     # TODO replace claims to attempt to perform identity theft, it's not a joke, jim
-    def _test_jwt_attack(self):
+    def test_jwt_attack(self):
+
+        login_resp = self.client.post(reverse('token_obtain_pair'), data={"username": 'aitor', "password": '1234'}, format='json')
 
         login_resp = self.client.post(
             reverse('token_obtain_pair'),
-            data={"username": 'tilla', "password": '1234'},
+            data={"username": 'aitor', "password": '1234'},
             format='json'
         )
         token = login_resp.json().get('access')
 
-        self.client
-        import pdb; pdb.set_trace()
+        payload = jwt.decode(token, options={"verify_signature": False})
+        payload['user_id'] = 2
+        payload['username'] = 'Tilla'
+        bad_token = jwt.encode(payload, key='lalatra', algorithm="HS256")
 
+        header, code_payload, _ = bad_token.decode().split('.')
+        new_token = "{}.{}.{}".format(
+            header, code_payload, token.split('.')[-1]
+        )
 
-        assert credentials.get('name', 'JWT content not found') == 'aitor'
-        assert credentials.get('email', 'JWT content not found') == ''
+        self.client.credentials(
+            HTTP_AUTHORIZATION='{} {}'.format(
+                'Bearer',
+                new_token
+            )
+        )
 
+        base_url = '/somsolet-api/stages/'
+        response = self.client.get(base_url)
+
+        assert response.status_code == 401
 
     # TODO test a simple request
     def _test_simple_request_with_APIRequestFactory(self):
