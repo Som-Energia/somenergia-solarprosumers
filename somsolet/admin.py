@@ -11,10 +11,21 @@ from import_export.admin import ImportExportModelAdmin
 from import_export.widgets import ForeignKeyWidget
 from scheduler_tasks import send_email
 
-from .models import (Campaign, Client, ClientFile, Engineering, LocalGroup,
+from .models import (Campaign, Client, ClientFile, NotificationAddress, Engineering, LocalGroup,
                      Project, Technical_campaign, Technical_details)
 
 logger = logging.getLogger('admin')
+
+
+class NotificationAddressForeignKeyWidget(ForeignKeyWidget):
+
+    def get_queryset(self, value, row, *args, **kwargs):
+        result = self.model.objects.filter(
+            email__iexact=row["Correu electrònic"],
+            phone_number__iexact=row["Telèfon de contacte"],
+            client__membership_number__iexact=row["Número de soci/a de Som Energia"]
+        )
+        return result
 
 
 class ProjectResource(resources.ModelResource):
@@ -29,17 +40,43 @@ class ProjectResource(resources.ModelResource):
         attribute='client',
         column_name="Número de soci/a de Som Energia",
         widget=ForeignKeyWidget(Client, 'membership_number'))
+    notification_address = fields.Field(
+        attribute='notification_address',
+        column_name="Correu electrònic",
+        widget=NotificationAddressForeignKeyWidget(
+            NotificationAddress, 'email'))
+
 
     class Meta:
         model = Project
         import_id_fields = ('name', 'campaign', 'client')
-        exclude = ('id', )
+        exclude = ('id', 'sent_general_conditions', 'file')
+
 
     def after_save_instance(self, instance, using_transactions=True, dry_run=False):
         if not dry_run:
             instance.status = 'registered'
             instance.registration_date = datetime.now()
-            instance.save()
+            filename = ClientFile.objects.get(
+                name='General Conditions',
+                language=instance.notification_address.language
+            )
+            if instance.sent_general_conditions == False:
+                with override(instance.notification_address.language):
+                    message_params = {
+                        'header': _("Hola {},").format(instance.client.name),
+                        'ending': _("Salut i bona energia,"),
+                    }
+                    send_email(
+                        [instance.notification_address.email],
+                        _('Confirmació d’Inscripció a la Compra Col·lectiva Som Energia'),
+                        message_params,
+                        'emails/message_body_general_conditions.html',
+                        [str(os.path.join(base.MEDIA_ROOT, str(filename.file)))]
+                    )
+                    instance.sent_general_conditions = True
+                    instance.save()
+                    logger.info("General conditions email sent to imported clients")
 
 
 @admin.register(Project)
@@ -135,6 +172,9 @@ class Technical_detailsResource(resources.ModelResource):
         import_id_fields = ('project', 'campaign', 'client')
         exclude = ('id', )
 
+    def before_import_row(self, row, **kwargs):
+        row['Número de DNI'] = row['Número de DNI'].upper()
+
 
 @admin.register(Technical_details)
 class Technical_detailsAdmin(ImportExportModelAdmin):
@@ -153,6 +193,21 @@ class ClientResource(resources.ModelResource):
     dni = fields.Field(
         attribute='dni',
         column_name='Número de DNI')
+
+    class Meta:
+        model = Client
+        import_id_fields = ('name', 'membership_number', 'dni')
+
+    def before_import_row(self, row, **kwargs):
+        row['Número de DNI'] = row['Número de DNI'].upper()
+        row['Nom i cognoms'] = row['Nom i cognoms'].title()
+
+
+class NotificationAddressResource(resources.ModelResource):
+    client = fields.Field(
+        attribute='client',
+        column_name="Número de soci/a de Som Energia",
+        widget=ForeignKeyWidget(Client, 'membership_number'))
     phone_number = fields.Field(
         attribute='phone_number',
         column_name='Telèfon de contacte')
@@ -164,48 +219,27 @@ class ClientResource(resources.ModelResource):
         column_name='Idioma')
 
     class Meta:
-        model = Client
-        import_id_fields = ('name', 'membership_number', 'dni')
-        exclude = ('id', 'sent_general_conditions', 'file')
-
-    def before_import_row(self, row, **kwargs):
-        row['Nom i cognoms'] = row['Nom i cognoms'].title()
-        row['Número de DNI'] = row['Número de DNI'].upper()
-        row['Nom i cognoms'] = row['Nom i cognoms'].title()
-
-    def after_save_instance(self, instance, using_transactions=True, dry_run=False):
-        if not dry_run:
-            filename = ClientFile.objects.get(
-                name='General Conditions',
-                language=instance.language
-            )
-            with override(instance.language):
-                message_params = {
-                    'header': _("Hola {},").format(instance.name),
-                    'ending': _("Salut i bona energia,"),
-                }
-                send_email(
-                    [instance.email],
-                    _('Confirmació d’Inscripció a la Compra Col·lectiva Som Energia'),
-                    message_params,
-                    'emails/message_body_general_conditions.html',
-                    str(os.path.join(base.MEDIA_ROOT, str(filename.file)))
-                )
-                instance.sent_general_conditions = True
-                instance.save()
-                logger.info("General conditions email sent to imported clients")
+        model = NotificationAddress
+        import_id_fields = ('client', 'phone_number', 'email')
 
 
 @admin.register(Client)
 class ClientAdmin(ImportExportModelAdmin):
-    list_display = ('name', 'membership_number', 'email')
+    list_display = ('name', 'membership_number')
     resource_class = ClientResource
-    search_fields = ['name', 'email', 'membership_number']
+    search_fields = ['name', 'membership_number']
 
 
 @admin.register(ClientFile)
 class ClientFileAdmin(admin.ModelAdmin):
     list_display = ('name', 'language')
+
+
+@admin.register(NotificationAddress)
+class NotificationAddressAdmin(ImportExportModelAdmin):
+    list_display = ('client', 'email', 'phone_number')
+    resource_class = NotificationAddressResource
+    search_fields = ['client', 'email', 'phone_number']
 
 
 @admin.register(LocalGroup)

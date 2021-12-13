@@ -26,7 +26,7 @@ class TestProjectSerializer:
             'dateStart': None,
             'engineerings': [],
             'name': 'Instalació plaques Montserrat Escayola',
-            'projectId': 73,
+            'projectId': project.id,
             'registeredPerson': {
                 'email': 'montse@somenergia.coop',
                 'language': 'ca',

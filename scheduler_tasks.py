@@ -128,9 +128,9 @@ def send_pending_notification():
 
 
 def send_notification_report(notification, subject, template, message_params, attachment=False, from_email=''):
-    with override(notification.project.client.language):
+    with override(notification.project.notification_address.language):
         send_email(
-            [notification.project.client.email],
+            [notification.project.notification_address.email],
             subject,
             message_params,
             template,
