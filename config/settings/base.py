@@ -248,7 +248,7 @@ CORS_ALLOW_HEADERS = list(default_headers) + config['cors']['allowed_headers']
 
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(hours=1),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=30),
     'SIGNING_KEY': config['jwt_signing_key'],
 }
