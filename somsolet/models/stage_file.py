@@ -146,7 +146,7 @@ class OfferAcceptedStage(BaseFile):
             'template': self.template,
             'message_params': message_params,
             'attachment': [
-                str(os.path.join(base.MEDIA_ROOT, str(noti.project.offer.upload)))
+                str(os.path.join(base.MEDIA_ROOT, str(noti.project.offer_accepted.upload)))
                 ],
             'from_email': base.DEFAULT_FROM_EMAIL[0]
         }
@@ -230,7 +230,7 @@ class PermitStage(BaseFile):
         }
 
         return {
-            'subject': _(f'TRAMITACIÓ LLICÈNCIA D’OBRES [{noti.project}] - {noti.project.campaign}, compra col·lectiva de Som Energia'),
+            'subject': _(f"TRAMITACIÓ LLICÈNCIA D'OBRES [{noti.project}] - {noti.project.campaign}, compra col·lectiva de Som Energia"),
             'template': self.template,
             'message_params': message_params,
             'attachment': [str(os.path.join(base.MEDIA_ROOT, str(noti.project.permit.upload)))],
