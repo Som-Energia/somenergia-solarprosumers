@@ -85,8 +85,7 @@ class TestAPI(LoginMixin, APITestCase):
         payload['user_id'] = 2
         payload['username'] = 'Tilla'
         bad_token = jwt.encode(payload, key='lalatra', algorithm="HS256")
-
-        header, code_payload, _ = bad_token.decode().split('.')
+        header, code_payload, _ = bad_token.split('.')
         new_token = "{}.{}.{}".format(
             header, code_payload, token.split('.')[-1]
         )
