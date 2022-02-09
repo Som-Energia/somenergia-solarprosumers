@@ -16,11 +16,13 @@ from somsolet_api.views import RenkontoEventView
 from somsolet_api.serializer import RenkontoEventSerializer
 
 from .factories import TechnicalVisitDataFactory
-from somsolet.tests.fixtures import ProjectFactory
-from somsolet.tests.factories import SuperuserFactory
 from somrenkonto.factories import CalendarConfigMonthViewFactory
-
 from somsolet_api.tests.common import LoginMixin
+
+#from somsolet.tests.fixtures import ProjectFactory
+from somsolet.tests.factories import (CampaignFactory, ClientFactory, EngineeringFactory,
+                        ProjectFactory, TechnicalDetailsFactory, UserFactory, LocalGroupFactory, SuperuserFactory)
+
 
 
 class TestAPI(LoginMixin, APITestCase):
@@ -107,18 +109,24 @@ class TestAPI(LoginMixin, APITestCase):
         # TODO use APIRequestFactory and force_authenticate
         pass
 
-class TestStages(TestCase):
+class TestStages(LoginMixin, TestCase):
 
     def setUp(self):
         self.base_url = '/somsolet-api/stages/'
         self.user = User(username='aitor', password='1234')
         self.user.set_password('1234')
         self.user.save()
-        self.client = APIClient()
 
+        self.client = APIClient()
+        project = ProjectFactory.create()
 
     def tearDown(self):
         self.user.delete()
+
+    def test_stages_user_unauthenticated(self):
+        response = self.client.get(self.base_url)
+
+        assert response.status_code == 401
 
     def test_stages_base_case(self):
         login_resp = self.client.post(
@@ -139,10 +147,86 @@ class TestStages(TestCase):
         assert response.status_code == 200
         assert response_body.__class__ is list
 
-    def test_stages_user_unauthenticated(self):
+    def test_stages_prereport_own_case(self):
+
+        self.base_url = '/somsolet-api/prereport/'
+
+        # permission = Permission.objects.get(codename='view_prereportstage')
+        # self.user.user_permissions.add(permission)
+
+        permission = Permission.objects.get(codename='view_project')
+        self.user.user_permissions.add(permission)
+
+        # for p in Permission.objects.all():
+        #     self.user.user_permissions.add(p)
+
+        self.login(self.user) # i afegir LoginMixin a la class
+
+        # login_resp = self.client.post(
+        #     reverse('token_obtain_pair'),
+        #     data={"username": "N8215601I", "password": '1234'},
+        #     format='json'
+        # )
+        # self.client.credentials(
+        #     HTTP_AUTHORIZATION='{} {}'.format(
+        #         'Bearer',
+        #         login_resp.json().get('access', '')
+        #     )
+        # )
+
         response = self.client.get(self.base_url)
 
-        assert response.status_code == 401
+        response_body = response.json()
+        assert response.status_code == 200
+        assert response_body.__class__ is list
+
+    def test_stages_prereport_other_s_case(self):
+
+        self.base_url = '/somsolet-api/prereport/'
+
+        login_resp = self.client.post(
+            reverse('token_obtain_pair'),
+            data={"username": "aitor", "password": '1234'},
+            format='json'
+        )
+        self.client.credentials(
+            HTTP_AUTHORIZATION='{} {}'.format(
+                'Bearer',
+                login_resp.json().get('access', '')
+            )
+        )
+
+        response = self.client.get(self.base_url)
+
+        response_body = response.json()
+        assert response.status_code == 200
+        assert response_body.__class__ is list
+
+    def test_stages_prereport_admin_case(self):
+
+        self.base_url = '/somsolet-api/prereport/'
+        self.user.is_staff = True
+        self.user.save()
+
+        login_resp = self.client.post(
+            reverse('token_obtain_pair'),
+            data={"username": "aitor", "password": '1234'},
+            format='json'
+        )
+        self.client.credentials(
+            HTTP_AUTHORIZATION='{} {}'.format(
+                'Bearer',
+                login_resp.json().get('access', '')
+            )
+        )
+
+        response = self.client.get(self.base_url)
+
+        response_body = response.json()
+        assert response.status_code == 200
+        assert response_body.__class__ is list
+
+
 
 
 class TestCampaign(TestCase):
@@ -153,6 +237,7 @@ class TestCampaign(TestCase):
         self.user.set_password('1234')
         self.user.save()
         # TODO: Create a test Campaign
+        campaign = CampaignFactory.create()
 
     def tearDown(self):
         self.user.delete()

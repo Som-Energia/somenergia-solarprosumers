@@ -1,7 +1,7 @@
 from rest_framework import status, viewsets
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from somsolet.models import Project
+from somsolet.models import Project, Engineering
 from somsolet.models.choices_options import ITEM_STATUS
 from somsolet_api.common.permissions import SomsoletAPIModelPermissions
 from rest_framework_simplejwt.authentication import JWTAuthentication
@@ -34,16 +34,22 @@ class StagesBaseViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         queryset = Project.objects.all().order_by('name')
-
-        user = self.request.headers.get('dni')
-        project = self.request.query_params.get('projectId')
-
-        if user:
-            return queryset.filter(client__dni=user)
-        elif project:
-            return queryset.filter(id=project)
+        user = self.request.user
+        if user.is_staff:
+            #OV
+            user = self.request.headers.get('dni')
+            project = self.request.query_params.get('projectId')
+            if user:
+                return queryset.filter(client__dni=user)
+            elif project:
+                return queryset.filter(id=project)
         else:
+            # TODO
+            # Engineering
+            # engineering = Engineering.objects.get(user=user)
+            # return queryset.filter(engineering=engineering)
             return queryset
+
 
     def patch(self, request, *args, **kwargs):
         instance = Project.objects.get(
