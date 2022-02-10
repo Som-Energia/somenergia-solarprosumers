@@ -26,7 +26,7 @@ class TestProjectSerializer:
             'dateStart': None,
             'engineerings': [],
             'name': 'Instalació plaques Montserrat Escayola',
-            'projectId': 73,
+            'projectId': 1,
             'registeredPerson': {
                 'email': 'montse@somenergia.coop',
                 'language': 'ca',
@@ -51,7 +51,7 @@ class TestProjectSerializer:
 
 
 class TestTechnicalDetailsSerializer:
- 
+
     @pytest.mark.django_db
     def test_technical_details_serializer__base_case(self):
         serializer = TechnicalDetailsSerializer(
