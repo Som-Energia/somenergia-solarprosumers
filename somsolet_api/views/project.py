@@ -4,7 +4,7 @@ from rest_framework.decorators import action
 from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 from schedule.models import Calendar
-from somsolet.models import Project, Technical_details
+from somsolet.models import Project, Technical_details, Engineering
 from somsolet_api.common.permissions import SomsoletAPIModelPermissions
 from somsolet_api.serializer import (DownloadCchSerializer,
                                      FirstInvoiceSerializer,
@@ -24,19 +24,33 @@ class ProjectViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         queryset = Project.objects.all().order_by('name')
+        user = self.request.user
 
-        user = self.request.headers.get('dni')
-        campaign = self.request.query_params.get('campaignId')
-        project = self.request.query_params.get('projectId')
+        if user.is_superuser:
+            # OV
+            user = self.request.headers.get('dni')
+            campaign = self.request.query_params.get('campaignId')
+            project = self.request.query_params.get('projectId')
 
-        if user:
-            return queryset.filter(client__dni=user)
-        elif campaign:
-            return queryset.filter(campaign__id=campaign)
-        elif project:
-            return queryset.filter(id=project)
+            if user:
+                return queryset.filter(client__dni=user)
+            elif campaign:
+                return queryset.filter(campaign__id=campaign)
+            elif project:
+                return queryset.filter(id=project)
+            else:
+                # TODO should we return none or not joana?
+                #return Project.objects.none()
+                return queryset
         else:
-            return queryset
+            # Engineering
+            try:
+                engineering = Engineering.objects.get(user=user)
+            except Engineering.DoesNotExist:
+                engineering = None
+
+            return queryset.filter(engineering=engineering)
+
 
     @action(detail=True, methods=['put'], name='set_technical_visit')
     def set_technical_visit(self, request, pk):

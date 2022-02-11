@@ -35,20 +35,24 @@ class StagesBaseViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         queryset = Project.objects.all().order_by('name')
         user = self.request.user
-        if user.is_staff:
-            #OV
+
+        if user.is_superuser:
+            # OV
             user = self.request.headers.get('dni')
             project = self.request.query_params.get('projectId')
             if user:
                 return queryset.filter(client__dni=user)
             elif project:
                 return queryset.filter(id=project)
+            return Project.objects.none()
         else:
-            # TODO
             # Engineering
-            # engineering = Engineering.objects.get(user=user)
-            # return queryset.filter(engineering=engineering)
-            return queryset
+            try:
+                engineering = Engineering.objects.get(user=user)
+            except Engineering.DoesNotExist:
+                engineering = None
+
+            return queryset.filter(engineering=engineering)
 
 
     def patch(self, request, *args, **kwargs):

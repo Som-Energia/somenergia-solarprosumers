@@ -113,15 +113,18 @@ class TestStages(LoginMixin, TestCase):
 
     def setUp(self):
         self.base_url = '/somsolet-api/stages/'
-        self.user = User(username='aitor', password='1234')
-        self.user.set_password('1234')
-        self.user.save()
+        self.prereport_url = '/somsolet-api/prereport/'
+        self.user_non_owner = User(username='aitor', password='1234')
+        self.user_non_owner.set_password('1234')
+        self.user_non_owner.save()
 
         self.client = APIClient()
         project = ProjectFactory.create()
 
+        self.user_owner = User.objects.get(username='N8215601I')
+
     def tearDown(self):
-        self.user.delete()
+        self.user_non_owner.delete()
 
     def test_stages_user_unauthenticated(self):
         response = self.client.get(self.base_url)
@@ -149,83 +152,63 @@ class TestStages(LoginMixin, TestCase):
 
     def test_stages_prereport_own_case(self):
 
-        self.base_url = '/somsolet-api/prereport/'
+        permission = Permission.objects.get(codename='view_project')
+        self.user_owner.user_permissions.add(permission)
 
-        # permission = Permission.objects.get(codename='view_prereportstage')
-        # self.user.user_permissions.add(permission)
+        self.login(self.user_owner)
+
+        response = self.client.get(self.prereport_url)
+
+        response_body = response.json()
+        assert response.status_code == 200
+        assert response_body.__class__ is list
+        assert len(response_body) == 1
+
+    def test_stages_prereport_non_own_case(self):
 
         permission = Permission.objects.get(codename='view_project')
-        self.user.user_permissions.add(permission)
+        self.user_non_owner.user_permissions.add(permission)
 
-        # for p in Permission.objects.all():
-        #     self.user.user_permissions.add(p)
+        self.login(self.user_non_owner)
 
-        self.login(self.user) # i afegir LoginMixin a la class
-
-        # login_resp = self.client.post(
-        #     reverse('token_obtain_pair'),
-        #     data={"username": "N8215601I", "password": '1234'},
-        #     format='json'
-        # )
-        # self.client.credentials(
-        #     HTTP_AUTHORIZATION='{} {}'.format(
-        #         'Bearer',
-        #         login_resp.json().get('access', '')
-        #     )
-        # )
-
-        response = self.client.get(self.base_url)
+        response = self.client.get(self.prereport_url)
 
         response_body = response.json()
         assert response.status_code == 200
         assert response_body.__class__ is list
-
-    def test_stages_prereport_other_s_case(self):
-
-        self.base_url = '/somsolet-api/prereport/'
-
-        login_resp = self.client.post(
-            reverse('token_obtain_pair'),
-            data={"username": "aitor", "password": '1234'},
-            format='json'
-        )
-        self.client.credentials(
-            HTTP_AUTHORIZATION='{} {}'.format(
-                'Bearer',
-                login_resp.json().get('access', '')
-            )
-        )
-
-        response = self.client.get(self.base_url)
-
-        response_body = response.json()
-        assert response.status_code == 200
-        assert response_body.__class__ is list
+        assert response_body == []
 
     def test_stages_prereport_admin_case(self):
 
-        self.base_url = '/somsolet-api/prereport/'
-        self.user.is_staff = True
-        self.user.save()
+        url = '{}?projectId=1'.format(self.prereport_url)
 
-        login_resp = self.client.post(
-            reverse('token_obtain_pair'),
-            data={"username": "aitor", "password": '1234'},
-            format='json'
-        )
-        self.client.credentials(
-            HTTP_AUTHORIZATION='{} {}'.format(
-                'Bearer',
-                login_resp.json().get('access', '')
-            )
-        )
+        self.user_non_owner.is_superuser = True
+        user_OV = self.user_non_owner
+        user_OV.save()
 
-        response = self.client.get(self.base_url)
+        self.login(user_OV)
+
+        response = self.client.get(url)
 
         response_body = response.json()
         assert response.status_code == 200
         assert response_body.__class__ is list
+        assert len(response_body) == 1
 
+    def _test_stages_prereport_admin_case_empty_headers(self):
+
+        self.user_non_owner.is_superuser = True
+        user_OV = self.user_non_owner
+        user_OV.save()
+
+        self.login(user_OV)
+
+        response = self.client.get(self.prereport_url)
+
+        response_body = response.json()
+        assert response.status_code == 200
+        assert response_body.__class__ is list
+        assert response_body == []
 
 
 
@@ -246,7 +229,8 @@ class TestCampaign(TestCase):
         response = self.client.get(self.base_url)
 
         assert response.status_code == 200
-        assert response.json() == []
+        assert len(response.json()) == 1
+        assert 'campaignId' in response.json()[0]
 
     def test_campaign_user_unauthenticated_post(self):
         response = self.client.post(self.base_url, {})
@@ -275,13 +259,16 @@ class TestProject(LoginMixin, APITestCase):
 
     def setUp(self):
         self.base_url = '/somsolet-api/project/'
-        self.user = User(username='aitor', password='1234')
-        self.user.set_password('1234')
-        self.user.save()
-        # TODO: Create a test Project
+        self.user_non_owner = User(username='aitor', password='1234')
+        self.user_non_owner.set_password('1234')
+        self.user_non_owner.save()
+
+        project = ProjectFactory.create()
+
+        self.user_owner = User.objects.get(username='N8215601I')
 
     def tearDown(self):
-        self.user.delete()
+        self.user_non_owner.delete()
 
     def test_project_user_unauthenticated(self):
         response = self.client.get(self.base_url)
@@ -289,22 +276,69 @@ class TestProject(LoginMixin, APITestCase):
         assert response.status_code == 401
 
     def test_project_user_not_permitted(self):
-        self.login(self.user)
+        self.login(self.user_non_owner)
 
         response = self.client.get(self.base_url)
 
         assert response.status_code == 403
 
     def test_project_user_permitted(self):
-        self.login(self.user)
+        self.login(self.user_owner)
         permission = Permission.objects.get(codename='view_project')
-        self.user.user_permissions.add(permission)
+        self.user_owner.user_permissions.add(permission)
 
         response = self.client.get(self.base_url)
 
         response_body = response.json()
         assert response.status_code == 200
+        assert len(response_body) == 1
+
+    def test_project_own_case(self):
+
+        permission = Permission.objects.get(codename='view_project')
+        self.user_owner.user_permissions.add(permission)
+
+        self.login(self.user_owner)
+
+        response = self.client.get(self.base_url)
+
+        response_body = response.json()
+        assert response.status_code == 200
+        assert response_body.__class__ is list
+        assert len(response_body) == 1
+
+    def test_project_non_own_case(self):
+
+        permission = Permission.objects.get(codename='view_project')
+        self.user_non_owner.user_permissions.add(permission)
+
+        self.login(self.user_non_owner)
+
+        response = self.client.get(self.base_url)
+
+        response_body = response.json()
+        assert response.status_code == 200
+        assert response_body.__class__ is list
         assert response_body == []
+
+    def test_project_admin_case(self):
+
+        url = '{}?projectId=1'.format(self.base_url)
+
+        self.user_non_owner.is_superuser = True
+        user_OV = self.user_non_owner
+        user_OV.save()
+
+        self.login(user_OV)
+
+        response = self.client.get(url)
+
+        response_body = response.json()
+        assert response.status_code == 200
+        assert response_body.__class__ is list
+        assert len(response_body) == 1
+
+
 
     def test_set_technical_visit(self):
         # given

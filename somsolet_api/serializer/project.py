@@ -78,7 +78,7 @@ class ProjectSerializer(serializers.HyperlinkedModelSerializer):
             'prereport': {
                 'date': obj.prereport.date,
                 'invalid': obj.prereport.check,
-                'file': obj.prereport.upload,
+                'file': obj.prereport.upload or None,
             },
             'technicalVisits': [{
                 'date': date.start_date,
@@ -87,11 +87,11 @@ class ProjectSerializer(serializers.HyperlinkedModelSerializer):
             'report': {
                 'date': obj.report.date,
                 'invalid': obj.report.check,
-                'file': obj.report.upload,
+                'file': obj.report.upload or None,
             },
             'offer': {
                 'date': obj.offer.date,
-                'file': obj.offer.upload,
+                'file': obj.offer.upload or None,
             },
             'offer_accepted': {
                 'date': obj.offer.date,
@@ -99,11 +99,11 @@ class ProjectSerializer(serializers.HyperlinkedModelSerializer):
             },
             'signature': {
                 'date': obj.signature.date,
-                'file': obj.signature.upload,
+                'file': obj.signature.upload or None,
             },
             'constructionPermit': {
                 'date': obj.permit.date,
-                'file': obj.permit.upload,
+                'file': obj.permit.upload or None,
             },
             'installation': {
                 'date': obj.date_start_installation,
@@ -113,30 +113,30 @@ class ProjectSerializer(serializers.HyperlinkedModelSerializer):
             },
             'deliveryCertificate': {
                 'date': obj.delivery_certificate.date,
-                'file': obj.delivery_certificate.upload,
+                'file': obj.delivery_certificate.upload or None,
             },
             'legalRegistration': {
                 'date': obj.legal_registration.date,
-                'file': obj.legal_registration.upload,
+                'file': obj.legal_registration.upload or None,
             },
             'legalization': {
                 'date': obj.legalization.date,
-                'racFile': obj.legalization.rac_file,
-                'ritsicFile': obj.legalization.ritsic_file,
-                'cieFile': obj.legalization.cie_file,
+                'racFile': obj.legalization.rac_file or None,
+                'ritsicFile': obj.legalization.ritsic_file or None,
+                'cieFile': obj.legalization.cie_file or None,
             },
             'invoices': {
                 'first': {
-                    'date': obj.date_first_invoice,
-                    'file': obj.upload_first_invoice,
+                    'date': obj.date_first_invoice or None,
+                    'file': obj.upload_first_invoice or None,
                 },
                 'second': {
                     'date': obj.second_invoice.date,
-                    'file': obj.second_invoice.upload,
+                    'file': obj.second_invoice.upload or None,
                 },
                 'last': {
-                    'date': obj.date_last_invoice,
-                    'file': obj.upload_last_invoice,
+                    'date': obj.date_last_invoice or None,
+                    'file': obj.upload_last_invoice or None,
                 }
             }
             # To Do:
