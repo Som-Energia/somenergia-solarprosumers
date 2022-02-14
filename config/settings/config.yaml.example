@@ -27,5 +27,5 @@ email:
 cors:
   whitelist:
     - https://host:port
-  allowed:headers:
+  allowed_headers:
     - allowed_header
