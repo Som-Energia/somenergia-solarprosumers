@@ -72,6 +72,8 @@ class ProjectStageFactory(ProjectFactory):
     signature = factory.SubFactory(SignatureStageFactory)
     legal_registration = factory.SubFactory(LegalRegistrationStageFactory)
  
+class ProjectFirstFactory(ProjectFactory):
+    id = 1
 
 class ProjectEmptyStatusStageFactory(ProjectFactory):
     id = 1

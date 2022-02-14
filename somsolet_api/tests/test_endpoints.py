@@ -19,9 +19,8 @@ from .factories import TechnicalVisitDataFactory
 from somrenkonto.factories import CalendarConfigMonthViewFactory
 from somsolet_api.tests.common import LoginMixin
 
-#from somsolet.tests.fixtures import ProjectFactory
-from somsolet.tests.factories import (CampaignFactory, ClientFactory, EngineeringFactory,
-                        ProjectFactory, TechnicalDetailsFactory, UserFactory, LocalGroupFactory, SuperuserFactory)
+from somsolet.tests.factories import (CampaignFactory, ClientFactory, EngineeringFactory, ProjectFactory,
+                        ProjectFirstFactory, TechnicalDetailsFactory, UserFactory, LocalGroupFactory, SuperuserFactory)
 
 
 
@@ -119,7 +118,7 @@ class TestStages(LoginMixin, TestCase):
         self.user_non_owner.save()
 
         self.client = APIClient()
-        project = ProjectFactory.create()
+        project = ProjectFirstFactory.create()
 
         self.user_owner = User.objects.get(username='N8215601I')
 
@@ -252,7 +251,7 @@ class TestCampaign(TestCase):
         response = self.client.get(self.base_url)
 
         assert response.status_code == 200
-        assert response.json() == []
+        assert len(response.json()) == 1
 
 
 class TestProject(LoginMixin, APITestCase):
@@ -263,12 +262,13 @@ class TestProject(LoginMixin, APITestCase):
         self.user_non_owner.set_password('1234')
         self.user_non_owner.save()
 
-        project = ProjectFactory.create()
+        self.project = ProjectFirstFactory.create()
 
         self.user_owner = User.objects.get(username='N8215601I')
 
     def tearDown(self):
         self.user_non_owner.delete()
+        self.project.delete()
 
     def test_project_user_unauthenticated(self):
         response = self.client.get(self.base_url)
