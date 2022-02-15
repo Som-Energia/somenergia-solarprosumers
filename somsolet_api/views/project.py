@@ -38,30 +38,13 @@ class ProjectGateKeeperMixin:
                 return queryset
         else:
             # Engineering
-            try:
-                engineering = Engineering.objects.get(user=user)
-            except Engineering.DoesNotExist:
-                # user has no engineering: unauthorized
-                engineering = None
+            # try:
+            #     engineering = Engineering.objects.get(user=user)
+            # except Engineering.DoesNotExist:
+            #     # user has no engineering: unauthorized
+            #     engineering = None
 
-            return queryset.filter(engineering=engineering)
-
-    def get_project_ov_switch(self):
-        queryset = Project.objects.all().order_by('name')
-        user = self.request.user
-        project = self.request.query_params.get('projectId')
-
-        if user.is_superuser:
-            # OV
-            if project:
-                return Project.objects.filter(id=project).first()
-            else:
-                return None
-        else:
-            # Engineering
-            engineering = Engineering.objects.filter(user=user).first()
-
-            return queryset.filter(id=project, engineering=engineering).first()
+            return queryset.filter(engineering__user=user)
 
 class ProjectViewSet(viewsets.ModelViewSet, ProjectGateKeeperMixin):
     permission_classes = [SomsoletAPIModelPermissions]
@@ -71,7 +54,7 @@ class ProjectViewSet(viewsets.ModelViewSet, ProjectGateKeeperMixin):
     serializer_class = ProjectSerializer
 
     def get_queryset(self):
-        return super(ProjectViewSet, self).get_queryset_ov_switch()
+        return self.get_queryset_ov_switch()
 
 
     @action(detail=True, methods=['put'], name='set_technical_visit')
@@ -102,11 +85,12 @@ class FirstInvoiceViewSet(viewsets.ModelViewSet, ProjectGateKeeperMixin):
     serializer_class = FirstInvoiceSerializer
 
     def get_queryset(self):
-        return super(FirstInvoiceViewSet, self).get_queryset_ov_switch()
+        return self.get_queryset_ov_switch()
 
     def patch(self, request, *args, **kwargs):
-        project = self.get_project_ov_switch()
-        
+        project_id = self.request.query_params.get('projectId')
+        project = Project.projects.get_project(project_id, self.request.user)
+
         if not project:
             return Response({
                 'data': [],
@@ -124,7 +108,8 @@ class FirstInvoiceViewSet(viewsets.ModelViewSet, ProjectGateKeeperMixin):
             return Response(invoice.data)
 
     def put(self, request, format=None):
-        project = self.get_project_ov_switch()
+        project_id = self.request.query_params.get('projectId')
+        project = Project.projects.get_project(project_id, self.request.user)
 
         if not project:
             return Response({
@@ -152,10 +137,11 @@ class LastInvoiceViewSet(viewsets.ModelViewSet, ProjectGateKeeperMixin):
     serializer_class = LastInvoiceSerializer
 
     def get_queryset(self):
-        return super(LastInvoiceViewSet, self).get_queryset_ov_switch()
+        return self.get_queryset_ov_switch()
 
     def patch(self, request, *args, **kwargs):
-        project = self.get_project_ov_switch()
+        project_id = self.request.query_params.get('projectId')
+        project = Project.projects.get_project(project_id, self.request.user)
 
         if not project:
             return Response({
@@ -174,7 +160,9 @@ class LastInvoiceViewSet(viewsets.ModelViewSet, ProjectGateKeeperMixin):
             return Response(invoice.data)
 
     def put(self, request, format=None):
-        project = self.get_project_ov_switch()
+
+        project_id = self.request.query_params.get('projectId')
+        project = Project.projects.get_project(project_id, self.request.user)
 
         if not project:
             return Response({
@@ -221,7 +209,7 @@ class TechnicalDetailsViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         queryset = Technical_details.objects.all()
         user = self.request.user
-        
+
         if user.is_superuser:
             # OV
             client_dni = self.request.headers.get('dni')

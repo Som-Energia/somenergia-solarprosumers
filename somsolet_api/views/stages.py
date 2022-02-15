@@ -12,6 +12,7 @@ from somsolet_api.serializer import (SignatureStageSerializer, PermitStageSerial
                                      PrereportStageSerializer, ReportStageSerializer, OfferStageSerializer,
                                      SecondInvoiceStageSerializer, DeliveryCertificateStageSerializer)
 
+from somsolet_api.views.project import ProjectGateKeeperMixin
 
 class StagesListViewSet(viewsets.ViewSet):
     permission_classes = [IsAuthenticated]
@@ -28,11 +29,12 @@ class StagesListViewSet(viewsets.ViewSet):
         return Response(result)
 
 
-class StagesBaseViewSet(viewsets.ModelViewSet):
+class StagesBaseViewSet(viewsets.ModelViewSet, ProjectGateKeeperMixin):
     permission_classes = [SomsoletAPIModelPermissions]
     authentication_classes = [JWTAuthentication]
 
     def get_queryset(self):
+
         queryset = Project.objects.all().order_by('name')
         user = self.request.user
 
@@ -56,44 +58,45 @@ class StagesBaseViewSet(viewsets.ModelViewSet):
 
 
     def patch(self, request, *args, **kwargs):
-        instance = Project.objects.get(
-            id=request.query_params.get('projectId')
-        )
+
+        project_id = self.request.query_params.get('projectId')
+        project = Project.projects.get_project(project_id, self.request.user)
+
         serializer = self.serializer_class(
-            instance,
+            project,
             data=request.data,
             partial=True
         )
         if not serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        if instance.status not in self.allowed_status:
+        if project.status not in self.allowed_status:
             return Response(serializer.errors, status=status.HTTP_409_CONFLICT)
 
-        getattr(instance, self.project_stage).set_check(request.data.get('is_checked'))
-        instance.status = getattr(instance, self.project_stage).get_status()
-        instance.save()
+        getattr(project, self.project_stage).set_check(request.data.get('is_checked'))
+        project.status = getattr(project, self.project_stage).get_status()
+        project.save()
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def put(self, request, format=None):
-        instance = Project.objects.get(
-            id=request.query_params.get('projectId')
-        )
+        project_id = self.request.query_params.get('projectId')
+        project = Project.projects.get_project(project_id, self.request.user)
+
         serializer = self.serializer_class(
-            instance,
+            project,
             data=request.data,
             partial=True
         )
         if not serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        if instance.status not in self.allowed_status:
+        if project.status not in self.allowed_status:
             return Response(serializer.errors, status=status.HTTP_409_CONFLICT)
 
-        getattr(instance, self.project_stage).update_upload(request.data.get('upload'))
-        instance.status = getattr(instance, self.project_stage).get_status()
-        instance.save()
+        getattr(project, self.project_stage).update_upload(request.data.get('upload'))
+        project.status = getattr(project, self.project_stage).get_status()
+        project.save()
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -182,29 +185,29 @@ class LegalizationViewSet(StagesBaseViewSet):
         return Response('Patch is not allowed', status=status.HTTP_400_BAD_REQUEST)
 
     def put(self, request, format=None):
-        instance = Project.objects.get(
-            id=request.query_params.get('projectId')
-        )
+        project_id = self.request.query_params.get('projectId')
+        project = Project.projects.get_project(project_id, self.request.user)
+
         serializer = self.serializer_class(
-            instance,
+            project,
             data=request.data,
             partial=True
         )
         if not serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        if instance.status not in self.allowed_status:
+        if project.status not in self.allowed_status:
             return Response(serializer.errors, status=status.HTTP_409_CONFLICT)
 
         file_types = request.data.keys()
         if 'rac_file' in file_types:
-            getattr(instance, self.project_stage).update_rac(request.data.get('rac_file'))
+            getattr(project, self.project_stage).update_rac(request.data.get('rac_file'))
         if 'ritsic_file' in file_types:
-            getattr(instance, self.project_stage).update_ritsic(request.data.get('ritsic_file'))
+            getattr(project, self.project_stage).update_ritsic(request.data.get('ritsic_file'))
         if 'cie_file' in file_types:
-            getattr(instance, self.project_stage).update_cie(request.data.get('cie_file'))
-        instance.status = getattr(instance, self.project_stage).get_status()
-        instance.save()
+            getattr(project, self.project_stage).update_cie(request.data.get('cie_file'))
+        project.status = getattr(project, self.project_stage).get_status()
+        project.save()
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
 
