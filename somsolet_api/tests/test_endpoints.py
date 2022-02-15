@@ -371,6 +371,116 @@ class TestProject(LoginMixin, APITestCase):
             'campaignId': montse_project.campaign_id
         }
 
+    def test_FirstInvoice_put_authorized(self):
+        #admin_user = SuperuserFactory.create()
+        #_set_current_user(admin_user)
+        #montse_project = ProjectFactory.create()
+        
+        permission = Permission.objects.get(codename='change_project')
+        self.user_owner.user_permissions.add(permission)
+
+        # with an engineering with permissions
+        self.login(self.user_owner)
+
+        # when we set an invoice visit for a project
+        url = f'/somsolet-api/first_invoice/?projectId={self.project.id}'
+
+        response = self.client.put(path=url, data={}, content_type='application/json')
+        
+        # then everything is ok
+        assert response.status_code == 200
+
+
+    def test_FirstInvoice_put_non_owner(self):
+        
+        permission = Permission.objects.get(codename='change_project')
+        self.user_non_owner.user_permissions.add(permission)
+
+        # with an engineering with permissions
+        self.login(self.user_non_owner)
+
+        # when we set an invoice visit for a project
+        url = f'/somsolet-api/first_invoice/?projectId={self.project.id}'
+
+        response = self.client.put(path=url, data={}, content_type='application/json')
+        
+        # then everything is ok
+        assert response.status_code == 404
+
+    def test_FirstInvoice_put_admin(self):
+        
+        permission = Permission.objects.get(codename='change_project')
+        self.user_non_owner.user_permissions.add(permission)
+        self.user_non_owner.is_superuser = True
+        self.user_non_owner.save()
+
+        # with an engineering with permissions
+        self.login(self.user_non_owner)
+
+        # when we set an invoice visit for a project
+        url = f'/somsolet-api/first_invoice/?projectId={self.project.id}'
+
+        response = self.client.put(path=url, data={}, content_type='application/json')
+        
+        # then everything is ok
+        assert response.status_code == 200
+
+    def test_FirstInvoice_patch_authorized(self):
+        #admin_user = SuperuserFactory.create()
+        #_set_current_user(admin_user)
+        #montse_project = ProjectFactory.create()
+        
+        permission = Permission.objects.get(codename='change_project')
+        self.user_owner.user_permissions.add(permission)
+
+        # with an engineering with permissions
+        self.login(self.user_owner)
+
+        # when we set an invoice visit for a project
+        url = f'/somsolet-api/last_invoice/?projectId={self.project.id}'
+
+        response = self.client.patch(path=url, data={}, content_type='application/json')
+        
+        # then everything is ok
+        assert response.status_code == 200
+
+    def test_LastInvoice_put_authorized(self):
+        #admin_user = SuperuserFactory.create()
+        #_set_current_user(admin_user)
+        #montse_project = ProjectFactory.create()
+        
+        permission = Permission.objects.get(codename='change_project')
+        self.user_owner.user_permissions.add(permission)
+
+        # with an engineering with permissions
+        self.login(self.user_owner)
+
+        # when we set an invoice visit for a project
+        url = f'/somsolet-api/last_invoice/?projectId={self.project.id}'
+
+        response = self.client.put(path=url, data={}, content_type='application/json')
+        
+        # then everything is ok
+        assert response.status_code == 200
+
+    def test_LastInvoice_patch_authorized(self):
+        #admin_user = SuperuserFactory.create()
+        #_set_current_user(admin_user)
+        #montse_project = ProjectFactory.create()
+        
+        permission = Permission.objects.get(codename='change_project')
+        self.user_owner.user_permissions.add(permission)
+
+        # with an engineering with permissions
+        self.login(self.user_owner)
+
+        # when we set an invoice visit for a project
+        url = f'/somsolet-api/first_invoice/?projectId={self.project.id}'
+
+        response = self.client.patch(path=url, data={}, content_type='application/json')
+        
+        # then everything is ok
+        assert response.status_code == 200
 
 class TestEvents:
 

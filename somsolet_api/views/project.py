@@ -14,26 +14,20 @@ from somsolet_api.serializer import (DownloadCchSerializer,
 from somsolet_api.shortcuts import (not_found_response,
                                     validation_error_response)
 
+class ProjectGateKeeperMixin:
 
-class ProjectViewSet(viewsets.ModelViewSet):
-    permission_classes = [SomsoletAPIModelPermissions]
-    authentication_classes = [JWTAuthentication]
-
-    renderer_classes = [JSONRenderer]
-    serializer_class = ProjectSerializer
-
-    def get_queryset(self):
+    def get_queryset_ov_switch(self):
         queryset = Project.objects.all().order_by('name')
         user = self.request.user
 
         if user.is_superuser:
             # OV
-            user = self.request.headers.get('dni')
+            client_dni = self.request.headers.get('dni')
             campaign = self.request.query_params.get('campaignId')
             project = self.request.query_params.get('projectId')
 
-            if user:
-                return queryset.filter(client__dni=user)
+            if client_dni:
+                return queryset.filter(client__dni=client_dni)
             elif campaign:
                 return queryset.filter(campaign__id=campaign)
             elif project:
@@ -47,9 +41,37 @@ class ProjectViewSet(viewsets.ModelViewSet):
             try:
                 engineering = Engineering.objects.get(user=user)
             except Engineering.DoesNotExist:
+                # user has no engineering: unauthorized
                 engineering = None
 
             return queryset.filter(engineering=engineering)
+
+    def get_project_ov_switch(self):
+        queryset = Project.objects.all().order_by('name')
+        user = self.request.user
+        project = self.request.query_params.get('projectId')
+
+        if user.is_superuser:
+            # OV
+            if project:
+                return Project.objects.filter(id=project).first()
+            else:
+                return None
+        else:
+            # Engineering
+            engineering = Engineering.objects.filter(user=user).first()
+
+            return queryset.filter(id=project, engineering=engineering).first()
+
+class ProjectViewSet(viewsets.ModelViewSet, ProjectGateKeeperMixin):
+    permission_classes = [SomsoletAPIModelPermissions]
+    authentication_classes = [JWTAuthentication]
+
+    renderer_classes = [JSONRenderer]
+    serializer_class = ProjectSerializer
+
+    def get_queryset(self):
+        return super(ProjectViewSet, self).get_queryset_ov_switch()
 
 
     @action(detail=True, methods=['put'], name='set_technical_visit')
@@ -73,114 +95,115 @@ class ProjectViewSet(viewsets.ModelViewSet):
         return Response(technical_visit.to_representation(event))
 
 
-class FirstInvoiceViewSet(viewsets.ModelViewSet):
+class FirstInvoiceViewSet(viewsets.ModelViewSet, ProjectGateKeeperMixin):
     permission_classes = [SomsoletAPIModelPermissions]
+    authentication_classes = [JWTAuthentication]
 
     serializer_class = FirstInvoiceSerializer
 
     def get_queryset(self):
-        queryset = Project.objects.all().order_by('name')
-
-        user = self.request.headers.get('dni')
-        project = self.request.query_params.get('projectId')
-
-        if user:
-            return queryset.filter(client__dni=user)
-        elif project:
-            return queryset.filter(id=project)
-        else:
-            return queryset
+        return super(FirstInvoiceViewSet, self).get_queryset_ov_switch()
 
     def patch(self, request, *args, **kwargs):
-        instance = Project.objects.get(
-            id=request.query_params.get('projectId')
-        )
+        project = self.get_project_ov_switch()
+        
+        if not project:
+            return Response({
+                'data': [],
+                'message': 'Not found',
+            }, status=status.HTTP_404_NOT_FOUND)
+
         invoice = self.serializer_class(
-            instance,
+            project,
             data=request.data,
             partial=True
         )
         if invoice.is_valid():
-            instance.update_is_paid_first_invoice(request.data.get('is_paid_first_invoice'))
+            project.update_is_paid_first_invoice(request.data.get('is_paid_first_invoice'))
             invoice.save()
             return Response(invoice.data)
 
     def put(self, request, format=None):
-        instance = Project.objects.get(
-            id=request.query_params.get('projectId')
-        )
+        project = self.get_project_ov_switch()
+
+        if not project:
+            return Response({
+                'data': [],
+                'message': 'Not found',
+            }, status=status.HTTP_404_NOT_FOUND)
+
         invoice = self.serializer_class(
-            instance,
+            project,
             data=request.data,
             partial=True
         )
         if invoice.is_valid():
-            instance.update_upload_first_invoice(request.data.get('upload_first_invoice'))
+            project.update_upload_first_invoice(request.data.get('upload_first_invoice'))
             invoice.save()
             return Response(invoice.data, status=status.HTTP_200_OK)
         else:
             return Response(invoice.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class LastInvoiceViewSet(viewsets.ModelViewSet):
+class LastInvoiceViewSet(viewsets.ModelViewSet, ProjectGateKeeperMixin):
     permission_classes = [SomsoletAPIModelPermissions]
+    authentication_classes = [JWTAuthentication]
 
     serializer_class = LastInvoiceSerializer
 
     def get_queryset(self):
-        queryset = Project.objects.all().order_by('name')
-
-        user = self.request.headers.get('dni')
-        project = self.request.query_params.get('projectId')
-
-        if user:
-            return queryset.filter(client__dni=user)
-        elif project:
-            return queryset.filter(id=project)
-        else:
-            return queryset
+        return super(LastInvoiceViewSet, self).get_queryset_ov_switch()
 
     def patch(self, request, *args, **kwargs):
-        instance = Project.objects.get(
-            id=request.query_params.get('projectId')
-        )
+        project = self.get_project_ov_switch()
+
+        if not project:
+            return Response({
+                'data': [],
+                'message': 'Not found',
+            }, status=status.HTTP_404_NOT_FOUND)
+
         invoice = self.serializer_class(
-            instance,
+            project,
             data=request.data,
             partial=True
         )
         if invoice.is_valid():
-            instance.update_is_paid_last_invoice(request.data.get('is_paid_last_invoice'))
+            project.update_is_paid_last_invoice(request.data.get('is_paid_last_invoice'))
             invoice.save()
             return Response(invoice.data)
 
     def put(self, request, format=None):
-        instance = Project.objects.get(
-            id=request.query_params.get('projectId')
-        )
+        project = self.get_project_ov_switch()
+
+        if not project:
+            return Response({
+                'data': [],
+                'message': 'Not found',
+            }, status=status.HTTP_404_NOT_FOUND)
+
         invoice = self.serializer_class(
-            instance,
+            project,
             data=request.data,
             partial=True
         )
         if invoice.is_valid():
-            instance.update_upload_last_invoice(request.data.get('upload_last_invoice'))
+            project.update_upload_last_invoice(request.data.get('upload_last_invoice'))
             invoice.save()
             return Response(invoice.data, status=status.HTTP_200_OK)
         else:
             return Response(invoice.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class CchDownloadViewSet(viewsets.ModelViewSet):
+class CchDownloadViewSet(viewsets.ModelViewSet, ProjectGateKeeperMixin):
     permission_classes = [SomsoletAPIModelPermissions]
+    authentication_classes = [JWTAuthentication]
 
     serializer_class = DownloadCchSerializer
 
     def get_queryset(self):
-        queryset = Project.objects.all().order_by('name')
-        project = self.request.query_params.get('projectId')
-        if project:
-            return queryset.filter(id=project)
+        return super(CchDownloadViewSet, self).get_queryset_ov_switch()
+
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
@@ -191,21 +214,27 @@ class CchDownloadViewSet(viewsets.ModelViewSet):
 
 class TechnicalDetailsViewSet(viewsets.ModelViewSet):
     permission_classes = [SomsoletAPIModelPermissions]
+    authentication_classes = [JWTAuthentication]
 
     serializer_class = TechnicalDetailsSerializer
 
     def get_queryset(self):
         queryset = Technical_details.objects.all()
+        user = self.request.user
+        
+        if user.is_superuser:
+            # OV
+            client_dni = self.request.headers.get('dni')
+            campaign = self.request.query_params.get('campaignId')
+            project = self.request.query_params.get('projectId')
 
-        user = self.request.headers.get('dni')
-        campaign = self.request.query_params.get('campaignId')
-        project = self.request.query_params.get('projectId')
-
-        if user:
-            return queryset.filter(client__dni=user)
-        elif campaign:
-            return queryset.filter(campaign__id=campaign)
-        elif project:
-            return queryset.filter(project=project)
+            if client_dni:
+                return queryset.filter(client__dni=client_dni)
+            elif campaign:
+                return queryset.filter(campaign__id=campaign)
+            elif project:
+                return queryset.filter(id=project)
+            else:
+                return Project.objects.none()
         else:
             return queryset

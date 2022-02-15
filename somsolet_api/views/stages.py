@@ -38,10 +38,10 @@ class StagesBaseViewSet(viewsets.ModelViewSet):
 
         if user.is_superuser:
             # OV
-            user = self.request.headers.get('dni')
+            client_dni = self.request.headers.get('dni')
             project = self.request.query_params.get('projectId')
-            if user:
-                return queryset.filter(client__dni=user)
+            if client_dni:
+                return queryset.filter(client__dni=client_dni)
             elif project:
                 return queryset.filter(id=project)
             return Project.objects.none()
