@@ -49,12 +49,8 @@ class StagesBaseViewSet(viewsets.ModelViewSet, ProjectGateKeeperMixin):
             return Project.objects.none()
         else:
             # Engineering
-            try:
-                engineering = Engineering.objects.get(user=user)
-            except Engineering.DoesNotExist:
-                engineering = None
 
-            return queryset.filter(engineering=engineering)
+            return queryset.filter(engineering__user=user)
 
 
     def patch(self, request, *args, **kwargs):

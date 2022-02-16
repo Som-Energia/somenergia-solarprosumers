@@ -8,13 +8,11 @@ from somsolet.tests.factories import (ProjectFactory, ProjectFirstFactory, Techn
                                       UserFactory)
 from somsolet_api.tests.common import LoginMixin
 
-
 class TestTechnicalDetailsViewSet(LoginMixin, TestCase):
 
     def setUp(self):
         self.client = APIClient()
 
-    @pytest.mark.django_db
     def test_technical_details__base_case(self):
         technical_details = TechnicalDetailsFactory()
 
@@ -23,13 +21,16 @@ class TestTechnicalDetailsViewSet(LoginMixin, TestCase):
         permission = Permission.objects.get(codename='view_technical_details')
         user.user_permissions.add(permission)
 
+        permission = Permission.objects.get(codename='view_project')
+        user.user_permissions.add(permission)
+
         request = self.client.get(
             '/somsolet-api/technical_details/',
         )
         assert request.status_code == 200
         assert request.data['data']['count'] == 1
 
-    @pytest.mark.django_db
+    @pytest.mark.skip("non-superusers filtering by projectId is not supported")
     def test_technical_details__by_project_id(self):
         technical_details = TechnicalDetailsFactory()
 

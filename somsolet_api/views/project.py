@@ -33,17 +33,10 @@ class ProjectGateKeeperMixin:
             elif project:
                 return queryset.filter(id=project)
             else:
-                # TODO should we return none or not joana?
-                #return Project.objects.none()
-                return queryset
+                #return queryset
+                return Project.objects.none()
         else:
             # Engineering
-            # try:
-            #     engineering = Engineering.objects.get(user=user)
-            # except Engineering.DoesNotExist:
-            #     # user has no engineering: unauthorized
-            #     engineering = None
-
             return queryset.filter(engineering__user=user)
 
 class ProjectViewSet(viewsets.ModelViewSet, ProjectGateKeeperMixin):
@@ -190,17 +183,30 @@ class CchDownloadViewSet(viewsets.ModelViewSet, ProjectGateKeeperMixin):
     serializer_class = DownloadCchSerializer
 
     def get_queryset(self):
-        return super(CchDownloadViewSet, self).get_queryset_ov_switch()
+        queryset = Project.objects.all().order_by('name')
+        user = self.request.user
+        project = self.request.query_params.get('projectId')
+
+        if not project:
+            return Project.objects.none()
+
+        if user.is_superuser:
+            return Project.objects.none()
+        else:
+            # Engineering
+            return queryset.filter(engineering__user=user, id=project)
+
+    # TODO pending unauthorize downloading non-owned cch curves
+    # which means that get_object() has to return None if the user is not the owner
+    # we don't know why this retrieve is needed
+    # def retrieve(self, request, *args, **kwargs):
+    #     instance = self.get_object()
+    #     serializer = DownloadCchSerializer(instance, data=request.data)
+    #     serializer.is_valid(raise_exception=True)
+    #     return Response(serializer.data)
 
 
-    def retrieve(self, request, *args, **kwargs):
-        instance = self.get_object()
-        serializer = DownloadCchSerializer(instance, data=request.data)
-        serializer.is_valid(raise_exception=True)
-        return Response(serializer.data)
-
-
-class TechnicalDetailsViewSet(viewsets.ModelViewSet):
+class TechnicalDetailsViewSet(viewsets.ModelViewSet, ProjectGateKeeperMixin):
     permission_classes = [SomsoletAPIModelPermissions]
     authentication_classes = [JWTAuthentication]
 
@@ -225,4 +231,5 @@ class TechnicalDetailsViewSet(viewsets.ModelViewSet):
             else:
                 return Project.objects.none()
         else:
-            return queryset
+            # Engineering
+            return queryset.filter(project__engineering__user=user)

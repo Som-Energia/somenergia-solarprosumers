@@ -371,6 +371,66 @@ class TestProject(LoginMixin, APITestCase):
             'campaignId': montse_project.campaign_id
         }
 
+    def test_set_technical_visit_owner(self):
+        # given
+        # a calendar, a technical visit, and a project
+        montse_project = ProjectFactory.create()
+        _set_current_user(montse_project.engineering.user)
+        calendar = CalendarConfigMonthViewFactory.create()
+        technical_visit = TechnicalVisitDataFactory.data_ok()
+        calendar.calendar.create_relation(montse_project.engineering.user)
+
+        # setting general permissions over project object
+        permission = Permission.objects.get(codename='change_project')
+        montse_project.engineering.user.user_permissions.add(permission)
+
+        # with an engineering wthat owns the project
+        self.login(montse_project.engineering.user)
+
+        # when we set a technical visit for a project
+        url = '{base_url}{id}/set_technical_visit/'.format(
+            base_url=self.base_url, id=montse_project.id
+        )
+        response = self.client.put(url, data=technical_visit, format='json')
+
+        # then everything is ok
+        assert response.status_code == 200
+        response_body = response.json()
+        assert response_body == {
+            'dateStart': technical_visit.get('date_start'),
+            'dateEnd': technical_visit.get('date_end'),
+            'allDay': False,
+            'eventType': 'TECH',
+            'installationId': montse_project.id,
+            'campaignId': montse_project.campaign_id
+        }
+
+    def test_set_technical_visit_non_owner(self):
+        # given
+        # a calendar, a technical visit, and a project
+        montse_project = ProjectFactory.create()
+        _set_current_user(montse_project.engineering.user)
+        calendar = CalendarConfigMonthViewFactory.create()
+        technical_visit = TechnicalVisitDataFactory.data_ok()
+        calendar.calendar.create_relation(montse_project.engineering.user)
+
+        # setting general permissions over project object
+        permission = Permission.objects.get(codename='change_project')
+        self.user_non_owner.user_permissions.add(permission)
+
+        # with an engineering wthat owns the project
+        self.login(self.user_non_owner)
+
+        # when we set a technical visit for a project
+        url = '{base_url}{id}/set_technical_visit/'.format(
+            base_url=self.base_url, id=montse_project.id
+        )
+        response = self.client.put(url, data=technical_visit, format='json')
+
+        # the resource is no available
+        assert response.status_code == 404
+
+
     def test_first_invoice_put_authorized(self):
 
         # with an engineering with permissions
@@ -493,6 +553,51 @@ class TestProject(LoginMixin, APITestCase):
 
         # then everything is ok
         assert response.status_code == 200
+
+    @pytest.mark.skip("Requires access to soms testing mongodb")
+    def test_cch_download_owner(self):
+        technical_details = TechnicalDetailsFactory()
+        user = technical_details.project.engineering.user
+
+        permission = Permission.objects.get(codename='view_project')
+        user.user_permissions.add(permission)
+
+        # with an engineering with permissions
+        self.login(user)
+
+        url = f'/somsolet-api/cch/?projectId={self.project.id}'
+
+        response = self.client.get(
+            path=url
+        )
+
+        response_body = response.json()
+
+        assert response.status_code == 200
+        # TODO use a technical_details' cups with curves on mongoDB testing
+        #assert response_body.__class__ is list
+        #assert response_body != []
+
+    @pytest.mark.skip("Requires access to soms testing mongodb")
+    def test_cch_download_non_owner(self):
+
+        permission = Permission.objects.get(codename='view_project')
+        self.user_non_owner.user_permissions.add(permission)
+
+        # with an engineering with permissions
+        self.login(self.user_non_owner)
+
+        url = f'/somsolet-api/cch/?projectId={self.project.id}'
+
+        response = self.client.get(
+            path=url
+        )
+
+        response_body = response.json()
+        assert response.status_code == 200
+        assert response_body.__class__ is list
+        assert response_body == []
+
 
 class TestEvents:
 
