@@ -3,7 +3,7 @@ from factory.django import DjangoModelFactory
 
 from .admin import InventsPacoEngineeringFactory
 from .campaign import CampaignFactory
-from .client import ClientFactory
+from .client import ClientFactory, NotificationAddressFactory, ClientFileFactory
 from .admin import InventsPacoEngineeringFactory
 
 from .stages import (SignatureStageFactory, SignatureStageBaseFactory, PermitStageFactory,
@@ -23,6 +23,9 @@ class ProjectFactory(DjangoModelFactory):
     name = 'Instalació plaques Montserrat Escayola'
     campaign = factory.SubFactory(CampaignFactory)
     client = factory.SubFactory(ClientFactory)
+    notification_address = factory.SubFactory(NotificationAddressFactory)
+    sent_general_conditions = True
+    client_file = factory.RelatedFactory(ClientFileFactory)
     engineering = factory.SubFactory(InventsPacoEngineeringFactory)
     status = 'empty status'
     warning = 'No Warn'

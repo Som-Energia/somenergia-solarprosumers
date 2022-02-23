@@ -9,7 +9,7 @@ from .choices_options import (BATERY_BRAND, INVERSOR_BRAND, ITEM_ANGLES,
                               ITEM_DISCARDED_TYPES, ITEM_ORIENTATION,
                               ITEM_STATUS, ITEM_WARNINGS, PANELS_BRAND,
                               PANELS_TYPE)
-from .client import Client
+from .client import Client, NotificationAddress, ClientFile
 from .stage_file import (SignatureStage, PermitStage, LegalRegistrationStage,
                          LegalizationStage, PrereportStage, OfferStage,
                          OfferAcceptedStage, SecondInvoiceStage, DeliveryCertificateStage,
@@ -60,9 +60,33 @@ class Project(models.Model):
         Client,
         null=True,
         blank=True,
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
         verbose_name=_('Client'),
         help_text=_('Client of this project')
+    )
+
+    notification_address = models.ForeignKey(
+        NotificationAddress,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='projects',
+        verbose_name=_('Notification Address'),
+        help_text=_('Notification address of this project')
+    )
+
+    sent_general_conditions = models.BooleanField(
+        default=False,
+        verbose_name=_('General conditions sent')
+    )
+
+    client_file = models.ForeignKey(
+        ClientFile,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='projects',
+        verbose_name=_('General conditions File')
     )
 
     status = models.CharField(
@@ -514,6 +538,26 @@ class Project(models.Model):
             ritsic_file=ritsic_file,
             cie_file=cie_file,
         )
+        self.save()
+
+    @transaction.atomic
+    def create_notification_address(self, client, phone_number, email, language):
+        self.notification_address = NotificationAddress.objects.create(
+            client=client,
+            phone_number=phone_number,
+            email=email,
+            language=language,
+        )
+        self.save()
+
+    @transaction.atomic
+    def create_sent_general_conditions(self, sent_general_conditions):
+        self.sent_general_conditions = sent_general_conditions
+        self.save()
+
+    @transaction.atomic
+    def create_client_file(self, client_file):
+        self.client_file = client_file
         self.save()
 
     objects = models.Manager()

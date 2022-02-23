@@ -31,9 +31,9 @@ class ProjectSerializer(serializers.HyperlinkedModelSerializer):
     def get_registeredPerson(self, obj):
         return {
             'name': obj.client.name,
-            'email': obj.client.email,
-            'phoneNumber': obj.client.phone_number,
-            'language': obj.client.language
+            'email': obj.notification_address.email,
+            'phoneNumber': obj.notification_address.phone_number,
+            'language': obj.notification_address.language
         } if obj.client else {}
 
     def get_supplyPoint(self, obj):
