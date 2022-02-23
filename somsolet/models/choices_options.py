@@ -26,7 +26,7 @@ ITEM_STATUS = (
               ('legal registration', _('Legal Registration')),
               ('last payment', _('Last Payment')),
               ('legalization', _('Legalization')),
-              ('final payment', _('Final payment')),
+              ('final invoice', _('Final payment')),
               ('warranty payment', _('Warranty payment')),
               ('discarded', _('Discarded')),)
 
