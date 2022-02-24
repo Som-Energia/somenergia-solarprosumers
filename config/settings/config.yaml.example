@@ -1,4 +1,5 @@
 secret_key: super_secret_key
+jwt_signing_key: jwt_super_secret_key
 
 databases:
   name: database_name
@@ -26,5 +27,5 @@ email:
 cors:
   whitelist:
     - https://host:port
-  allowed:headers:
+  allowed_headers:
     - allowed_header

@@ -1,6 +1,7 @@
 import pytest
 from django.urls import reverse
 from django_currentuser.middleware import _set_current_user
+from rest_framework.test import force_authenticate
 
 from somsolet_api.views import ProjectViewSet
 from .factories import TechnicalVisitDataFactory
@@ -12,7 +13,7 @@ class TestSetTechnicalVisitView:
     def test__set_technical_visit__ok(self, authenticated_superuser, calendar, montse_project, rf):
         # given
         # an authenticated superuser
-        _set_current_user(authenticated_superuser) 
+        # _set_current_user(authenticated_superuser)
         # a project
         # and a valid set technical visit data
         technical_visit_data = TechnicalVisitDataFactory.data_ok()
@@ -21,6 +22,7 @@ class TestSetTechnicalVisitView:
         url = reverse('project-set-technical-visit', args=[montse_project.id])
         request = rf.put(url, technical_visit_data, format='json')
         request.user = authenticated_superuser
+        force_authenticate(request, user=authenticated_superuser)
 
         response = ProjectViewSet.as_view({
             'put': 'set_technical_visit'
@@ -49,6 +51,7 @@ class TestSetTechnicalVisitView:
         url = reverse('project-set-technical-visit', args=[montse_project.id])
         request = rf.put(url, technical_visit_data, format='json')
         request.user = authenticated_user
+        force_authenticate(request, user=authenticated_user)
 
         response = ProjectViewSet.as_view({
             'put': 'set_technical_visit'

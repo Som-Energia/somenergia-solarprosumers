@@ -2,6 +2,9 @@ import pytest
 from django.contrib.auth.models import Permission
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
+from rest_framework.test import APITestCase
+from somsolet_api.tests.common import LoginMixin
+
 from somsolet.tests.factories import (ProjectDeliveryCertificateStageFactory,
                                       ProjectEmptyStatusStageFactory,
                                       ProjectFactory,
@@ -17,14 +20,13 @@ from somsolet.tests.factories import (ProjectDeliveryCertificateStageFactory,
                                     )
 
 
-class TestPrereportViewSet(TestCase):
+class TestPrereportViewSet(LoginMixin, APITestCase):
 
     def login(self, user):
-
-        self.client.login(username=user.username, password='1234')
         permission = Permission.objects.get(codename='change_project')
         user.user_permissions.add(permission)
 
+        super().login(user)
         return user
 
     @pytest.mark.django_db
@@ -39,7 +41,7 @@ class TestPrereportViewSet(TestCase):
         response = self.client.patch(
             '/somsolet-api/prereport/?projectId=1',
             data={'is_checked': False},
-            content_type='application/json'
+            format='json'
         )
 
         project.refresh_from_db()
@@ -58,7 +60,7 @@ class TestPrereportViewSet(TestCase):
         response = self.client.patch(
             '/somsolet-api/prereport/?projectId=1',
             data={'is_checked': True},
-            content_type='application/json'
+            format='json'
         )
 
         project.refresh_from_db()
@@ -77,7 +79,7 @@ class TestPrereportViewSet(TestCase):
         response = self.client.patch(
             '/somsolet-api/prereport/?projectId=1',
             data={'is_checked': True},
-            content_type='application/json'
+            format='json'
         )
 
         project.refresh_from_db()
@@ -131,12 +133,12 @@ class TestPrereportViewSet(TestCase):
         assert project.status == 'empty status'
 
 
-class TestReportViewSet(TestCase):
+class TestReportViewSet(LoginMixin, APITestCase):
 
     def login(self, user):
-        self.client.login(username=user.username, password='1234')
         permission = Permission.objects.get(codename='change_project')
         user.user_permissions.add(permission)
+        super().login(user)
 
         return user
 
@@ -155,7 +157,7 @@ class TestReportViewSet(TestCase):
         response = self.client.patch(
             '/somsolet-api/report/?projectId=1',
             data={'is_checked': False},
-            content_type='application/json'
+            format='json'
         )
 
         project.refresh_from_db()
@@ -177,7 +179,7 @@ class TestReportViewSet(TestCase):
         response = self.client.patch(
             '/somsolet-api/report/?projectId=1',
             data={'is_checked': True},
-            content_type='application/json'
+            format='json'
         )
 
         project.refresh_from_db()
@@ -198,7 +200,7 @@ class TestReportViewSet(TestCase):
         response = self.client.patch(
             '/somsolet-api/report/?projectId=1',
             data={'is_checked': True},
-            content_type='application/json'
+            format='json'
         )
 
         project.refresh_from_db()
@@ -258,13 +260,12 @@ class TestReportViewSet(TestCase):
 
 
 
-class TestSignatureViewSet(TestCase):
+class TestSignatureViewSet(LoginMixin, APITestCase):
 
     def login(self, user):
-
-        self.client.login(username=user.username, password='1234')
         permission = Permission.objects.get(codename='change_project')
         user.user_permissions.add(permission)
+        super().login(user)
 
         return user
 
@@ -279,7 +280,7 @@ class TestSignatureViewSet(TestCase):
         response = self.client.patch(
             '/somsolet-api/signature/?projectId=1',
             data={'is_checked': True},
-            content_type='application/json'
+            format='json'
         )
 
         project.refresh_from_db()
@@ -334,13 +335,12 @@ class TestSignatureViewSet(TestCase):
         assert project.status == 'empty status'
 
 
-class TestPermitViewSet(TestCase):
+class TestPermitViewSet(LoginMixin, APITestCase):
 
     def login(self, user):
-
-        self.client.login(username=user.username, password='1234')
         permission = Permission.objects.get(codename='change_project')
         user.user_permissions.add(permission)
+        super().login(user)
 
         return user
 
@@ -355,7 +355,7 @@ class TestPermitViewSet(TestCase):
         response = self.client.patch(
             '/somsolet-api/permit/?projectId=1',
             data={'is_checked': True},
-            content_type='application/json'
+            format='json'
         )
 
         project.refresh_from_db()
@@ -400,7 +400,7 @@ class TestPermitViewSet(TestCase):
             name='permit.jpg', content=b'something', content_type="image/jpeg"
         )
         # TODO: request.data is {} on backend, see issue: https://github.com/encode/django-rest-framework/issues/3951
-        response = self.client.generic(method="PUT",
+        response = self.client.put(
             path='/somsolet-api/permit/?projectId=1',
             data={'upload': permit_image},
             content_type='multipart/form-data'
@@ -411,13 +411,12 @@ class TestPermitViewSet(TestCase):
         assert project.status == 'empty status'
 
 
-class TestOfferViewSet(TestCase):
+class TestOfferViewSet(LoginMixin, APITestCase):
 
     def login(self, user):
-
-        self.client.login(username=user.username, password='1234')
         permission = Permission.objects.get(codename='change_project')
         user.user_permissions.add(permission)
+        super().login(user)
 
         return user
 
@@ -432,7 +431,7 @@ class TestOfferViewSet(TestCase):
         response = self.client.patch(
             '/somsolet-api/offer/?projectId=1',
             data={'is_checked': True},
-            content_type='application/json'
+            format='json'
         )
 
         project.refresh_from_db()
@@ -486,13 +485,12 @@ class TestOfferViewSet(TestCase):
         assert project.status == 'empty status'
 
 
-class TestOfferAcceptedViewSet(TestCase):
+class TestOfferAcceptedViewSet(LoginMixin, APITestCase):
 
     def login(self, user):
-
-        self.client.login(username=user.username, password='1234')
         permission = Permission.objects.get(codename='change_project')
         user.user_permissions.add(permission)
+        super().login(user)
 
         return user
 
@@ -506,7 +504,7 @@ class TestOfferAcceptedViewSet(TestCase):
         response = self.client.patch(
             '/somsolet-api/offer_accepted/?projectId=1',
             data={'is_checked': True},
-            content_type='application/json'
+            format='json'
         )
 
         project.refresh_from_db()
@@ -535,13 +533,12 @@ class TestOfferAcceptedViewSet(TestCase):
         assert project.status == 'offer review'
 
 
-class TestSecondInvoiceViewSet(TestCase):
+class TestSecondInvoiceViewSet(LoginMixin, APITestCase):
 
     def login(self, user):
-
-        self.client.login(username=user.username, password='1234')
         permission = Permission.objects.get(codename='change_project')
         user.user_permissions.add(permission)
+        super().login(user)
 
         return user
 
@@ -556,7 +553,7 @@ class TestSecondInvoiceViewSet(TestCase):
         response = self.client.patch(
             '/somsolet-api/second_invoice/?projectId=1',
             data={'is_checked': True},
-            content_type='application/json'
+            format='json'
         )
 
         project.refresh_from_db()
@@ -611,14 +608,12 @@ class TestSecondInvoiceViewSet(TestCase):
         assert project.status == 'empty status'
 
 
-class TestLegalRegistrationViewSet(TestCase):
+class TestLegalRegistrationViewSet(LoginMixin, APITestCase):
 
     def login(self, user):
-
-        self.client.login(username=user.username, password='1234')
         permission = Permission.objects.get(codename='change_project')
         user.user_permissions.add(permission)
-
+        super().login(user)
         return user
 
     @pytest.mark.django_db
@@ -632,7 +627,7 @@ class TestLegalRegistrationViewSet(TestCase):
         response = self.client.patch(
             '/somsolet-api/legal_registration/?projectId=1',
             data={'is_checked': True},
-            content_type='application/json'
+            format='json'
         )
 
         project.refresh_from_db()
@@ -687,14 +682,12 @@ class TestLegalRegistrationViewSet(TestCase):
         assert project.status == 'empty status'
 
 
-class TestLegalizationViewSet(TestCase):
+class TestLegalizationViewSet(LoginMixin, APITestCase):
 
     def login(self, user):
-
-        self.client.login(username=user.username, password='1234')
         permission = Permission.objects.get(codename='change_project')
         user.user_permissions.add(permission)
-
+        super().login(user)
         return user
 
     @pytest.mark.django_db
@@ -708,7 +701,7 @@ class TestLegalizationViewSet(TestCase):
         response = self.client.patch(
             '/somsolet-api/legalization/?projectId=1',
             data={'is_checked': True},
-            content_type='application/json'
+            format='json'
         )
 
         project.refresh_from_db()
@@ -778,13 +771,12 @@ class TestLegalizationViewSet(TestCase):
         assert project.status == 'empty status'
 
 
-class TestDeliveryCertificateViewSet(TestCase):
+class TestDeliveryCertificateViewSet(LoginMixin, APITestCase):
 
     def login(self, user):
-
-        self.client.login(username=user.username, password='1234')
         permission = Permission.objects.get(codename='change_project')
         user.user_permissions.add(permission)
+        super().login(user)
 
         return user
 
@@ -799,7 +791,7 @@ class TestDeliveryCertificateViewSet(TestCase):
         response = self.client.patch(
             '/somsolet-api/delivery_certificate/?projectId=1',
             data={'is_checked': True},
-            content_type='application/json'
+            format='json'
         )
 
         project.refresh_from_db()

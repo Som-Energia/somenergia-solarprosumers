@@ -1,7 +1,7 @@
 import pytest
 import datetime
 from django.core.files.uploadedfile import SimpleUploadedFile
-from somsolet.tests.factories import (CampaignFactory, ProjectFactory,
+from somsolet.tests.factories import (CampaignFactory, ProjectFactory, ProjectFirstFactory,
                                       TechnicalDetailsFactory)
 from somsolet_api.serializer import (StatsSerializer,
                                      TechnicalDetailsSerializer,
@@ -14,7 +14,7 @@ from somsolet_api.serializer import (StatsSerializer,
 class TestProjectSerializer:
     @pytest.mark.django_db
     def test__base_case(self):
-        project = ProjectFactory()
+        project = ProjectFirstFactory()
         details = TechnicalDetailsFactory(
             project=project,
         )
@@ -26,7 +26,7 @@ class TestProjectSerializer:
             'dateStart': None,
             'engineerings': [],
             'name': 'Instalació plaques Montserrat Escayola',
-            'projectId': project.id,
+            'projectId': 1,
             'registeredPerson': {
                 'email': 'montse@somenergia.coop',
                 'language': 'ca',
@@ -51,7 +51,7 @@ class TestProjectSerializer:
 
 
 class TestTechnicalDetailsSerializer:
- 
+
     @pytest.mark.django_db
     def test_technical_details_serializer__base_case(self):
         serializer = TechnicalDetailsSerializer(

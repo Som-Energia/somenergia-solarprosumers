@@ -3,6 +3,7 @@ import os
 import yaml
 from django.utils.translation import gettext_lazy as _
 from corsheaders.defaults import default_headers
+from datetime import timedelta
 
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -45,6 +46,7 @@ THIRD_PART_APPS = [
     'rest_framework.authtoken',
     'corsheaders',
     'schedule',
+    'rest_framework_simplejwt',
 ]
 
 LOCAL_APPS = [
@@ -123,6 +125,7 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
     ]
 }
 
@@ -242,3 +245,10 @@ BCC = [config['email']['bcc']]
 
 CORS_ORIGIN_WHITELIST = config['cors']['whitelist']
 CORS_ALLOW_HEADERS = list(default_headers) + config['cors']['allowed_headers']
+
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=30),
+    'SIGNING_KEY': config['jwt_signing_key'],
+}
