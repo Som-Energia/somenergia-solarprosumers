@@ -30,20 +30,20 @@ class SomsoletConfig(AppConfig):
         '''
         pending to uncomment until auto's ok
         scheduler.cron(
-            "0 22 1,15 * *",
+            "0 22 1 * *",
             func=scheduler_tasks.send_email_summary,
             args=[True, False, False],
             queue_name='default',
         )
         '''
         scheduler.cron(
-            "0 22 1,15 * *",
+            "0 22 1 * *",
             func=scheduler_tasks.send_email_summary,
             args=[False, True, False],
             queue_name='default',
         )
         scheduler.cron(
-            "0 22 1,15 * *",
+            "0 22 1 * *",
             func=scheduler_tasks.send_email_summary,
             args=[False, False, True],
             queue_name='default',
