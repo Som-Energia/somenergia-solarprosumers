@@ -19,113 +19,97 @@ class SomsoletConfig(AppConfig):
         scheduler.cron(
             "0 23 * * *",
             func=scheduler_tasks.send_prereport_notification,
-            repeat=1,
             queue_name='default',
         )
         '''
         scheduler.cron(
             "0 22 * * 6",
             func=scheduler_tasks.send_email_tasks,
-            repeat=1,
             queue_name='default',
         )
         '''
         pending to uncomment until auto's ok
         scheduler.cron(
-            "0 22 1,15 * *",
+            "0 22 1 * *",
             func=scheduler_tasks.send_email_summary,
             args=[True, False, False],
-            repeat=1,
             queue_name='default',
         )
         '''
         scheduler.cron(
-            "0 22 1,15 * *",
+            "0 22 1 * *",
             func=scheduler_tasks.send_email_summary,
             args=[False, True, False],
-            repeat=1,
             queue_name='default',
         )
         scheduler.cron(
-            "0 22 1,15 * *",
+            "0 22 1 * *",
             func=scheduler_tasks.send_email_summary,
             args=[False, False, True],
-            repeat=1,
             queue_name='default',
         )
         scheduler.cron(
             "0 23 * * *",
             func=scheduler_tasks.prereport_warning,
-            repeat=1,
             queue_name='default',
         )
 
         scheduler.cron(
             "0 23 * * *",
             func=scheduler_tasks.technical_visit_warning,
-            repeat=1,
             queue_name='default',
         )
 
         scheduler.cron(
             "0 23 * * *",
             func=scheduler_tasks.report_warning,
-            repeat=1,
             queue_name='default',
         )
 
         scheduler.cron(
             "0 23 * * *",
             func=scheduler_tasks.offer_warning,
-            repeat=1,
             queue_name='default',
         )
 
         scheduler.cron(
             "0 23 * * *",
             func=scheduler_tasks.signature_warning,
-            repeat=1,
             queue_name='default',
         )
 
         scheduler.cron(
             "0 23 * * *",
             func=scheduler_tasks.set_date_installation_warning,
-            repeat=1,
             queue_name='default',
         )
 
         scheduler.cron(
             "0 23 * * *",
             func=scheduler_tasks.finish_installation_warning,
-            repeat=1,
             queue_name='default',
         )
 
         scheduler.cron(
             "0 23 * * *",
             func=scheduler_tasks.legal_registration_warning,
-            repeat=1,
             queue_name='default',
         )
 
         scheduler.cron(
             "0 23 * * *",
             func=scheduler_tasks.legalization_warning,
-            repeat=1,
             queue_name='default',
         )
 
         scheduler.cron(
             "0 23 1 * *",
             func=scheduler_tasks.final_payment_warning,
-            repeat=1,
             queue_name='default',
         )
 
         scheduler.cron(
             "0 23 * * *",
             func=scheduler_tasks.warranty_warning,
-            repeat=1,
             queue_name='default',
         )
