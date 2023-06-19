@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'somsolet.apps.SomsoletConfig',
     'crispy_forms',
+    'crispy_bootstrap4',
     'django_tables2',
     'django_filters',
     'import_export',
@@ -37,6 +38,7 @@ INSTALLED_APPS = [
     'django',
     'jquery',
     'rosetta',
+    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
@@ -50,7 +52,10 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+
 ROOT_URLCONF = 'config.urls'
+
+WSGI_APPLICATION = 'config.wsgi.application'
 
 TEMPLATES = [
     {
@@ -70,8 +75,7 @@ TEMPLATES = [
         },
     },
 ]
-
-WSGI_APPLICATION = 'config.wsgi.application'
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 DJANGO_TABLES2_TEMPLATE = 'bootstrap4-som.html'
 IMPORT_EXPORT_USE_TRANSACTIONS = True

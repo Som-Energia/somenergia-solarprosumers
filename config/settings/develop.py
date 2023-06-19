@@ -9,6 +9,9 @@ SECRET_KEY = 'e2#ihl8s%jy2r4s1do0*z4jin222o^w%%ddn-(nr=3n*bygch^'
 
 DEBUG = True
 
+if DEBUG:
+    MIDDLEWARE += ['debug_toolbar.middleware.DebugToolbarMiddleware']
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -26,3 +29,7 @@ DATABASES = {
         'NAME': config['mongodb']['name']
     }
 }
+
+INTERNAL_IPS = [
+    '127.0.0.1'
+]
