@@ -111,10 +111,14 @@ venv.bak/
 #editor
 *.sublime-project
 *.sublime-workspace
+.vscode
+.vscode/
 
 #config
-
+uploaded_files/
 *.yaml
 
 #files
 *.csv
+log
+log/
