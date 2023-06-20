@@ -122,3 +122,4 @@ config.yaml
 *.csv
 log
 log/
+static/

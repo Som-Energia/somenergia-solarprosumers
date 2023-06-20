@@ -6,6 +6,9 @@ SECRET_KEY = "e2#ihl8s%jy2r4s1do0*z4jin222o^w%%ddn-(nr=3n*bygch^"
 
 DEBUG = True
 
+if not DEBUG:
+    ALLOWED_HOSTS = ["localhost"]
+
 if DEBUG:
     MIDDLEWARE += ["debug_toolbar.middleware.DebugToolbarMiddleware"]
 

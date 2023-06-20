@@ -1,0 +1,14 @@
+
+{% extends 'somsolet/base_layout.html' %}
+
+{% load i18n %}
+{% load bootstrap4 %}
+
+
+{% block content %}
+<div class="jumbotron">
+    <h1 class="display-4"> {% trans "NOT_FOUND_JUMBO_TEXT" %} </h1>
+    <p class="lead"> {% trans "NOT_FOUND_TEXT_REASON" %} </p>
+</div>
+
+{% endblock %}

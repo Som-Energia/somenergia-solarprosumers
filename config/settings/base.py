@@ -3,12 +3,11 @@ import os
 import yaml
 from django.utils.translation import gettext_lazy as _
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-with open(os.path.join(BASE_DIR, "settings/config.yaml")) as f:
+with open(os.path.join(BASE_DIR, "config/settings/config.yaml")) as f:
     config = yaml.load(f.read(), Loader=yaml.SafeLoader)
 
-LOCALE_PATHS = (os.path.join(BASE_DIR, "locale"),)
 
 ALLOWED_HOSTS = []
 
@@ -58,7 +57,7 @@ WSGI_APPLICATION = "config.wsgi.application"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": ["./somsolet/templates", "./somsolet/static/html"],
+        "DIRS": ["./somsolet/templates", "./static/html"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -120,9 +119,7 @@ USE_L10N = True
 
 USE_TZ = True
 
-LOCALE_PATHS = [
-    os.path.join((BASE_DIR), "../locale"),
-]
+LOCALE_PATHS = (os.path.join(BASE_DIR, "locale"),)
 
 
 # Rosetta conf
@@ -138,7 +135,9 @@ FILE_UPLOAD_PERMISSIONS = 0o644
 
 STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
-
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, "static")
+# ]
 DATA_UPLOAD_MAX_NUMBER_FIELDS = None
 
 RQ_QUEUES = {

@@ -1,0 +1,18 @@
+
+
+{% extends 'somsolet/base_layout.html' %}
+
+{% load static %}
+{% load i18n %}
+{% load bootstrap4 %}
+
+{% block content %}
+<div class="jumbotron">
+    <h1 class="display-4"> {% trans "INTERNAL_ERROR_JUMBO_TEXT" %} </h1>
+    <p class="lead"> {% trans "INTERNAL_ERROR_STD_ERROR_TEXT" %} </p>
+    <figure class="figure">
+        <img src={% static "img/cuca-marejada.svg" %} class="figure-img img-fluid rounded">
+    </figure>
+</div>
+
+{% endblock %}
