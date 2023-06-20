@@ -53,8 +53,12 @@ def register(request):
 class SomsoletProjectView(LoginRequiredMixin, View):
     login_url = 'login'
 
-    def get_initial(self, pk):
-        proj_inst = get_object_or_404(Project, pk=pk)
+    def get_initial(self, pk, engineering):
+        proj_inst = get_object_or_404(
+            Project,
+            pk=pk,
+            campaign__engineerings=engineering
+        )
         return {
             'campaign': proj_inst.campaign,
             'project': proj_inst.id,
@@ -64,7 +68,8 @@ class SomsoletProjectView(LoginRequiredMixin, View):
         }
 
     def get(self, request, pk):
-        self.initial = self.get_initial(pk)
+        engineering = request.user.engineering
+        self.initial = self.get_initial(pk, engineering)
         if self.initial['status'] in self.status_condition:
             form = self.form_class(initial=self.initial)
             return render(request, self.template_name, {self.form: form})
@@ -132,7 +137,11 @@ class PrereportView(SomsoletProjectView):
     def post(self, request, pk):
         form = self.form_class(request.POST, request.FILES)
 
-        proj_inst = get_object_or_404(Project, pk=pk)
+        proj_inst = get_object_or_404(
+            Project,
+            pk=pk,
+            campaign__engineerings=request.user.engineering
+        )
         if form.is_valid():
             if request.FILES:
                 date_prereport = datetime.now().strftime('%Y-%m-%d')
@@ -168,7 +177,11 @@ class TechnicalVisitView(SomsoletProjectView):
 
     def post(self, request, pk):
         form = self.form_class(request.POST)
-        proj_inst = get_object_or_404(Project, pk=pk)
+        proj_inst = get_object_or_404(
+            Project,
+            pk=pk,
+            campaign__engineerings=request.user.engineering
+        )
         if form.is_valid():
             date_technical_visit = form.cleaned_data['date_technical_visit']
             if date_technical_visit:
@@ -198,7 +211,11 @@ class ReportView(SomsoletProjectView):
 
     def post(self, request, pk):
         form = self.form_class(request.POST, request.FILES)
-        proj_inst = get_object_or_404(Project, pk=pk)
+        proj_inst = get_object_or_404(
+            Project,
+            pk=pk,
+            campaign__engineerings=request.user.engineering
+        )
         if form.is_valid():
             if request.FILES:
                 date_report = datetime.now().strftime('%Y-%m-%d')
@@ -231,7 +248,11 @@ class OfferView(SomsoletProjectView):
 
     def post(self, request, pk):
         form = self.form_class(request.POST, request.FILES)
-        proj_inst = get_object_or_404(Project, pk=pk)
+        proj_inst = get_object_or_404(
+            Project,
+            pk=pk,
+            campaign__engineerings=request.user.engineering
+        )
         if form.is_valid():
             if request.FILES:
                 date_offer = datetime.now().strftime('%Y-%m-%d')
@@ -264,7 +285,11 @@ class SignatureView(SomsoletProjectView):
 
     def post(self, request, pk):
         form = self.form_class(request.POST, request.FILES)
-        proj_inst = get_object_or_404(Project, pk=pk)
+        proj_inst = get_object_or_404(
+            Project,
+            pk=pk,
+            campaign__engineerings=request.user.engineering
+        )
         if form.is_valid():
             if request.FILES:
                 proj_inst.is_signed = True
@@ -292,7 +317,11 @@ class ConstructionPermitView(SomsoletProjectView):
 
     def post(self, request, pk):
         form = self.form_class(request.POST, request.FILES)
-        proj_inst = get_object_or_404(Project, pk=pk)
+        proj_inst = get_object_or_404(
+            Project,
+            pk=pk,
+            campaign__engineerings=request.user.engineering
+        )
         if form.is_valid():
             if request.FILES:
                 date_permit = datetime.now().strftime('%Y-%m-%d')
@@ -322,7 +351,11 @@ class InstallationDateView(SomsoletProjectView):
 
     def post(self, request, pk):
         form = self.form_class(request.POST)
-        proj_inst = get_object_or_404(Project, pk=pk)
+        proj_inst = get_object_or_404(
+            Project,
+            pk=pk,
+            campaign__engineerings=request.user.engineering
+        )
         if form.is_valid():
             date_installation = form.cleaned_data['date_start_installation']
             if date_installation:
@@ -352,7 +385,11 @@ class DeliveryCertificateView(SomsoletProjectView):
 
     def post(self, request, pk):
         form = self.form_class(request.POST, request.FILES)
-        proj_inst = get_object_or_404(Project, pk=pk)
+        proj_inst = get_object_or_404(
+            Project,
+            pk=pk,
+            campaign__engineerings=request.user.engineering
+        )
         if form.is_valid():
             if request.FILES:
                 date_delivery_certificate = datetime.now().strftime('%Y-%m-%d')
@@ -384,7 +421,11 @@ class LegalizationView(SomsoletProjectView):
 
     def post(self, request, pk):
         form = self.form_class(request.POST, request.FILES)
-        proj_inst = get_object_or_404(Project, pk=pk)
+        proj_inst = get_object_or_404(
+            Project,
+            pk=pk,
+            campaign__engineerings=request.user.engineering
+        )
         if form.is_valid():
             if request.FILES:
                 date_legal_docs = datetime.now().strftime('%Y-%m-%d')
@@ -415,7 +456,11 @@ class LegalRegistrationView(SomsoletProjectView):
 
     def post(self, request, pk):
         form = self.form_class(request.POST, request.FILES)
-        proj_inst = get_object_or_404(Project, pk=pk)
+        proj_inst = get_object_or_404(
+            Project,
+            pk=pk,
+            campaign__engineerings=request.user.engineering
+        )
         if form.is_valid():
             if request.FILES:
                 date_legal_registration_docs = datetime.now().strftime('%Y-%m-%d')
@@ -448,7 +493,9 @@ class CampaignSetView(LoginRequiredMixin, View):
         campaign_filter = CampaignListFilter(
             request,
             queryset=Campaign.objects.all().filter(
-                engineerings=request.user.engineering))
+                engineerings=request.user.engineering
+            )
+        )
         campaign_list = campaign_filter.qs
         campaign_table = CampaignTable(campaign_list)
         ctx = {
@@ -469,9 +516,11 @@ class ProjectView(LoginRequiredMixin, View):
         campaign_inst = get_object_or_404(Campaign, pk=pk)
         project_filter = ProjectListFilter(
             request.GET,
-            queryset=Project.objects.all().filter(
-                campaign=campaign_inst.id).order_by('name')
-            )
+            queryset=Project.objects.filter(
+                campaign=campaign_inst.id,
+                campaign__engineerings=request.user.engineering
+            ).order_by('name')
+        )
         project_list = project_filter.qs
         projects_table = ProjectTable(project_list)
         ctx = {
@@ -494,7 +543,10 @@ class DownloadCch(LoginRequiredMixin, View):
     url_path = 'download_cch'
 
     def get(self, request, pk):  # Autentication required
-        project = Project.objects.get(pk=pk)
+        project = Project.objects.get(
+            pk=pk,
+            campaign__engineerings=request.user.engineering
+        )
         technical_details = project.technical_details_set.first()
         cups = technical_details.cups
 
@@ -575,7 +627,11 @@ class TechnicalDetailsView(LoginRequiredMixin, View):
     url_path = 'technical_details'
 
     def get_initial_values(self, pk):
-        proj_inst = get_object_or_404(Project, pk=pk)
+        proj_inst = get_object_or_404(
+            Project,
+            pk=pk,
+            campaign__engineerings=request.user.engineering
+        )
         tech_details = Technical_details.objects.get(project=proj_inst.id)
         return tech_details
 
@@ -590,7 +646,11 @@ class TechnicalDetailsView(LoginRequiredMixin, View):
     def post(self, request, pk):
         self.initial = self.get_initial_values(pk)
         form = self.form_class(self.request.POST, instance=self.initial)
-        proj_inst = get_object_or_404(Project, pk=pk)
+        proj_inst = get_object_or_404(
+            Project,
+            pk=pk,
+            campaign__engineerings=request.user.engineering
+        )
         if form.is_valid():
             form.campaign = proj_inst.campaign
             form.save()
