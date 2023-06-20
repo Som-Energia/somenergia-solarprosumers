@@ -19,3 +19,8 @@ django-anymail
 sendgrid
 pymongo
 django-rosetta
+black
+pre-commit
+pytest
+pytest-cov
+pytest-django
