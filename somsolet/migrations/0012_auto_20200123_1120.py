@@ -4,10 +4,10 @@ from django.db import migrations
 
 
 def campaing_to_technical(apps, schema_editor):
-    Campaign = apps.get_model('somsolet', 'Campaign')
+    Campaign = apps.get_model("somsolet", "Campaign")
 
-    TechnicalCampaign = apps.get_model('somsolet', 'Technical_campaign')
-    TechnicalDetails = apps.get_model('somsolet', 'Technical_details')
+    TechnicalCampaign = apps.get_model("somsolet", "Technical_campaign")
+    TechnicalDetails = apps.get_model("somsolet", "Technical_details")
 
     Campaigns = Campaign.objects.all()
 
@@ -22,32 +22,58 @@ def campaing_to_technical(apps, schema_editor):
                 technical_detail.bateries_brand = technical_campaign.bateries_brand
                 technical_detail.bateries_model = technical_campaign.bateries_model
                 technical_detail.bateries_power = technical_campaign.bateries_power
-                technical_detail.bateries_capacity = technical_campaign.bateries_capacity
+                technical_detail.bateries_capacity = (
+                    technical_campaign.bateries_capacity
+                )
                 technical_detail.bateries_price = technical_campaign.bateries_price
-                technical_detail.shadow_optimizer_brand = technical_campaign.shadow_optimizer_brand
-                technical_detail.shadow_optimizer_model = technical_campaign.shadow_optimizer_model
-                technical_detail.shadow_optimizer_price = technical_campaign.shadow_optimizer_price
-                technical_detail.peak_power_panels_wp = technical_campaign.peak_power_panels_wp
+                technical_detail.shadow_optimizer_brand = (
+                    technical_campaign.shadow_optimizer_brand
+                )
+                technical_detail.shadow_optimizer_model = (
+                    technical_campaign.shadow_optimizer_model
+                )
+                technical_detail.shadow_optimizer_price = (
+                    technical_campaign.shadow_optimizer_price
+                )
+                technical_detail.peak_power_panels_wp = (
+                    technical_campaign.peak_power_panels_wp
+                )
                 technical_detail.panel_brand = technical_campaign.panel_brand
                 technical_detail.panel_type = technical_campaign.panel_type
                 technical_detail.panel_model = technical_campaign.panel_model
                 technical_detail.inversor_brand = technical_campaign.inversor_brand
                 technical_detail.inversor_model = technical_campaign.inversor_model
-                technical_detail.nominal_inversor_power = technical_campaign.nominal_inversor_power
-                technical_detail.charger_manager_brand = technical_campaign.charger_manager_brand
-                technical_detail.charger_manager_model = technical_campaign.charger_manager_model
-                technical_detail.charger_manager_price = technical_campaign.charger_manager_price
-                technical_detail.electric_car_charger_brand = technical_campaign.electric_car_charger_brand
-                technical_detail.electric_car_charger_model = technical_campaign.electric_car_charger_model
-                technical_detail.electric_car_charger_power = technical_campaign.electric_car_charger_power
-                technical_detail.electric_car_charger_price = technical_campaign.electric_car_charger_price
+                technical_detail.nominal_inversor_power = (
+                    technical_campaign.nominal_inversor_power
+                )
+                technical_detail.charger_manager_brand = (
+                    technical_campaign.charger_manager_brand
+                )
+                technical_detail.charger_manager_model = (
+                    technical_campaign.charger_manager_model
+                )
+                technical_detail.charger_manager_price = (
+                    technical_campaign.charger_manager_price
+                )
+                technical_detail.electric_car_charger_brand = (
+                    technical_campaign.electric_car_charger_brand
+                )
+                technical_detail.electric_car_charger_model = (
+                    technical_campaign.electric_car_charger_model
+                )
+                technical_detail.electric_car_charger_power = (
+                    technical_campaign.electric_car_charger_power
+                )
+                technical_detail.electric_car_charger_price = (
+                    technical_campaign.electric_car_charger_price
+                )
                 technical_detail.save()
 
 
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('somsolet', '0011_auto_20200123_0950'),
+        ("somsolet", "0011_auto_20200123_0950"),
     ]
 
     operations = [

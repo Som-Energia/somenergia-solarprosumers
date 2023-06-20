@@ -4,7 +4,7 @@ from django.db import migrations
 
 
 def make_many_engineerings(apps, schema):
-    Campaign = apps.get_model('somsolet', 'Campaign')
+    Campaign = apps.get_model("somsolet", "Campaign")
 
     for campaign in Campaign.objects.all():
         campaign.engineerings.add(campaign.engineering)
@@ -13,7 +13,7 @@ def make_many_engineerings(apps, schema):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('somsolet', '0008_auto_20191029_0903'),
+        ("somsolet", "0008_auto_20191029_0903"),
     ]
 
     operations = [

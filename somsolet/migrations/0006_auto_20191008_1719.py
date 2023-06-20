@@ -6,18 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('somsolet', '0005_project_upload_contract'),
+        ("somsolet", "0005_project_upload_contract"),
     ]
 
     operations = [
         migrations.RenameField(
-            model_name='technical_details',
-            old_name='comments',
-            new_name='client_comments',
+            model_name="technical_details",
+            old_name="comments",
+            new_name="client_comments",
         ),
         migrations.AddField(
-            model_name='technical_details',
-            name='engineering_comments',
+            model_name="technical_details",
+            name="engineering_comments",
             field=models.CharField(blank=True, max_length=500),
         ),
     ]

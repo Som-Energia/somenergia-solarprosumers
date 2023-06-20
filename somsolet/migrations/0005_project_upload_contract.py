@@ -6,13 +6,17 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('somsolet', '0004_auto_20190918_1410'),
+        ("somsolet", "0004_auto_20190918_1410"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='project',
-            name='upload_contract',
-            field=models.FileField(default='uploaded_files/contract/som.png', upload_to='uploaded_files/contract', verbose_name='Upload Signed Contract'),
+            model_name="project",
+            name="upload_contract",
+            field=models.FileField(
+                default="uploaded_files/contract/som.png",
+                upload_to="uploaded_files/contract",
+                verbose_name="Upload Signed Contract",
+            ),
         ),
     ]

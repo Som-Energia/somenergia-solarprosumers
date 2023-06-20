@@ -25,17 +25,17 @@ def postgres_migration_prep(apps, schema_editor):
         "charger_manager_model",
         "electric_car_charger_brand",
         "electric_car_charger_model",
-
     )
     for field in fields:
         filter_param = {"{}__isnull".format(field): True}
         update_param = {field: ""}
         Technical_details.objects.filter(**filter_param).update(**update_param)
 
+
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('somsolet', '0018_auto_20200520_1417'),
+        ("somsolet", "0018_auto_20200520_1417"),
     ]
 
     operations = [

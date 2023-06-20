@@ -6,101 +6,101 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('somsolet', '0012_auto_20200123_1120'),
+        ("somsolet", "0012_auto_20200123_1120"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='technical_campaign',
-            name='bateries_brand',
+            model_name="technical_campaign",
+            name="bateries_brand",
         ),
         migrations.RemoveField(
-            model_name='technical_campaign',
-            name='bateries_capacity',
+            model_name="technical_campaign",
+            name="bateries_capacity",
         ),
         migrations.RemoveField(
-            model_name='technical_campaign',
-            name='bateries_model',
+            model_name="technical_campaign",
+            name="bateries_model",
         ),
         migrations.RemoveField(
-            model_name='technical_campaign',
-            name='bateries_power',
+            model_name="technical_campaign",
+            name="bateries_power",
         ),
         migrations.RemoveField(
-            model_name='technical_campaign',
-            name='bateries_price',
+            model_name="technical_campaign",
+            name="bateries_price",
         ),
         migrations.RemoveField(
-            model_name='technical_campaign',
-            name='charger_manager_brand',
+            model_name="technical_campaign",
+            name="charger_manager_brand",
         ),
         migrations.RemoveField(
-            model_name='technical_campaign',
-            name='charger_manager_model',
+            model_name="technical_campaign",
+            name="charger_manager_model",
         ),
         migrations.RemoveField(
-            model_name='technical_campaign',
-            name='charger_manager_price',
+            model_name="technical_campaign",
+            name="charger_manager_price",
         ),
         migrations.RemoveField(
-            model_name='technical_campaign',
-            name='electric_car_charger_brand',
+            model_name="technical_campaign",
+            name="electric_car_charger_brand",
         ),
         migrations.RemoveField(
-            model_name='technical_campaign',
-            name='electric_car_charger_model',
+            model_name="technical_campaign",
+            name="electric_car_charger_model",
         ),
         migrations.RemoveField(
-            model_name='technical_campaign',
-            name='electric_car_charger_power',
+            model_name="technical_campaign",
+            name="electric_car_charger_power",
         ),
         migrations.RemoveField(
-            model_name='technical_campaign',
-            name='electric_car_charger_price',
+            model_name="technical_campaign",
+            name="electric_car_charger_price",
         ),
         migrations.RemoveField(
-            model_name='technical_campaign',
-            name='inversor_brand',
+            model_name="technical_campaign",
+            name="inversor_brand",
         ),
         migrations.RemoveField(
-            model_name='technical_campaign',
-            name='inversor_model',
+            model_name="technical_campaign",
+            name="inversor_model",
         ),
         migrations.RemoveField(
-            model_name='technical_campaign',
-            name='nominal_inversor_power',
+            model_name="technical_campaign",
+            name="nominal_inversor_power",
         ),
         migrations.RemoveField(
-            model_name='technical_campaign',
-            name='panel_brand',
+            model_name="technical_campaign",
+            name="panel_brand",
         ),
         migrations.RemoveField(
-            model_name='technical_campaign',
-            name='panel_model',
+            model_name="technical_campaign",
+            name="panel_model",
         ),
         migrations.RemoveField(
-            model_name='technical_campaign',
-            name='panel_type',
+            model_name="technical_campaign",
+            name="panel_type",
         ),
         migrations.RemoveField(
-            model_name='technical_campaign',
-            name='peak_power_panels_wp',
+            model_name="technical_campaign",
+            name="peak_power_panels_wp",
         ),
         migrations.RemoveField(
-            model_name='technical_campaign',
-            name='shadow_optimizer_brand',
+            model_name="technical_campaign",
+            name="shadow_optimizer_brand",
         ),
         migrations.RemoveField(
-            model_name='technical_campaign',
-            name='shadow_optimizer_model',
+            model_name="technical_campaign",
+            name="shadow_optimizer_model",
         ),
         migrations.RemoveField(
-            model_name='technical_campaign',
-            name='shadow_optimizer_price',
+            model_name="technical_campaign",
+            name="shadow_optimizer_price",
         ),
         migrations.AlterField(
-            model_name='technical_details',
-            name='street',
+            model_name="technical_details",
+            name="street",
             field=models.CharField(blank=True, max_length=200),
         ),
     ]

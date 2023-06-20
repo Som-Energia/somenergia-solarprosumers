@@ -7,17 +7,71 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('somsolet', '0021_auto_20200529_0851'),
+        ("somsolet", "0021_auto_20200529_0851"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Mailing',
+            name="Mailing",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('notification_status', models.CharField(choices=[('empty status', 'Initial'), ('preregistered', 'Pre-Registered'), ('registered', 'Registered'), ('data downloaded', 'CCH data downloaded for analysis'), ('technical visit', 'Technical visit scheduled'), ('prereport review', 'Pre-Report review'), ('prereport', 'Pre-Report uploaded'), ('report review', 'Report review'), ('report', 'Report uploaded'), ('offer', 'Engineering offer'), ('offer review', 'offer Review'), ('signature', 'Contract signature'), ('construction permit', 'Construction permit'), ('pending installation date', 'Pending installation date'), ('date installation set', 'Date installation set'), ('installation in progress', 'Installation in progress'), ('end installation', 'End installation'), ('legal registration', 'Legal Registration'), ('legalization', 'Legalization'), ('final payment', 'Final payment'), ('warranty payment', 'Warranty payment'), ('discarded', 'Discarded')], default='empty status', max_length=50)),
-                ('sent', models.BooleanField(default=False, help_text='True if an email was sent', verbose_name='Sent')),
-                ('project', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='somsolet.Project', verbose_name='Project')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "notification_status",
+                    models.CharField(
+                        choices=[
+                            ("empty status", "Initial"),
+                            ("preregistered", "Pre-Registered"),
+                            ("registered", "Registered"),
+                            ("data downloaded", "CCH data downloaded for analysis"),
+                            ("technical visit", "Technical visit scheduled"),
+                            ("prereport review", "Pre-Report review"),
+                            ("prereport", "Pre-Report uploaded"),
+                            ("report review", "Report review"),
+                            ("report", "Report uploaded"),
+                            ("offer", "Engineering offer"),
+                            ("offer review", "offer Review"),
+                            ("signature", "Contract signature"),
+                            ("construction permit", "Construction permit"),
+                            ("pending installation date", "Pending installation date"),
+                            ("date installation set", "Date installation set"),
+                            ("installation in progress", "Installation in progress"),
+                            ("end installation", "End installation"),
+                            ("legal registration", "Legal Registration"),
+                            ("legalization", "Legalization"),
+                            ("final payment", "Final payment"),
+                            ("warranty payment", "Warranty payment"),
+                            ("discarded", "Discarded"),
+                        ],
+                        default="empty status",
+                        max_length=50,
+                    ),
+                ),
+                (
+                    "sent",
+                    models.BooleanField(
+                        default=False,
+                        help_text="True if an email was sent",
+                        verbose_name="Sent",
+                    ),
+                ),
+                (
+                    "project",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="somsolet.Project",
+                        verbose_name="Project",
+                    ),
+                ),
             ],
         ),
     ]

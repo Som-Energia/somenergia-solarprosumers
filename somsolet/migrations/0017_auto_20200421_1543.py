@@ -6,22 +6,58 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('somsolet', '0016_auto_20200420_1617'),
+        ("somsolet", "0016_auto_20200420_1617"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='ClientFile',
+            name="ClientFile",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(blank=True, max_length=100, verbose_name='Filename')),
-                ('file', models.FileField(blank=True, null=True, upload_to='uploaded_files_som/general_conditions', verbose_name='Upload general conditions')),
-                ('language', models.CharField(choices=[('es', 'Spanish'), ('ca', 'Catalan'), ('gl', 'Galician'), ('eu', 'Euskara')], default='ca', max_length=5, verbose_name='Language')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(
+                        blank=True, max_length=100, verbose_name="Filename"
+                    ),
+                ),
+                (
+                    "file",
+                    models.FileField(
+                        blank=True,
+                        null=True,
+                        upload_to="uploaded_files_som/general_conditions",
+                        verbose_name="Upload general conditions",
+                    ),
+                ),
+                (
+                    "language",
+                    models.CharField(
+                        choices=[
+                            ("es", "Spanish"),
+                            ("ca", "Catalan"),
+                            ("gl", "Galician"),
+                            ("eu", "Euskara"),
+                        ],
+                        default="ca",
+                        max_length=5,
+                        verbose_name="Language",
+                    ),
+                ),
             ],
         ),
         migrations.AddField(
-            model_name='client',
-            name='file',
-            field=models.ManyToManyField(related_name='clients', to='somsolet.ClientFile', verbose_name='File'),
+            model_name="client",
+            name="file",
+            field=models.ManyToManyField(
+                related_name="clients", to="somsolet.ClientFile", verbose_name="File"
+            ),
         ),
     ]
