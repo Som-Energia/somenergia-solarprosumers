@@ -11,11 +11,13 @@ class CampaignTable(tables.Table):
     name = tables.LinkColumn(
         'project',
         args=[A('pk')],
-        verbose_name=_('Campaign'),)
+        verbose_name=_('Campaign'),
+    )
+
     technical_campaign = tables.TemplateColumn(
         template_name='somsolet/technical_campaign_update.html',
-        extra_context={'record': A('pk'), 'technical_campaign': A('pk')},
-        verbose_name=_('Technical Details'),)
+        verbose_name=_('Technical Details'),
+    )
 
     class Meta:
         model = Campaign
@@ -30,54 +32,68 @@ class ProjectTable(tables.Table):
     client = tables.LinkColumn(
         'client',
         args=[A('client_id')],
-        accessor='client.name',)
+        accessor='client.name',
+    )
+
     upload_prereport = tables.LinkColumn(
         'prereport',
         args=[A('pk')],
-        verbose_name=_('Prereport'),)
+        verbose_name=_('Prereport'),
+    )
+
     date_technical_visit = tables.TemplateColumn(
         template_name='somsolet/date_technical_visit_column.html',
-        extra_context={'record': A('pk'), 'date_technical_visit': A('pk')},)
+    )
+
     upload_report = tables.LinkColumn(
         'report',
-        args=[A('pk')])
+        args=[A('pk')]
+    )
+
     upload_offer = tables.LinkColumn(
         'offer',
-        args=[A('pk')])
+        args=[A('pk')]
+    )
+
     upload_contract = tables.LinkColumn(
         'signed_contract',
-        args=[A('pk')])
+        args=[A('pk')]
+    )
+
     upload_permit = tables.LinkColumn(
         'construction_permit',
-        args=[A('pk')])
+        args=[A('pk')]
+    )
+
     date_start_installation = tables.TemplateColumn(
         template_name='somsolet/date_start_installation_column.html',
-        extra_context={'record': A('pk'), 'date_start_installation': A('pk')},)
+    )
+
     upload_delivery_certificate = tables.LinkColumn(
         'delivery_certificate',
-        args=[A('pk')])
+        args=[A('pk')]
+    )
+
     upload_legal_docs = tables.LinkColumn(
         'legalization',
-        args=[A('pk')])
+        args=[A('pk')]
+    )
+
     upload_legal_registration_docs = tables.LinkColumn(
         'legal_registration',
-        args=[A('pk')])
+        args=[A('pk')]
+    )
+
     technical_details = tables.TemplateColumn(
         template_name='somsolet/technical_details_update.html',
-        extra_context={
-            'record': A('pk'),
-            'technical_details': A('pk')
-        },
-        verbose_name=_('Technical Details'),)
+        verbose_name=_('Technical Details'),
+    )
+
     download_cch = tables.TemplateColumn(
         template_name='somsolet/download_cch.html',
-        extra_context={
-            'record': A('pk'),
-            'download_cch': A('pk'),
-            'name': A('name')
-        },
         verbose_name=_('Download CCH'),
-        orderable=False)
+        orderable=False
+    )
 
     class Meta:
         model = Project
