@@ -35,7 +35,6 @@ INSTALLED_APPS = [
     "django",
     "jquery",
     "rosetta",
-    "debug_toolbar",
 ]
 
 MIDDLEWARE = [
