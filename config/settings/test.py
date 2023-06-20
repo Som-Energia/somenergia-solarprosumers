@@ -7,12 +7,19 @@ ALLOWED_HOSTS = ["somsolet-demo.somenergia.local"]
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": config["databases"]["test"]["name"],
-        "USER": config["databases"]["test"]["user"],
-        "PASSWORD": config["databases"]["test"]["password"],
-        "HOST": config["databases"]["test"]["host"],
-        "PORT": config["databases"]["test"]["port"],
-    }
+        "NAME": config["databases"]["name"],
+        "USER": config["databases"]["user"],
+        "PASSWORD": config["databases"]["password"],
+        "HOST": config["databases"]["host"],
+        "PORT": config["databases"]["port"],
+    },
+    "mongodb": {
+        "HOST": config["mongodb"]["host"],
+        "PORT": config["mongodb"]["port"],
+        "USER": config["mongodb"]["user"],
+        "PASSWORD": config["mongodb"]["password"],
+        "NAME": config["mongodb"]["name"],
+    },
 }
 
 RQ_QUEUES = {
