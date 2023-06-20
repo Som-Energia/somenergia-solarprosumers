@@ -116,7 +116,7 @@ venv.bak/
 
 #config
 uploaded_files/
-*.yaml
+config.yaml
 
 #files
 *.csv
