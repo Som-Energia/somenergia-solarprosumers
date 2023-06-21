@@ -2,7 +2,7 @@ from .base import *
 
 SECRET_KEY = config["secret_key"]
 
-ALLOWED_HOSTS = ["somsolet.somenergia.coop"]
+ALLOWED_HOSTS = config["allowed_hosts"]
 
 DATABASES = {
     "default": {
