@@ -530,7 +530,9 @@ class TechnicalCampaignsView(LoginRequiredMixin, View):
 
     def get_initial_values(self, pk):
         campaign_inst = get_object_or_404(Campaign, pk=pk)
-        tech_details = Technical_campaign.objects.get(campaign=campaign_inst.id)
+        tech_details = Technical_campaign.objects.filter(
+            campaign=campaign_inst.id
+        ).first()
         return tech_details
 
     def get(self, request, pk):

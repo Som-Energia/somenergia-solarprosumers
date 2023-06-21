@@ -1,6 +1,6 @@
 from bootstrap_datepicker_plus import DatePickerInput
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Column, Field, Layout, Row, Submit
+from crispy_forms.layout import HTML, Column, Field, Layout, Row, Submit
 from django import forms
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
@@ -592,7 +592,14 @@ class TechnicalCampaignsForm(forms.ModelForm):
             ),
         )
 
-        self.helper.layout.append(Submit("goback", "Go back"))
+        self.helper.layout.append(
+            HTML(
+                """
+            <a role="button" class="btn btn-default"
+               href="{% url "campaign" %}">Go Back</a>
+            """
+            )
+        )
 
     class Meta:
         model = Technical_campaign
