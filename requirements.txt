@@ -9,6 +9,7 @@ django-extensions==3.2.3
 django-filter==23.2
 django-import-export==3.2.0
 django-widget-tweaks
+django-hijack
 django-jquery
 psycopg2>=2.7,<3.0
 PyYAML
@@ -25,3 +26,4 @@ pre-commit
 pytest
 pytest-cov
 pytest-django
+sentry-sdk
