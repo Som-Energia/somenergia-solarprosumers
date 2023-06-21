@@ -554,7 +554,7 @@ class TechnicalDetailsView(LoginRequiredMixin, View):
     template_name = "somsolet/technical_details.html"
     url_path = "technical_details"
 
-    def get_initial_values(self, pk):
+    def get_initial_values(self, pk, request):
         proj_inst = get_object_or_404(
             Project, pk=pk, campaign__engineerings=request.user.engineering
         )
@@ -562,12 +562,12 @@ class TechnicalDetailsView(LoginRequiredMixin, View):
         return tech_details
 
     def get(self, request, pk):
-        self.initial = self.get_initial_values(pk)
+        self.initial = self.get_initial_values(pk, request)
         form = self.form_class(instance=self.initial)
         return render(request, self.template_name, {"technical_form": form})
 
     def post(self, request, pk):
-        self.initial = self.get_initial_values(pk)
+        self.initial = self.get_initial_values(pk, request)
         form = self.form_class(self.request.POST, instance=self.initial)
         proj_inst = get_object_or_404(
             Project, pk=pk, campaign__engineerings=request.user.engineering
