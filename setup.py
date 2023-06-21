@@ -1,11 +1,13 @@
 #!/usr/bin/env python
 from setuptools import setup, find_packages
 
-readme = open("README.rst").read()
+from config import VERSION
+
+readme = open("README.md").read()
 
 setup(
     name="solarprosumers",
-    version="0.1",
+    version=VERSION,
     description="Web application to manage collective campaigns to purchase and install solar panels at home",
     author="Som Energia SCCL",
     author_email="info@somenergia.coop",

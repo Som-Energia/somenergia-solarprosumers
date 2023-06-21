@@ -1,7 +1,12 @@
 import os
-
+import sentry_sdk
 import yaml
+
 from django.utils.translation import gettext_lazy as _
+from sentry_sdk.integrations.django import DjangoIntegration
+from sentry_sdk.integrations.redis import RedisIntegration
+
+from .. import VERSION
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -204,3 +209,15 @@ ANYMAIL = {
 EMAIL_BACKEND = "anymail.backends.sendgrid.EmailBackend"
 DEFAULT_FROM_EMAIL = [config["email"]["default_from"]]
 BCC = [config["email"]["bcc"]]
+
+
+# Sentry
+SENTRY_DSN = config["sentry_dsn"]
+sentry_sdk.init(
+    dsn=SENTRY_DSN,
+    integrations=[DjangoIntegration(), RedisIntegration()],
+    traces_sample_rate=1.0,
+    send_default_pii=True,
+    environment=os.environ["DJANGO_SETTINGS_MODULE"].split(".")[-1],
+    release=VERSION,
+)

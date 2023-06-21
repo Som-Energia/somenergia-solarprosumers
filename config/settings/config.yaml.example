@@ -42,3 +42,6 @@ cors:
     - https://localhost
   allowed_headers:
     - dni
+
+# Sentry integration
+sentry_dsn: https://token@host/project_id
