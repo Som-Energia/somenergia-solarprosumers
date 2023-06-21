@@ -35,6 +35,8 @@ INSTALLED_APPS = [
     "django",
     "jquery",
     "rosetta",
+    "hijack",
+    "hijack.contrib.admin",
 ]
 
 MIDDLEWARE = [
@@ -46,6 +48,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "hijack.middleware.HijackUserMiddleware",
 ]
 
 

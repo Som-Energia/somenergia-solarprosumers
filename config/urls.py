@@ -21,21 +21,22 @@ from somsolet import views
 
 app_name = "config"
 
-urlpatterns = (
-    [
-        path("", views.CampaignSetView.as_view()),
-        path("auth/", include("django.contrib.auth.urls")),
-        path("somsolet/", include("somsolet.urls")),
-        path("admin/", admin.site.urls),
-        path("django-rq/", include("django_rq.urls")),
-        path("rosetta/", include("rosetta.urls")),
-        path("i18n/", include("django.conf.urls.i18n")),
-    ]
-    + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-    + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-)
+urlpatterns = [
+    path("", views.CampaignSetView.as_view()),
+    path("auth/", include("django.contrib.auth.urls")),
+    path("somsolet/", include("somsolet.urls")),
+    path("admin/", admin.site.urls),
+    path("django-rq/", include("django_rq.urls")),
+    path("rosetta/", include("rosetta.urls")),
+    path("i18n/", include("django.conf.urls.i18n")),
+    path("hijack/", include("hijack.urls")),
+]
 
 if settings.DEBUG:
-    urlpatterns += [
-        path("__debug__/", include("debug_toolbar.urls")),
-    ]
+    urlpatterns += (
+        [
+            path("__debug__/", include("debug_toolbar.urls")),
+        ]
+        + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+        + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    )
