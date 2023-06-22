@@ -1,15 +1,47 @@
-databases:
-  develop:
-    name: name
-    host: host
-    port: 5432
-    user: user
-    password: password
-  test:
-    name: name
-    host: host
-    port: 5432
-    user: user
-    password: password
+# Databases connetion paramenters
 
+## Postgresl database
+databases:
+  name: name
+  host: host
+  port: 5432
+  user: user
+  password: password
+
+## Mongo database
+mongodb:
+  host: mongo-host
+  port: mongo-port
+  user: mongo-user
+  password: mongo-user-password
+  name: mongo-db
+
+## Redis database
+redis:
+  url: 'redis://hostname:6379/0'
+
+# Ultra secret key
 secret_key: super_secret_key
+
+# domains / hosts that are allowed make requests
+allowed_hosts:
+  - localhost
+  - 127.0.0.1
+
+# Sendgrid integration
+sendgrid_api_key: sendgrid_api_key
+
+email:
+  default_from: foo@barr.io
+  bcc: foo@barr.io
+
+# Cors configuration
+cors:
+  whitelist:
+    - http://localhost
+    - https://localhost
+  allowed_headers:
+    - dni
+
+# Sentry integration
+sentry_dsn: https://token@host/project_id

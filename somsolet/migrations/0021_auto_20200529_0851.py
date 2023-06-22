@@ -6,13 +6,25 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('somsolet', '0020_auto_20200520_1639'),
+        ("somsolet", "0020_auto_20200520_1639"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='technical_details',
-            name='bateries_brand',
-            field=models.CharField(choices=[('empty', '---'), ('SONNEN', 'SONNEN'), ('BYD', 'BYD'), ('AMPERE', 'AMPERE'), ('LG', 'LG'), ('TESLA', 'TESLA')], default='empty', max_length=50, verbose_name='batery brand'),
+            model_name="technical_details",
+            name="bateries_brand",
+            field=models.CharField(
+                choices=[
+                    ("empty", "---"),
+                    ("SONNEN", "SONNEN"),
+                    ("BYD", "BYD"),
+                    ("AMPERE", "AMPERE"),
+                    ("LG", "LG"),
+                    ("TESLA", "TESLA"),
+                ],
+                default="empty",
+                max_length=50,
+                verbose_name="batery brand",
+            ),
         ),
     ]

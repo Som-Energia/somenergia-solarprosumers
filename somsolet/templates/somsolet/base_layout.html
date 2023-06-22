@@ -5,8 +5,8 @@
         <title>Som Solet - Som Energia</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
-        <link rel="stylesheet" href="/static/css/gestor.css?v=20200527">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
+        <link rel="stylesheet" href="{%static 'css/gestor.css' %}" type="text/css">
         {% load bootstrap4 %}
         {% bootstrap_css %}
         {% bootstrap_javascript jquery='full' %}
@@ -15,7 +15,7 @@
     </head>
     <body>
         <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-2 shadow">
-          <a class="navbar-brand col-sm-3 col-md-2 mr-auto" href="#"><img src="https://www.somenergia.coop/wp-content/uploads/2014/07/logo.png" class="mr-2">
+            <a class="navbar-brand col-sm-3 col-md-2 mr-auto" href="{% url 'campaign' %}"><img src="https://www.somenergia.coop/wp-content/uploads/2014/07/logo.png" class="mr-2">
 Som Solet</a>
           <ul class="right-navbar px-3">
               <li class="nav-item text-nowrap">{% include "languages/user_profile.html"%}</li>

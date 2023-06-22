@@ -4,7 +4,7 @@
 
 <a href="{% url 'installation_date' record.pk %}">
     {% if record.date_start_installation %}
-        {{ record.date_start_installation }} 
+        {{ record.date_start_installation }}
     {% else %}
         {{ insert_date }}
     {% endif %}

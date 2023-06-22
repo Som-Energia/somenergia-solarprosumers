@@ -8,25 +8,20 @@ from somsolet.models import Campaign, Client, Engineering, Project
 
 
 class ClientFactory(DjangoModelFactory):
-
     class Meta:
         model = Client
-    name = FuzzyChoice([
-        'Marta',
-        'Joana',
-        'Pol'
-    ])
+
+    name = FuzzyChoice(["Marta", "Joana", "Pol"])
 
 
 class EngineeringFactory(DjangoModelFactory):
-
     class Meta:
         model = Engineering
-    name = FuzzyText(prefix='ENG')
+
+    name = FuzzyText(prefix="ENG")
 
 
 class CampaignFactory(DjangoModelFactory):
-
     class Meta:
         model = Campaign
 
@@ -35,15 +30,10 @@ class CampaignFactory(DjangoModelFactory):
 
 
 class ProjectFactory(DjangoModelFactory):
-
     class Meta:
         model = Project
 
-    name = FuzzyText(
-        length=6,
-        chars=string.digits,
-        prefix='LAS'
-    )
+    name = FuzzyText(length=6, chars=string.digits, prefix="LAS")
     campaign = factory.RelatedFactory(CampaignFactory)
     client = factory.RelatedFactory(ClientFactory)
     # status = 'data downloaded'

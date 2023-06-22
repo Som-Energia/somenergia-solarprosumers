@@ -8,273 +8,450 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('somsolet', '0017_auto_20200421_1543'),
+        ("somsolet", "0017_auto_20200421_1543"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='campaign',
-            name='autonomous_community',
-            field=models.CharField(choices=[('empty', '---'), ('And', 'Andalucía'), ('Ar', 'Aragón'), ('Ast', 'Principado Asturias'), ('Bal', 'Islas Baleares'), ('Can', 'Canarias'), ('Cantb', 'Cantabria'), ('Cast-Man', 'Castilla-La Mancha'), ('Cast Leo', 'Castila y León'), ('Cat', 'Cataluña'), ('Ceuta', 'Ceuta'), ('Ext', 'Extremadura'), ('Gal', 'Galicia'), ('Val', 'Comunidad Valenciana'), ('Mad', 'Communidad de Madrid'), ('Melilla', 'Melilla'), ('Mur', 'Región de Murcia'), ('Nav', 'Comunidad Foral de Navarra'), ('Rio', 'La Rioja'), ('Vasc', 'País Vasco')], default='empty', max_length=50, verbose_name='Autonomous community'),
+            model_name="campaign",
+            name="autonomous_community",
+            field=models.CharField(
+                choices=[
+                    ("empty", "---"),
+                    ("And", "Andalucía"),
+                    ("Ar", "Aragón"),
+                    ("Ast", "Principado Asturias"),
+                    ("Bal", "Islas Baleares"),
+                    ("Can", "Canarias"),
+                    ("Cantb", "Cantabria"),
+                    ("Cast-Man", "Castilla-La Mancha"),
+                    ("Cast Leo", "Castila y León"),
+                    ("Cat", "Cataluña"),
+                    ("Ceuta", "Ceuta"),
+                    ("Ext", "Extremadura"),
+                    ("Gal", "Galicia"),
+                    ("Val", "Comunidad Valenciana"),
+                    ("Mad", "Communidad de Madrid"),
+                    ("Melilla", "Melilla"),
+                    ("Mur", "Región de Murcia"),
+                    ("Nav", "Comunidad Foral de Navarra"),
+                    ("Rio", "La Rioja"),
+                    ("Vasc", "País Vasco"),
+                ],
+                default="empty",
+                max_length=50,
+                verbose_name="Autonomous community",
+            ),
         ),
         migrations.AlterField(
-            model_name='campaign',
-            name='count_completed_installations',
-            field=models.IntegerField(blank=True, null=True, verbose_name='Count completed installations'),
+            model_name="campaign",
+            name="count_completed_installations",
+            field=models.IntegerField(
+                blank=True, null=True, verbose_name="Count completed installations"
+            ),
         ),
         migrations.AlterField(
-            model_name='campaign',
-            name='date_call_for_engineerings',
-            field=models.DateField(blank=True, null=True, verbose_name='Date call for engineerings'),
+            model_name="campaign",
+            name="date_call_for_engineerings",
+            field=models.DateField(
+                blank=True, null=True, verbose_name="Date call for engineerings"
+            ),
         ),
         migrations.AlterField(
-            model_name='campaign',
-            name='date_call_for_inscriptions',
-            field=models.DateField(blank=True, null=True, verbose_name='date call for inscriptions'),
+            model_name="campaign",
+            name="date_call_for_inscriptions",
+            field=models.DateField(
+                blank=True, null=True, verbose_name="date call for inscriptions"
+            ),
         ),
         migrations.AlterField(
-            model_name='campaign',
-            name='date_completed_installations',
-            field=models.DateField(blank=True, null=True, verbose_name='Date completed installations'),
+            model_name="campaign",
+            name="date_completed_installations",
+            field=models.DateField(
+                blank=True, null=True, verbose_name="Date completed installations"
+            ),
         ),
         migrations.AlterField(
-            model_name='campaign',
-            name='date_inscriptions_closed',
-            field=models.DateField(blank=True, null=True, verbose_name='Date inscriptions closed'),
+            model_name="campaign",
+            name="date_inscriptions_closed",
+            field=models.DateField(
+                blank=True, null=True, verbose_name="Date inscriptions closed"
+            ),
         ),
         migrations.AlterField(
-            model_name='campaign',
-            name='date_warranty_payment',
-            field=models.DateField(blank=True, null=True, verbose_name='Date warranty payment'),
+            model_name="campaign",
+            name="date_warranty_payment",
+            field=models.DateField(
+                blank=True, null=True, verbose_name="Date warranty payment"
+            ),
         ),
         migrations.AlterField(
-            model_name='campaign',
-            name='geographical_region',
-            field=models.CharField(blank=True, max_length=50, verbose_name='Geographical region'),
+            model_name="campaign",
+            name="geographical_region",
+            field=models.CharField(
+                blank=True, max_length=50, verbose_name="Geographical region"
+            ),
         ),
         migrations.AlterField(
-            model_name='campaign',
-            name='kwp_installed',
-            field=models.FloatField(blank=True, null=True, verbose_name='kWp installed'),
+            model_name="campaign",
+            name="kwp_installed",
+            field=models.FloatField(
+                blank=True, null=True, verbose_name="kWp installed"
+            ),
         ),
         migrations.AlterField(
-            model_name='campaign',
-            name='name',
-            field=models.CharField(blank=True, max_length=50, verbose_name='Name'),
+            model_name="campaign",
+            name="name",
+            field=models.CharField(blank=True, max_length=50, verbose_name="Name"),
         ),
         migrations.AlterField(
-            model_name='client',
-            name='dni',
-            field=models.CharField(blank=True, max_length=9, verbose_name='DNI'),
+            model_name="client",
+            name="dni",
+            field=models.CharField(blank=True, max_length=9, verbose_name="DNI"),
         ),
         migrations.AlterField(
-            model_name='client',
-            name='email',
-            field=models.CharField(blank=True, max_length=50, verbose_name='Email'),
+            model_name="client",
+            name="email",
+            field=models.CharField(blank=True, max_length=50, verbose_name="Email"),
         ),
         migrations.AlterField(
-            model_name='client',
-            name='language',
-            field=models.CharField(choices=[('es', 'Spanish'), ('ca', 'Catalan'), ('gl', 'Galician'), ('eu', 'Euskara')], default='ca', max_length=5, verbose_name='Language'),
+            model_name="client",
+            name="language",
+            field=models.CharField(
+                choices=[
+                    ("es", "Spanish"),
+                    ("ca", "Catalan"),
+                    ("gl", "Galician"),
+                    ("eu", "Euskara"),
+                ],
+                default="ca",
+                max_length=5,
+                verbose_name="Language",
+            ),
         ),
         migrations.AlterField(
-            model_name='client',
-            name='membership_number',
-            field=models.CharField(blank=True, max_length=100, verbose_name='Membership number'),
+            model_name="client",
+            name="membership_number",
+            field=models.CharField(
+                blank=True, max_length=100, verbose_name="Membership number"
+            ),
         ),
         migrations.AlterField(
-            model_name='client',
-            name='name',
-            field=models.CharField(blank=True, max_length=100, verbose_name='Name'),
+            model_name="client",
+            name="name",
+            field=models.CharField(blank=True, max_length=100, verbose_name="Name"),
         ),
         migrations.AlterField(
-            model_name='client',
-            name='phone_number',
-            field=models.CharField(blank=True, max_length=9, verbose_name='Telephone number'),
+            model_name="client",
+            name="phone_number",
+            field=models.CharField(
+                blank=True, max_length=9, verbose_name="Telephone number"
+            ),
         ),
         migrations.AlterField(
-            model_name='engineering',
-            name='address',
-            field=models.CharField(blank=True, max_length=100, verbose_name='Address'),
+            model_name="engineering",
+            name="address",
+            field=models.CharField(blank=True, max_length=100, verbose_name="Address"),
         ),
         migrations.AlterField(
-            model_name='engineering',
-            name='comments',
-            field=models.CharField(blank=True, max_length=500, verbose_name='Comments'),
+            model_name="engineering",
+            name="comments",
+            field=models.CharField(blank=True, max_length=500, verbose_name="Comments"),
         ),
         migrations.AlterField(
-            model_name='engineering',
-            name='email',
-            field=models.CharField(blank=True, max_length=50, verbose_name='Email'),
+            model_name="engineering",
+            name="email",
+            field=models.CharField(blank=True, max_length=50, verbose_name="Email"),
         ),
         migrations.AlterField(
-            model_name='engineering',
-            name='language',
-            field=models.CharField(choices=[('es', 'Spanish'), ('ca', 'Catalan'), ('gl', 'Galician'), ('eu', 'Euskara')], default='ca', max_length=5, verbose_name='Language'),
+            model_name="engineering",
+            name="language",
+            field=models.CharField(
+                choices=[
+                    ("es", "Spanish"),
+                    ("ca", "Catalan"),
+                    ("gl", "Galician"),
+                    ("eu", "Euskara"),
+                ],
+                default="ca",
+                max_length=5,
+                verbose_name="Language",
+            ),
         ),
         migrations.AlterField(
-            model_name='engineering',
-            name='name',
-            field=models.CharField(blank=True, max_length=50, verbose_name='Name'),
+            model_name="engineering",
+            name="name",
+            field=models.CharField(blank=True, max_length=50, verbose_name="Name"),
         ),
         migrations.AlterField(
-            model_name='engineering',
-            name='phone_number',
-            field=models.CharField(blank=True, max_length=9, verbose_name='Telephone number'),
+            model_name="engineering",
+            name="phone_number",
+            field=models.CharField(
+                blank=True, max_length=9, verbose_name="Telephone number"
+            ),
         ),
         migrations.AlterField(
-            model_name='engineering',
-            name='tin',
-            field=models.CharField(blank=True, max_length=9, verbose_name='Tax identification number'),
+            model_name="engineering",
+            name="tin",
+            field=models.CharField(
+                blank=True, max_length=9, verbose_name="Tax identification number"
+            ),
         ),
         migrations.AlterField(
-            model_name='engineering',
-            name='total_kwp_installed',
-            field=models.FloatField(blank=True, null=True, verbose_name='Total kWp installed'),
+            model_name="engineering",
+            name="total_kwp_installed",
+            field=models.FloatField(
+                blank=True, null=True, verbose_name="Total kWp installed"
+            ),
         ),
         migrations.AlterField(
-            model_name='engineering',
-            name='user',
-            field=models.OneToOneField(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL, verbose_name='User'),
+            model_name="engineering",
+            name="user",
+            field=models.OneToOneField(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to=settings.AUTH_USER_MODEL,
+                verbose_name="User",
+            ),
         ),
         migrations.AlterField(
-            model_name='localgroup',
-            name='email',
-            field=models.CharField(blank=True, max_length=50, verbose_name='Email'),
+            model_name="localgroup",
+            name="email",
+            field=models.CharField(blank=True, max_length=50, verbose_name="Email"),
         ),
         migrations.AlterField(
-            model_name='localgroup',
-            name='language',
-            field=models.CharField(choices=[('es', 'Spanish'), ('ca', 'Catalan'), ('gl', 'Galician'), ('eu', 'Euskara')], default='ca', max_length=5, verbose_name='Language'),
+            model_name="localgroup",
+            name="language",
+            field=models.CharField(
+                choices=[
+                    ("es", "Spanish"),
+                    ("ca", "Catalan"),
+                    ("gl", "Galician"),
+                    ("eu", "Euskara"),
+                ],
+                default="ca",
+                max_length=5,
+                verbose_name="Language",
+            ),
         ),
         migrations.AlterField(
-            model_name='localgroup',
-            name='name',
-            field=models.CharField(blank=True, max_length=100, verbose_name='Name'),
+            model_name="localgroup",
+            name="name",
+            field=models.CharField(blank=True, max_length=100, verbose_name="Name"),
         ),
         migrations.AlterField(
-            model_name='localgroup',
-            name='phone_number',
-            field=models.CharField(blank=True, max_length=9, verbose_name='Telephone number'),
+            model_name="localgroup",
+            name="phone_number",
+            field=models.CharField(
+                blank=True, max_length=9, verbose_name="Telephone number"
+            ),
         ),
         migrations.AlterField(
-            model_name='project',
-            name='date_cch_download',
-            field=models.DateField(blank=True, null=True, verbose_name='Date CCH downloaded'),
+            model_name="project",
+            name="date_cch_download",
+            field=models.DateField(
+                blank=True, null=True, verbose_name="Date CCH downloaded"
+            ),
         ),
         migrations.AlterField(
-            model_name='project',
-            name='date_delivery_certificate',
-            field=models.DateField(blank=True, null=True, verbose_name='Date delivery certificate'),
+            model_name="project",
+            name="date_delivery_certificate",
+            field=models.DateField(
+                blank=True, null=True, verbose_name="Date delivery certificate"
+            ),
         ),
         migrations.AlterField(
-            model_name='project',
-            name='date_legal_docs',
-            field=models.DateField(blank=True, null=True, verbose_name='Date legal certificate'),
+            model_name="project",
+            name="date_legal_docs",
+            field=models.DateField(
+                blank=True, null=True, verbose_name="Date legal certificate"
+            ),
         ),
         migrations.AlterField(
-            model_name='project',
-            name='date_legal_registration_docs',
-            field=models.DateField(blank=True, null=True, verbose_name='Date legal registration certificate'),
+            model_name="project",
+            name="date_legal_registration_docs",
+            field=models.DateField(
+                blank=True,
+                null=True,
+                verbose_name="Date legal registration certificate",
+            ),
         ),
         migrations.AlterField(
-            model_name='project',
-            name='date_offer',
-            field=models.DateField(blank=True, null=True, verbose_name='Date offer'),
+            model_name="project",
+            name="date_offer",
+            field=models.DateField(blank=True, null=True, verbose_name="Date offer"),
         ),
         migrations.AlterField(
-            model_name='project',
-            name='date_payment_som',
-            field=models.DateField(blank=True, null=True, verbose_name='Date payment Som Energia'),
+            model_name="project",
+            name="date_payment_som",
+            field=models.DateField(
+                blank=True, null=True, verbose_name="Date payment Som Energia"
+            ),
         ),
         migrations.AlterField(
-            model_name='project',
-            name='date_permit',
-            field=models.DateField(blank=True, null=True, verbose_name='Date permit'),
+            model_name="project",
+            name="date_permit",
+            field=models.DateField(blank=True, null=True, verbose_name="Date permit"),
         ),
         migrations.AlterField(
-            model_name='project',
-            name='date_prereport',
-            field=models.DateField(blank=True, null=True, verbose_name='Date prereport'),
+            model_name="project",
+            name="date_prereport",
+            field=models.DateField(
+                blank=True, null=True, verbose_name="Date prereport"
+            ),
         ),
         migrations.AlterField(
-            model_name='project',
-            name='date_report',
-            field=models.DateField(blank=True, null=True, verbose_name='Date report'),
+            model_name="project",
+            name="date_report",
+            field=models.DateField(blank=True, null=True, verbose_name="Date report"),
         ),
         migrations.AlterField(
-            model_name='project',
-            name='date_signature',
-            field=models.DateField(blank=True, null=True, verbose_name='Date signature'),
+            model_name="project",
+            name="date_signature",
+            field=models.DateField(
+                blank=True, null=True, verbose_name="Date signature"
+            ),
         ),
         migrations.AlterField(
-            model_name='project',
-            name='date_start_installation',
-            field=models.DateField(blank=True, null=True, verbose_name='Date start installation'),
+            model_name="project",
+            name="date_start_installation",
+            field=models.DateField(
+                blank=True, null=True, verbose_name="Date start installation"
+            ),
         ),
         migrations.AlterField(
-            model_name='project',
-            name='date_technical_visit',
-            field=models.DateField(blank=True, null=True, verbose_name='Date technical visit'),
+            model_name="project",
+            name="date_technical_visit",
+            field=models.DateField(
+                blank=True, null=True, verbose_name="Date technical visit"
+            ),
         ),
         migrations.AlterField(
-            model_name='project',
-            name='discarded_type',
-            field=models.CharField(choices=[('Not discarded', '---'), ('technical', 'technical'), ('voluntary', 'voluntary')], default='Not discarded', max_length=50, verbose_name='Discarded type'),
+            model_name="project",
+            name="discarded_type",
+            field=models.CharField(
+                choices=[
+                    ("Not discarded", "---"),
+                    ("technical", "technical"),
+                    ("voluntary", "voluntary"),
+                ],
+                default="Not discarded",
+                max_length=50,
+                verbose_name="Discarded type",
+            ),
         ),
         migrations.AlterField(
-            model_name='project',
-            name='final_payment',
-            field=models.FloatField(blank=True, null=True, verbose_name='Final payment'),
+            model_name="project",
+            name="final_payment",
+            field=models.FloatField(
+                blank=True, null=True, verbose_name="Final payment"
+            ),
         ),
         migrations.AlterField(
-            model_name='project',
-            name='is_date_set',
-            field=models.BooleanField(default=False, verbose_name='Installtion date set?'),
+            model_name="project",
+            name="is_date_set",
+            field=models.BooleanField(
+                default=False, verbose_name="Installtion date set?"
+            ),
         ),
         migrations.AlterField(
-            model_name='project',
-            name='is_installation_in_progress',
-            field=models.BooleanField(default=False, verbose_name='Installation in progress?'),
+            model_name="project",
+            name="is_installation_in_progress",
+            field=models.BooleanField(
+                default=False, verbose_name="Installation in progress?"
+            ),
         ),
         migrations.AlterField(
-            model_name='project',
-            name='is_offer_accepted',
-            field=models.BooleanField(default=False, verbose_name='Offer accepted?'),
+            model_name="project",
+            name="is_offer_accepted",
+            field=models.BooleanField(default=False, verbose_name="Offer accepted?"),
         ),
         migrations.AlterField(
-            model_name='project',
-            name='is_payment_done',
-            field=models.BooleanField(default=False, verbose_name='Payment done?'),
+            model_name="project",
+            name="is_payment_done",
+            field=models.BooleanField(default=False, verbose_name="Payment done?"),
         ),
         migrations.AlterField(
-            model_name='project',
-            name='is_signed',
-            field=models.BooleanField(default=False, verbose_name='Signed contract?'),
+            model_name="project",
+            name="is_signed",
+            field=models.BooleanField(default=False, verbose_name="Signed contract?"),
         ),
         migrations.AlterField(
-            model_name='project',
-            name='payment_pending',
-            field=models.FloatField(blank=True, null=True, verbose_name='Payment pending'),
+            model_name="project",
+            name="payment_pending",
+            field=models.FloatField(
+                blank=True, null=True, verbose_name="Payment pending"
+            ),
         ),
         migrations.AlterField(
-            model_name='project',
-            name='registration_date',
-            field=models.DateField(blank=True, null=True, verbose_name='Registration date'),
+            model_name="project",
+            name="registration_date",
+            field=models.DateField(
+                blank=True, null=True, verbose_name="Registration date"
+            ),
         ),
         migrations.AlterField(
-            model_name='project',
-            name='status',
-            field=models.CharField(choices=[('empty status', 'Initial'), ('preregistered', 'Pre-Registered'), ('registered', 'Registered'), ('data downloaded', 'CCH data downloaded for analysis'), ('technical visit', 'Technical visit scheduled'), ('prereport review', 'Pre-Report review'), ('prereport', 'Pre-Report uploaded'), ('report review', 'Report review'), ('report', 'Report uploaded'), ('offer', 'Engineering offer'), ('offer review', 'offer Review'), ('signature', 'Contract signature'), ('construction permit', 'Construction permit'), ('pending installation date', 'Pending installation date'), ('date installation set', 'Date installation set'), ('installation in progress', 'Installation in progress'), ('end installation', 'End installation'), ('legal registration', 'Legal Registration'), ('legalization', 'Legalization'), ('final payment', 'Final payment'), ('warranty payment', 'Warranty payment'), ('discarded', 'Discarded')], default='empty status', max_length=50),
+            model_name="project",
+            name="status",
+            field=models.CharField(
+                choices=[
+                    ("empty status", "Initial"),
+                    ("preregistered", "Pre-Registered"),
+                    ("registered", "Registered"),
+                    ("data downloaded", "CCH data downloaded for analysis"),
+                    ("technical visit", "Technical visit scheduled"),
+                    ("prereport review", "Pre-Report review"),
+                    ("prereport", "Pre-Report uploaded"),
+                    ("report review", "Report review"),
+                    ("report", "Report uploaded"),
+                    ("offer", "Engineering offer"),
+                    ("offer review", "offer Review"),
+                    ("signature", "Contract signature"),
+                    ("construction permit", "Construction permit"),
+                    ("pending installation date", "Pending installation date"),
+                    ("date installation set", "Date installation set"),
+                    ("installation in progress", "Installation in progress"),
+                    ("end installation", "End installation"),
+                    ("legal registration", "Legal Registration"),
+                    ("legalization", "Legalization"),
+                    ("final payment", "Final payment"),
+                    ("warranty payment", "Warranty payment"),
+                    ("discarded", "Discarded"),
+                ],
+                default="empty status",
+                max_length=50,
+            ),
         ),
         migrations.AlterField(
-            model_name='project',
-            name='warning',
-            field=models.CharField(choices=[('No Warn', '---'), ('Not Payed', 'Warning: Not payed'), ('prereport', 'Warning: Waiting for prereport'), ('technical visit', 'Warning: Waiting for technical visit'), ('report', 'Warning: Waiting for report'), ('offer', 'Warning: Waiting for offer'), ('signature', 'Warning: Waiting for signature'), ('installation date', 'Warning: Waiting for installation date'), ('finish installation', 'Warning: Installation deadline has passed'), ('legal registration', 'Warning: Pending registration reciept'), ('legalization', 'Warning: Waiting for legalization certificates'), ('final payment', 'Warning: Pending engineering payment'), ('warranty payment', 'Warning: Pending warranty payment')], default='No Warn', max_length=100),
+            model_name="project",
+            name="warning",
+            field=models.CharField(
+                choices=[
+                    ("No Warn", "---"),
+                    ("Not Payed", "Warning: Not payed"),
+                    ("prereport", "Warning: Waiting for prereport"),
+                    ("technical visit", "Warning: Waiting for technical visit"),
+                    ("report", "Warning: Waiting for report"),
+                    ("offer", "Warning: Waiting for offer"),
+                    ("signature", "Warning: Waiting for signature"),
+                    ("installation date", "Warning: Waiting for installation date"),
+                    (
+                        "finish installation",
+                        "Warning: Installation deadline has passed",
+                    ),
+                    ("legal registration", "Warning: Pending registration reciept"),
+                    ("legalization", "Warning: Waiting for legalization certificates"),
+                    ("final payment", "Warning: Pending engineering payment"),
+                    ("warranty payment", "Warning: Pending warranty payment"),
+                ],
+                default="No Warn",
+                max_length=100,
+            ),
         ),
         migrations.AlterField(
-            model_name='project',
-            name='warning_date',
-            field=models.DateField(blank=True, null=True, verbose_name='Warning date'),
+            model_name="project",
+            name="warning_date",
+            field=models.DateField(blank=True, null=True, verbose_name="Warning date"),
         ),
     ]

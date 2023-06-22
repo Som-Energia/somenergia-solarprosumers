@@ -8,24 +8,21 @@ from .models import Campaign, Project
 class ProjectListFilter(django_filters.FilterSet):
 
     client = django_filters.CharFilter(
-        field_name='client__name',
-        lookup_expr='icontains'
+        field_name="client__name", lookup_expr="icontains"
     )
     status = django_filters.ChoiceFilter(
         choices=ITEM_STATUS,
-        empty_label=_('--- Status ---'),
+        empty_label=_("--- Status ---"),
     )
     warning = django_filters.ChoiceFilter(
         choices=ITEM_WARNINGS,
-        empty_label=_('--- Warning ---'),
+        empty_label=_("--- Warning ---"),
     )
     municipality = django_filters.CharFilter(
-        field_name='technical_details__municipality',
-        lookup_expr='icontains'
+        field_name="technical_details__municipality", lookup_expr="icontains"
     )
     administrative_division = django_filters.CharFilter(
-        field_name='technical_details__administrative_division',
-        lookup_expr='icontains'
+        field_name="technical_details__administrative_division", lookup_expr="icontains"
     )
 
     class Meta:
@@ -34,7 +31,6 @@ class ProjectListFilter(django_filters.FilterSet):
 
 
 class CampaignListFilter(django_filters.FilterSet):
-
     class Meta:
         model = Campaign
         fields = []
