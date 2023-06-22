@@ -19,7 +19,7 @@ rq-scheduler
 django-rq
 django-anymail
 sendgrid
-pymongo
+pymongo==3.10.1
 django-rosetta
 black
 pre-commit

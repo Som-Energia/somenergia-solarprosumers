@@ -2,7 +2,6 @@ import csv
 import logging
 from datetime import datetime
 
-import pymongo
 from django.db import transaction
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -37,6 +36,7 @@ from .models import (
     Technical_campaign,
     Technical_details,
 )
+from .utils import MongoManager
 from .tables import CampaignTable, ProjectTable
 
 logger = logging.getLogger(__name__)
@@ -487,15 +487,7 @@ class DownloadCch(LoginRequiredMixin, View):
         technical_details = project.technical_details_set.first()
         cups = technical_details.cups
 
-        client = pymongo.MongoClient(
-            "mongodb://{}:{}@{}:{}/{}".format(
-                settings.DATABASES["mongodb"]["USER"],
-                settings.DATABASES["mongodb"]["PASSWORD"],
-                settings.DATABASES["mongodb"]["HOST"],
-                settings.DATABASES["mongodb"]["PORT"],
-                settings.DATABASES["mongodb"]["NAME"],
-            )
-        )
+        client = MongoManager.get_client()
         db = client[settings.DATABASES["mongodb"]["NAME"]]
 
         cursor = db.tg_cchfact.find({"name": {"$regex": "^{}".format(cups[:20])}})
