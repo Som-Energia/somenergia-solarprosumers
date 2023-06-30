@@ -43,11 +43,61 @@ class ProjectResource(resources.ModelResource):
         import_id_fields = ("name", "campaign", "client")
         exclude = ("id",)
 
+    def before_import_row(self, row, row_number=None, **kwargs):
+        raw_client = self._get_client_from_row(row)
+        client, created = Client.objects.get_or_create(
+            email=raw_client["email"], dni=raw_client["dni"], defaults=raw_client
+        )
+        if created:
+            logger.info("Client with email %s has been created", client.email)
+
     def after_save_instance(self, instance, using_transactions=True, dry_run=False):
         if not dry_run:
             instance.status = "registered"
             instance.registration_date = datetime.now()
             instance.save()
+
+    def after_import_row(self, row, row_result, row_number, **kwargs):
+        raw_technical_details = self._get_technical_details_from_row(row)
+        instance = Project.objects.get(pk=row_result.object_id)
+        Technical_details.objects.get_or_create(
+            project=instance,
+            campaign=instance.campaign,
+            client=instance.client,
+            defaults=raw_technical_details,
+        )
+
+    def _get_client_from_row(self, import_row):
+        return {
+            "name": import_row.get("Nom i cognoms", ""),
+            "membership_number": import_row.get("Número de soci/a de Som Energia", ""),
+            "dni": import_row.get("Número de DNI", ""),
+            "phone_number": import_row.get("Telèfon de contacte", ""),
+            "email": import_row.get("Correu electrònic", ""),
+            "language": import_row.get("Idioma", ""),
+        }
+
+    def _get_technical_details_from_row(self, import_row):
+        return {
+            "administrative_division": import_row.get("Comarca", ""),
+            "municipality": import_row.get("Municipi", ""),
+            "street": import_row.get("Adreça", ""),
+            "contract_number": import_row.get(
+                "Número de contracte amb Som Energia", ""
+            ),
+            "cups": import_row.get(
+                "CUPS - Codi Unificat del Punt de Subministrament", ""
+            ),
+            "voltage": import_row.get("Tipus d'instal·lació", ""),
+            "tariff": import_row.get("Tarifa d'accès", ""),
+            "anual_consumption": import_row.get(
+                "Selecciona l'ús anual d'electricitat d'aquest habitatge o local"
+            ),
+            "installation_singlephase_model": import_row.get("Model monofàsic triat"),
+            "installation_threephase_model": import_row.get("Model trifàsic triat"),
+            "acquire_interest": import_row.get("Estic interessat en adquirir"),
+            "client_comments": import_row.get("COMENTARIOS", ""),
+        }
 
 
 @admin.register(Project)
@@ -155,7 +205,6 @@ class ClientResource(resources.ModelResource):
     def before_import_row(self, row, **kwargs):
         row["Nom i cognoms"] = row["Nom i cognoms"].title()
         row["Número de DNI"] = row["Número de DNI"].upper()
-        row["Nom i cognoms"] = row["Nom i cognoms"].title()
 
     def after_save_instance(self, instance, using_transactions=True, dry_run=False):
         if not dry_run:
