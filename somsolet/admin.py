@@ -10,6 +10,7 @@ from import_export import fields, resources
 from import_export.admin import ImportExportModelAdmin
 from import_export.widgets import ForeignKeyWidget
 from scheduler_tasks import send_email
+from somsolet.admin_filters import CampaignNameListFilter
 
 from .models import (
     Campaign,
@@ -103,7 +104,8 @@ class ProjectResource(resources.ModelResource):
 @admin.register(Project)
 class ProjectAdmin(ImportExportModelAdmin):
     list_display = ("campaign", "name", "client", "status", "warning", "warning_date")
-    list_filter = ("campaign", "status", "discarded_type")
+    list_filter = (CampaignNameListFilter, "status", "discarded_type")
+
     resource_class = ProjectResource
 
 
