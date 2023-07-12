@@ -234,6 +234,11 @@ class Campaign(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        ordering = [
+            "name",
+        ]
+
 
 class Technical_campaign(models.Model):
     campaign = models.ForeignKey(

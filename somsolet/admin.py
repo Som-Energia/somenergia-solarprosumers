@@ -114,6 +114,7 @@ class CampaignAdmin(ImportExportModelAdmin):
     list_display = ("name", "autonomous_community", "date_warranty_payment", "notify")
     list_editable = ["notify"]
     list_filter = ("engineerings", "autonomous_community")
+    search_fields = ["name"]
 
 
 @admin.register(Technical_campaign)

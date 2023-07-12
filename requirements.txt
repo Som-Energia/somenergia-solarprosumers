@@ -12,6 +12,7 @@ django-debug-toolbar==4.1.0
 django-widget-tweaks
 django-hijack
 django-jquery
+django-admin-autocomplete-filter==0.7.1
 psycopg2>=2.7,<3.0
 PyYAML
 yamlns
