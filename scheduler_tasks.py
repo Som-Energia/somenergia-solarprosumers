@@ -12,8 +12,6 @@ from django.utils.translation import gettext_lazy as _
 from django.utils.translation import override
 from somsolet.models import (
     Campaign,
-    Client,
-    ClientFile,
     Engineering,
     LocalGroup,
     Mailing,
