@@ -596,6 +596,10 @@ class Project(models.Model):
     def __str__(self):
         return self.name
 
+    @property
+    def registration_email_is_sent(self):
+        return self.registration_email_sent == True
+
 
 class Technical_details(models.Model):
     project = models.ForeignKey(
