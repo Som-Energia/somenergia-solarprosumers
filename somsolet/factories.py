@@ -1,6 +1,5 @@
 from typing import Any, Dict
 
-from somsolet.models import Project
 from somsolet.validators import SendRegistrationEmailValidator
 
 
@@ -18,5 +17,5 @@ class Factory(object):
 def send_registration_email_validator():
     return Factory.instance(
         "send_registration_email_validator",
-        lambda: SendRegistrationEmailValidator(project_model=Project),
+        lambda: SendRegistrationEmailValidator(),
     )

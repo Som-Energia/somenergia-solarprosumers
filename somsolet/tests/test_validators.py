@@ -13,7 +13,7 @@ class TestSendRegistrationEmailValidator(TestCase):
             client=None,
             registration_email_sent=False,
         )
-        sut = SendRegistrationEmailValidator(project_model=Project)
+        sut = SendRegistrationEmailValidator()
 
         # if registration email has not been sent
         result = sut.registration_email_is_sent(project)
@@ -29,7 +29,7 @@ class TestSendRegistrationEmailValidator(TestCase):
             client=None,
             registration_email_sent=True,
         )
-        sut = SendRegistrationEmailValidator(project_model=Project)
+        sut = SendRegistrationEmailValidator()
 
         # if registration email has been sent
         result = sut.registration_email_is_sent(project)
