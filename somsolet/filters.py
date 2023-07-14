@@ -1,7 +1,7 @@
 import django_filters
 from django.utils.translation import gettext_lazy as _
 
-from .choices_options import ITEM_STATUS, ITEM_WARNINGS
+from .choices_options import ITEM_WARNINGS, ProjectStatus
 from .models import Campaign, Project
 
 
@@ -11,7 +11,7 @@ class ProjectListFilter(django_filters.FilterSet):
         field_name="client__name", lookup_expr="icontains"
     )
     status = django_filters.ChoiceFilter(
-        choices=ITEM_STATUS,
+        choices=ProjectStatus.choices,
         empty_label=_("--- Status ---"),
     )
     warning = django_filters.ChoiceFilter(

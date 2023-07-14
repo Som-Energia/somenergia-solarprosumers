@@ -10,6 +10,7 @@ from import_export import fields, resources
 from import_export.admin import ImportExportModelAdmin
 from import_export.widgets import ForeignKeyWidget
 from scheduler_tasks import send_email
+from somsolet.admin_filters import CampaignNameListFilter, EngineeringNameListFilter
 
 from .models import (
     Campaign,
@@ -103,7 +104,8 @@ class ProjectResource(resources.ModelResource):
 @admin.register(Project)
 class ProjectAdmin(ImportExportModelAdmin):
     list_display = ("campaign", "name", "client", "status", "warning", "warning_date")
-    list_filter = ("campaign", "status", "discarded_type")
+    list_filter = (CampaignNameListFilter, "status", "discarded_type", "warning")
+    search_fields = ("name", "status", "client__name")
     resource_class = ProjectResource
 
 
@@ -111,7 +113,8 @@ class ProjectAdmin(ImportExportModelAdmin):
 class CampaignAdmin(ImportExportModelAdmin):
     list_display = ("name", "autonomous_community", "date_warranty_payment", "notify")
     list_editable = ["notify"]
-    list_filter = ("engineerings", "autonomous_community")
+    list_filter = (EngineeringNameListFilter, "autonomous_community")
+    search_fields = ("name", "autonomous_community")
 
 
 @admin.register(Technical_campaign)
@@ -122,6 +125,7 @@ class Technical_CampaignAdmin(ImportExportModelAdmin):
 @admin.register(Engineering)
 class EngineeringAdmin(ImportExportModelAdmin):
     list_display = ("name", "phone_number", "email")
+    search_fields = ("name", "phone_number", "email")
 
 
 class Technical_detailsResource(resources.ModelResource):

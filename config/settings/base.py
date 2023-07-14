@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "somsolet.apps.SomsoletConfig",
+    "admin_auto_filters",
     "crispy_forms",
     "crispy_bootstrap4",
     "django_tables2",

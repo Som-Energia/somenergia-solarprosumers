@@ -1,29 +1,37 @@
+from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-ITEM_STATUS = (
-    ("empty status", _("Initial")),
-    ("preregistered", _("Pre-Registered")),
-    ("registered", _("Registered")),
-    ("data downloaded", _("CCH data downloaded for analysis")),
-    ("technical visit", _("Technical visit scheduled")),
-    ("prereport review", _("Pre-Report review")),
-    ("prereport", _("Pre-Report uploaded")),
-    ("report review", _("Report review")),
-    ("report", _("Report uploaded")),
-    ("offer", _("Engineering offer")),
-    ("offer review", _("offer Review")),
-    ("signature", _("Contract signature")),
-    ("construction permit", _("Construction permit")),
-    ("pending installation date", _("Pending installation date")),
-    ("date installation set", _("Date installation set")),
-    ("installation in progress", _("Installation in progress")),
-    ("end installation", _("End installation")),
-    ("legal registration", _("Legal Registration")),
-    ("legalization", _("Legalization")),
-    ("final payment", _("Final payment")),
-    ("warranty payment", _("Warranty payment")),
-    ("discarded", _("Discarded")),
-)
+
+class ProjectStatus(models.TextChoices):
+    EMPTY_STATUS = ("empty status", _("Initial"))
+    PREREGISTERED = ("preregistered", _("Pre-Registered"))
+    REGISTERED = ("registered", _("Registered"))
+    DATA_DOWNLOADED = ("data downloaded", _("CCH data downloaded for analysis"))
+    TECHINICAL_VISIT = ("technical visit", _("Technical visit scheduled"))
+    PREREPORT_REVIEW = ("prereport review", _("Pre-Report review"))
+    PREREPORT = ("prereport", _("Pre-Report uploaded"))
+    REPORT_REVIEW = ("report review", _("Report review"))
+    REPORT = ("report", _("Report uploaded"))
+    OFFER = ("offer", _("Engineering offer"))
+    OFFER_REVIEW = ("offer review", _("offer Review"))
+    SIGNATURE = ("signature", _("Contract signature"))
+    CONSTRUCTION_PERMIT = ("construction permit", _("Construction permit"))
+    PENDING_INSTALLATION_DATE = (
+        "pending installation date",
+        _("Pending installation date"),
+    )
+    DATE_INSTALLATION_SET = ("date installation set", _("Date installation set"))
+    INSTALLATION_IN_PROGRESS = (
+        "installation in progress",
+        _("Installation in progress"),
+    )
+    END_INSTALLATION = ("end installation", _("End installation"))
+    LEGAL_REGISTRATION = ("legal registration", _("Legal Registration"))
+    LEGALIZATION = ("legalization", _("Legalization"))
+    FINAL_PAYMENT = ("final payment", _("Final payment"))
+    WARRANTY_PAYMENT = ("warranty payment", _("Warranty payment"))
+    DISCARDED = ("discarded", _("Discarded"))
+
 
 ITEM_WARNINGS = (
     ("No Warn", _("---")),

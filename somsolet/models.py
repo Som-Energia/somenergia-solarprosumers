@@ -9,7 +9,7 @@ from .choices_options import (
     ITEM_COMMUNITY,
     ITEM_DISCARDED_TYPES,
     ITEM_ORIENTATION,
-    ITEM_STATUS,
+    ProjectStatus,
     ITEM_WARNINGS,
     LANGUAGES,
     PANELS_BRAND,
@@ -126,6 +126,11 @@ class Engineering(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        ordering = [
+            "name",
+        ]
+
 
 class Campaign(models.Model):
     name = models.CharField(
@@ -233,6 +238,11 @@ class Campaign(models.Model):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        ordering = [
+            "name",
+        ]
 
 
 class Technical_campaign(models.Model):
@@ -362,7 +372,7 @@ class Project(models.Model):
     )
 
     status = models.CharField(
-        choices=ITEM_STATUS, default=_("empty status"), max_length=50
+        choices=ProjectStatus.choices, default=ProjectStatus.EMPTY_STATUS, max_length=50
     )
 
     warning = models.CharField(
@@ -877,7 +887,7 @@ class Mailing(models.Model):
     )
 
     notification_status = models.CharField(
-        choices=ITEM_STATUS, default=_("empty status"), max_length=50
+        choices=ProjectStatus.choices, default=ProjectStatus.EMPTY_STATUS, max_length=50
     )
 
     sent = models.BooleanField(
