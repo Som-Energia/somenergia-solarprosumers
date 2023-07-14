@@ -372,13 +372,15 @@ class Project(models.Model):
     )
 
     registration_email_sent = models.BooleanField(
-        verbose_name=_("Registration email sent?: "),
+        verbose_name=_("Registration email sent: "),
+        default=False,
         help_text=_("Check to indicate if the email registration has been sent or not"),
     )
 
     registration_email_sent_date = models.DateTimeField(
         verbose_name=_("Registration email date"),
-        help_text=_("Date when the registration mail was sent"),
+        null=True,
+        help_text=_("Date when the registration email was sent"),
     )
 
     status = models.CharField(
