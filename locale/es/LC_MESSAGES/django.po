@@ -289,7 +289,7 @@ msgid "Voluntary"
 msgstr "Voluntarias"
 
 #: somsolet/admin.py:172
-msgid "Confirmació d’Inscripció a la Compra Col·lectiva Som Energia"
+msgid "Confirmació d'Inscripció a la Compra Col·lectiva Som Energia"
 msgstr "Confirmación de inscripción a la compra colectiva de Som Energia"
 
 #: somsolet/choices_options.py:4

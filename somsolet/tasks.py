@@ -27,7 +27,7 @@ def send_registration_email(project):
         }
         send_email(
             to_email=[project.client.email],
-            subject=_("Confirmació d’Inscripció a la Compra Col·lectiva Som Energia"),
+            subject=_("Confirmació d'Inscripció a la Compra Col·lectiva Som Energia"),
             message_params=message_params,
             email_template="emails/message_body_general_conditions.html",
             filename=general_conditions.file.path,
