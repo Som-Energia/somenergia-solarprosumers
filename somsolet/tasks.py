@@ -5,6 +5,7 @@ from django.utils import timezone
 from django.utils.translation import override, gettext_lazy as _
 from django_rq import job
 
+from somsolet.factories import send_registration_email_validator
 from scheduler_tasks import send_email
 
 from .models import ClientFile
@@ -14,6 +15,11 @@ logger = logging.getLogger("rq.worker")
 
 @job(settings.RQ_QUEUES["email"], timeout=settings.RQ_JOB_DEFAULT_TIMEOUT)
 def send_registration_email(project):
+    if send_registration_email_validator().registration_email_is_sent(project):
+        logger.info(
+            "Registration email has already been sent to: %s", project.client.name
+        )
+        return
 
     lang = project.client.language
 
