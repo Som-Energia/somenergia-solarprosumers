@@ -8,7 +8,7 @@ from import_export import fields, resources
 from import_export.admin import ImportExportModelAdmin
 from import_export.widgets import ForeignKeyWidget
 from somsolet.admin_filters import CampaignNameListFilter, EngineeringNameListFilter
-from somsolet.services import EmailService
+from somsolet.factories import send_registration_task
 
 from .models import (
     Campaign,
@@ -20,10 +20,6 @@ from .models import (
     Technical_campaign,
     Technical_details,
 )
-from somsolet.tasks import SendRegistrationTask
-
-email_service = EmailService()
-send_registration_task = SendRegistrationTask(email_service)
 
 logger = logging.getLogger("admin")
 
@@ -56,7 +52,7 @@ class ProjectResource(resources.ModelResource):
 
     def after_save_instance(self, instance, using_transactions=True, dry_run=False):
         if not dry_run and not instance.registration_email_sent:
-            send_registration_task.send_registration_email.delay(project=instance)
+            send_registration_task().send_registration_email.delay(project=instance)
             instance.status = "registered"
             instance.registration_date = timezone.now()
             instance.save()
