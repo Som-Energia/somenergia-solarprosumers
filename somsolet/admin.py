@@ -1,6 +1,4 @@
 import logging
-import os
-from datetime import datetime
 
 from config.settings import base
 from django.contrib import admin
