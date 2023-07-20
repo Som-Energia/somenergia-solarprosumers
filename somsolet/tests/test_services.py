@@ -64,7 +64,7 @@ class TestEmailService:
         assert m.subject == "test_subject"
         assert (
             m.body
-            == "foo Pecador papaar papaar a gramenawer de la pradera ese que llega te voy a borrar el cerito a peich bar"
+            == "foo Pecador papaar papaar a gramenawer de la pradera ese que llega te voy a borrar el cerito a peich bar\n"
         )
         assert m.from_email == from_email
         assert len(m.attachments) >= 1
