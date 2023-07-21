@@ -14,7 +14,7 @@
 
 ### Application dependencies
 
-Is highly recommendable to use a virtual environment to store application depdendencies.
+Is highly recommendable to use a virtual environment to store application dependencies.
 
 ```shell
 pip install -U pip
