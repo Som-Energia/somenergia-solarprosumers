@@ -10,17 +10,16 @@ from django.utils import timezone
 import datetime
 
 from somsolet.models import Project
-from somsolet.services import EmailService
-from somsolet.tasks import SendRegistrationTask
+from somsolet.services import EmailService, EmailNotification
 from somsolet.tests.factories import ProjectFactory, ClientFactory
 
 
-class TestTask(TestCase):
+class TestEmailNotification(TestCase):
     @pytest.mark.django_db
     def test__send_registration_email(self):
         project = ProjectFactory(registration_email_sent=False, client=ClientFactory())
         email_service = Spy(EmailService)
-        sut = SendRegistrationTask(email_service)
+        sut = EmailNotification(email_service)
 
         with patch.object(
             timezone,
@@ -53,7 +52,7 @@ class TestTask(TestCase):
     def test__send_registration_email__already_sent(self):
         project = ProjectFactory(registration_email_sent=True, client=ClientFactory())
         email_service = Spy(EmailService)
-        sut = SendRegistrationTask(email_service)
+        sut = EmailNotification(email_service)
 
         sut.send_registration_email(project=project)
 
