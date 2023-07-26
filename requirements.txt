@@ -23,9 +23,4 @@ django-anymail
 sendgrid
 pymongo==3.10.1
 django-rosetta
-black
-pre-commit
-pytest
-pytest-cov
-pytest-django
 sentry-sdk

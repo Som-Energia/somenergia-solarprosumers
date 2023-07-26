@@ -10,6 +10,7 @@ from somsolet.models import Campaign, Client, Engineering, Project
 class ClientFactory(DjangoModelFactory):
     class Meta:
         model = Client
+        django_get_or_create = ("name",)
 
     name = FuzzyChoice(["Marta", "Joana", "Pol"])
 
@@ -34,6 +35,6 @@ class ProjectFactory(DjangoModelFactory):
         model = Project
 
     name = FuzzyText(length=6, chars=string.digits, prefix="LAS")
-    campaign = factory.RelatedFactory(CampaignFactory)
-    client = factory.RelatedFactory(ClientFactory)
+    campaign = factory.SubFactory(CampaignFactory)
+    client = factory.SubFactory(ClientFactory)
     # status = 'data downloaded'

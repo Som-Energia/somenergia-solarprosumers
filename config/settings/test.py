@@ -29,4 +29,5 @@ RQ_QUEUES = {
     "low": {
         "URL": config["redis"]["url"],
     },
+    "email": {"URL": config["redis"]["url"]},
 }

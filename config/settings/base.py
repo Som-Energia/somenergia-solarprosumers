@@ -160,9 +160,14 @@ RQ_QUEUES = {
         "PORT": 6379,
         "DB": 0,
     },
+    "email": {
+        "HOST": "localhost",
+        "PORT": 6379,
+        "DB": 1,
+    },
 }
 RQ_SHOW_ADMIN_LINK = True
-
+RQ_JOB_DEFAULT_TIMEOUT = 180
 
 LOGGING = {
     "version": 1,

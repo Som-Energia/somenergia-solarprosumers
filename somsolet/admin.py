@@ -1,16 +1,14 @@
 import logging
-import os
-from datetime import datetime
 
 from config.settings import base
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
-from django.utils.translation import override
+from django.utils import timezone
 from import_export import fields, resources
 from import_export.admin import ImportExportModelAdmin
 from import_export.widgets import ForeignKeyWidget
-from scheduler_tasks import send_email
 from somsolet.admin_filters import CampaignNameListFilter, EngineeringNameListFilter
+from somsolet.tasks import send_registration_email
 
 from .models import (
     Campaign,
@@ -53,9 +51,10 @@ class ProjectResource(resources.ModelResource):
             logger.info("Client with email %s has been created", client.email)
 
     def after_save_instance(self, instance, using_transactions=True, dry_run=False):
-        if not dry_run:
+        if not dry_run and not instance.registration_email_sent:
+            send_registration_email.delay(project=instance)
             instance.status = "registered"
-            instance.registration_date = datetime.now()
+            instance.registration_date = timezone.now()
             instance.save()
 
     def after_import_row(self, row, row_result, row_number, **kwargs):
@@ -209,27 +208,6 @@ class ClientResource(resources.ModelResource):
     def before_import_row(self, row, **kwargs):
         row["Nom i cognoms"] = row["Nom i cognoms"].title()
         row["Número de DNI"] = row["Número de DNI"].upper()
-
-    def after_save_instance(self, instance, using_transactions=True, dry_run=False):
-        if not dry_run:
-            filename = ClientFile.objects.get(
-                name="General Conditions", language=instance.language
-            )
-            with override(instance.language):
-                message_params = {
-                    "header": _("Hola {},").format(instance.name),
-                    "ending": _("Salut i bona energia,"),
-                }
-                send_email(
-                    [instance.email],
-                    _("Confirmació d’Inscripció a la Compra Col·lectiva Som Energia"),
-                    message_params,
-                    "emails/message_body_general_conditions.html",
-                    str(os.path.join(base.MEDIA_ROOT, str(filename.file))),
-                )
-                instance.sent_general_conditions = True
-                instance.save()
-                logger.info("General conditions email sent to imported clients")
 
 
 @admin.register(Client)

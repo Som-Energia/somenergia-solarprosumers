@@ -371,6 +371,18 @@ class Project(models.Model):
         verbose_name=_("Client"),
     )
 
+    registration_email_sent = models.BooleanField(
+        verbose_name=_("Registration email sent: "),
+        default=False,
+        help_text=_("Check to indicate if the email registration has been sent or not"),
+    )
+
+    registration_email_sent_date = models.DateTimeField(
+        verbose_name=_("Registration email date"),
+        null=True,
+        help_text=_("Date when the registration email was sent"),
+    )
+
     status = models.CharField(
         choices=ProjectStatus.choices, default=ProjectStatus.EMPTY_STATUS, max_length=50
     )
@@ -583,6 +595,10 @@ class Project(models.Model):
 
     def __str__(self):
         return self.name
+
+    @property
+    def registration_email_is_sent(self):
+        return self.registration_email_sent == True
 
 
 class Technical_details(models.Model):
