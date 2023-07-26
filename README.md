@@ -74,3 +74,6 @@ pre-commit install
 ```shell
 pytest somsolet/tests
 ```
+
+### Changes
+[CHANGELOG](CHANGELOG.md)
