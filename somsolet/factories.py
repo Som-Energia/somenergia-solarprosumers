@@ -1,25 +1,24 @@
-from typing import Any, Dict
+from typing import Any, Dict, Callable
 
-from somsolet.services import EmailService
-from somsolet.tasks import SendRegistrationTask
+from somsolet.services import EmailService, EmailNotification
 
 
 class Factory(object):
     _instances: Dict[Any, Any] = {}
 
     @classmethod
-    def instance(cls, id, create_instance):
-        if id not in cls._instances:
-            cls._instances[id] = create_instance()
-        return cls._instances[id]
+    def instance(cls, id_: str, create_instance: Callable):
+        if id_ not in cls._instances:
+            cls._instances[id_] = create_instance()
+        return cls._instances[id_]
 
 
-def email_service():
+def email_service() -> EmailService:
     return Factory.instance("email_service", lambda: EmailService())
 
 
-def send_registration_task():
+def email_notification() -> EmailNotification:
     return Factory.instance(
-        "send_registration_task",
-        lambda: SendRegistrationTask(email_service()),
+        "email_notification",
+        lambda: EmailNotification(email_service()),
     )
