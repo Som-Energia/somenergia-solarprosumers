@@ -6,6 +6,7 @@ from django.template.loader import render_to_string
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.utils.translation import override
+from django.db.transaction import atomic
 
 from .models import ClientFile, Project
 
@@ -48,10 +49,8 @@ class EmailNotification:
             return
 
         lang = project.client.language
+        general_conditions = ClientFile.files.general_conditions_by_lang(lang)
 
-        general_conditions = ClientFile.objects.get(
-            name="General Conditions", language=lang
-        )
         with override(lang):
             message_params = {
                 "header": _("Hola {},").format(project.client.name),
@@ -68,7 +67,15 @@ class EmailNotification:
                 filename=general_conditions.file.path,
             )
 
-        project.registration_email_sent = True
-        project.registration_email_sent_date = timezone.now()
-        project.save()
+        with atomic():
+            project.registration_email_sent = True
+            project.registration_email_sent_date = timezone.now()
+
+            if not project.client.sent_general_conditions:
+                project.client.sent_general_conditions = True
+                project.client.sent_general_conditions_date = timezone.now()
+                project.client.file.set([general_conditions])
+                project.client.save()
+            project.save()
+
         logger.info("Registration email has been sent to: %s", project.client.name)

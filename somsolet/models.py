@@ -280,6 +280,11 @@ class Technical_campaign(models.Model):
         return self.campaign.name
 
 
+class ClientFileQuerySet(models.QuerySet):
+    def general_conditions_by_lang(self, lang):
+        return self.get(name="General Conditions", language=lang)
+
+
 class ClientFile(models.Model):
     name = models.CharField(
         blank=True,
@@ -297,6 +302,10 @@ class ClientFile(models.Model):
     language = models.CharField(
         default="ca", choices=LANGUAGES, max_length=5, verbose_name=_("Language")
     )
+
+    objects = models.Manager()
+
+    files = ClientFileQuerySet.as_manager()
 
     def __str__(self):
         return self.name
@@ -341,7 +350,15 @@ class Client(models.Model):
     )
 
     sent_general_conditions = models.BooleanField(
-        default=False, verbose_name=_("General conditions sent")
+        default=False,
+        verbose_name=_("General conditions sent: "),
+        help_text=_("Check to indicate if general conditions has been sent or not"),
+    )
+
+    sent_general_conditions_date = models.DateTimeField(
+        null=True,
+        verbose_name=_("General conditions sent date"),
+        help_text=_("Date when general conditions was sent"),
     )
 
     file = models.ManyToManyField(

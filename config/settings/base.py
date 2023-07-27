@@ -111,12 +111,19 @@ LOGOUT_REDIRECT_URL = "login"
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
 LANGUAGE_CODE = "en-us"
+
+LANGUAGE_CODE_EN = "en"
+LANGUAGE_CODE_CA = "ca"
+LANGUAGE_CODE_ES = "es"
+LANGUAGE_CODE_EU = "eu"
+LANGUAGE_CODE_GL = "gl"
+
 LANGUAGES = (
-    ("en", _("English")),
-    ("ca", _("Catalan")),
-    ("es", _("Spanish")),
-    ("eu", _("Basque")),
-    ("gl", _("Galician")),
+    (LANGUAGE_CODE_EN, _("English")),
+    (LANGUAGE_CODE_CA, _("Catalan")),
+    (LANGUAGE_CODE_ES, _("Spanish")),
+    (LANGUAGE_CODE_EU, _("Basque")),
+    (LANGUAGE_CODE_GL, _("Galician")),
 )
 
 TIME_ZONE = "Europe/Madrid"

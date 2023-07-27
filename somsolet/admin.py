@@ -1,12 +1,13 @@
 import logging
 
-from config.settings import base
+from django.conf import settings
 from django.contrib import admin
-from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 from import_export import fields, resources
 from import_export.admin import ImportExportModelAdmin
 from import_export.widgets import ForeignKeyWidget
+
 from somsolet.admin_filters import CampaignNameListFilter, EngineeringNameListFilter
 from somsolet.tasks import send_registration_email
 
@@ -74,7 +75,8 @@ class ProjectResource(resources.ModelResource):
             "dni": import_row.get("Número de DNI", ""),
             "phone_number": import_row.get("Telèfon de contacte", ""),
             "email": import_row.get("Correu electrònic", ""),
-            "language": import_row.get("Idioma", ""),
+            "language": import_row.get("Idioma", settings.LANGUAGE_CODE_CA)
+            or settings.LANGUAGE_CODE_CA,
         }
 
     def _get_technical_details_from_row(self, import_row):
