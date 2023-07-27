@@ -49,10 +49,8 @@ class EmailNotification:
             return
 
         lang = project.client.language
+        general_conditions = ClientFile.files.general_conditions_by_lang(lang)
 
-        general_conditions = ClientFile.objects.get(
-            name="General Conditions", language=lang
-        )
         with override(lang):
             message_params = {
                 "header": _("Hola {},").format(project.client.name),
@@ -76,6 +74,7 @@ class EmailNotification:
             if not project.client.sent_general_conditions:
                 project.client.sent_general_conditions = True
                 project.client.sent_general_conditions_date = timezone.now()
+                project.client.file.set([general_conditions])
                 project.client.save()
             project.save()
 

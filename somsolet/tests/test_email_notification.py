@@ -47,6 +47,11 @@ class TestEmailNotification(TestCase):
             assert (
                 last_saved_project.registration_email_sent_date == mock_now.return_value
             )
+            assert last_saved_project.client.sent_general_conditions is True
+            assert (
+                last_saved_project.client.file.first().language
+                == project.client.language
+            )
 
     @pytest.mark.django_db
     def test__send_registration_email__already_sent(self):
