@@ -341,7 +341,15 @@ class Client(models.Model):
     )
 
     sent_general_conditions = models.BooleanField(
-        default=False, verbose_name=_("General conditions sent")
+        default=False,
+        verbose_name=_("General conditions sent: "),
+        help_text=_("Check to indicate if general conditions has been sent or not"),
+    )
+
+    sent_general_conditions_date = models.DateTimeField(
+        null=True,
+        verbose_name=_("General conditions sent date"),
+        help_text=_("Date when general conditions was sent"),
     )
 
     file = models.ManyToManyField(
