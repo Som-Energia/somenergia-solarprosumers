@@ -1377,10 +1377,8 @@ msgid ""
 "ens comuniquem la teva decisió. Efectuarem el reemborsament, al número de "
 "compte que ens indiquis en el moment de fer el desistiment."
 msgstr ""
-"En cas de desistir, et tornarem els 150€ aportats en el moment de la "
-"inscripció, com a molt tard en 14 dies naturals a partir de la data en què "
-"ens ho comuniquis. Efectuarem el reemborsament, al número de compte que ens "
-"indiquis en el moment de fer el desistiment."
+"En cas de desistir, et tornarem els 100€ aportats en el moment de la "
+"inscripció,  en el moment de la inscripció, o la diferència de 25€ en cas que ja s'hagi realitzat la visita tècnica per part de l'empresa instal·ladora, com a molt tard en 14 dies naturals a partir de la data en què ens ho comuniquis. Efectuarem el reemborsament, al número de compte que ens indiquis en el moment de fer el desistiment."
 
 #: somsolet/templates/emails/message_body_general_conditions.html:28
 msgid "Per a qualsevol dubte o aclariment ens pots escriure a"
