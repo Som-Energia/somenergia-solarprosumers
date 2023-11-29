@@ -6,7 +6,6 @@ from .models.choices_options import ITEM_WARNINGS, ProjectStatus
 
 
 class ProjectListFilter(django_filters.FilterSet):
-
     client = django_filters.CharFilter(
         field_name="client__name", lookup_expr="icontains"
     )

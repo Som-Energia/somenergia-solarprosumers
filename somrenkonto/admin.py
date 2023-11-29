@@ -32,7 +32,7 @@ class RenkontoEventAdmin(admin.ModelAdmin):
             },
         ),
         (
-            'Campaign',
+            "Campaign",
             {
                 "fields": [
                     ("campaign",),
@@ -40,7 +40,7 @@ class RenkontoEventAdmin(admin.ModelAdmin):
             },
         ),
         (
-            'Project',
+            "Project",
             {
                 "fields": [
                     ("project",),
@@ -48,7 +48,7 @@ class RenkontoEventAdmin(admin.ModelAdmin):
             },
         ),
         (
-            'Meta',
+            "Meta",
             {
                 "fields": [
                     ("created_by", "modified_by"),
@@ -56,7 +56,7 @@ class RenkontoEventAdmin(admin.ModelAdmin):
                     ("modified_at"),
                     ("deleted_at"),
                 ]
-            }
+            },
         ),
     )
 

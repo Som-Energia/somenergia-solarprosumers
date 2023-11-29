@@ -9,7 +9,6 @@ from .models import Campaign, Project
 
 
 class CampaignTable(tables.Table):
-
     name = tables.LinkColumn(
         "project",
         args=[A("pk")],
@@ -39,7 +38,6 @@ class CampaignTable(tables.Table):
 
 
 class ProjectTable(tables.Table):
-
     client = tables.LinkColumn(
         "client",
         args=[A("client_id")],

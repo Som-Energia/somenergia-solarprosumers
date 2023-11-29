@@ -5,27 +5,50 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('somsolet', '0025_auto_20210923_1639'),
+        ("somsolet", "0025_auto_20210923_1639"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='DeliveryCertificateStage',
+            name="DeliveryCertificateStage",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('date', models.DateField(blank=True, null=True, verbose_name='Date File')),
-                ('check', models.BooleanField(default=False, verbose_name='Checked?')),
-                ('upload', models.FileField(default='uploaded_files/delivery_certificate/som.png', upload_to='uploaded_files/delivery_certificate', verbose_name='Upload File')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "date",
+                    models.DateField(blank=True, null=True, verbose_name="Date File"),
+                ),
+                ("check", models.BooleanField(default=False, verbose_name="Checked?")),
+                (
+                    "upload",
+                    models.FileField(
+                        default="uploaded_files/delivery_certificate/som.png",
+                        upload_to="uploaded_files/delivery_certificate",
+                        verbose_name="Upload File",
+                    ),
+                ),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
         ),
         migrations.AddField(
-            model_name='project',
-            name='delivery_certificate',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='somsolet.DeliveryCertificateStage', verbose_name='Delivery certificate'),
+            model_name="project",
+            name="delivery_certificate",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to="somsolet.DeliveryCertificateStage",
+                verbose_name="Delivery certificate",
+            ),
         ),
     ]

@@ -1,14 +1,28 @@
 import pytest
 
-from .factories import (CampaignFactory, ClientFactory, EngineeringFactory,
-                        InventsPacoEngineeringFactory, InventsPacoFactory,
-                        LocalGroupFactory, ProjectFactory,
-                        TechnicalDetailsFactory, UserFactory, MailingFactory)
+from .factories import (
+    CampaignFactory,
+    ClientFactory,
+    EngineeringFactory,
+    InventsPacoEngineeringFactory,
+    InventsPacoFactory,
+    LocalGroupFactory,
+    ProjectFactory,
+    TechnicalDetailsFactory,
+    UserFactory,
+    MailingFactory,
+)
 
 __all__ = (
-    'engineering_user', 'engineering',
-    'technical_details', 'project', 'client', 'local_group', 'mailing_signature',
-    'mailing_legal_registration', 'mailing_offer'
+    "engineering_user",
+    "engineering",
+    "technical_details",
+    "project",
+    "client",
+    "local_group",
+    "mailing_signature",
+    "mailing_legal_registration",
+    "mailing_offer",
 )
 
 
@@ -56,23 +70,26 @@ def client(db):
 def local_group(db):
     return LocalGroupFactory()
 
+
 @pytest.fixture
 def mailing_signature(db):
     mailing = MailingFactory()
-    mailing.notification_status = 'signature'
+    mailing.notification_status = "signature"
     mailing.save()
     return mailing
+
 
 @pytest.fixture
 def mailing_legal_registration(db):
     mailing = MailingFactory()
-    mailing.notification_status = 'legal_registration'
+    mailing.notification_status = "legal_registration"
     mailing.save()
     return mailing
+
 
 @pytest.fixture
 def mailing_offer(db):
     mailing = MailingFactory()
-    mailing.notification_status = 'offer'
+    mailing.notification_status = "offer"
     mailing.save()
     return mailing

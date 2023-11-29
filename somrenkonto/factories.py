@@ -4,35 +4,35 @@ import factory
 from django.utils import timezone as tz
 from schedule.models import Calendar
 
-from somsolet.tests.factories import (CampaignFactory,
-                                      InventsPacoEngineeringFactory,
-                                      InventsPacoFactory, ProjectFactory,
-                                      UserFactory)
+from somsolet.tests.factories import (
+    CampaignFactory,
+    InventsPacoEngineeringFactory,
+    InventsPacoFactory,
+    ProjectFactory,
+    UserFactory,
+)
 
-from .models import (CalendarConfig, CalendarViewChoices, EventChoices,
-                     RenkontoEvent)
+from .models import CalendarConfig, CalendarViewChoices, EventChoices, RenkontoEvent
 
 __all__ = (
-    'CalendarFactory',
-    'CalendarConfigFactory',
-    'CalendarConfigMonthViewFactory',
-    'RenkontoEventFactory',
-    'TechnicalVisitEventFactory'
+    "CalendarFactory",
+    "CalendarConfigFactory",
+    "CalendarConfigMonthViewFactory",
+    "RenkontoEventFactory",
+    "TechnicalVisitEventFactory",
 )
 
 
 class CalendarFactory(factory.django.DjangoModelFactory):
-
     class Meta:
         model = Calendar
-        django_get_or_create = ('slug',)
+        django_get_or_create = ("slug",)
 
-    name = 'Calendario Obras Ingenieria Invents Paco i asociats'
-    slug = 'cal-obras-ing'
+    name = "Calendario Obras Ingenieria Invents Paco i asociats"
+    slug = "cal-obras-ing"
 
 
 class CalendarConfigFactory(factory.django.DjangoModelFactory):
-
     class Meta:
         model = CalendarConfig
 
@@ -44,34 +44,29 @@ class CalendarConfigFactory(factory.django.DjangoModelFactory):
 
 
 class CalendarConfigMonthViewFactory(CalendarConfigFactory):
-
     default_calendar_view = CalendarViewChoices.MONTH_VIEW
 
 
 class RenkontoEventFactory(factory.django.DjangoModelFactory):
-
     class Meta:
         model = RenkontoEvent
 
 
 class TechnicalVisitEventFactory(RenkontoEventFactory):
-    title = 'Visita técnica'
+    title = "Visita técnica"
 
-    description = 'Visita técnica per evaluar si es poden posar plaques solars'
+    description = "Visita técnica per evaluar si es poden posar plaques solars"
 
     start = factory.Faker(
-        'date_time_between',
-        start_date='now',
-        end_date='+3d',
-        tzinfo=tz.now().tzinfo
+        "date_time_between", start_date="now", end_date="+3d", tzinfo=tz.now().tzinfo
     )
     end = factory.Faker(
-        'date_time_between_dates',
-        datetime_start=factory.SelfAttribute('..start'),
+        "date_time_between_dates",
+        datetime_start=factory.SelfAttribute("..start"),
         datetime_end=factory.LazyAttribute(
             lambda self: self.datetime_start + timedelta(hours=2)
         ),
-        tzinfo=tz.now().tzinfo
+        tzinfo=tz.now().tzinfo,
     )
 
     all_day = False

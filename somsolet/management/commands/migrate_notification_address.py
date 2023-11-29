@@ -4,20 +4,20 @@ from somsolet.models import Project
 
 
 class Command(BaseCommand):
-    help = 'Migrate client notification data to notification address model'
+    help = "Migrate client notification data to notification address model"
 
-    NOTIADDRESS_MSG = 'Migrating notificaion address'
-    CLIENT_FILE_MSG = 'Migrating client file'
-    SENT_GENERAL_CONDITIONS_MSG = 'Migrating sent general conditions'
-
+    NOTIADDRESS_MSG = "Migrating notificaion address"
+    CLIENT_FILE_MSG = "Migrating client file"
+    SENT_GENERAL_CONDITIONS_MSG = "Migrating sent general conditions"
 
     def handle(self, *args, **options):
-
-        self.stdout.write(self.style.NOTICE('Getting projects...'))
+        self.stdout.write(self.style.NOTICE("Getting projects..."))
         projects = Project.objects.all()
 
         for project in projects:
-            self.stdout.write(self.style.NOTICE(f'Migrating data from {project.client.name}'))
+            self.stdout.write(
+                self.style.NOTICE(f"Migrating data from {project.client.name}")
+            )
 
             self.stdout.write(self.style.NOTICE(self.NOTIADDRESS_MSG))
             try:
@@ -25,7 +25,7 @@ class Command(BaseCommand):
                     client=project.client,
                     email=project.client.email,
                     phone_number=project.client.phone_number,
-                    language=project.client.language
+                    language=project.client.language,
                 )
             except Exception as e:
                 self.stderr.write(self.style.ERROR(str(e)))
@@ -45,4 +45,3 @@ class Command(BaseCommand):
                 )
             except Exception as e:
                 self.stderr.write(self.style.ERROR(str(e)))
-

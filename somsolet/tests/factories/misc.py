@@ -5,11 +5,9 @@ from .project import ProjectStageFactory
 
 
 class MailingFactory(DjangoModelFactory):
-
     class Meta:
-        model = 'somsolet.Mailing'
-
+        model = "somsolet.Mailing"
 
     project = SubFactory(ProjectStageFactory)
-    notification_status = 'empty status'
+    notification_status = "empty status"
     sent = False

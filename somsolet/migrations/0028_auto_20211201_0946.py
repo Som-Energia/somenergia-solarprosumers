@@ -5,45 +5,111 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('somsolet', '0027_auto_20211025_1426'),
+        ("somsolet", "0027_auto_20211025_1426"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='project',
-            name='client_file',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='projects', to='somsolet.ClientFile', verbose_name='General conditions File'),
+            model_name="project",
+            name="client_file",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="projects",
+                to="somsolet.ClientFile",
+                verbose_name="General conditions File",
+            ),
         ),
         migrations.AddField(
-            model_name='project',
-            name='sent_general_conditions',
-            field=models.BooleanField(default=False, verbose_name='General conditions sent'),
+            model_name="project",
+            name="sent_general_conditions",
+            field=models.BooleanField(
+                default=False, verbose_name="General conditions sent"
+            ),
         ),
         migrations.AlterField(
-            model_name='client',
-            name='file',
-            field=models.ManyToManyField(related_name='clients', to='somsolet.ClientFile', verbose_name='General conditions File'),
+            model_name="client",
+            name="file",
+            field=models.ManyToManyField(
+                related_name="clients",
+                to="somsolet.ClientFile",
+                verbose_name="General conditions File",
+            ),
         ),
         migrations.AlterField(
-            model_name='project',
-            name='client',
-            field=models.ForeignKey(blank=True, help_text='Client of this project', null=True, on_delete=django.db.models.deletion.SET_NULL, to='somsolet.Client', verbose_name='Client'),
+            model_name="project",
+            name="client",
+            field=models.ForeignKey(
+                blank=True,
+                help_text="Client of this project",
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to="somsolet.Client",
+                verbose_name="Client",
+            ),
         ),
         migrations.CreateModel(
-            name='NotificationAddress',
+            name="NotificationAddress",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('phone_number', models.CharField(blank=True, max_length=9, verbose_name='Telephone number')),
-                ('email', models.CharField(blank=True, max_length=50, verbose_name='Email')),
-                ('language', models.CharField(choices=[('es', 'Spanish'), ('ca', 'Catalan'), ('gl', 'Galician'), ('eu', 'Euskara')], default='ca', max_length=5, verbose_name='Language')),
-                ('client', models.ForeignKey(blank=True, help_text='Client associated with this address', null=True, on_delete=django.db.models.deletion.SET_NULL, to='somsolet.Client', verbose_name='Client')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "phone_number",
+                    models.CharField(
+                        blank=True, max_length=9, verbose_name="Telephone number"
+                    ),
+                ),
+                (
+                    "email",
+                    models.CharField(blank=True, max_length=50, verbose_name="Email"),
+                ),
+                (
+                    "language",
+                    models.CharField(
+                        choices=[
+                            ("es", "Spanish"),
+                            ("ca", "Catalan"),
+                            ("gl", "Galician"),
+                            ("eu", "Euskara"),
+                        ],
+                        default="ca",
+                        max_length=5,
+                        verbose_name="Language",
+                    ),
+                ),
+                (
+                    "client",
+                    models.ForeignKey(
+                        blank=True,
+                        help_text="Client associated with this address",
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        to="somsolet.Client",
+                        verbose_name="Client",
+                    ),
+                ),
             ],
         ),
         migrations.AddField(
-            model_name='project',
-            name='notification_address',
-            field=models.ForeignKey(blank=True, help_text='Notification address of this project', null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='projects', to='somsolet.NotificationAddress', verbose_name='Notification Address'),
+            model_name="project",
+            name="notification_address",
+            field=models.ForeignKey(
+                blank=True,
+                help_text="Notification address of this project",
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="projects",
+                to="somsolet.NotificationAddress",
+                verbose_name="Notification Address",
+            ),
         ),
     ]

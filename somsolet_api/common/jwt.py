@@ -7,11 +7,12 @@ class SomTokenObtainPairSerializer(TokenObtainPairSerializer):
     def get_token(cls, user):
         token = super().get_token(user)
 
-        token['username'] = user.get_username()
-        token['name'] = user.get_full_name()
-        token['email'] = user.email
+        token["username"] = user.get_username()
+        token["name"] = user.get_full_name()
+        token["email"] = user.email
 
         return token
+
 
 class SomTokenObtainPairView(TokenObtainPairView):
     serializer_class = SomTokenObtainPairSerializer

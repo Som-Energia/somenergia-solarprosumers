@@ -30,7 +30,6 @@ class TestSummaryReports:
         ]
 
     def test_prereport_with_overdue(self):
-
         with mock.patch("scheduler_tasks.date") as datetime_patcher:
             datetime_patcher.today.return_value = date(2020, 8, 3)
 

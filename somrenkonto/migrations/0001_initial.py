@@ -6,68 +6,315 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
-        ('schedule', '0012_auto_20191025_1852'),
+        ("schedule", "0012_auto_20191025_1852"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('somsolet', '0025_auto_20210923_1639'),
+        ("somsolet", "0025_auto_20210923_1639"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='CalendarConfig',
+            name="CalendarConfig",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_at', models.DateTimeField(auto_now_add=True, help_text='when was created this object', verbose_name='created at')),
-                ('modified_at', models.DateTimeField(auto_now=True, help_text='last time this object updated', verbose_name='modified at')),
-                ('deleted_at', models.DateTimeField(blank=True, help_text='when was deleted this object', null=True, verbose_name='deleted at')),
-                ('default_calendar_view', models.CharField(choices=[('Month View', 'dayGridMonth'), ('Week View', 'timeGridWeek'), ('Agenda View', 'listWeek'), ('Daily View', 'timeGridDay')], default='dayGridMonth', help_text='What will be the default view of the calendar', max_length=64, verbose_name='Default calendar View')),
-                ('calendar', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='schedule.Calendar')),
-                ('created_by', models.ForeignKey(help_text='who created this object', on_delete=django.db.models.deletion.CASCADE, related_name='calendarconfig_created', to=settings.AUTH_USER_MODEL, verbose_name='created_by')),
-                ('modified_by', models.ForeignKey(help_text='who modified this object', on_delete=django.db.models.deletion.CASCADE, related_name='calendarconfig_modified', to=settings.AUTH_USER_MODEL, verbose_name='modified_by')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "created_at",
+                    models.DateTimeField(
+                        auto_now_add=True,
+                        help_text="when was created this object",
+                        verbose_name="created at",
+                    ),
+                ),
+                (
+                    "modified_at",
+                    models.DateTimeField(
+                        auto_now=True,
+                        help_text="last time this object updated",
+                        verbose_name="modified at",
+                    ),
+                ),
+                (
+                    "deleted_at",
+                    models.DateTimeField(
+                        blank=True,
+                        help_text="when was deleted this object",
+                        null=True,
+                        verbose_name="deleted at",
+                    ),
+                ),
+                (
+                    "default_calendar_view",
+                    models.CharField(
+                        choices=[
+                            ("Month View", "dayGridMonth"),
+                            ("Week View", "timeGridWeek"),
+                            ("Agenda View", "listWeek"),
+                            ("Daily View", "timeGridDay"),
+                        ],
+                        default="dayGridMonth",
+                        help_text="What will be the default view of the calendar",
+                        max_length=64,
+                        verbose_name="Default calendar View",
+                    ),
+                ),
+                (
+                    "calendar",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="schedule.Calendar",
+                    ),
+                ),
+                (
+                    "created_by",
+                    models.ForeignKey(
+                        help_text="who created this object",
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="calendarconfig_created",
+                        to=settings.AUTH_USER_MODEL,
+                        verbose_name="created_by",
+                    ),
+                ),
+                (
+                    "modified_by",
+                    models.ForeignKey(
+                        help_text="who modified this object",
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="calendarconfig_modified",
+                        to=settings.AUTH_USER_MODEL,
+                        verbose_name="modified_by",
+                    ),
+                ),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
         ),
         migrations.CreateModel(
-            name='WorkingDay',
+            name="WorkingDay",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_at', models.DateTimeField(auto_now_add=True, help_text='when was created this object', verbose_name='created at')),
-                ('modified_at', models.DateTimeField(auto_now=True, help_text='last time this object updated', verbose_name='modified at')),
-                ('deleted_at', models.DateTimeField(blank=True, help_text='when was deleted this object', null=True, verbose_name='deleted at')),
-                ('day', models.CharField(choices=[('monday', 'monday'), ('tuesday', 'tuesday'), ('wendnesday', 'wednesday'), ('thursday', 'thursday'), ('friday', 'friday'), ('saturday', 'saturday'), ('sunday', 'sunday')], help_text='Calendar configuration associated whit this AvailableDay', max_length=64, verbose_name='Day')),
-                ('start', models.TimeField(help_text='At what time starts your work journey', verbose_name='Start')),
-                ('end', models.TimeField(help_text='At what time ends your work journey', verbose_name='End')),
-                ('calendar_config', models.ForeignKey(help_text='Calendar configuration associated whit this AvailableDay', on_delete=django.db.models.deletion.CASCADE, related_name='available_days', to='somrenkonto.CalendarConfig', verbose_name='Calendar Config')),
-                ('created_by', models.ForeignKey(help_text='who created this object', on_delete=django.db.models.deletion.CASCADE, related_name='workingday_created', to=settings.AUTH_USER_MODEL, verbose_name='created_by')),
-                ('modified_by', models.ForeignKey(help_text='who modified this object', on_delete=django.db.models.deletion.CASCADE, related_name='workingday_modified', to=settings.AUTH_USER_MODEL, verbose_name='modified_by')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "created_at",
+                    models.DateTimeField(
+                        auto_now_add=True,
+                        help_text="when was created this object",
+                        verbose_name="created at",
+                    ),
+                ),
+                (
+                    "modified_at",
+                    models.DateTimeField(
+                        auto_now=True,
+                        help_text="last time this object updated",
+                        verbose_name="modified at",
+                    ),
+                ),
+                (
+                    "deleted_at",
+                    models.DateTimeField(
+                        blank=True,
+                        help_text="when was deleted this object",
+                        null=True,
+                        verbose_name="deleted at",
+                    ),
+                ),
+                (
+                    "day",
+                    models.CharField(
+                        choices=[
+                            ("monday", "monday"),
+                            ("tuesday", "tuesday"),
+                            ("wendnesday", "wednesday"),
+                            ("thursday", "thursday"),
+                            ("friday", "friday"),
+                            ("saturday", "saturday"),
+                            ("sunday", "sunday"),
+                        ],
+                        help_text="Calendar configuration associated whit this AvailableDay",
+                        max_length=64,
+                        verbose_name="Day",
+                    ),
+                ),
+                (
+                    "start",
+                    models.TimeField(
+                        help_text="At what time starts your work journey",
+                        verbose_name="Start",
+                    ),
+                ),
+                (
+                    "end",
+                    models.TimeField(
+                        help_text="At what time ends your work journey",
+                        verbose_name="End",
+                    ),
+                ),
+                (
+                    "calendar_config",
+                    models.ForeignKey(
+                        help_text="Calendar configuration associated whit this AvailableDay",
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="available_days",
+                        to="somrenkonto.CalendarConfig",
+                        verbose_name="Calendar Config",
+                    ),
+                ),
+                (
+                    "created_by",
+                    models.ForeignKey(
+                        help_text="who created this object",
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="workingday_created",
+                        to=settings.AUTH_USER_MODEL,
+                        verbose_name="created_by",
+                    ),
+                ),
+                (
+                    "modified_by",
+                    models.ForeignKey(
+                        help_text="who modified this object",
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="workingday_modified",
+                        to=settings.AUTH_USER_MODEL,
+                        verbose_name="modified_by",
+                    ),
+                ),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
         ),
         migrations.CreateModel(
-            name='RenkontoEvent',
+            name="RenkontoEvent",
             fields=[
-                ('event_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='schedule.Event')),
-                ('created_at', models.DateTimeField(auto_now_add=True, help_text='when was created this object', verbose_name='created at')),
-                ('modified_at', models.DateTimeField(auto_now=True, help_text='last time this object updated', verbose_name='modified at')),
-                ('deleted_at', models.DateTimeField(blank=True, help_text='when was deleted this object', null=True, verbose_name='deleted at')),
-                ('event_type', models.CharField(choices=[('APPO', 'Appointment'), ('UNAVAIL', 'Unavailability'), ('AVAIL', 'Availability hours'), ('TECH', 'Technical visit'), ('INST', 'Installation work visit')], help_text='Type of this event, Appointment, Unavailability or Availability hours', max_length=64, verbose_name='Event type')),
-                ('all_day', models.BooleanField(help_text='Check if this event will last all day', verbose_name='All day')),
-                ('campaign', models.ForeignKey(help_text='Campaing of this event', on_delete=django.db.models.deletion.CASCADE, to='somsolet.Campaign', verbose_name='Campaign')),
-                ('created_by', models.ForeignKey(help_text='who created this object', on_delete=django.db.models.deletion.CASCADE, related_name='renkontoevent_created', to=settings.AUTH_USER_MODEL, verbose_name='created_by')),
-                ('engineering', models.ForeignKey(help_text='Engineering related with this event', on_delete=django.db.models.deletion.CASCADE, to='somsolet.Engineering', verbose_name='Engineering')),
-                ('modified_by', models.ForeignKey(help_text='who modified this object', on_delete=django.db.models.deletion.CASCADE, related_name='renkontoevent_modified', to=settings.AUTH_USER_MODEL, verbose_name='modified_by')),
-                ('project', models.ForeignKey(help_text='Project of this event', on_delete=django.db.models.deletion.CASCADE, related_name='events', to='somsolet.Project', verbose_name='Project')),
+                (
+                    "event_ptr",
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to="schedule.Event",
+                    ),
+                ),
+                (
+                    "created_at",
+                    models.DateTimeField(
+                        auto_now_add=True,
+                        help_text="when was created this object",
+                        verbose_name="created at",
+                    ),
+                ),
+                (
+                    "modified_at",
+                    models.DateTimeField(
+                        auto_now=True,
+                        help_text="last time this object updated",
+                        verbose_name="modified at",
+                    ),
+                ),
+                (
+                    "deleted_at",
+                    models.DateTimeField(
+                        blank=True,
+                        help_text="when was deleted this object",
+                        null=True,
+                        verbose_name="deleted at",
+                    ),
+                ),
+                (
+                    "event_type",
+                    models.CharField(
+                        choices=[
+                            ("APPO", "Appointment"),
+                            ("UNAVAIL", "Unavailability"),
+                            ("AVAIL", "Availability hours"),
+                            ("TECH", "Technical visit"),
+                            ("INST", "Installation work visit"),
+                        ],
+                        help_text="Type of this event, Appointment, Unavailability or Availability hours",
+                        max_length=64,
+                        verbose_name="Event type",
+                    ),
+                ),
+                (
+                    "all_day",
+                    models.BooleanField(
+                        help_text="Check if this event will last all day",
+                        verbose_name="All day",
+                    ),
+                ),
+                (
+                    "campaign",
+                    models.ForeignKey(
+                        help_text="Campaing of this event",
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="somsolet.Campaign",
+                        verbose_name="Campaign",
+                    ),
+                ),
+                (
+                    "created_by",
+                    models.ForeignKey(
+                        help_text="who created this object",
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="renkontoevent_created",
+                        to=settings.AUTH_USER_MODEL,
+                        verbose_name="created_by",
+                    ),
+                ),
+                (
+                    "engineering",
+                    models.ForeignKey(
+                        help_text="Engineering related with this event",
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="somsolet.Engineering",
+                        verbose_name="Engineering",
+                    ),
+                ),
+                (
+                    "modified_by",
+                    models.ForeignKey(
+                        help_text="who modified this object",
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="renkontoevent_modified",
+                        to=settings.AUTH_USER_MODEL,
+                        verbose_name="modified_by",
+                    ),
+                ),
+                (
+                    "project",
+                    models.ForeignKey(
+                        help_text="Project of this event",
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="events",
+                        to="somsolet.Project",
+                        verbose_name="Project",
+                    ),
+                ),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
-            bases=('schedule.event', models.Model),
+            bases=("schedule.event", models.Model),
         ),
     ]

@@ -10,9 +10,9 @@ class StatsViewSet(viewsets.ModelViewSet):
     serializer_class = StatsSerializer
 
     def get_queryset(self):
-        queryset = Campaign.objects.all().order_by('name')
+        queryset = Campaign.objects.all().order_by("name")
 
-        campaign = self.request.query_params.get('campaignId')
+        campaign = self.request.query_params.get("campaignId")
         if campaign:
             return queryset.filter(id=campaign)
         else:

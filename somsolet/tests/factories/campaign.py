@@ -8,25 +8,24 @@ from .admin import InventsPacoEngineeringFactory, LocalGroupFactory, Engineering
 
 
 class CampaignFactory(DjangoModelFactory):
-
     class Meta:
-        model = 'somsolet.Campaign'
-        django_get_or_create = ('name', )
+        model = "somsolet.Campaign"
+        django_get_or_create = ("name",)
 
-    name = 'Solar Paco'
+    name = "Solar Paco"
     engineerings = factory.RelatedFactory(InventsPacoEngineeringFactory)
     local_group = factory.RelatedFactory(LocalGroupFactory)
     date_call_for_engineerings = factory.Faker(
-        'date_object',
+        "date_object",
     )
     date_call_for_inscriptions = factory.Faker(
-        'date_between_dates',
-        date_start=factory.SelfAttribute('..date_call_for_engineerings')
+        "date_between_dates",
+        date_start=factory.SelfAttribute("..date_call_for_engineerings"),
     )
     date_inscriptions_closed = None
     date_completed_installations = None
-    autonomous_community = 'Parroquia de Christ Church'
-    geographical_region = 'Barbados'
+    autonomous_community = "Parroquia de Christ Church"
+    geographical_region = "Barbados"
     count_foreseen_installations = 400
     count_completed_installations = 0
     kwp_installed = 0
@@ -39,12 +38,11 @@ class CampaignFactory(DjangoModelFactory):
 
 
 class TechnicalCampaignFactory(DjangoModelFactory):
-
     class Meta:
-        model = 'somsolet.Technical_campaign'
+        model = "somsolet.Technical_campaign"
 
     campaign = factory.RelatedFactory(CampaignFactory)
-    price_mono_fixed = '0.5'
-    price_mono_var = '0.1'
-    price_tri_fixed = '0.3'
-    price_tri_var = '0.7'
+    price_mono_fixed = "0.5"
+    price_mono_var = "0.1"
+    price_tri_fixed = "0.3"
+    price_tri_var = "0.7"

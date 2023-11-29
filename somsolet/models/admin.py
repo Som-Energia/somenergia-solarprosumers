@@ -10,26 +10,26 @@ class LocalGroup(models.Model):
     name = models.CharField(
         blank=True,
         max_length=100,
-        verbose_name=_('Name'),
+        verbose_name=_("Name"),
     )
 
     phone_number = models.CharField(
         blank=True,
         max_length=9,
-        verbose_name=_('Telephone number'),
+        verbose_name=_("Telephone number"),
     )
 
     email = models.CharField(
         blank=True,
         max_length=50,
-        verbose_name=_('Email'),
+        verbose_name=_("Email"),
     )
 
     language = models.CharField(
-        default='ca',
+        default="ca",
         choices=LANGUAGES,
         max_length=5,
-        verbose_name=_('Language'),
+        verbose_name=_("Language"),
     )
 
     def __str__(self):
@@ -37,7 +37,6 @@ class LocalGroup(models.Model):
 
 
 class EngineeringQuerySet(models.QuerySet):
-
     def get_engineering_by_id(self, engineering_id):
         try:
             engineering = self.get(id=engineering_id)
@@ -53,74 +52,74 @@ class Engineering(models.Model):
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        verbose_name=_('User'),
+        verbose_name=_("User"),
     )
 
     name = models.CharField(
         blank=True,
         max_length=50,
-        verbose_name=_('Name'),
+        verbose_name=_("Name"),
     )
 
     tin = models.CharField(
         blank=True,
         max_length=9,
-        verbose_name=_('Tax identification number'),
+        verbose_name=_("Tax identification number"),
     )
 
     address = models.CharField(
         blank=True,
         max_length=100,
-        verbose_name=_('Address'),
+        verbose_name=_("Address"),
     )
 
     email = models.CharField(
         blank=True,
         max_length=50,
-        verbose_name=_('Email'),
+        verbose_name=_("Email"),
     )
 
     phone_number = models.CharField(
         blank=True,
         max_length=9,
-        verbose_name=_('Telephone number'),
+        verbose_name=_("Telephone number"),
     )
 
     count_closed_campaigns = models.IntegerField(
         null=True,
         blank=True,
-        verbose_name=_('Closed Campaigns'),
+        verbose_name=_("Closed Campaigns"),
     )
 
     count_open_campaigns = models.IntegerField(
         null=True,
         blank=True,
-        verbose_name=_('Open Campaigns'),
+        verbose_name=_("Open Campaigns"),
     )
 
     count_closed_projects = models.IntegerField(
         null=True,
         blank=True,
-        verbose_name=_('Closed Installations'),
+        verbose_name=_("Closed Installations"),
     )
 
     total_kwp_installed = models.FloatField(
         null=True,
         blank=True,
-        verbose_name=_('Total kWp installed'),
+        verbose_name=_("Total kWp installed"),
     )
 
     comments = models.CharField(
         blank=True,
         max_length=500,
-        verbose_name=_('Comments'),
+        verbose_name=_("Comments"),
     )
 
     language = models.CharField(
-        default='ca',
+        default="ca",
         choices=LANGUAGES,
         max_length=5,
-        verbose_name=_('Language'),
+        verbose_name=_("Language"),
     )
 
     objects = models.Manager()

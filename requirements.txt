@@ -1,4 +1,4 @@
-Django>=3.0,<4.0
+Django>=4.2,<5.0
 django-crispy-forms==2.0
 crispy-bootstrap4==2022.1
 django-tables2==2.5.3

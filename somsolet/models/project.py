@@ -42,7 +42,6 @@ class ProjectQuerySet(models.QuerySet):
 
 
 class Project(models.Model):
-
     name = models.CharField(
         blank=True,
         max_length=100,

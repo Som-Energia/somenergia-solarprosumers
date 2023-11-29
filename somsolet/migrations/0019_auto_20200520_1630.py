@@ -33,7 +33,6 @@ def postgres_migration_prep(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("somsolet", "0018_auto_20200520_1417"),
     ]

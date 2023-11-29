@@ -10,7 +10,7 @@ from rest_framework.test import APITestCase, APIClient
 from rest_framework.authtoken.models import Token
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
-from somsolet.models import (Campaign, Project)
+from somsolet.models import Campaign, Project
 from somrenkonto.models import RenkontoEvent
 from somsolet_api.views import RenkontoEventView
 from somsolet_api.serializer import RenkontoEventSerializer
@@ -19,22 +19,29 @@ from .factories import TechnicalVisitDataFactory
 from somrenkonto.factories import CalendarConfigMonthViewFactory
 from somsolet_api.tests.common import LoginMixin
 
-from somsolet.tests.factories import (CampaignFactory, ClientFactory, EngineeringFactory, ProjectFactory,
-                        ProjectFirstFactory, TechnicalDetailsFactory, UserFactory, LocalGroupFactory, SuperuserFactory)
-
+from somsolet.tests.factories import (
+    CampaignFactory,
+    ClientFactory,
+    EngineeringFactory,
+    ProjectFactory,
+    ProjectFirstFactory,
+    TechnicalDetailsFactory,
+    UserFactory,
+    LocalGroupFactory,
+    SuperuserFactory,
+)
 
 
 class TestAPI(LoginMixin, APITestCase):
-
     def setUp(self):
         self.user = User(
-            username='aitor',
-            first_name='Aitor',
-            last_name='Menta',
-            email='aitor.menta@somenergia.coop',
-            password='1234'
+            username="aitor",
+            first_name="Aitor",
+            last_name="Menta",
+            email="aitor.menta@somenergia.coop",
+            password="1234",
         )
-        self.user.set_password('1234')
+        self.user.set_password("1234")
         self.user.save()
         self.client = APIClient()
 
@@ -45,60 +52,56 @@ class TestAPI(LoginMixin, APITestCase):
 
     # client is APIClient
     def test_session_auth(self):
-        login_response = self.client.login(
-            username=self.user.username, password='1234'
-        )
+        login_response = self.client.login(username=self.user.username, password="1234")
         assert login_response == True
 
     def test_simple_request(self):
-        base_url = '/somsolet-api/stages/'
+        base_url = "/somsolet-api/stages/"
 
         response = self.client.get(base_url)
         assert response.status_code == 200
 
     def test_jwt_content(self):
         login_resp = self.client.post(
-            reverse('token_obtain_pair'),
-            data={"username": 'aitor', "password": '1234'},
-            format='json'
+            reverse("token_obtain_pair"),
+            data={"username": "aitor", "password": "1234"},
+            format="json",
         )
-        token = login_resp.json().get('access')
+        token = login_resp.json().get("access")
 
         payload = jwt.decode(token, options={"verify_signature": False})
 
-        assert payload.get('name', 'JWT content not found') == self.user.get_full_name()
-        assert payload.get('email', 'JWT content not found') == self.user.email
-        assert payload.get('username', 'JWT content not found') == self.user.get_username()
+        assert payload.get("name", "JWT content not found") == self.user.get_full_name()
+        assert payload.get("email", "JWT content not found") == self.user.email
+        assert (
+            payload.get("username", "JWT content not found") == self.user.get_username()
+        )
 
     # TODO replace claims to attempt to perform identity theft, it's not a joke, jim
     def test_jwt_attack(self):
-
-        login_resp = self.client.post(reverse('token_obtain_pair'), data={"username": 'aitor', "password": '1234'}, format='json')
+        login_resp = self.client.post(
+            reverse("token_obtain_pair"),
+            data={"username": "aitor", "password": "1234"},
+            format="json",
+        )
 
         login_resp = self.client.post(
-            reverse('token_obtain_pair'),
-            data={"username": 'aitor', "password": '1234'},
-            format='json'
+            reverse("token_obtain_pair"),
+            data={"username": "aitor", "password": "1234"},
+            format="json",
         )
-        token = login_resp.json().get('access')
+        token = login_resp.json().get("access")
 
         payload = jwt.decode(token, options={"verify_signature": False})
-        payload['user_id'] = 2
-        payload['username'] = 'Tilla'
-        bad_token = jwt.encode(payload, key='lalatra', algorithm="HS256")
-        header, code_payload, _ = bad_token.split('.')
-        new_token = "{}.{}.{}".format(
-            header, code_payload, token.split('.')[-1]
-        )
+        payload["user_id"] = 2
+        payload["username"] = "Tilla"
+        bad_token = jwt.encode(payload, key="lalatra", algorithm="HS256")
+        header, code_payload, _ = bad_token.split(".")
+        new_token = "{}.{}.{}".format(header, code_payload, token.split(".")[-1])
 
-        self.client.credentials(
-            HTTP_AUTHORIZATION='{} {}'.format(
-                'Bearer',
-                new_token
-            )
-        )
+        self.client.credentials(HTTP_AUTHORIZATION="{} {}".format("Bearer", new_token))
 
-        base_url = '/somsolet-api/stages/'
+        base_url = "/somsolet-api/stages/"
         response = self.client.get(base_url)
 
         assert response.status_code == 401
@@ -108,13 +111,13 @@ class TestAPI(LoginMixin, APITestCase):
         # TODO use APIRequestFactory and force_authenticate
         pass
 
-class TestStages(LoginMixin, TestCase):
 
+class TestStages(LoginMixin, TestCase):
     def setUp(self):
-        self.base_url = '/somsolet-api/stages/'
-        self.prereport_url = '/somsolet-api/prereport/'
-        self.user_non_owner = User(username='aitor', password='1234')
-        self.user_non_owner.set_password('1234')
+        self.base_url = "/somsolet-api/stages/"
+        self.prereport_url = "/somsolet-api/prereport/"
+        self.user_non_owner = User(username="aitor", password="1234")
+        self.user_non_owner.set_password("1234")
         self.user_non_owner.save()
 
         self.client = APIClient()
@@ -132,14 +135,13 @@ class TestStages(LoginMixin, TestCase):
 
     def test_stages_base_case(self):
         login_resp = self.client.post(
-            reverse('token_obtain_pair'),
-            data={"username": "aitor", "password": '1234'},
-            format='json'
+            reverse("token_obtain_pair"),
+            data={"username": "aitor", "password": "1234"},
+            format="json",
         )
         self.client.credentials(
-            HTTP_AUTHORIZATION='{} {}'.format(
-                'Bearer',
-                login_resp.json().get('access', '')
+            HTTP_AUTHORIZATION="{} {}".format(
+                "Bearer", login_resp.json().get("access", "")
             )
         )
 
@@ -150,8 +152,7 @@ class TestStages(LoginMixin, TestCase):
         assert response_body.__class__ is list
 
     def test_stages_prereport_own_case(self):
-
-        permission = Permission.objects.get(codename='view_project')
+        permission = Permission.objects.get(codename="view_project")
         self.user_owner.user_permissions.add(permission)
 
         self.login(self.user_owner)
@@ -164,8 +165,7 @@ class TestStages(LoginMixin, TestCase):
         assert len(response_body) == 1
 
     def test_stages_prereport_non_own_case(self):
-
-        permission = Permission.objects.get(codename='view_project')
+        permission = Permission.objects.get(codename="view_project")
         self.user_non_owner.user_permissions.add(permission)
 
         self.login(self.user_non_owner)
@@ -178,8 +178,7 @@ class TestStages(LoginMixin, TestCase):
         assert response_body == []
 
     def test_stages_prereport_admin_case(self):
-
-        url = '{}?projectId=1'.format(self.prereport_url)
+        url = "{}?projectId=1".format(self.prereport_url)
 
         self.user_non_owner.is_superuser = True
         user_OV = self.user_non_owner
@@ -195,7 +194,6 @@ class TestStages(LoginMixin, TestCase):
         assert len(response_body) == 1
 
     def _test_stages_prereport_admin_case_empty_headers(self):
-
         self.user_non_owner.is_superuser = True
         user_OV = self.user_non_owner
         user_OV.save()
@@ -210,13 +208,11 @@ class TestStages(LoginMixin, TestCase):
         assert response_body == []
 
 
-
 class TestCampaign(TestCase):
-
     def setUp(self):
-        self.base_url = '/somsolet-api/campaign/'
-        self.user = User(username='aitor', password='1234')
-        self.user.set_password('1234')
+        self.base_url = "/somsolet-api/campaign/"
+        self.user = User(username="aitor", password="1234")
+        self.user.set_password("1234")
         self.user.save()
         # TODO: Create a test Campaign
         campaign = CampaignFactory.create()
@@ -229,7 +225,7 @@ class TestCampaign(TestCase):
 
         assert response.status_code == 200
         assert len(response.json()) == 1
-        assert 'campaignId' in response.json()[0]
+        assert "campaignId" in response.json()[0]
 
     def test_campaign_user_unauthenticated_post(self):
         response = self.client.post(self.base_url, {})
@@ -237,15 +233,15 @@ class TestCampaign(TestCase):
         assert response.status_code == 401
 
     def test_campaign_authenticated_user(self):
-        self.client.login(username=self.user.username, password='1234')
+        self.client.login(username=self.user.username, password="1234")
 
         response = self.client.get(self.base_url)
 
         assert response.status_code == 200
 
     def test_campaign_user_permitted(self):
-        self.client.login(username=self.user.username, password='1234')
-        permission = Permission.objects.get(codename='view_campaign')
+        self.client.login(username=self.user.username, password="1234")
+        permission = Permission.objects.get(codename="view_campaign")
         self.user.user_permissions.add(permission)
 
         response = self.client.get(self.base_url)
@@ -255,16 +251,15 @@ class TestCampaign(TestCase):
 
 
 class TestProject(LoginMixin, APITestCase):
-
     def setUp(self):
-        self.base_url = '/somsolet-api/project/'
-        self.user_non_owner = User(username='aitor', password='1234')
-        self.user_non_owner.set_password('1234')
+        self.base_url = "/somsolet-api/project/"
+        self.user_non_owner = User(username="aitor", password="1234")
+        self.user_non_owner.set_password("1234")
         self.user_non_owner.save()
 
         self.project = ProjectFirstFactory.create()
 
-        self.user_owner = User.objects.get(username='N8215601I')
+        self.user_owner = User.objects.get(username="N8215601I")
 
     def tearDown(self):
         self.user_non_owner.delete()
@@ -284,7 +279,7 @@ class TestProject(LoginMixin, APITestCase):
 
     def test_project_user_permitted(self):
         self.login(self.user_owner)
-        permission = Permission.objects.get(codename='view_project')
+        permission = Permission.objects.get(codename="view_project")
         self.user_owner.user_permissions.add(permission)
 
         response = self.client.get(self.base_url)
@@ -294,8 +289,7 @@ class TestProject(LoginMixin, APITestCase):
         assert len(response_body) == 1
 
     def test_project_own_case(self):
-
-        permission = Permission.objects.get(codename='view_project')
+        permission = Permission.objects.get(codename="view_project")
         self.user_owner.user_permissions.add(permission)
 
         self.login(self.user_owner)
@@ -308,8 +302,7 @@ class TestProject(LoginMixin, APITestCase):
         assert len(response_body) == 1
 
     def test_project_non_own_case(self):
-
-        permission = Permission.objects.get(codename='view_project')
+        permission = Permission.objects.get(codename="view_project")
         self.user_non_owner.user_permissions.add(permission)
 
         self.login(self.user_non_owner)
@@ -322,8 +315,7 @@ class TestProject(LoginMixin, APITestCase):
         assert response_body == []
 
     def test_project_admin_case(self):
-
-        url = '{}?projectId=1'.format(self.base_url)
+        url = "{}?projectId=1".format(self.base_url)
 
         self.user_non_owner.is_superuser = True
         user_OV = self.user_non_owner
@@ -337,8 +329,6 @@ class TestProject(LoginMixin, APITestCase):
         assert response.status_code == 200
         assert response_body.__class__ is list
         assert len(response_body) == 1
-
-
 
     def test_set_technical_visit(self):
         # given
@@ -354,21 +344,21 @@ class TestProject(LoginMixin, APITestCase):
         self.login(admin_user)
 
         # when we set a technical visit for a project
-        url = '{base_url}{id}/set_technical_visit/'.format(
+        url = "{base_url}{id}/set_technical_visit/".format(
             base_url=self.base_url, id=montse_project.id
         )
-        response = self.client.put(url, data=technical_visit, format='json')
+        response = self.client.put(url, data=technical_visit, format="json")
 
         # then everything is ok
         assert response.status_code == 200
         response_body = response.json()
         assert response_body == {
-            'dateStart': technical_visit.get('date_start'),
-            'dateEnd': technical_visit.get('date_end'),
-            'allDay': False,
-            'eventType': 'TECH',
-            'installationId': montse_project.id,
-            'campaignId': montse_project.campaign_id
+            "dateStart": technical_visit.get("date_start"),
+            "dateEnd": technical_visit.get("date_end"),
+            "allDay": False,
+            "eventType": "TECH",
+            "installationId": montse_project.id,
+            "campaignId": montse_project.campaign_id,
         }
 
     def test_set_technical_visit_owner(self):
@@ -381,28 +371,28 @@ class TestProject(LoginMixin, APITestCase):
         calendar.calendar.create_relation(montse_project.engineering.user)
 
         # setting general permissions over project object
-        permission = Permission.objects.get(codename='change_project')
+        permission = Permission.objects.get(codename="change_project")
         montse_project.engineering.user.user_permissions.add(permission)
 
         # with an engineering wthat owns the project
         self.login(montse_project.engineering.user)
 
         # when we set a technical visit for a project
-        url = '{base_url}{id}/set_technical_visit/'.format(
+        url = "{base_url}{id}/set_technical_visit/".format(
             base_url=self.base_url, id=montse_project.id
         )
-        response = self.client.put(url, data=technical_visit, format='json')
+        response = self.client.put(url, data=technical_visit, format="json")
 
         # then everything is ok
         assert response.status_code == 200
         response_body = response.json()
         assert response_body == {
-            'dateStart': technical_visit.get('date_start'),
-            'dateEnd': technical_visit.get('date_end'),
-            'allDay': False,
-            'eventType': 'TECH',
-            'installationId': montse_project.id,
-            'campaignId': montse_project.campaign_id
+            "dateStart": technical_visit.get("date_start"),
+            "dateEnd": technical_visit.get("date_end"),
+            "allDay": False,
+            "eventType": "TECH",
+            "installationId": montse_project.id,
+            "campaignId": montse_project.campaign_id,
         }
 
     def test_set_technical_visit_non_owner(self):
@@ -415,45 +405,39 @@ class TestProject(LoginMixin, APITestCase):
         calendar.calendar.create_relation(montse_project.engineering.user)
 
         # setting general permissions over project object
-        permission = Permission.objects.get(codename='change_project')
+        permission = Permission.objects.get(codename="change_project")
         self.user_non_owner.user_permissions.add(permission)
 
         # with an engineering wthat owns the project
         self.login(self.user_non_owner)
 
         # when we set a technical visit for a project
-        url = '{base_url}{id}/set_technical_visit/'.format(
+        url = "{base_url}{id}/set_technical_visit/".format(
             base_url=self.base_url, id=montse_project.id
         )
-        response = self.client.put(url, data=technical_visit, format='json')
+        response = self.client.put(url, data=technical_visit, format="json")
 
         # the resource is no available
         assert response.status_code == 404
 
-
     def test_first_invoice_put_authorized(self):
-
         # with an engineering with permissions
         self.login(self.user_owner)
-        permission = Permission.objects.get(codename='change_project')
+        permission = Permission.objects.get(codename="change_project")
         self.user_owner.user_permissions.add(permission)
 
         # when we set an invoice visit for a project
-        url = f'/somsolet-api/first_invoice/?projectId={self.project.id}'
+        url = f"/somsolet-api/first_invoice/?projectId={self.project.id}"
 
         response = self.client.put(
-            path=url,
-            data={'is_paid_first_invoice': True},
-            format='json'
+            path=url, data={"is_paid_first_invoice": True}, format="json"
         )
 
         # then everything is ok
         assert response.status_code == 200
 
-
     def test_first_invoice_put_non_owner(self):
-
-        permission = Permission.objects.get(codename='change_project')
+        permission = Permission.objects.get(codename="change_project")
         self.user_non_owner.user_permissions.add(permission)
 
         # with an engineering with permissions
@@ -461,17 +445,16 @@ class TestProject(LoginMixin, APITestCase):
 
         # when we set an invoice visit for a project
         response = self.client.put(
-            path=f'/somsolet-api/first_invoice/?projectId={self.project.id}',
-            data={'is_paid_first_invoice': True},
-            format='json'
+            path=f"/somsolet-api/first_invoice/?projectId={self.project.id}",
+            data={"is_paid_first_invoice": True},
+            format="json",
         )
 
         # then everything is ok
         assert response.status_code == 404
 
     def test_first_invoice_put_admin(self):
-
-        permission = Permission.objects.get(codename='change_project')
+        permission = Permission.objects.get(codename="change_project")
         self.user_non_owner.user_permissions.add(permission)
         self.user_non_owner.is_superuser = True
         self.user_non_owner.save()
@@ -481,17 +464,16 @@ class TestProject(LoginMixin, APITestCase):
 
         # when we set an invoice visit for a project
         response = self.client.put(
-            path=f'/somsolet-api/first_invoice/?projectId={self.project.id}',
-            data={'is_paid_first_invoice': True},
-            format='json'
+            path=f"/somsolet-api/first_invoice/?projectId={self.project.id}",
+            data={"is_paid_first_invoice": True},
+            format="json",
         )
 
         # then everything is ok
         assert response.status_code == 200
 
     def test_first_invoice_patch_authorized(self):
-
-        permission = Permission.objects.get(codename='change_project')
+        permission = Permission.objects.get(codename="change_project")
         self.user_owner.user_permissions.add(permission)
 
         # with an engineering with permissions
@@ -500,55 +482,51 @@ class TestProject(LoginMixin, APITestCase):
         # when we set an invoice visit for a project
 
         response = self.client.patch(
-            path=f'/somsolet-api/first_invoice/?projectId={self.project.id}',
-            data={'is_paid_first_invoice': True},
-            format='json'
+            path=f"/somsolet-api/first_invoice/?projectId={self.project.id}",
+            data={"is_paid_first_invoice": True},
+            format="json",
         )
 
         # then everything is ok
         assert response.status_code == 200
 
     def test_last_tnvoice_put_authorized(self):
-        #admin_user = SuperuserFactory.create()
-        #_set_current_user(admin_user)
-        #montse_project = ProjectFactory.create()
+        # admin_user = SuperuserFactory.create()
+        # _set_current_user(admin_user)
+        # montse_project = ProjectFactory.create()
 
-        permission = Permission.objects.get(codename='change_project')
+        permission = Permission.objects.get(codename="change_project")
         self.user_owner.user_permissions.add(permission)
 
         # with an engineering with permissions
         self.login(self.user_owner)
 
         # when we set an invoice visit for a project
-        url = f'/somsolet-api/last_invoice/?projectId={self.project.id}'
+        url = f"/somsolet-api/last_invoice/?projectId={self.project.id}"
 
         response = self.client.put(
-            path=url,
-            data={'is_paid_last_invoice': True},
-            format='json'
+            path=url, data={"is_paid_last_invoice": True}, format="json"
         )
 
         # then everything is ok
         assert response.status_code == 200
 
     def test_last_invoice_patch_authorized(self):
-        #admin_user = SuperuserFactory.create()
-        #_set_current_user(admin_user)
-        #montse_project = ProjectFactory.create()
+        # admin_user = SuperuserFactory.create()
+        # _set_current_user(admin_user)
+        # montse_project = ProjectFactory.create()
 
-        permission = Permission.objects.get(codename='change_project')
+        permission = Permission.objects.get(codename="change_project")
         self.user_owner.user_permissions.add(permission)
 
         # with an engineering with permissions
         self.login(self.user_owner)
 
         # when we set an invoice visit for a project
-        url = f'/somsolet-api/last_invoice/?projectId={self.project.id}'
+        url = f"/somsolet-api/last_invoice/?projectId={self.project.id}"
 
         response = self.client.patch(
-            path=url,
-            data={'is_paid_last_invoice': True},
-            format='json'
+            path=url, data={"is_paid_last_invoice": True}, format="json"
         )
 
         # then everything is ok
@@ -559,39 +537,34 @@ class TestProject(LoginMixin, APITestCase):
         technical_details = TechnicalDetailsFactory()
         user = technical_details.project.engineering.user
 
-        permission = Permission.objects.get(codename='view_project')
+        permission = Permission.objects.get(codename="view_project")
         user.user_permissions.add(permission)
 
         # with an engineering with permissions
         self.login(user)
 
-        url = f'/somsolet-api/cch/?projectId={self.project.id}'
+        url = f"/somsolet-api/cch/?projectId={self.project.id}"
 
-        response = self.client.get(
-            path=url
-        )
+        response = self.client.get(path=url)
 
         response_body = response.json()
 
         assert response.status_code == 200
         # TODO use a technical_details' cups with curves on mongoDB testing
-        #assert response_body.__class__ is list
-        #assert response_body != []
+        # assert response_body.__class__ is list
+        # assert response_body != []
 
     @pytest.mark.skip("Requires access to soms testing mongodb")
     def test_cch_download_non_owner(self):
-
-        permission = Permission.objects.get(codename='view_project')
+        permission = Permission.objects.get(codename="view_project")
         self.user_non_owner.user_permissions.add(permission)
 
         # with an engineering with permissions
         self.login(self.user_non_owner)
 
-        url = f'/somsolet-api/cch/?projectId={self.project.id}'
+        url = f"/somsolet-api/cch/?projectId={self.project.id}"
 
-        response = self.client.get(
-            path=url
-        )
+        response = self.client.get(path=url)
 
         response_body = response.json()
         assert response.status_code == 200
@@ -600,7 +573,6 @@ class TestProject(LoginMixin, APITestCase):
 
 
 class TestEvents:
-
     @pytest.mark.django_db
     def test_get_engineering_events(
         self, authenticated_user, engineering_with_events, client, rf
@@ -610,25 +582,21 @@ class TestEvents:
         # an engineering with events
 
         # when the user requests for the events of an engineering
-        url = reverse('events', args=[engineering_with_events.id])
+        url = reverse("events", args=[engineering_with_events.id])
         request = rf.get(url)
         request.user = authenticated_user
-        client.login(username=authenticated_user.username, password='1234')
+        client.login(username=authenticated_user.username, password="1234")
         response = client.get(url)
 
         # then the user obtain a succesfull response and a list with the events of the engineering
         assert response.status_code == 200
         events = [
-            RenkontoEventSerializer(event, context={'request': request}).data
+            RenkontoEventSerializer(event, context={"request": request}).data
             for event in RenkontoEvent.objects.filter(
                 engineering__id=engineering_with_events.id
             )
         ]
         assert response.data == {
-            'state': True,
-            'data': {
-                'count': len(events),
-                'results': events
-            }
+            "state": True,
+            "data": {"count": len(events), "results": events},
         }
-
