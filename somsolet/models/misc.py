@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-from .choices_options import ITEM_STATUS
+from .choices_options import ProjectStatus
 from .project import Project
 
 
@@ -15,7 +15,7 @@ class Mailing(models.Model):
     )
 
     notification_status = models.CharField(
-        choices=ITEM_STATUS, default=_("empty status"), max_length=50
+        choices=ProjectStatus.choices, default=_("empty status"), max_length=50
     )
 
     sent = models.BooleanField(

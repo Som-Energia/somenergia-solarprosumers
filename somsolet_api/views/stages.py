@@ -2,7 +2,7 @@ from rest_framework import status, viewsets
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from somsolet.models import Project, Engineering
-from somsolet.models.choices_options import ITEM_STATUS
+from somsolet.models.choices_options import ProjectStatus
 from somsolet_api.common.permissions import SomsoletAPIModelPermissions
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import DjangoModelPermissions  # TODO: Custom class
@@ -32,7 +32,7 @@ class StagesListViewSet(viewsets.ViewSet):
                 "stageId": stageId,
                 "stageName": stageName,
             }
-            for stageId, stageName in ITEM_STATUS
+            for stageId, stageName in ProjectStatus.choices
         ]
 
         return Response(result)
