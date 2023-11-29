@@ -6,13 +6,33 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('somsolet', '0003_auto_20190918_1054'),
+        ("somsolet", "0003_auto_20190918_1054"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='project',
-            name='warning',
-            field=models.CharField(choices=[('No Warn', '---'), ('Not Payed', 'Warning: Not payed'), ('prereport', 'Warning: Waiting for prereport'), ('technical visit', 'Warning: Waiting for technical visit'), ('report', 'Warning: Waiting for report'), ('offer', 'Warning: Waiting for offer'), ('signature', 'Warning: Waiting for signature'), ('installation date', 'Warning: Waiting for installation date'), ('finish installation', 'Warning: Installation deadline has passed'), ('legalization', 'Warning: Waiting for legalization certificates'), ('final payment', 'Warning: Pending engeneering payment'), ('warranty payment', 'Warning: Pending warranty payment')], default='No Warn', max_length=100),
+            model_name="project",
+            name="warning",
+            field=models.CharField(
+                choices=[
+                    ("No Warn", "---"),
+                    ("Not Payed", "Warning: Not payed"),
+                    ("prereport", "Warning: Waiting for prereport"),
+                    ("technical visit", "Warning: Waiting for technical visit"),
+                    ("report", "Warning: Waiting for report"),
+                    ("offer", "Warning: Waiting for offer"),
+                    ("signature", "Warning: Waiting for signature"),
+                    ("installation date", "Warning: Waiting for installation date"),
+                    (
+                        "finish installation",
+                        "Warning: Installation deadline has passed",
+                    ),
+                    ("legalization", "Warning: Waiting for legalization certificates"),
+                    ("final payment", "Warning: Pending engeneering payment"),
+                    ("warranty payment", "Warning: Pending warranty payment"),
+                ],
+                default="No Warn",
+                max_length=100,
+            ),
         ),
     ]

@@ -1,31 +1,47 @@
-secret_key: super_secret_key
-jwt_signing_key: jwt_super_secret_key
+# Databases connetion parameters
 
+## Postgresl database
 databases:
-  name: database_name
+  name: name
   host: host
-  port: port
+  port: 5432
   user: user
   password: password
 
+## Mongo database
 mongodb:
-  host: host
-  port: port
-  user: user
-  password: passwd
-  name: colectioname
- 
-redis:
-  url: redis://redis_uri
+  host: mongo-host
+  port: mongo-port
+  user: mongo-user
+  password: mongo-user-password
+  name: mongo-db
 
-sendgrid_api_key: api_key
+## Redis database
+redis:
+  url: 'redis://hostname:6379/0'
+
+# Ultra secret key
+secret_key: super_secret_key
+
+# domains / hosts that are allowed make requests
+allowed_hosts:
+  - localhost
+  - 127.0.0.1
+
+# Sendgrid integration
+sendgrid_api_key: sendgrid_api_key
 
 email:
-  default_from: email@domain.coop
-  bcc: email@domain.coop
+  default_from: foo@barr.io
+  bcc: foo@barr.io
 
+# Cors configuration
 cors:
   whitelist:
-    - https://host:port
+    - http://localhost
+    - https://localhost
   allowed_headers:
-    - allowed_header
+    - dni
+
+# Sentry integration
+sentry_dsn: https://token@host/project_id

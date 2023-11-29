@@ -1,0 +1,12 @@
+pytest
+pytest-cov
+pytest-django
+parameterized==0.9.0
+factory-boy==3.2.1
+mixer==7.2.2
+mock==5.1.0
+doublex==1.9.6.1
+doublex-expects==0.7.1
+expects==0.9.0
+black
+pre-commit

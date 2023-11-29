@@ -115,11 +115,10 @@ venv.bak/
 # editor
 *.sublime-project
 *.sublime-workspace
-
-# config
+.vscode
+.vscode/
 
 config.yaml
-
 # files
 *.csv
 json4test.yaml
@@ -128,4 +127,6 @@ uploaded_files
 # log files
 log/*
 *.log
-log
+log/
+static/
+*.ini

@@ -5,14 +5,29 @@ from django.contrib.auth.models import AnonymousUser
 from django.test import RequestFactory
 from django.urls import reverse
 
-from somsolet.views import (CampaignSetView, ConstructionPermitView,
-                            DeliveryCertificateView, InstallationDateView,
-                            LegalizationView, LegalRegistrationView, OfferView,
-                            PrereportView, ProjectView, ReportView,
-                            SignatureView)
+from somsolet.views import (
+    CampaignSetView,
+    ConstructionPermitView,
+    DeliveryCertificateView,
+    InstallationDateView,
+    LegalizationView,
+    LegalRegistrationView,
+    OfferView,
+    PrereportView,
+    ProjectView,
+    ReportView,
+    SignatureView,
+)
 
-from .factories import (CampaignFactory, ClientFactory, EngineeringFactory,
-                        ProjectFactory, TechnicalDetailsFactory, UserFactory, LocalGroupFactory)
+from .factories import (
+    CampaignFactory,
+    ClientFactory,
+    EngineeringFactory,
+    ProjectFactory,
+    TechnicalDetailsFactory,
+    UserFactory,
+    LocalGroupFactory,
+)
 from .fixtures import *
 
 
@@ -25,14 +40,11 @@ def custom_name_func(testcase_func, param_num, param):
 
 @pytest.mark.django_db
 class TestHomeView:
-
     def test__engineering_home_view__whitout_campaings(
-            self,
-            rf,
-            engineering_user, engineering
+        self, rf, engineering_user, engineering
     ):
         engineering.user = engineering_user
-        path = reverse('home')
+        path = reverse("home")
         request = rf.get(path)
         request.user = engineering_user
 
@@ -40,95 +52,87 @@ class TestHomeView:
 
         assert response.status_code == 200
         content = response.content.decode()
-        assert 'Campaign' in content and \
-            'Active' in content and \
-            'Technical Details' in content and \
-            'Calendar' in content
+        assert (
+            "Campaign" in content
+            and "Active" in content
+            and "Technical Details" in content
+            and "Calendar" in content
+        )
 
 
 @pytest.mark.django_db()
 class TestViews:
-
-    def test_project_detail_authenticated(
-        self, rf, engineering_user
-    ):
+    def test_project_detail_authenticated(self, rf, engineering_user):
         campaign = CampaignFactory()
-        path = reverse('project', kwargs={'pk': campaign.pk})
+        path = reverse("project", kwargs={"pk": campaign.pk})
         request = rf.get(path)
         request.user = engineering_user
 
         response = ProjectView.as_view()(request, pk=campaign.pk)
         assert response.status_code == 200
 
-
-    def test_project_detail_unauthenticated(
-        self, rf
-    ):
+    def test_project_detail_unauthenticated(self, rf):
         campaign = CampaignFactory()
-        path = reverse('project', kwargs={'pk': campaign.pk})
+        path = reverse("project", kwargs={"pk": campaign.pk})
         request = rf.get(path)
         request.user = AnonymousUser()
 
         response = ProjectView.as_view()(request, pk=campaign.pk)
-        assert 'auth/login' in response.url
+        assert "auth/login" in response.url
 
-    @pytest.mark.parametrize("view,url_name,status",
-        [
-            [PrereportView, 'prereport', 'registered']
-        ]
+    @pytest.mark.parametrize(
+        "view,url_name,status", [[PrereportView, "prereport", "registered"]]
     )
-    def test_auth_prereport_status_condition(
-        self, view, url_name, status
-    ):
+    def test_auth_prereport_status_condition(self, view, url_name, status):
         project = ProjectFactory()
-        path = reverse(url_name, kwargs={'pk': project.pk})
+        path = reverse(url_name, kwargs={"pk": project.pk})
         request = RequestFactory().get(path)
         request.user = UserFactory()
 
         response = view.as_view()(request, pk=project.pk)
         assert response.status_code == 200
 
-    @pytest.mark.parametrize("view,url_name,status",
+    @pytest.mark.parametrize(
+        "view,url_name,status",
         [
-            [ReportView, 'report', 'report'],
-            [OfferView, 'offer', 'report'],
-            [SignatureView, 'signed_contract', 'signature'],
-            [ConstructionPermitView, 'construction_permit', 'construction permit'],
-            [InstallationDateView, 'installation_date', 'date installation set'],
-            [DeliveryCertificateView, 'delivery_certificate', 'end installation'],
-            [LegalRegistrationView, 'legal_registration', 'end installation'],
-            [LegalizationView, 'legalization', 'legalization']
-        ]
+            [ReportView, "report", "report"],
+            [OfferView, "offer", "report"],
+            [SignatureView, "signed_contract", "signature"],
+            [ConstructionPermitView, "construction_permit", "construction permit"],
+            [InstallationDateView, "installation_date", "date installation set"],
+            [DeliveryCertificateView, "delivery_certificate", "end installation"],
+            [LegalRegistrationView, "legal_registration", "end installation"],
+            [LegalizationView, "legalization", "legalization"],
+        ],
     )
-    def test_auth_redirect_whith_invalid_status_condition(
-        self, view, url_name, status        
-    ):
+    def test_auth_redirect_whith_invalid_status_condition(self, view, url_name, status):
         project = ProjectFactory()
-        path = reverse(url_name, kwargs={'pk': project.pk})
+        path = reverse(url_name, kwargs={"pk": project.pk})
         request = RequestFactory().get(path)
         request.user = UserFactory()
 
         response = view.as_view()(request, pk=project.pk)
         assert response.status_code == 302
 
-    @pytest.mark.parametrize("view,url_name",
+    @pytest.mark.parametrize(
+        "view,url_name",
         [
-            [PrereportView, 'prereport'],
-            [ReportView, 'report'],
-            [OfferView, 'offer'],
-            [SignatureView, 'signed_contract'],
-            [ConstructionPermitView, 'construction_permit'],
-            [InstallationDateView, 'installation_date'],
-            [DeliveryCertificateView, 'delivery_certificate'],
-            [LegalRegistrationView, 'legal_registration'],
-            [LegalizationView, 'legalization']
-        ]
+            [PrereportView, "prereport"],
+            [ReportView, "report"],
+            [OfferView, "offer"],
+            [SignatureView, "signed_contract"],
+            [ConstructionPermitView, "construction_permit"],
+            [InstallationDateView, "installation_date"],
+            [DeliveryCertificateView, "delivery_certificate"],
+            [LegalRegistrationView, "legal_registration"],
+            [LegalizationView, "legalization"],
+        ],
     )
     def test_unauthenticated(self, view, url_name):
         project = ProjectFactory()
-        path = reverse(url_name, kwargs={'pk': project.pk})
+        path = reverse(url_name, kwargs={"pk": project.pk})
         request = RequestFactory().get(path)
         request.user = AnonymousUser()
 
         response = view.as_view()(request, pk=project.pk)
-        assert 'auth/login' in response.url
+        assert "auth/login" in response.url

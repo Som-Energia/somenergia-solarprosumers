@@ -7,18 +7,27 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('somsolet', '0007_auto_20191015_1740'),
+        ("somsolet", "0007_auto_20191015_1740"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='campaign',
-            name='engineerings',
-            field=models.ManyToManyField(related_name='campaigns', to='somsolet.Engineering', verbose_name='Engineering'),
+            model_name="campaign",
+            name="engineerings",
+            field=models.ManyToManyField(
+                related_name="campaigns",
+                to="somsolet.Engineering",
+                verbose_name="Engineering",
+            ),
         ),
         migrations.AlterField(
-            model_name='campaign',
-            name='engineering',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='campaign', to='somsolet.Engineering', verbose_name='Engineering'),
+            model_name="campaign",
+            name="engineering",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="campaign",
+                to="somsolet.Engineering",
+                verbose_name="Engineering",
+            ),
         ),
     ]
