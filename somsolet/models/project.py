@@ -87,6 +87,18 @@ class Project(models.Model):
         help_text=_("Notification address of this project"),
     )
 
+    registration_email_sent = models.BooleanField(
+        verbose_name=_("Registration email sent: "),
+        default=False,
+        help_text=_("Check to indicate if the email registration has been sent or not"),
+    )
+
+    registration_email_sent_date = models.DateTimeField(
+        verbose_name=_("Registration email date"),
+        null=True,
+        help_text=_("Date when the registration email was sent"),
+    )
+
     sent_general_conditions = models.BooleanField(
         default=False,
         verbose_name=_("General conditions sent: "),
@@ -109,7 +121,7 @@ class Project(models.Model):
     )
 
     status = models.CharField(
-        choices=ITEM_STATUS,
+        choices=ProjectStatus.choices,
         default=_("empty status"),
         max_length=50,
         verbose_name=_("State"),
@@ -645,6 +657,10 @@ class Project(models.Model):
     @property
     def technical_visit_dates(self):
         return self.events(manager="events").technical_visit(self)
+
+    @property
+    def registration_email_is_sent(self):
+        return self.registration_email_sent == True
 
     def __repr__(self):
         return f"<{self.__class__.__name__}({self.name})>"
