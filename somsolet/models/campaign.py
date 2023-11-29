@@ -113,6 +113,8 @@ class Campaign(models.Model):
 
     active = models.BooleanField(default=True)
 
+    notify = models.BooleanField(default=True)
+
     objects = models.Manager()
 
     campaigns = CampaignQuerySet.as_manager()
