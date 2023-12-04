@@ -15,41 +15,39 @@ class SomsoletConfig(AppConfig):
 
         import scheduler_tasks
 
-        """
-        pending to uncomment until auto's ok
-
         scheduler.cron(
             "0 23 * * *",
             func=scheduler_tasks.send_prereport_notification,
-            queue_name='default',
+            queue_name="default",
         )
-        """
+
         scheduler.cron(
             "0 22 * * 6",
             func=scheduler_tasks.send_email_tasks,
             queue_name="default",
         )
-        """
-        pending to uncomment until auto's ok
+
         scheduler.cron(
             "0 22 1 * *",
             func=scheduler_tasks.send_email_summary,
             args=[True, False, False],
-            queue_name='default',
+            queue_name="default",
         )
-        """
+
         scheduler.cron(
             "0 22 1 * *",
             func=scheduler_tasks.send_email_summary,
             args=[False, True, False],
             queue_name="default",
         )
+
         scheduler.cron(
             "0 22 1 * *",
             func=scheduler_tasks.send_email_summary,
             args=[False, False, True],
             queue_name="default",
         )
+
         scheduler.cron(
             "0 23 * * *",
             func=scheduler_tasks.prereport_warning,
