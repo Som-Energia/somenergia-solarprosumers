@@ -16,21 +16,8 @@ class SomsoletConfig(AppConfig):
         import scheduler_tasks
 
         scheduler.cron(
-            "0 23 * * *",
-            func=scheduler_tasks.send_prereport_notification,
-            queue_name="default",
-        )
-
-        scheduler.cron(
             "0 22 * * 6",
             func=scheduler_tasks.send_email_tasks,
-            queue_name="default",
-        )
-
-        scheduler.cron(
-            "0 22 1 * *",
-            func=scheduler_tasks.send_email_summary,
-            args=[True, False, False],
             queue_name="default",
         )
 
