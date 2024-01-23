@@ -90,12 +90,6 @@ class SomsoletConfig(AppConfig):
         )
 
         scheduler.cron(
-            "0 23 1 * *",
-            func=scheduler_tasks.final_payment_warning,
-            queue_name="default",
-        )
-
-        scheduler.cron(
             "0 23 * * *",
             func=scheduler_tasks.warranty_warning,
             queue_name="default",

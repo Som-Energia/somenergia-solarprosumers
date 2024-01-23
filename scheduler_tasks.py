@@ -32,7 +32,6 @@ def send_email_tasks():
             | Q(warning="final payment")
             | Q(status="discarded")
         )
-        som_warning_final_payment = warnings.filter(warning="final payment")
         som_warning_warranty = warnings.filter(warning="warranty payment").distinct(
             "campaign"
         )
@@ -70,24 +69,7 @@ def send_email_tasks():
                     message_params,
                     "emails/message_body.html",
                 )
-        if som_warning_final_payment:
-            message_params = {
-                "result": list(som_warning_final_payment),
-                "header": _("Hola {},").format(", ".join(engineering_name)),
-                "intro": _(
-                    "Us recordem que caldria omplir la informació al document de 'fitxa tècnica' referent a cada una de les instal·lacions."
-                ),
-                "warning_type": _("Project"),
-                "ending": _("Gràcies i fins aviat,"),
-            }
-            send_email(
-                engineering_email,
-                render_to_string(
-                    "emails/message_subject.txt", {"campaign": campaign.name}
-                ),
-                message_params,
-                "emails/message_body.html",
-            )
+
         if som_warning_warranty:
             campaign_warning = []
             for project in som_warning_warranty:
