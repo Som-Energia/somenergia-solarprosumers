@@ -60,6 +60,7 @@ class ProjectResource(resources.ModelResource):
         if not dry_run and not instance.registration_email_sent:
             send_registration_email.delay(project=instance)
             instance.status = "registered"
+            instance.is_paid = True
             instance.save()
 
     def after_import_row(self, row, row_result, row_number, **kwargs):
