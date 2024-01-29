@@ -898,7 +898,7 @@ msgstr "Client"
 #: somsolet/models.py:375
 #| msgid "Registration date"
 msgid "Registration email sent: "
-msgstr "Data de registre"
+msgstr "Correu de registre enviat"
 
 #: somsolet/models.py:377
 msgid "Check to indicate if the email registration has been sent or not"
@@ -907,7 +907,7 @@ msgstr ""
 #: somsolet/models.py:381
 #| msgid "Registration date"
 msgid "Registration email date"
-msgstr "Data de registre"
+msgstr "Data del correu de registre"
 
 #: somsolet/models.py:383
 #| msgid "Date legal registration certificate"

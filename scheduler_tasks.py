@@ -237,7 +237,7 @@ def prereport_warning():
         campaign__active=True,
         date_prereport__isnull=True,
         status="registered",
-        registration_date__lte=datetime.now() - timedelta(days=10),
+        registration_email_sent_date__lte=datetime.now() - timedelta(days=10),
     ).exclude(warning="prereport")
 
     for installation in installations:
