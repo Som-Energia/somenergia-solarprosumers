@@ -168,7 +168,7 @@ ROSETTA_LOGIN_URL = "/admin"
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 MEDIA_URL = "/uploaded_files/"
-MEDIA_ROOT = os.path.join(BASE_DIR, "uploaded_files")
+MEDIA_ROOT = config.get("media_root", os.path.join(BASE_DIR, "uploaded_files"))
 FILE_UPLOAD_PERMISSIONS = 0o644
 
 STATIC_URL = "/static/"

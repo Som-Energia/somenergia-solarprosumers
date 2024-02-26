@@ -51,3 +51,4 @@ sentry_dsn: https://token@host/project_id
 
 # Static files
 static_root: /path/to/static/files
+media_root: /path/to/media/files
