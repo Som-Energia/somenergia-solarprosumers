@@ -33,6 +33,3 @@ Enginyeria (usuari) ha de tenir accés només als seus projectes
 Endpoints sense permisos:
 - Campaign
 - Stats
-
-
-
