@@ -28,12 +28,15 @@ allowed_hosts:
   - localhost
   - 127.0.0.1
 
-# Sendgrid integration
+# Email configuration
 sendgrid_api_key: sendgrid_api_key
-
 email:
   default_from: foo@barr.io
   bcc: foo@barr.io
+  host: EMAIL_HOST
+  user: EMAIL_USER
+  port: EMAIL_HOST_PORT
+  tls: EMAIL_USE_TLS
 
 # Cors configuration
 cors:

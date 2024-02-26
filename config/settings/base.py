@@ -237,11 +237,11 @@ LOGGING = {
 
 ANYMAIL = {
     "SENDGRID_API_KEY": config["sendgrid_api_key"],
-    "EMAIL_HOST": "smtp.sendgrid.net",
-    "EMAIL_HOST_USER": "apikey",
+    "EMAIL_HOST": config["email"]["host"],
+    "EMAIL_HOST_USER": config["email"]["user"],
     "EMAIL_HOST_PASSWORD": config["sendgrid_api_key"],
-    "EMAIL_PORT": 587,
-    "EMAIL_USE_TLS": True,
+    "EMAIL_PORT": config["email"]["port"],
+    "EMAIL_USE_TLS": config["email"]["tls"],
 }
 EMAIL_BACKEND = "anymail.backends.sendgrid.EmailBackend"
 DEFAULT_FROM_EMAIL = [config["email"]["default_from"]]
