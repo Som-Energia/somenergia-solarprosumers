@@ -172,7 +172,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "uploaded_files")
 FILE_UPLOAD_PERMISSIONS = 0o644
 
 STATIC_URL = "/static/"
-STATIC_ROOT = os.path.join(BASE_DIR, "static")
+STATIC_ROOT = config.get("static_root", os.path.join(BASE_DIR, "static"))
+
 # STATICFILES_DIRS = [
 #     os.path.join(BASE_DIR, "static")
 # ]
