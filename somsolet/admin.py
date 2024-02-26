@@ -6,7 +6,7 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from import_export import fields, resources
 from import_export.admin import ImportExportModelAdmin
-from import_export.widgets import ForeignKeyWidget
+from import_export.widgets import ForeignKeyWidget, DateWidget
 
 from somsolet.admin_filters import CampaignNameListFilter, EngineeringNameListFilter
 from somsolet.tasks import send_registration_email
@@ -37,6 +37,7 @@ class NotificationAddressForeignKeyWidget(ForeignKeyWidget):
 
 
 class ProjectResource(resources.ModelResource):
+
     name = fields.Field(attribute="name", column_name="Codi Instal·lació")
     campaign = fields.Field(
         attribute="campaign",
@@ -53,11 +54,16 @@ class ProjectResource(resources.ModelResource):
         column_name="Correu electrònic",
         widget=NotificationAddressForeignKeyWidget(NotificationAddress, "email"),
     )
+    registration_date = fields.Field(
+        attribute="registration_date",
+        column_name="Data pagament 150 euros",
+        widget=DateWidget("%d/%m/%Y"),
+    )
 
     class Meta:
         model = Project
-        import_id_fields = ("name", "campaign", "client")
-        exclude = ("id", "sent_general_conditions", "file")
+        import_id_fields = ("name", "campaign", "client", "registration_date")
+        exclude = "id"
 
     def before_import_row(self, row, row_number=None, **kwargs):
         raw_client = self._get_client_from_row(row)
@@ -71,7 +77,7 @@ class ProjectResource(resources.ModelResource):
         if not dry_run and not instance.registration_email_sent:
             send_registration_email.delay(project=instance)
             instance.status = "registered"
-            instance.registration_date = timezone.now()
+            instance.is_paid = True
             instance.save()
 
     def after_import_row(self, row, row_result, row_number, **kwargs):
@@ -123,6 +129,7 @@ class ProjectAdmin(ImportExportModelAdmin):
     list_display = ("campaign", "name", "client", "status", "warning", "warning_date")
     list_filter = (CampaignNameListFilter, "status", "discarded_type", "warning")
     search_fields = ("name", "status", "client__name")
+    exclude = ["preregistration_date"]
     resource_class = ProjectResource
 
 
