@@ -14,6 +14,7 @@ django-widget-tweaks
 django-hijack
 django-jquery
 django-admin-autocomplete-filter==0.7.1
+django-currentuser==0.7.0
 psycopg2>=2.7,<3.0
 PyYAML
 yamlns
