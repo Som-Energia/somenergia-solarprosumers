@@ -33,15 +33,10 @@ class ProjectSerializer(serializers.HyperlinkedModelSerializer):
         return (
             {
                 "name": obj.client.name,
-                "email": obj.notification_address
-                and obj.notification_address.email
-                or "",
-                "phoneNumber": obj.notification_address
-                and obj.notification_address.phone_number
-                or "",
-                "language": obj.notification_address
-                and obj.notification_address.language
-                or "",
+                "email": obj.client.email,
+                "phoneNumber": obj.client.phone_number,
+                "language": obj.client.language,
+                "vat": obj.client.dni,
             }
             if obj.client
             else {}

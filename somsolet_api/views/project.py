@@ -35,8 +35,7 @@ class ProjectGateKeeperMixin:
             elif project:
                 return queryset.filter(id=project)
             else:
-                # return queryset
-                return Project.objects.none()
+                return queryset
         else:
             # Engineering
             return queryset.filter(engineering__user=user)
