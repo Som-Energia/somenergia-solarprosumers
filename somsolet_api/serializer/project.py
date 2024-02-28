@@ -33,9 +33,15 @@ class ProjectSerializer(serializers.HyperlinkedModelSerializer):
         return (
             {
                 "name": obj.client.name,
-                "email": obj.notification_address.email,
-                "phoneNumber": obj.notification_address.phone_number,
-                "language": obj.notification_address.language,
+                "email": obj.notification_address
+                and obj.notification_address.email
+                or "",
+                "phoneNumber": obj.notification_address
+                and obj.notification_address.phone_number
+                or "",
+                "language": obj.notification_address
+                and obj.notification_address.language
+                or "",
             }
             if obj.client
             else {}
@@ -84,7 +90,9 @@ class ProjectSerializer(serializers.HyperlinkedModelSerializer):
                 "date": obj.prereport.date,
                 "invalid": obj.prereport.check,
                 "file": obj.prereport.upload.url if obj.prereport.upload else None,
-            },
+            }
+            if obj.prereport
+            else {},
             "technicalVisits": [
                 {
                     "date": date.start_date,
@@ -96,23 +104,33 @@ class ProjectSerializer(serializers.HyperlinkedModelSerializer):
                 "date": obj.report.date,
                 "invalid": obj.report.check,
                 "file": obj.report.upload.url if obj.report.upload else None,
-            },
+            }
+            if obj.report
+            else {},
             "offer": {
                 "date": obj.offer.date,
                 "file": obj.offer.upload.url if obj.offer.upload else None,
-            },
+            }
+            if obj.offer
+            else {},
             "offer_accepted": {
                 "date": obj.offer.date,
                 "accepted": obj.offer.check,
-            },
+            }
+            if obj.offer
+            else {},
             "signature": {
                 "date": obj.signature.date,
                 "file": obj.signature.upload.url if obj.signature.upload else None,
-            },
+            }
+            if obj.signature
+            else {},
             "constructionPermit": {
                 "date": obj.permit.date,
                 "file": obj.permit.upload.url if obj.permit.upload else None,
-            },
+            }
+            if obj.permit
+            else {},
             "installation": {
                 "date": obj.date_start_installation,
                 "dateSet": obj.is_date_set,
@@ -124,13 +142,17 @@ class ProjectSerializer(serializers.HyperlinkedModelSerializer):
                 "file": obj.delivery_certificate.upload.url
                 if obj.delivery_certificate.upload
                 else None,
-            },
+            }
+            if obj.delivery_certificate
+            else {},
             "legalRegistration": {
                 "date": obj.legal_registration.date,
                 "file": obj.legal_registration.upload.url
                 if obj.legal_registration.upload
                 else None,
-            },
+            }
+            if obj.legal_registration
+            else {},
             "legalization": {
                 "date": obj.legalization.date,
                 "racFile": obj.legalization.rac_file.url
@@ -142,7 +164,9 @@ class ProjectSerializer(serializers.HyperlinkedModelSerializer):
                 "cieFile": obj.legalization.cie_file.url
                 if obj.legalization.cie_file
                 else None,
-            },
+            }
+            if obj.legalization
+            else {},
             "invoices": {
                 "first": {
                     "date": obj.date_first_invoice.url
@@ -151,13 +175,17 @@ class ProjectSerializer(serializers.HyperlinkedModelSerializer):
                     "file": obj.upload_first_invoice.url
                     if obj.upload_first_invoice
                     else None,
-                },
+                }
+                if obj.date_first_invoice
+                else {},
                 "second": {
                     "date": obj.second_invoice.date,
                     "file": obj.second_invoice.upload.url
                     if obj.second_invoice.upload
                     else None,
-                },
+                }
+                if obj.second_invoice
+                else {},
                 "last": {
                     "date": obj.date_last_invoice.url
                     if obj.date_last_invoice
@@ -165,7 +193,9 @@ class ProjectSerializer(serializers.HyperlinkedModelSerializer):
                     "file": obj.upload_last_invoice.url
                     if obj.upload_last_invoice
                     else None,
-                },
+                }
+                if obj.upload_last_invoice
+                else {},
             }
             # To Do:
             # 'discardedType'  not implemented
