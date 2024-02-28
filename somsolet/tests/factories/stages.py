@@ -8,7 +8,7 @@ class PrereportStageFactory(DjangoModelFactory):
 
     date = "2021-06-01"
     upload = None
-    check = False
+    _check = False
 
 
 class ReportBaseStageFactory(DjangoModelFactory):
@@ -17,7 +17,7 @@ class ReportBaseStageFactory(DjangoModelFactory):
 
     date = "2021-06-01"
     upload = None
-    check = False
+    _check = False
 
 
 class ReportStageFactory(ReportBaseStageFactory):
@@ -29,7 +29,7 @@ class SignatureStageBaseFactory(DjangoModelFactory):
         model = "somsolet.SignatureStage"
 
     date = "2021-06-01"
-    check = False
+    _check = False
     upload = None
 
 
@@ -62,7 +62,7 @@ class OfferAcceptedStageFactory(DjangoModelFactory):
         model = "somsolet.OfferAcceptedStage"
 
     date = "2021-06-29"
-    check = False
+    _check = False
 
 
 class SecondInvoiceStageFactory(DjangoModelFactory):
@@ -70,7 +70,7 @@ class SecondInvoiceStageFactory(DjangoModelFactory):
         model = "somsolet.SecondInvoiceStage"
 
     date = "2021-06-29"
-    check = False
+    _check = False
     upload = None
 
 
