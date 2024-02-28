@@ -7,13 +7,18 @@ from django.utils.translation import gettext_lazy as _
 
 
 class BaseFile(models.Model):
+    class Meta:
+        abstract = True
+
     date = models.DateField(
         null=True,
         blank=True,
         verbose_name=_("Date File"),
     )
 
-    check = models.BooleanField(default=False, verbose_name=_("Checked?"))
+    _check = models.BooleanField(
+        db_column="check", default=False, verbose_name=_("Checked?")
+    )
 
     def update_upload(self, upload):
         self.upload = upload
@@ -31,9 +36,6 @@ class BaseFile(models.Model):
             return self.review_status
         else:
             return self.current_status
-
-    class Meta:
-        abstract = True
 
 
 class PrereportStage(BaseFile):
