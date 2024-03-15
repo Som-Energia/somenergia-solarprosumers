@@ -2,6 +2,7 @@ import django_tables2 as tables
 from django.template.defaultfilters import slugify
 from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _
+from django.urls import reverse
 from django_tables2.utils import A
 
 from .models import Campaign, Project
@@ -19,13 +20,24 @@ class CampaignTable(tables.Table):
         verbose_name=_("Technical Details"),
     )
 
+    calendar = tables.Column(
+        orderable=False,
+        empty_values=(),
+        verbose_name=_("Calendar"),
+    )
+
     class Meta:
         model = Campaign
         fields = ["name", "active"]
 
+    def render_calendar(self, record):
+        base_url = reverse("somrenkonto")
+        url = f"{base_url}?campaign_id={record.id}"
+        link_title = _("Show Calendar")
+        return format_html(f"<a href={url}>{link_title}</a>")
+
 
 class ProjectTable(tables.Table):
-
     client = tables.LinkColumn(
         "client",
         args=[A("client_id")],

@@ -1,5 +1,8 @@
-import psycopg2
 import pytest
+
+from somrenkonto.fixtures import *
+from somsolet_api.tests.fixtures import *
+from somsolet.tests.fixtures import *
 
 from django.db import connections
 from django.conf import settings

@@ -1,0 +1,945 @@
+openapi: 3.0.3
+info:
+  title: Som Energia Som Solet API
+  description: 'API for exchange Som Solet information'
+  termsOfService: https://www.somenergia.coop/ca/avis-legal/
+  contact:
+    email: info@somenergia.coop
+  license:
+    name: AGPL-3.0
+    url: https://www.gnu.org/licenses/agpl-3.0.en.html
+  version: 0.1.0
+servers:
+- url: http://localhost:8090
+tags:
+- name: campaign
+  description: All information about a campaign
+- name: project
+  description: All information about a project.
+- name: stage
+  description: All existing stages
+- name: events
+  description: Engineering events
+- name: user
+  description: Logs user into the system 
+paths:
+  /campaign:
+    get:
+      tags:
+      - campaign
+      summary: Get details on all campaigns
+      description: Returns a list of campaigns
+      operationId: server.get_campaign
+      parameters:
+      - name: engineering
+        in: query
+        description: find all campaigns asociated with a specific engineering 
+        required: false
+        schema:
+          type: string
+          example: 'Som Engineers'
+      - name: localGroup
+        in: query
+        description: find all campaigns asociated with a specific local group 
+        required: false
+        schema:
+          type: string
+          example: 'Som GL'
+      - name: status
+        in: query
+        description: campaign status
+        required: false
+        style: form
+        explode: false
+        schema:
+          type: string
+          default: all
+          enum:
+            - all
+            - active
+            - inactive
+      - name: limit
+        in: query
+        description: How many campaigns to return at one time
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          default: 50
+          maximum: 500
+      - name: cursor
+        in: query
+        description: Actual cursor for this search
+        required: false
+        schema:
+          type: string
+          format: byte
+          default: None
+          example: 'dXNlcjpXMDdRQ1JQQTQ='
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    description: number of results
+                    example: 234
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/campaign'
+                  links:
+                    type: object
+                    properties:
+                      next:
+                        type: string
+                        description: url of next results. If null, you are in the last page
+                        example: "https://somsolet-api.somenergia.coop/campaign?limit=5&cursor=dXNlcjpVMEc5V0ZYTlo"
+        400:
+          description: Invalid status value
+          content: {}
+      security:
+        - jwt: []
+  /campaign/{campaignId}:
+    get:
+      tags:
+      - campaign
+      summary: Find a campaign by ID
+      description: Returns a single campaign
+      operationId: server.get_campaign_by_id
+      parameters:
+      - name: campaignId
+        in: path
+        description: ID of the campaign to return
+        required: true
+        schema:
+          type: string
+          example: 'Som Solar'
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    description: number of results
+                    example: 234
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/campaign'
+                  links:
+                    type: object
+                    properties:
+                      next:
+                        type: string
+                        description: url of next results. If null, you are in the last page
+                        example: "https://somsolet-api.somenergia.coop/contracts?limit=5&cursor=dXNlcjpVMEc5V0ZYTlo"
+        400:
+          description: Invalid status value
+          content: {}
+      security:
+        - jwt: []
+  /project:
+    get:
+      tags:
+      - project
+      summary: Obtain
+      description: Get
+      operationId: server.get_project
+      parameters:
+      - name: campaignName
+        in: query
+        description: Filter by campaign name
+        required: false
+        schema:
+          type: string
+          example: 'Som Solar'
+      - name: stageId
+        in: query
+        description: Get all projects in this stage
+        required: false
+        schema:
+          type: string
+          example: 'SS001'
+      - name: limit
+        in: query
+        description: How many projects to return at one time
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          default: 50
+          maximum: 500
+      - name: cursor
+        in: query
+        description: Actual cursor for this search
+        required: false
+        schema:
+          type: string
+          format: byte
+          default: None
+          example: 'dXNlcjpXMDdRQ1JQQTQ='
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    description: number of results
+                    example: 234
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/project'
+                  links:
+                    type: object
+                    properties:
+                      next:
+                        type: string
+                        description: url of next results. If null, you are in the last page
+                        example: "https://somsolet-api.somenergia.coop/contracts?limit=5&cursor=dXNlcjpVMEc5V0ZYTlo"
+        400:
+          description: Invalid status value
+          content: {}
+      security:
+        - jwt: []
+  /project/{projectId}:
+    get:
+      tags:
+      - project
+      summary: Obtain
+      description: Get
+      operationId: server.get_project_by_id
+      parameters:
+      - name: projectId
+        in: path
+        description: Id of the project 
+        required: true
+        schema:
+          type: string
+          example: 'SS001'
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/project'
+        400:
+          description: Invalid status value
+          content: {}
+      security:
+        - jwt: []
+  /project/{projectId}/technical_visit:
+    put:
+      tags:
+        - project
+      description: Set or update a date when the engineering will visit the client to make its technical visist
+      parameters:
+        - name: projectId
+          in: path
+          description: Id of the project 
+          required: true
+          schema:
+            type: string
+            example: 'SS001'
+      requestBody:
+        description: Necessary information to create or update a technical visit
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                dateStart:
+                  type: string
+                  format: date-time
+                  description: When the technical visit starts
+                  example: '2020-06-12T10:20:50.52Z'
+                dateEnd:
+                  type: string
+                  format: date-time
+                  description: When the technical visit ends
+                  example: '2020-06-12T12:20:50.52Z'
+      responses:
+        200:
+          description: Project has been updated with a new technical visit
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/event'
+  /stage:
+    get:
+      tags:
+      - stage
+      summary: Get all posible stages in a campaign
+      description: Get a list with allowed stages
+      operationId: server.get_stages
+      parameters: 
+      - name: limit
+        in: query
+        description: How many projects to return at one time
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          default: 50
+          maximum: 500
+      - name: cursor
+        in: query
+        description: Actual cursor for this search
+        required: false
+        schema:
+          type: string
+          format: byte
+          default: None
+          example: 'dXNlcjpXMDdRQ1JQQTQ='
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    description: number of results
+                    example: 234
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/stages'
+                  links:
+                    type: object
+                    properties:
+                      next:
+                        type: string
+                        description: url of next results. If null, you are in the last page
+                        example: "https://somsolet-api.somenergia.coop/contracts?limit=5&cursor=dXNlcjpVMEc5V0ZYTlo"
+        400:
+          description: Invalid status value
+          content: {}
+      security:
+        - jwt: []
+  /events/{engineering_id}:
+    get:
+      tags:
+        - events
+      summary: Get all engineering events from an campaign or instalation
+      operationId: server.get_events
+      parameters:
+      - name: engineering_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+        example: 3
+      responses:
+        200:
+          description: Events from an engineering
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  state:
+                    type: boolean
+                    description: Specifies if the requests goes well
+                    example: true
+                  data:
+                    type: object
+                    description: Result of the events request
+                    properties:
+                      count:
+                        type: integer
+                        description: number of results
+                        example: 234
+                      results:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/event'
+                  links:
+                    $ref: '#/components/schemas/links_response'
+        400:
+          description: ''
+        401:
+          description: ''
+        403:
+          description: ''
+        404:
+          description: ''
+        429:
+          description: ''
+      security:
+      - jwt: []
+      
+  /auth:
+    post:
+      tags:
+      - user
+      summary: Logs user into the system
+      operationId: server.basic_auth
+      parameters:
+      - name: username
+        in: query
+        description: The user name for login
+        required: true
+        schema:
+          type: string
+      - name: password
+        in: query
+        description: The password for login in clear text
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: string
+        400:
+          description: Invalid username/password supplied
+          content: {}
+components:
+  schemas:
+    campaign:
+      type: object
+      properties:
+        name:
+          type: string
+          description: campaign name
+          example: SomSolar
+        campaignId:
+          type: string
+          description: campaign name
+          example: SomSolar
+        dateStart:
+          type: string
+          format: date-time
+          description: campaign activation date
+          example: "2020-10-11"
+        dateEnd:
+          type: string
+          format: date-time
+          description: end date of a campaign (all projects are completed)
+          example: "2022-10-11"
+        localGroup:
+          type: array
+          description: local information
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              email:
+                type: string
+          example:
+              [{
+                "name": "local group",
+                "email": "local.group@somenergia.coop",
+              },]
+        region:
+          type: object
+          description: geographical region
+          items:
+            type: object
+            properties:
+              autonomousCommunity:
+                type: string
+              geographicalRegion:
+                type: string
+          example:
+              {
+                "autonomousCommunity":"Catalunya",
+                "geographicalRegion": "Baix Montseny",
+              }
+        installations:
+          type: object
+          description: General information regarding all installations in this campaign
+          items:
+            type: object
+            properties:
+              foreseen: 
+                type: integer
+                description: amount of foreseen instalations
+              ongoing:
+                type: integer
+                description: amount of ongoing instalations
+              completed:
+                type: integer
+                description: amount of completed instalations
+              inscriptions:
+                type: object
+                properties:
+                  total:
+                    type: integer
+                    description: total number of inscriptions
+                  relative:
+                    type: integer
+                    description: percentage of inscriptions over the total number of members in Som Energia 
+          example:
+            {
+             "foreseen": 100,
+             "ongoing": 50,
+             "completed": 60,
+             "inscription": 
+              {
+                "total": 150,
+                "relative": 3
+              } 
+            }
+        production:
+          type: object
+          description: information regarding kw production in this campaign
+          items:
+            type: object
+            properties:
+              kWp:
+                type: number
+                description: total kWp installed
+              GWhPerYear:
+                type: number
+                description: total GWh generated per year
+              GWhOverSom:
+                type: number
+                description: total GWh producced over the energy producced by Som Energia.
+          example:
+              {
+               "kWp": 100.00,
+               "GWhYear": 50,
+               "GWhOverSom": 60,
+              }
+    project:
+      type: object
+      properties:
+        name:
+          type: string
+          description: project name
+          example: "SS001"
+        campaignName:
+          type: string
+          description: campaign name
+          example: "Som Solar"
+        engineering:
+          type: array
+          description: engineering information
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              address:
+                type: string
+              email:
+                type: string
+              phoneNumber:
+                type: integer
+          example:
+              [{
+                "name": "Som Enginnerings",
+                "address": "www.somengineerings.coop",
+                "email": "som.engineerings@somenergia.coop",
+                "phoneNumber": 1234567
+              },]      
+        dateStart:
+          type: string
+          format: date-time
+          description: contract activation date
+          example: "2020-10-11"
+        registeredPerson:
+          type: object
+          description: enrolled person's detailed information
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              email:
+                type: string
+              phoneNumber:
+                type: integer
+              language:
+                type: string
+          example:
+              {
+                "name": "Pepita",
+                "email": "pepita@somergia.coop",
+                "phoneNumber": 1234567,
+                "language": "Catalán"
+              }
+        supplyPoint:
+          type: object
+          description: sypply point detailed information
+          items:
+            type: object
+            properties:
+              cups:
+                type: string
+              address:
+                type: object
+                properties:
+                  administrativeDivision:
+                    type: string
+                  municipality:
+                    type: string
+                  town:
+                    type: string
+                  street:
+                    type: string
+                  postalCode:
+                    type: string
+              power:
+                type: number
+              tariff:
+                type: string
+          example:
+            {
+              "cups":"Catalunya",
+              "address": 
+                { 
+                  "administrativeDivision": "Catalunya",
+                  "municipality": "Baix Montseny",
+                  "town": "Palau",
+                  "street": "somewhere",
+                  "postalCode": "12345"
+                },
+              "power": 4.5,
+              "tariff": "2.0A"
+            }
+        stageId:
+          type: string
+          description: current stage of a project/current status
+          example: "legalization"
+        preregistration:
+          type: object
+          properties:
+            date:
+              type: string
+              format: date
+              description: preregistration date (when a person fills in the inscription form)
+            paid:
+              type: boolean
+              description: true if payment was successful
+          example:
+            {
+                "date": "2020-02-02",
+                "paid": true
+            }
+        registered:
+          type: object
+          properties:
+            date:
+              type: string
+              format: date
+              description: registration date  (when inscription is correctly uploaded to Som Solet)
+          example:
+              {
+                "date": "2020-02-02",
+              }
+        prereport:
+          type: object
+          properties:
+            date:
+              type: string
+              format: date
+              description: date the prereport was uploaded
+            invalid:
+              type: boolean
+              description: true if prereport is invalid
+            file:
+              type: string
+              format: url
+              description: link to prereport file
+          example:
+            {
+              "date": "2020-02-02",
+              "invalid": false,
+              "file": "https://somsolet.somenergia.coop/prereport/prereport_ss001.pdf"
+            }
+        technicalVisit:
+          type: object
+          properties:
+            date:
+              type: string
+              format: date
+              description: scheduled date for technical visit
+            action:
+              type: string
+              format: url
+              description: link to a somrenkonto to schedule a visit
+          example:
+            {
+              "date": "2020-02-02",
+              "action": "https://somrenkonto.somenergia.coop"
+            }
+        report:
+          type: object
+          properties:
+            date:
+              type: string
+              format: date
+              description:  date the report was uploaded
+            invalid:
+              type: boolean
+              description: true if report is invalid
+            file:
+              type: string
+              format: url
+              description: link to report file
+          example:
+            {
+              "date": "2020-03-02",
+              "invalid": false,
+              "file": "https://somsolet.somenergia.coop/report/report_ss001.pdf"
+            }
+        offer:
+          type: object
+          properties:
+            date:
+              type: string
+              format: date
+              description: date the offer was uploaded by the enginnering
+            invalid:
+              type: boolean
+              description: true if offer is invalid
+            file:
+              type: string
+              format: url
+              description: link to offer file
+          example:
+            {
+              "date": "2020-03-02",
+              "invalid": false,
+              "file": "https://somsolet.somenergia.coop/offer/offer_ss001.pdf",
+            }
+        signature:
+          type: object
+          properties:
+            date:
+              type: string
+              format: date
+              description: date the offer was signed by the user
+            accepted:
+              type: boolean
+              description: true if offer is accepted
+            file:
+              type: string
+              format: url
+              description: link to offer file
+            action:
+              type: string
+              format: url
+              description: link to a sign the offer
+          example:
+            {
+              "date": "2020-04-02",
+              "accepted": true,
+              "file": "https://somsolet.somenergia.coop/offer/offer_ss001.pdf",
+              "action": "https://signme.somenergia.coop/"
+            }
+        constructionPermit:
+          type: object
+          properties:
+            date:
+              type: string
+              format: date
+              description: date the construction permit was uploaded
+            file:
+              type: string
+              format: url
+              description: link to construction permit file
+          example:
+            {
+              "date": "2020-03-02",
+              "file": "https://somsolet.somenergia.coop/construction_permit/permit_ss001.pdf"
+            }
+        installation:
+          type: object
+          properties:
+            date:
+              type: string
+              format: date
+              description: scheduled date for starting the installation 
+            action:
+              type: string
+              format: url
+              description: link to a somrenkonto to schedule the installation date
+            inProgress:
+              type: boolean
+              description: true if installation is in progress
+          example:
+            {
+              "date": "2020-05-02",
+              "action": "https://somrenkonto.somenergia.coop",
+              "inProgress": true,
+            }
+        deliveryCertificate:
+          type: object
+          properties:
+            date:
+              type: string
+              format: date
+              description: date the delivery certificate  was uploaded by the enginnering
+            file:
+              type: string
+              format: url
+              description: delivery certificate file
+            action:
+              type: string
+              format: url
+              description: link to sign the delivery certificate
+          example:
+            {
+              "date": "2020-05-02",
+              "file": "https://somsolet.somenergia.coop/delivery_certificate/dc_ss001.pdf",
+              "action": "https://signme.somenergia.coop",
+            }
+        legalRegistration:
+          type: object
+          properties:
+            date:
+              type: string
+              format: date
+              description: date the legal registration was uploaded
+            file:
+              type: string
+              format: url
+              description:  link to legal registration file
+          example:
+            {
+              "date": "2020-03-02",
+              "file": "https://somsolet.somenergia.coop/legal_registration/registration_ss001.pdf"
+            }
+        legalization:
+          type: object
+          properties:
+            date:
+              type: string
+              format: date
+              description:  date the legalization became efective
+            file:
+              type: string
+              format: url
+              description:  link to legalization file
+          example:
+            {
+              "date": "2020-03-02",
+              "file": "https://somsolet.somenergia.coop/legalization/legalization_ss001.pdf"
+            }
+        invoice:
+          type: object
+          properties:
+            50:
+              type: string
+              format: url
+              description: link to invoice 50%
+            40:
+              type: string
+              format: url
+              description:  link to invoice 40%
+            10:
+              type: string
+              format: url
+              description: ds link to invoice 10%sd
+          example:
+            {
+              "50": "https://somsolet.somenergia.coop/invoice/50_ss001.pdf",
+              "40": "https://somsolet.somenergia.coop/invoice/40_ss001.pdf",
+              "10": "https://somsolet.somenergia.coop/invoice/10_ss001.pdf",
+            }
+        discardedType:
+          type: string
+          description: ddfdf
+          example:
+            {
+             "discardedType": "technical",
+            }
+    stages:
+      type: object
+      properties:
+        page_results:
+          type: integer
+          description: number of contracts per page
+          example: 100
+        stageId:
+          type: string
+          description: stage ID
+          example: "prereport"
+        stageName:
+          type: string
+          description: stage name
+          example: "Prereport"
+      example:
+        [
+          {
+            "stageId": "prereport",
+            "stageName": "Prereport"
+          },
+          {
+            "stageId": "technical_visit",
+            "stageName": "Technical Visit"
+          },
+          
+        ]
+    event:
+      type: object
+      properties:
+        dateStart:
+          type: string
+          format: date-time
+        dateEnd:
+          type: string
+          format: date-time
+        allDay:
+          type: boolean
+        eventType:
+          type: string
+        address:
+          type: string
+        installationId:
+          type: integer
+        campaignId:
+          type: integer
+      example:
+          dateStart: '2020-06-12T10:20:50.52Z'
+          dateEnd: '2020-06-12T12:20:50.52Z'
+          allDay: false
+          eventType: 'TECHNICAL_VISIT'
+          address: 'Carrer Belcaire 67'
+          installationId: 1,
+          campaignId: 3,
+    
+    links_response:
+      type: object
+      properties:
+        next:
+          type: string
+          description: url of next results. If null, you are in the last page
+          example: "https://somsolet-api.somenergia.coop/contracts?limit=5&cursor=dXNlcjpVMEc5V0ZYTlo"
+  securitySchemes:
+    jwt:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      x-bearerInfoFunc: server.decode_token

@@ -4,7 +4,6 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("somsolet", "0009_auto_20191029_0910"),
     ]

@@ -3,6 +3,9 @@ import sentry_sdk
 import yaml
 
 from django.utils.translation import gettext_lazy as _
+from corsheaders.defaults import default_headers
+from datetime import timedelta
+
 from sentry_sdk.integrations.django import DjangoIntegration
 from sentry_sdk.integrations.redis import RedisIntegration
 
@@ -18,17 +21,17 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
-INSTALLED_APPS = [
+DJANGO_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "somsolet.apps.SomsoletConfig",
-    "admin_auto_filters",
+]
+
+THIRD_PART_APPS = [
     "crispy_forms",
-    "crispy_bootstrap4",
     "django_tables2",
     "django_filters",
     "import_export",
@@ -41,22 +44,34 @@ INSTALLED_APPS = [
     "django",
     "jquery",
     "rosetta",
-    "hijack",
-    "hijack.contrib.admin",
+    "rest_framework",
+    "rest_framework.authtoken",
+    "corsheaders",
+    "schedule",
+    "rest_framework_simplejwt",
 ]
+
+LOCAL_APPS = [
+    "somsolet.apps.SomsoletConfig",
+    "somrenkonto",
+]
+
+INSTALLED_APPS = DJANGO_APPS + THIRD_PART_APPS + LOCAL_APPS
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.locale.LocaleMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "hijack.middleware.HijackUserMiddleware",
+    "django_currentuser.middleware.ThreadLocalUserMiddleware",
+    "somsolet_api.common.middleware.ResponseStateMiddleware",
 ]
-
 
 ROOT_URLCONF = "config.urls"
 
@@ -107,6 +122,16 @@ AUTH_PASSWORD_VALIDATORS = [
 LOGIN_REDIRECT_URL = "/somsolet/profile_engineering/"
 LOGOUT_REDIRECT_URL = "login"
 
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.BasicAuthentication",
+        "rest_framework.authentication.SessionAuthentication",
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ],
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
+    "PAGE_SIZE": 50,
+}
+
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
@@ -145,11 +170,12 @@ ROSETTA_LOGIN_URL = "/admin"
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 MEDIA_URL = "/uploaded_files/"
-MEDIA_ROOT = os.path.join(BASE_DIR, "uploaded_files")
+MEDIA_ROOT = config.get("media_root", os.path.join(BASE_DIR, "uploaded_files"))
 FILE_UPLOAD_PERMISSIONS = 0o644
 
 STATIC_URL = "/static/"
-STATIC_ROOT = os.path.join(BASE_DIR, "static")
+STATIC_ROOT = config.get("static_root", os.path.join(BASE_DIR, "static"))
+
 # STATICFILES_DIRS = [
 #     os.path.join(BASE_DIR, "static")
 # ]
@@ -206,24 +232,32 @@ LOGGING = {
             "propagate": True,
         },
         "somsolet": {"handlers": ["console"], "level": "INFO"},
+        "somrenkonto": {"handlers": ["console"], "level": "DEBUG"},
         "scheduler_tasks": {"handlers": ["console", "file"], "level": "DEBUG"},
     },
 }
 
-
 ANYMAIL = {
     "SENDGRID_API_KEY": config["sendgrid_api_key"],
-    "EMAIL_HOST": "smtp.sendgrid.net",
-    "EMAIL_HOST_USER": "apikey",
+    "EMAIL_HOST": config["email"]["host"],
+    "EMAIL_HOST_USER": config["email"]["user"],
     "EMAIL_HOST_PASSWORD": config["sendgrid_api_key"],
-    "EMAIL_PORT": 587,
-    "EMAIL_USE_TLS": True,
+    "EMAIL_PORT": config["email"]["port"],
+    "EMAIL_USE_TLS": config["email"]["tls"],
 }
 EMAIL_BACKEND = "anymail.backends.sendgrid.EmailBackend"
 DEFAULT_FROM_EMAIL = [config["email"]["default_from"]]
 BCC = [config["email"]["bcc"]]
 
+CORS_ORIGIN_WHITELIST = config["cors"]["whitelist"]
+CORS_ALLOW_HEADERS = list(default_headers) + config["cors"]["allowed_headers"]
 
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=30),
+    "SIGNING_KEY": config["jwt_signing_key"],
+}
 # Sentry
 SENTRY_DSN = config["sentry_dsn"]
 sentry_sdk.init(

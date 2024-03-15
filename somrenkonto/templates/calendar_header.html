@@ -1,0 +1,66 @@
+{% load i18n %}
+
+<div id="calendar_header" class="col fc fc-media-screen fc-direction-ltr fc-theme-bootstrap">
+    <div class="fc-header-toolbar fc-toolbar fc-toolbar-ltr">
+        <div class="fc-toolbar-chunk">
+            <div class="btn-group">
+                <button class="fc-prev-button btn btn-secondary btn-outline-secondary" type="button" aria-label="prev">
+                    &nbsp;<span class="fa fa-chevron-left"></span>&nbsp;
+                </button>
+                <button class="fc-next-button btn btn-secondary btn-outline-secondary" type="button" aria-label="next">
+                    &nbsp;<span class="fa fa-chevron-right"></span>&nbsp;
+                </button></div>
+                <button disabled="" class="fc-today-button btn btn-secondary btn-outline-secondary" type="button">{% trans 'today' %}</button>
+            </div>
+        <div class="fc-toolbar-chunk">
+            <h2 class="fc-toolbar-title"></h2>
+        </div>
+        <div class="fc-toolbar-chunk">
+            <div class="btn-group" role="group">
+                <button class="fc-dayGridMonth-button btn btn-secondary btn-outline-secondary active" type="button">{% trans 'month' %}</button>
+                <button class="fc-timeGridWeek-button btn btn-secondary btn-outline-secondary" type="button">{% trans 'week' %}</button>
+                <button class="fc-timeGridDay-button btn btn-secondary btn-outline-secondary" type="button">{% trans 'day' %}</button>
+                
+                <div id="filterDropdown" class="btn-group" role="group">
+                    <button id="filterEeventsDropdownButton" class="fc-filterEvents-button btn btn-secondary btn-outline-secondary dropdown-toggle" type="button" aria-label="filterEvents" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="fa fa-filter"></span>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-xl dropdown-menu-right dropdown-menu-xl-left pt-3 px-3">
+                        <form id="formFilter" action="{% url 'somrenkonto' %}" class="">
+                            <div class="form-group">
+                                <label for="filterCampaigns">{% trans 'Campaigns' %}</label>
+                                <input type="text" class="form-control" id="filterCampaigns" placeholder="Campaign" autocomplete="off">
+                            </div>                            
+                            <div class="form-group">
+                                <label for="filterInstallations">{% trans 'Installation' %}</label>
+                                <input type="text" class="form-control" id="filterInstallations" placeholder="{% trans 'Type to search a installation' %}" autocomplete="off">
+                            </div>                            
+                            <div class="form-group">
+                                <label for="filterEventType">{% trans 'Event type' %}</label>
+                                <select id="filterTypeSelect" class="custom-select">
+                                    <option value="">- {% trans 'Select event type' %} -</option>
+                                    {% for event_type in event_form.event_type.field.choices %}
+                                        <option value="{{ event_type.0 }}">{{ event_type.1 }}</option>
+                                    {% endfor %}    
+                                </select>                                
+                            </div>                            
+                        </form>                        
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#" onclick="$('#formFilter').submit();">
+                            <i class="fa fa-check" aria-hidden="true"></i>&nbsp;
+                            {% trans 'Apply filters' %}
+                        </a>
+                        <a class="dropdown-item" href="{% url 'somrenkonto' %}">
+                            <i class="fa fa-times" aria-hidden="true"></i>&nbsp;
+                            {% trans 'Reset filters' %}
+                        </a>
+                    </div>
+                </div>
+                
+            </div>
+            <a class="fc-configureCalendar-button btn btn-secondary btn-outline-secondary" type="button" aria-label="configureCalendar" href="{% url 'edit_calendar' calendar.id %}">
+                &nbsp;<span class="fa fa-cogs"></span>&nbsp;
+            </a>
+        </div>
+    </div>
+</div>

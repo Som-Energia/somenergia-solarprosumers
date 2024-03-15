@@ -11,7 +11,6 @@ def make_many_engineerings(apps, schema):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("somsolet", "0008_auto_20191029_0903"),
     ]

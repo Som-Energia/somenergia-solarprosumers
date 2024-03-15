@@ -4,7 +4,6 @@ from django.db import models, migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("somsolet", "0010_remove_campaign_engineering"),
     ]

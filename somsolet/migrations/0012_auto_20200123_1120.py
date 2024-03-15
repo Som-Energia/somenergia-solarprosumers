@@ -71,7 +71,6 @@ def campaing_to_technical(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("somsolet", "0011_auto_20200123_0950"),
     ]

@@ -15,6 +15,7 @@ from .models import (
     Campaign,
     Client,
     ClientFile,
+    NotificationAddress,
     Engineering,
     LocalGroup,
     Project,
@@ -25,7 +26,18 @@ from .models import (
 logger = logging.getLogger("admin")
 
 
+class NotificationAddressForeignKeyWidget(ForeignKeyWidget):
+    def get_queryset(self, value, row, *args, **kwargs):
+        result = self.model.objects.filter(
+            email__iexact=row["Correu electrònic"],
+            phone_number__iexact=row["Telèfon de contacte"],
+            client__membership_number__iexact=row["Número de soci/a de Som Energia"],
+        )
+        return result
+
+
 class ProjectResource(resources.ModelResource):
+
     name = fields.Field(attribute="name", column_name="Codi Instal·lació")
     campaign = fields.Field(
         attribute="campaign",
@@ -37,16 +49,21 @@ class ProjectResource(resources.ModelResource):
         column_name="Número de soci/a de Som Energia",
         widget=ForeignKeyWidget(Client, "membership_number"),
     )
+    notification_address = fields.Field(
+        attribute="notification_address",
+        column_name="Correu electrònic",
+        widget=NotificationAddressForeignKeyWidget(NotificationAddress, "email"),
+    )
     registration_date = fields.Field(
         attribute="registration_date",
         column_name="Data pagament 150 euros",
-        widget=DateWidget('%d/%m/%Y')
+        widget=DateWidget("%d/%m/%Y"),
     )
 
     class Meta:
         model = Project
         import_id_fields = ("name", "campaign", "client", "registration_date")
-        exclude = ("id")
+        exclude = "id"
 
     def before_import_row(self, row, row_number=None, **kwargs):
         raw_client = self._get_client_from_row(row)
@@ -188,6 +205,9 @@ class Technical_detailsResource(resources.ModelResource):
         import_id_fields = ("project", "campaign", "client")
         exclude = ("id",)
 
+    def before_import_row(self, row, **kwargs):
+        row["Número de DNI"] = row["Número de DNI"].upper()
+
 
 @admin.register(Technical_details)
 class Technical_detailsAdmin(ImportExportModelAdmin):
@@ -214,8 +234,26 @@ class ClientResource(resources.ModelResource):
         exclude = ("id", "sent_general_conditions", "file")
 
     def before_import_row(self, row, **kwargs):
-        row["Nom i cognoms"] = row["Nom i cognoms"].title()
         row["Número de DNI"] = row["Número de DNI"].upper()
+        row["Nom i cognoms"] = row["Nom i cognoms"].title()
+
+
+class NotificationAddressResource(resources.ModelResource):
+    client = fields.Field(
+        attribute="client",
+        column_name="Número de soci/a de Som Energia",
+        widget=ForeignKeyWidget(Client, "membership_number"),
+    )
+
+    phone_number = fields.Field(
+        attribute="phone_number", column_name="Telèfon de contacte"
+    )
+    email = fields.Field(attribute="email", column_name="Correu electrònic")
+    language = fields.Field(attribute="language", column_name="Idioma")
+
+    class Meta:
+        model = NotificationAddress
+        import_id_fields = ("client", "phone_number", "email")
 
 
 @admin.register(Client)
@@ -228,6 +266,13 @@ class ClientAdmin(ImportExportModelAdmin):
 @admin.register(ClientFile)
 class ClientFileAdmin(admin.ModelAdmin):
     list_display = ("name", "language")
+
+
+@admin.register(NotificationAddress)
+class NotificationAddressAdmin(ImportExportModelAdmin):
+    list_display = ("client", "email", "phone_number")
+    resource_class = NotificationAddressResource
+    search_fields = ["client", "email", "phone_number"]
 
 
 @admin.register(LocalGroup)

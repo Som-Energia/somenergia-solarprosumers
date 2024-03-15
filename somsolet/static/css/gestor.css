@@ -1,32 +1,50 @@
 body {
-    padding-top: 3.5rem;
+  font-family: 'Roboto', sans-serif;
+  padding-top: 0;
+  color: #4d4d4d;
+}
+
+:root {
+  --primary: #bac92a;
+  --secondary: #4d4d4d;
 }
 
 h1 a {
     color: #FCA205;
 }
 
-.navbar-dark .navbar-brand {
-    color: #bac92a;
+.navbar-brand {
+    text-transform: uppercase;
+    font-size: 18px;
+    font-weight: 300;
+    color: #4d4d4d;
 }
 
-.bg-dark {
-    background-color: #444 !important;
+.navbar-brand img {
+    width: 60px;
+    margin-right: 16px;
+    padding-bottom: 8px;    
 }
 
-.btn-outline-primary {
+.btn-primary-- {
+  color: #fff !important;
+  background-color: #5b5b5f !important;
+  border-color: #5b5b5f !important;
+}
+
+.btn-outline-primary-- {
     color: #bac92a !important;
     border-color: #bac92a !important;
 }
 
-.btn-primary {
-    color: #fff !important;
-    background-color: #5b5b5f !important;
-    border-color: #5b5b5f !important;
+.btn-logout:hover {
+    color: #5b5b5f !important;
+    background-color: #bac92a !important;
+    border-color: #bac92a !important;
 }
 
-.btn-logout {
-    color: #5b5b5f !important;
+.btn-primary.active {
+    color: #fff !important;
     background-color: #bac92a !important;
     border-color: #bac92a !important;
 }
@@ -37,15 +55,90 @@ h1 a {
     border-color: #bac92a !important;
 }
 
+.btn-primary:focus .btn-primary.focus {
+    box-shadow: 0 0 0 0.2rem #bac92a29;
+}
+
 .btn-outline-primary:hover {
     color: #fff;
     background-color: #bac92a;
     border-color: #bac92a;
 }
+.custom-control-input:checked~.custom-control-label::before {
+    color: #fff;
+    background-color: #bac92a;
+    border-color: #bac92a;
+}
+
+.autoComplete_resultlist {
+    padding-left: 0;
+    margin-bottom: 0;
+}
+
+.autoComplete_result {
+    margin: inherit;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.autoComplete_selected,
+.autoComplete_result:hover {
+    border-left: 2px solid #bac92a;
+    border-right: 2px solid #bac92a;
+    border-bottom: 2px solid #bac92a;
+    background-color: #bac92a29;
+}
+.autoComplete_highlighted {
+    color: #bac92a !important;
+}
 
 .form-filters label {
     margin-right: .5rem !important;
     margin-bottom: .25rem !important;
+}
+
+.form-control:focus {
+    border-color: #bac92a;
+    box-shadow: 0 0 0 0.2rem #bac92a29;
+}
+
+.modal-header h5 {
+    margin-bottom: 0;
+}
+
+.modal-footer {
+    padding-bottom: 0;
+}
+
+/* TABLES */
+
+.table-campaign .table-bordered thead th {
+    padding: 12px 8px;
+    background-color: #fff;
+}
+
+.table-campaign td {
+    padding: 8px;    
+}
+
+.table-som table {
+    display: block;
+    max-width: 1110px;
+    margin: 0 auto;   
+    overflow: scroll;
+    overflow: auto;    
+}
+
+.table-som table th {
+    padding: 12px 8px;
+    white-space: nowrap;    
+}
+
+.table-som table td {
+    padding: 8px;
+    white-space: nowrap;    
 }
 
 .table-som a,
@@ -55,6 +148,7 @@ h1 a {
 
 .table-som a:hover {
     color: #bac92a !important;
+    text-decoration: none;
 }
 
 :root {
@@ -200,23 +294,10 @@ h1 a {
     color: var(--color7)
 }
 
- {
-    color: var(--color7)
-}
-
 .table-som .status.discarded,
 .table-som .status.descartado,
 .table-som .status.descartat {
     color: var(--color11)
-}
-
-.som-foot p {
-    text-align: center;
-    font-weight: 500;
-}
-
-.som-foot .fa-heart {
-    color: #bac92a;
 }
 
 .page-item.active .page-link {
@@ -285,13 +366,6 @@ svg rect{
   border-radius: .25rem;
 }
 
-.form-language {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  flex-direction: row;
-}
-
 .right-navbar {
   display: flex;
   align-items: center;
@@ -301,12 +375,133 @@ svg rect{
   margin-bottom: 0;
 }
 
-.form-language .custom-select {
-  min-width: 65px;
-  padding: 4px 12px;
-  font-size: 14px;
-  background: transparent;
-  border: 1px #ccc solid;
-  border-radius: 4px;
-  color: #ccc;
+.right-navbar .nav-item p,
+.right-navbar .nav-item form {
+  margin-bottom: 0;
+}
+
+.right-navbar .modal-footer {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.business-day-row {
+    display: flex;
+    align-items: baseline;
+}
+
+.business-day-available-hour {
+    display: flex;
+    align-items: center;
+}
+
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+body {
+    margin-bottom: 80px; /* Margin bottom by footer height */
+}
+
+/* FOOTER */
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 80px; /* Set the fixed height of the footer here */
+    line-height: 80px; /* Vertically center the text there */
+    justify-content: center;
+}
+
+.footer p,
+.footer form {
+    margin-bottom: 0;
+}
+
+.som-foot p {
+    text-align: center;
+    font-weight: 500;
+}
+
+.som-foot .fa-heart {
+    color: #bac92a;
+}
+
+.icon-green {
+    color: #bac92a;
+}
+
+/* END FOOTER */
+
+/*
+.collapse:not(.show) {
+    visibility: hidden;
+    display: flex;
+}*/
+
+.dropdown-item {
+  color: var(--secondary);
+}
+
+.bootstrap-datetimepicker-widget .timepicker-hour, .bootstrap-datetimepicker-widget .timepicker-minute, .bootstrap-datetimepicker-widget .timepicker-second {
+    font-size: 1em;
+    color: #5b5b5f;
+}
+
+.bootstrap-datetimepicker-widget table td span {
+    width: unset;
+    height: unset;
+    line-height: unset;
+}
+
+.bootstrap-datetimepicker-widget table td {
+    height: unset;
+    line-height: unset;
+    width: unset;
+}
+
+.bootstrap-datetimepicker-widget table td, .bootstrap-datetimepicker-widget table th {
+    width: auto;
+    height: auto;
+}
+
+.fc-toolbar-title::before {
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;    
+    font: normal normal normal 24px/1 FontAwesome;
+    content: "\f073";
+    margin-right: 12px;
+}
+
+.fc .fc-toolbar-title {
+    font-size: 1.5em !important;
+    font-weight: 300;
+}
+
+.type-btns {
+    width: 100%;
+}
+
+.type-btns .btn-group {
+    width: 100%;
+}
+
+.type-btns .form-check {
+    padding-left: 5px;
+}
+
+.type-btns .btn {
+    flex: 1;
+}
+
+.event-info .col {
+    margin-bottom: 4px;
+}
+
+#calendar_header .dropdown-menu-xl {
+    min-width: 18rem;
 }

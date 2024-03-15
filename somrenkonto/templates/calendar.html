@@ -1,0 +1,597 @@
+{% extends 'somsolet/base_layout.html' %}
+{% load static %}
+{% load i18n %}
+
+{% get_current_language as LANGUAGE_CODE %}
+{% get_language_info for LANGUAGE_CODE as lang %}
+
+{% get_available_languages as LANGUAGES %}
+{% get_language_info_list for LANGUAGES as languages %}
+
+
+{% block css %}
+    <link href="{% static 'autocomplete/autoComplete.min.css' %}" rel='stylesheet'/>
+    {{ block.super }}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.css" type="text/css" media="all" rel="stylesheet">
+    <link href="{% static 'fullcalendar/main.min.css' %}" rel='stylesheet'/>
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+    {% include 'calendar_header.html' %}
+</div> 
+
+<div class="row">
+  <div id="calendar" class="col">
+  </div>
+  <div id="event-form" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form class="form" action="{% url 'new_event' %}" method="post">
+                {% csrf_token %}
+                <div class="modal-header">
+                    <h5>New event</h5>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="{{ event_form.calendar.html_name }}" value="{{ calendar.id }}">
+                    <div class="form-row">
+                        <div class="form-group type-btns">
+                            <div class="col form-check btn-group btn-group-toggle" data-toggle="buttons">
+                                {% for event_type in event_form.event_type.field.choices %}
+                                <label class="btn btn-sm btn-outline-secondary {% if forloop.counter0 == 0 %} active {% endif %}">
+                                    <input type="radio" id="{{ event_form.event_type.id_for_label}}" value="{{ event_type.0 }}" name="{{ event_form.event_type.html_name}}" autocomplete="off">{{ event_type.1 }}
+                                </label>
+                                {% endfor %}
+                            </div>    
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <label for="{{ event_form.title.id_for_label }}">Event title</label>
+                            <input id="{{ event_form.title.id_for_label }}" class="form-control" type="text" name="{{ event_form.title.html_name }}" placeholder="{% trans 'Event title' %}" autocomplete="off" required>    
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <label for="{{ event_form.start_date.id_for_label }}">Start date</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><span class="fa fa-calendar"></span></span>
+                                </div>                            
+                                <input id="{{ event_form.start_date.id_for_label }}" class="form-control" type="text" name="{{ event_form.start_date.html_name }}" placeholder="{% trans 'Initial date' %}" autocomplete="off">    
+                            </div>
+                        </div>
+                        <div class="form-group col">
+                            <label for="{{ event_form.end_date.id_for_label }}">End date</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><span class="fa fa-calendar"></span></span>
+                                </div>               
+                                <input id="{{ event_form.end_date.id_for_label }}" class="form-control" type="text" name="{{ event_form.end_date.html_name }}" placeholder="{% trans 'Final date' %}" autocomplete="off">
+                            </div>             
+                        </div>
+                    </div>
+                    <div class="form-row collapse" id="event_hours">
+                        <div class="form-group col">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><span class="fa fa-clock-o"></span></span>
+                                </div>                            
+                                <input id="{{ event_form.start_time.id_for_label }}" class="form-control" type="text" name="{{ event_form.start_time.html_name }}" placeholder="{% trans 'Initial hour' %}" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="form-group col">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><span class="fa fa-clock-o"></span></span>
+                                </div>                            
+                                <input id="{{ event_form.end_time.id_for_label }}" class="form-control" type="text" name="{{ event_form.end_time.html_name}}" placeholder="{% trans 'Final hour' %}" autocomplete="off">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <div class="form-check form-check-inline">
+                                <input type="checkbox" class="form-check-input" id="{{ event_form.all_day.id_for_label }}" name="{{ event_form.all_day.html_name }}">
+                                <label class="form-check-label" for="{{ event_form.all_day.id_for_label }}" >{% trans 'All day' %}</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <label for="{{ event_form.campaing_name.id_for_label }}">Campaign</label>
+                            <input  class="form-control" id="{{ event_form.campaing_name.id_for_label }}" type="text" tabindex="1" name="{{ event_form.campaing_name.html_name }}" placeholder="{% trans 'Type to search a campaing' %}" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <label for="{{ event_form.installation_name.id_for_label }}">Installation</label>
+                            <input  class="form-control" id="{{ event_form.installation_name.id_for_label }}" type="text" name="{{ event_form.installation_name.html_name }}" placeholder="{% trans 'Installation' %}" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <label for="{{ event_form.description.id_for_label }}">Description</label>
+                            <textarea class="form-control" id="{{ event_form.description.id_for_label }}" rows="3" name="{{ event_form.description.html_name }}" placeholder="{% trans 'Description' %}"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans 'Close' %} </button>
+                    <button type="button submit" class="btn btn-primary">{% trans 'Save' %}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
+
+{% block js %}
+    {{ block.super }}
+    <script src="{% static 'fullcalendar/main.min.js' %}"></script>
+    {% for language in languages %}
+         <script src="{% static 'fullcalendar/locales/{{languages.code}}.js' %}"></script>
+    {% endfor %}
+
+    <script src="{% static 'autocomplete/autoComplete.min.js' %}"></script>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+
+    {{ calendar_events|json_script:"calendar_events" }}
+    {{ campaigns|json_script:"campaigns" }}
+
+    <script type="text/javascript">
+
+        var campaigns = JSON.parse(
+          JSON.parse(document.getElementById('campaigns').textContent)
+        );
+
+        function set_selection_value(element, value) {
+         document.querySelector(element).value = value;
+         document
+             .querySelector(element)
+             .setAttribute("placeholder", value);
+        }
+
+        function setup_installations_autocomplete(data_elements, search_keys, input_id) {
+            return new autoComplete({
+               data: {
+                 cache: true,
+                 src: data_elements,
+                 key: search_keys
+               },
+               placeHolder: "{% trans 'Type to search a installation' %}",
+               selector: input_id,
+               threshold: 0,
+               maxResults: 5,
+               searchEngine: 'loose',
+               resultsList: {
+                   render: true,
+                   container: function(source) {
+                       source.setAttribute("class", "autoComplete_resultlist");
+                       source.setAttribute("id", "installations_resultlist");
+                   },
+                   destination: document.querySelector(input_id),
+                   position: "afterend",
+                   element: "ul"
+               },
+               resultItem: {
+                   content: function(data, source) {
+                       source.innerHTML = data.match;
+                   },
+                   element: "li"
+               },
+               highlight: true,
+               onSelection: function(feedback) {
+                   set_selection_value(input_id, feedback.selection.value.name);
+                   if(input_id === '#filterInstallations'){
+                       console.log(feedback.selection)
+                        document.getElementById('filterInstallationId')?.remove();
+                        const elInput = document.createElement('input');
+                        elInput.setAttribute('type', 'hidden');
+                        elInput.id = 'filterInstallationId';
+                        elInput.setAttribute('name', 'project_id');
+                        elInput.setAttribute('value', feedback.selection.value.id);
+                        document.getElementById('formFilter').append(elInput);
+                   }
+               }
+            });
+        }
+
+
+        $(document).ready(function() {
+
+            $('#filterDropdown').on('hide.bs.dropdown', function (e) {
+                e.preventDefault();
+            });
+
+            $('#filterTypeSelect').on('change', function(e){
+                console.log('select', e.currentTarget.value)
+                document.getElementById('filterTypeId')?.remove();
+                if(e.currentTarget.value !== ''){
+                    const elInput = document.createElement('input');
+                    elInput.setAttribute('type', 'hidden');
+                    elInput.id = 'filterTypeId';
+                    elInput.setAttribute('name', 'event_type');
+                    elInput.setAttribute('value', e.currentTarget.value);
+                    document.getElementById('formFilter').append(elInput);
+                }
+            });
+
+            var installationsAutoComplete = false;
+            var campaignsAutoComplete = false;            
+            var installationsAutoFilter = false;
+            var campaignsAutoFilter = false;
+
+            document.getElementById('id_installation').disabled = true;
+            document.getElementById('filterInstallations').disabled = true;
+
+            campaignsAutoComplete = new autoComplete({
+                data: {
+                    cache: true,
+                    src: Object.keys(campaigns)
+                },
+                placeHolder: "{% trans 'Type to search a campaing' %}",
+                selector: '#id_campaing',
+                threshold: 0,
+                maxResults: 5,
+                searchEngine: 'loose',
+                resultsList: {
+                    render: true,
+                    container: function(source) {
+                        source.setAttribute("class", "autoComplete_resultlist");
+                        source.setAttribute("id", "campaings_resultlist");
+                    },
+                    destination: document.querySelector("#id_campaing"),
+                    position: "afterend",
+                    element: "ul"
+                },
+                resultItem: {
+                    content: function(data, source) {
+                        source.innerHTML = data.match;
+                    },
+                    element: "li"
+                },
+                highlight: true,
+                onSelection: function(feedback) {
+                    set_selection_value('#id_campaing', feedback.selection.value);
+                    document.getElementById('id_installation').disabled = false;
+                    if(!installationsAutoComplete){
+                        installationsAutoComplete = setup_installations_autocomplete(campaigns[feedback.selection.value].installations, ['name'], '#id_installation');
+                    }                    
+                }
+            })
+
+            campaignsAutoFilter = new autoComplete({
+                data: {
+                    cache: true,
+                    src: Object.keys(campaigns)
+                },
+                placeHolder: "{% trans 'Type to search a campaing' %}",
+                selector: '#filterCampaigns',
+                threshold: 0,
+                maxResults: 5,
+                searchEngine: 'loose',
+                resultsList: {
+                    render: true,
+                    container: function(source) {
+                        source.setAttribute("class", "autoComplete_resultlist");
+                        source.setAttribute("id", "campaings_resultlist");
+                    },
+                    destination: document.querySelector("#filterCampaigns"),
+                    position: "afterend",
+                    element: "ul"
+                },
+                resultItem: {
+                    content: function(data, source) {
+                        source.innerHTML = data.match;
+                    },
+                    element: "li"
+                },
+                highlight: true,
+                onSelection: function(feedback) {
+                    set_selection_value('#filterCampaigns', feedback.selection.value);
+
+                    document.getElementById('filterCampaignId')?.remove();
+                    const elInput = document.createElement('input');
+                    elInput.setAttribute('type', 'hidden');
+                    elInput.id = 'filterCampaignId';
+                    elInput.setAttribute('name', 'campaign_id');
+                    elInput.setAttribute('value', campaigns[feedback.selection.value].id);
+                    document.getElementById('formFilter').append(elInput);
+
+                    document.getElementById('filterInstallations').disabled = false;
+                    if(!installationsAutoFilter){
+                        installationsAutoFilter = setup_installations_autocomplete(campaigns[feedback.selection.value].installations, ['name'], '#filterInstallations');
+                    }
+                }
+            })
+        });
+    
+    </script>
+
+    <script type="text/javascript">
+        function initialize_datepickers() {
+            $('#initial_date_picker').datetimepicker({
+                format: 'L',
+                locale: '{{ lang.code|default:'ca'}}',
+                useCurrent: false
+            });
+            $('#initial_hour_picker').datetimepicker({
+                format: 'LT',
+                locale: '{{ lang.code|default:'ca'}}',
+                useCurrent: false
+            });
+            $('#final_date_picker').datetimepicker({
+                format: 'L',
+                locale: '{{ lang.code|default:'ca'}}',
+                useCurrent: false
+            });
+            $('#final_hour_picker').datetimepicker({
+                format: 'LT',
+                locale: '{{ lang.code|default:'ca'}}',
+                useCurrent: false
+            });
+        }
+
+        function close_other_popovers() {
+           if ($('.show[role="tooltip"]').length > 0) {
+               $('.show[role="tooltip"]').popover('hide');
+           }
+           $(window).off('click');
+        }
+
+        function closeOnOutsiteClick(element, target){
+            if( !element.get(0).contains(target) ){
+                close_other_popovers();
+            }
+        }
+
+        function init_and_show_popover(element, init_data) {
+          element.popover(init_data).popover('show');
+
+          element.on('hidden.bs.popover', function () {
+              element.popover('dispose');
+          });
+          $(window).on('click', function(e){
+            closeOnOutsiteClick(element, e.target);
+          })
+        }
+
+        function updateMonthTitle(calendar){
+            var date = calendar.formatDate(calendar.getDate(), {
+                    month: 'long',
+                    year: 'numeric'
+                });
+
+            $('.fc-toolbar-title').text(date);
+        }
+
+        function updateTodayButton(calendar) {
+            var today = calendar.getCurrentData().dateProfileGenerator.nowDate
+            const currentDateProfile = calendar.getCurrentData().dateProfile.activeRange;
+
+            if (currentDateProfile.start <= today && today <= currentDateProfile.end) {
+                $('.fc-today-button').prop("disabled", true);
+            } else {
+                $('.fc-today-button').prop("disabled", false);
+            }
+        }
+
+        function navegateTo(calendar, action) {
+            calendar[action]();
+            updateMonthTitle(calendar);
+            updateTodayButton(calendar);
+        }
+
+        function updateCalendarView(calendar, viewName, elem) {
+            if ($('div .active')[0] !== elem.currentTarget) {
+                    $('div .active').removeClass('active');
+                    $(elem.currentTarget).addClass('active');
+                    calendar.changeView(viewName);
+                }
+        }
+
+        function setNavegationActions(calendar) {
+            for (let action of ['prev', 'next', 'today']) {
+                $('.fc-' + action + '-button').click(function() {
+                    navegateTo(calendar, action);
+                });
+            }
+        }
+
+        function setCalendarViews(calendar) {
+            for (let viewName of ['dayGridMonth', 'timeGridWeek', 'timeGridDay']) {
+                $('.fc-' + viewName + '-button').click(function (elem) {
+                    updateCalendarView(calendar, viewName, elem);
+                });
+            }
+        }
+
+        function set_calendar_header_actions(calendar) {
+            setNavegationActions(calendar);
+            setCalendarViews(calendar);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var events = JSON.parse(
+              JSON.parse(document.getElementById('calendar_events').textContent)
+            );
+
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                themeSystem: 'bootstrap',
+                headerToolbar: false,
+                locale: '{{ lang.code|default:'ca'}}',
+                firstDay: 1,
+                initialView: 'dayGridMonth',
+                aspectRatio:2,
+                selectable: true,
+                editable: true,
+                unselectAuto: false,
+                navLinks: true,
+                nowIndicator:true,
+                businessHours: [
+                    {
+                        daysOfWeek: [ 1, 2, 3 ], // Monday, Tuesday, Wednesday
+                        startTime: '08:00', // 8am
+                        endTime: '18:00' // 6pm
+                    }
+                ],
+                eventSources: [{
+                    events: events,
+                    editable: false,
+                }],
+                displayEventTime: false,
+                eventClick: function(info) {
+                    var event_node = $(info.el);
+                    var is_popover_showed = $(info.el).data('bs.popover') && $(info.el).data('bs.popover').tip.hasAttributes('show');
+
+                    if (is_popover_showed) {
+                        event_node.popover('hide');
+                    } else {
+                        close_other_popovers();
+                        var start_date = FullCalendar.formatDate(info.event.start, {
+                            month: 'long',
+                            day: 'numeric',
+                            locale: '{{ lang.code|default:"ca"}}'
+                        });
+                        var start_time = FullCalendar.formatDate(info.event.start, {
+                            hour: '2-digit',
+                            minute: '2-digit',
+                            hour12: false,
+
+                        });
+                        init_and_show_popover($(info.el), {
+                            html: true,
+                            content: `
+                            <div class="event-info">
+                                <div class="row">
+                                    <div class="col">
+                                        <b> ${info.event.title} </b>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <i class="fa fa-align-justify fa-calendar fa-fw"></i>
+                                        <span class="font-weight-light"> ${start_date} </span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <i class="fa fa-clock-o"></i>
+                                        <span class="font-weight-light"> ${start_time} </span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <i class="fa fa-info-circle"></i>
+                                        <p class="font-weight-light"> ${info.event.extendedProps.description} </p>
+                                    </div>
+                                </div>
+                            </div>`
+                        });
+                    }
+                },
+                dateClick: function(info) {
+                    var eventFormModal = $('#event-form');
+                    var initial_date_picker = $('#initial_date_picker');
+                    var initial_hour_picker = $('#initial_hour_picker');
+                    var final_date_picker = $('#final_date_picker');
+                    var final_hour_picker = $('#final_hour_picker');
+                    var event_hours = $('#event_hours');
+                    var campaign = $('#id_campaing');
+                    var installation = $('#id_installation');
+                    var switch_event_hours = document.getElementById('switch_event_hours');
+
+                    if (info.allDay) {
+                        event_hours.collapse('hide');
+                        switch_event_hours.checked = true;
+
+                    } else {
+                        event_hours.collapse('show');
+                        switch_event_hours.checked = false;
+                    }
+                    initial_date_picker.data("DateTimePicker").clear();
+                    initial_hour_picker.data("DateTimePicker").clear();
+                    final_date_picker.data("DateTimePicker").clear();
+                    final_hour_picker.data("DateTimePicker").clear();
+
+                    initial_date_picker.data("DateTimePicker").date(info.date);
+                    initial_hour_picker.data("DateTimePicker").date(info.date);
+                    final_date_picker.data("DateTimePicker").minDate(info.date);
+                    final_date_picker.data("DateTimePicker").date(info.date);
+
+                    close_other_popovers();
+                    campaign.val('');
+                    campaign.attr('placeholder', "{% trans 'Type to search a campaing' %}")
+                    installation.val('');
+                    document.getElementById('id_installation').disabled = true;
+                    installation.attr('placeholder', "{% trans 'Type to search a installation' %}")
+                    
+                    eventFormModal.modal('show');
+
+                    initial_date_picker.on('dp.change', function(data) {
+                        final_date_picker.data("DateTimePicker").minDate(data.date);
+                    });
+                    final_date_picker.on('dp.change', function(data) {
+                        initial_date_picker.data("DateTimePicker").maxDate(data.date);
+                        final_hour_picker.data("DateTimePicker").minDate(false);
+                    });
+
+                    initial_hour_picker.on('dp.change', function(data) {
+                        final_hour_picker.data("DateTimePicker").minDate(data.date);
+                    });
+                },
+                select: function(info){
+                    var eventFormModal = $('#event-form');
+                    var initial_date_picker = $('#initial_date_picker');
+                    var initial_hour_picker = $('#initial_hour_picker');
+                    var final_date_picker = $('#final_date_picker');
+                    var final_hour_picker = $('#final_hour_picker');
+                    var event_hours = $('#event_hours');
+                    var switch_event_hours = document.getElementById('switch_event_hours');
+                    var final_datetime;
+
+                    if (info.allDay) {
+                        event_hours.collapse('hide');
+                        switch_event_hours.checked = true;
+                        final_datetime = moment(info.endStr).subtract(1, 'days');
+                    } else {
+                        event_hours.collapse('show');
+                        switch_event_hours.checked = false;
+                        final_datetime = info.end;
+                    }
+                    initial_date_picker.data("DateTimePicker").clear();
+                    initial_hour_picker.data("DateTimePicker").clear();
+                    final_date_picker.data("DateTimePicker").clear();
+                    final_hour_picker.data("DateTimePicker").clear();
+
+                    initial_date_picker.data("DateTimePicker").date(info.start);
+                    initial_hour_picker.data("DateTimePicker").date(info.start);
+                    final_date_picker.data("DateTimePicker").minDate(info.start);
+                    final_date_picker.data("DateTimePicker").date(final_datetime);
+                    final_hour_picker.data("DateTimePicker").date(final_datetime);
+
+                    close_other_popovers();
+                    eventFormModal.modal('show');
+                }
+            });
+            updateMonthTitle(calendar);
+            set_calendar_header_actions(calendar);
+            calendar.render();
+        });
+        initialize_datepickers();
+
+        var switch_event_hours = $('#switch_event_hours');
+        switch_event_hours.on('click', function(){
+            var event_hours = $('#event_hours');
+            event_hours.collapse('toggle');
+        });
+
+    </script>
+{% endblock %}

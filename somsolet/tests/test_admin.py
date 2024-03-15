@@ -35,7 +35,6 @@ def raw_import_data():
 
 @pytest.fixture
 def project_import_data(raw_import_data):
-
     dataset = tablib.Dataset(headers=raw_import_data.keys())
     dataset.append(raw_import_data.items())
     return dataset

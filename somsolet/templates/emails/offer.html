@@ -1,0 +1,70 @@
+{% load i18n %}
+
+<body style="margin:0; padding:1rem; background-color:#F2F2F2; color: #333333; font-family: Arial,Helvetica,sans-serif;">
+<style>
+.button {
+
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: auto;
+    cursor: pointer;
+    background-color:  #aec122;
+    border-radius: 8pt;
+    box-shadow: 2px 2px 7px #4D4D4D;
+    }
+</style>
+
+    <center>
+        <table width="640" cellspacing="0" cellpadding="0" border="0" align="center" style="max-width:640px; width:100%;" bgcolor="#FFFFFF">
+            <tr>
+                <td align="center" valign="top" style="padding:10px;">
+                  <table width="600" cellspacing="0" cellpadding="0" border="0" align="center" style="max-width:600px; width:100%;">
+                    <tr>
+                        <td align="right" valign="top" style="padding:10px 0 20px 0;">
+                            <img src="https://www.somenergia.coop/wp-content/uploads/2014/07/logo.png" style="margin:0; padding:0; border:none; display:block;" border="0" alt="logo.png">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" valign="top" style="padding:10px; color: #333333;">
+                            <p>{{ header }}</p>
+                            <p>{% trans "Adjunt a aquest correu et fem arribar l'informe tècnic mès després de la visita tècnica realitzada i la oferta tècnic-econòmica amb el detall del que vau acordar amb l'empresa instal·ladora." %}</p>
+                            <p>{% trans "Ara cal que confirmis l'acceptació o renúncia de la oferta. Si acceptes l'oferta rebràs en els propers dies el contracte clau en mà, si per el contrari rebutges la oferta, t’agrairem que indiquis de forma resumida el motiu pel qual no estàs conforme i l'has rebutjat per tal que l'enginyeria es pugui posar en contacte amb tu. Recorda que si hi han costos addicionals per motius tècnics, pots donar-te de baixa de la campanya i se't farà el retorn íntegre de la bestreta dipositada en el moment de la inscripció." %}</p>
+                            <p>{% trans "Per acceptar l'oferta accedeix a l'apartat de 'Producció' > 'Les meves compres col·lectives' de la teva "%} <a href="https://oficinavirtual.somenergia.coop/" target="_blank" style="color:#707a1a; text-decoration:underline;" rel="noopener noreferrer"> Oficina Virtual. </a> {% trans "Pots fer-ho fent click en el següent botó:"%}</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="top" style="padding:10px; color: #333333;">
+                            <a class="button button" href="https://oficinavirtual.somenergia.coop/" target="_blank" rel="noopener noreferrer"> {% trans "Les meves compres col·lectives"%}</a>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" valign="top" style="padding:10px; color: #333333;">
+                            <p>{% trans "Per rebutjar la oferta fes un correu a " %}  {{email}} {% trans "i indica el motiu del rebuig." %}</p>
+                            <p>{% trans "Si el que vols és donar-te de baixa de la campanya respon aquest mateix correu i indica el motiu. Recorda que si es tracta d'una baixa voluntària no es farà el retorn de la bestreta." %}</p>
+                            <p>{% trans "Per qualsevol consulta pots respondre a aquest mateix correu per dirigir-te a Som Energia o bé contactar directament amb "%} {{engineering}}: {{email}} </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" valign="top" style="padding:10px; color: #333333;">
+                        <p>{{ ending }}</p>
+                        <p>{% trans "Equip de Som Energia"}</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" valign="top" style="padding:10px; color: #333333; font-size: 12px;">
+                          <p><i>[CA] <u>Informació bàsica sobre protecció de dades.</u> Responsable: <b>SOM ENERGIA, SCCL.</b> (CIF F55091367). T'informem que les teves dades identificatives i les contingudes en els correus electrònics i fitxers adjunts poden ser incorporades a les nostres bases de dades amb la finalitat de mantenir relacions professionals i/o comercials i, que seran conservades mentre es mantingui la relació. Si ho desitges, pots exercir el teu dret a accedir, rectificar i suprimir les teves dades i d’altres reconeguts normativament dirigint-te al correu emissor o a <a href="mailto:somenergia@delegado-datos.com" target="_blank" style="color:#707a1a; text-decoration:underline;" rel="noopener noreferrer">somenergia@delegado-datos.com</a>. Aquest missatge i qualsevol document que porti adjunt, si s’escau, pot ser confidencial i destinat únicament a la persona, entitat o empresa a qui ha estat enviat.</i></p>
+                          <p><i>[ES] <u>Información básica sobre protección de datos.</u> Responsable: <b>SOM ENERGIA, SCCL.</b> (CIF F55091367). Te informamos que tus datos identificativos y los contenidos en los correos electrónicos y ficheros adjuntos pueden ser incorporados a nuestras bases de datos con la finalidad de mantener relaciones profesionales y/o comerciales y, que serán conservados mientras se mantenga la relación. Si lo deseas, puedes ejercer tu derecho a acceder, rectificar y suprimir sus datos y demás reconocidos normativamente dirigiéndose al correo emisor o en <a href="mailto:somenergia@delegado-datos.com" target="_blank" style="color:#707a1a; text-decoration:underline;" rel="noopener noreferrer">somenergia@delegado-datos.com</a>. Este mensaje y cualquier documento que lleve adjunto, en su caso, puede ser confidencial y destinado únicamente a la persona, entidad o empresa a quien ha sido enviado.</i></p>
+                        </td>
+                    </tr>
+                  </table>
+                </td>
+            </tr>
+        </table>
+</center>
+</body>

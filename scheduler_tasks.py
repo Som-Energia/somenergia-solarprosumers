@@ -97,11 +97,9 @@ def send_email_tasks():
         logger.info("Emails sent to engineerings.")
 
 
-def send_prereport_notification():
-    notifications_to_send = Mailing.objects.filter(
-        notification_status="prereport", sent=False
-    )
-    logger.info("sending prereort")
+def send_pending_notification():
+    notifications_to_send = Mailing.objects.filter(sent=False)
+    logger.info("sending notifications")
     for noti in notifications_to_send:
         campaign_data = Campaign.objects.filter(name=noti.project.campaign).values(
             "count_foreseen_installations",
@@ -110,37 +108,19 @@ def send_prereport_notification():
             "engineerings__email",
         )
 
-        message_params = {
-            "header": _("Hola {},").format(noti.project.client.name),
-            "ending": _("Salut i bona energia,"),
-            "campaign": noti.project.campaign,
-            "address": [data["engineerings__address"] for data in campaign_data][0],
-            "engineering": [data["engineerings__name"] for data in campaign_data][0],
-            "installations": [
-                data["count_foreseen_installations"] for data in campaign_data
-            ][0],
-            "email": [data["engineerings__email"] for data in campaign_data][0],
-        }
-
-        send_notification_report(
-            noti,
-            _(
-                f"PREINFORME - {noti.project.campaign}, compra col·lectiva de Som Energia"
-            ),
-            "emails/prereport.html",
-            message_params,
-            str(os.path.join(base.MEDIA_ROOT, str(noti.project.upload_prereport))),
-            message_params["email"],
+        notification_data = getattr(noti.project, noti.notification_status).email_data(
+            noti, campaign_data
         )
+
+        send_notification_report(noti, **notification_data)
 
 
 def send_notification_report(
     notification, subject, template, message_params, attachment=False, from_email=""
 ):
-
-    with override(notification.project.client.language):
+    with override(notification.project.notification_address.language):
         send_email(
-            [notification.project.client.email],
+            [notification.project.notification_address.email],
             subject,
             message_params,
             template,
@@ -214,7 +194,7 @@ def stats_report(toSomEnergia, campaign, language):
 
 
 def send_email(
-    to_email, subject, message_params, email_template, filename=False, from_email=""
+    to_email, subject, message_params, email_template, files=False, from_email=""
 ):
     logger.info(to_email)
     html_body = render_to_string(email_template, message_params)
@@ -225,7 +205,8 @@ def send_email(
         to_email,
         BCC,
     )
-    if filename:
+
+    for filename in files or []:
         msg.attach_file(filename)
     msg.content_subtype = "html"
     msg.send()

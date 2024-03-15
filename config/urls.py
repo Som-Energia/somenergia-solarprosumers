@@ -22,7 +22,7 @@ from somsolet import views
 app_name = "config"
 
 urlpatterns = [
-    path("", views.CampaignSetView.as_view()),
+    path("", views.CampaignSetView.as_view(), name="home"),
     path("auth/", include("django.contrib.auth.urls")),
     path("somsolet/", include("somsolet.urls")),
     path("admin/", admin.site.urls),
@@ -30,6 +30,7 @@ urlpatterns = [
     path("rosetta/", include("rosetta.urls")),
     path("i18n/", include("django.conf.urls.i18n")),
     path("hijack/", include("hijack.urls")),
+    path("somsolet-api/", include("somsolet_api.urls")),
 ]
 
 if settings.DEBUG:

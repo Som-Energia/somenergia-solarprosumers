@@ -1,10 +1,8 @@
 {% extends 'somsolet/base_layout.html' %}
 {% load i18n %}
-
 {% load crispy_forms_tags %}
 
-{% block content%}
-
+{% block content %}
 	<div class="row">
 		<div class="col-md-6 offset-md-3">
 			<table class="table table-bordered table-striped table-hover mt-4">
@@ -35,10 +33,13 @@
 		</div>
 	</div>
 
-<script>
-function goBack() {
-  window.history.back();
-}
-</script>
+{% endblock %}
 
+{% block js %}
+	{{ block.super }}
+	<script>
+		function goBack() {
+  			window.history.back();
+		}
+	</script>
 {% endblock %}

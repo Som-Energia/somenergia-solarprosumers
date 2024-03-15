@@ -1,3 +1,7 @@
+#vscode
+
+.vscode
+
 # vim
 
 .*.sw?
@@ -108,19 +112,21 @@ venv.bak/
 # mypy
 .mypy_cache/
 
-#editor
+# editor
 *.sublime-project
 *.sublime-workspace
 .vscode
 .vscode/
 
-#config
-uploaded_files/
 config.yaml
-
-#files
+# files
 *.csv
-log
+json4test.yaml
+uploaded_files
+
+# log files
+log/*
+*.log
 log/
 static/
 *.ini

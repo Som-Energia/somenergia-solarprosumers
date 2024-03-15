@@ -1,7 +1,15 @@
 {% load i18n %}
 {% load static %}
+{% load bootstrap4 %}
 <html>
     <head>
+        {% block css %}
+            {% bootstrap_css %}
+            <link rel="preconnect" href="https://fonts.gstatic.com">
+            <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+            <link rel="stylesheet" href="{% static 'css/gestor.css' %}">
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        {% endblock %}
         <title>Som Solet - Som Energia</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
@@ -27,7 +35,7 @@ Som Solet</a>
           </ul>
         </nav>
         <main role="main">
-            <div class="content container-fluid">
+            <div class="content container">
                 <div class="row">
                     <div class="col-md-12 pt-5">
                     {% block content %}
@@ -37,10 +45,25 @@ Som Solet</a>
             </div>
         </main>
         {# The Footer #}
-        <footer class="som-foot mt-auto pt-3">
-            <div class="inner">
-            <p>Made with <i class="fa fa-heart" aria-hidden="true"></i> by Som Energia</p>
+        <footer class="footer">
+            <div class="container d-flex justify-content-between align-items-center">
+                <div>
+                    <p class="som-foot">Made with <i class="fa fa-heart" aria-hidden="true"></i> by Som Energia</p>
+                </div>
+                <div>
+                    {% include "languages/user_profile.html"%}
+                </div>
             </div>
         </footer>
     </body>
+    {% block js %}
+        {% bootstrap_javascript jquery='full' %}
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $('#language').on('change', function() {
+                    $('#form-language').submit();
+                });
+            });
+        </script>
+    {% endblock %}
 </html>

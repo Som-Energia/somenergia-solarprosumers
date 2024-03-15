@@ -1,24 +1,34 @@
+from unittest.mock import patch
+
 import pytest
-from django.contrib.auth.models import AnonymousUser, User
+from django.contrib.auth.models import AnonymousUser
 from django.test import RequestFactory
 from django.urls import reverse
-from factories import ProjectFactory
-from mixer.backend.django import mixer
-from mock import patch
-from parameterized import parameterized
+
 from somsolet.views import (
+    CampaignSetView,
+    ConstructionPermitView,
+    DeliveryCertificateView,
+    InstallationDateView,
+    LegalizationView,
+    LegalRegistrationView,
+    OfferView,
     PrereportView,
     ProjectView,
-    TechnicalVisitView,
     ReportView,
-    OfferView,
     SignatureView,
-    ConstructionPermitView,
-    InstallationDateView,
-    DeliveryCertificateView,
-    LegalRegistrationView,
-    LegalizationView,
 )
+
+from .factories import (
+    CampaignFactory,
+    ClientFactory,
+    EngineeringFactory,
+    ProjectFactory,
+    TechnicalDetailsFactory,
+    UserFactory,
+    LocalGroupFactory,
+)
+from .fixtures import *
 
 
 def custom_name_func(testcase_func, param_num, param):
@@ -29,40 +39,62 @@ def custom_name_func(testcase_func, param_num, param):
 
 
 @pytest.mark.django_db
+class TestHomeView:
+    def test__engineering_home_view__whitout_campaings(
+        self, rf, engineering_user, engineering
+    ):
+        engineering.user = engineering_user
+        path = reverse("home")
+        request = rf.get(path)
+        request.user = engineering_user
+
+        response = CampaignSetView.as_view()(request)
+
+        assert response.status_code == 200
+        content = response.content.decode()
+        assert (
+            "Campaign" in content
+            and "Active" in content
+            and "Technical Details" in content
+            and "Calendar" in content
+        )
+
+
+@pytest.mark.django_db()
 class TestViews:
-    def get_initial_mock(self, status="random"):
-        project = ProjectFactory.build()
+    def test_project_detail_authenticated(self, rf, engineering_user):
+        campaign = CampaignFactory()
+        path = reverse("project", kwargs={"pk": campaign.pk})
+        request = rf.get(path)
+        request.user = engineering_user
 
-        return {
-            "campaign": project.campaign,
-            "project": project.id,
-            "client": project.client,
-            "status": status,
-            "campaign_pk": 123,  # random
-        }
-
-    @pytest.mark.skip(reason="WIP: must use mock")
-    def test_project_detail_authenticated(self):
-        path = reverse("project", kwargs={"pk": 2})
-        request = RequestFactory().get(path)
-        request.user = mixer.blend(User)
-
-        response = ProjectView.as_view()(request, pk=2)
+        response = ProjectView.as_view()(request, pk=campaign.pk)
         assert response.status_code == 200
 
-    @pytest.mark.skip(reason="WIP: must use mock")
-    def test_project_detail_unauthenticated(self):
-        path = reverse("project", kwargs={"pk": 2})
-        request = RequestFactory().get(path)
+    def test_project_detail_unauthenticated(self, rf):
+        campaign = CampaignFactory()
+        path = reverse("project", kwargs={"pk": campaign.pk})
+        request = rf.get(path)
         request.user = AnonymousUser()
 
-        response = ProjectView.as_view()(request, pk=2)
+        response = ProjectView.as_view()(request, pk=campaign.pk)
         assert "auth/login" in response.url
 
-    @parameterized.expand(
+    @pytest.mark.parametrize(
+        "view,url_name,status", [[PrereportView, "prereport", "registered"]]
+    )
+    def test_auth_prereport_status_condition(self, view, url_name, status):
+        project = ProjectFactory()
+        path = reverse(url_name, kwargs={"pk": project.pk})
+        request = RequestFactory().get(path)
+        request.user = UserFactory()
+
+        response = view.as_view()(request, pk=project.pk)
+        assert response.status_code == 200
+
+    @pytest.mark.parametrize(
+        "view,url_name,status",
         [
-            [PrereportView, "prereport", "data downloaded"],
-            [TechnicalVisitView, "technical_visit", "technical visit"],
             [ReportView, "report", "report"],
             [OfferView, "offer", "report"],
             [SignatureView, "signed_contract", "signature"],
@@ -72,23 +104,20 @@ class TestViews:
             [LegalRegistrationView, "legal_registration", "end installation"],
             [LegalizationView, "legalization", "legalization"],
         ],
-        name_func=custom_name_func,
     )
-    def test_auth_valid_status_condition(self, view, url_name, status):
-        with patch.object(
-            view, "get_initial", return_value=self.get_initial_mock(status)
-        ):
-            path = reverse(url_name, kwargs={"pk": 1})
-            request = RequestFactory().get(path)
-            request.user = mixer.blend(User)
+    def test_auth_redirect_whith_invalid_status_condition(self, view, url_name, status):
+        project = ProjectFactory()
+        path = reverse(url_name, kwargs={"pk": project.pk})
+        request = RequestFactory().get(path)
+        request.user = UserFactory()
 
-            response = view.as_view()(request, pk=1)
-            assert response.status_code == 200
+        response = view.as_view()(request, pk=project.pk)
+        assert response.status_code == 302
 
-    @parameterized.expand(
+    @pytest.mark.parametrize(
+        "view,url_name",
         [
             [PrereportView, "prereport"],
-            [TechnicalVisitView, "technical_visit"],
             [ReportView, "report"],
             [OfferView, "offer"],
             [SignatureView, "signed_contract"],
@@ -98,37 +127,12 @@ class TestViews:
             [LegalRegistrationView, "legal_registration"],
             [LegalizationView, "legalization"],
         ],
-        name_func=custom_name_func,
-    )
-    def test_auth_invalid_status_condition(self, view, url_name):
-        with patch.object(view, "get_initial", return_value=self.get_initial_mock()):
-            path = reverse(url_name, kwargs={"pk": 1})
-            request = RequestFactory().get(path)
-            request.user = mixer.blend(User)
-
-            response = view.as_view()(request, pk=1)
-            assert "project" in response.url
-
-    @parameterized.expand(
-        [
-            [PrereportView, "prereport"],
-            [TechnicalVisitView, "technical_visit"],
-            [ReportView, "report"],
-            [OfferView, "offer"],
-            [SignatureView, "signed_contract"],
-            [ConstructionPermitView, "construction_permit"],
-            [InstallationDateView, "installation_date"],
-            [DeliveryCertificateView, "delivery_certificate"],
-            [LegalRegistrationView, "legal_registration"],
-            [LegalizationView, "legalization"],
-        ],
-        name_func=custom_name_func,
     )
     def test_unauthenticated(self, view, url_name):
-        with patch.object(view, "get_initial", return_value=self.get_initial_mock()):
-            path = reverse(url_name, kwargs={"pk": 1})
-            request = RequestFactory().get(path)
-            request.user = AnonymousUser()
+        project = ProjectFactory()
+        path = reverse(url_name, kwargs={"pk": project.pk})
+        request = RequestFactory().get(path)
+        request.user = AnonymousUser()
 
-            response = view.as_view()(request, pk=1)
-            assert "auth/login" in response.url
+        response = view.as_view()(request, pk=project.pk)
+        assert "auth/login" in response.url

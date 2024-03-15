@@ -2,10 +2,6 @@
 {% load i18n %}
 
 {% load crispy_forms_tags %}
-{% load bootstrap4 %}
-    {% bootstrap_css %}
-    {% bootstrap_javascript jquery='full' %}
-        {{ installationdateform.media }}
 
 {% block content%}
 	<div class="panel panel-default">
@@ -16,4 +12,9 @@
 	        {% crispy installationdateform %}
 	    </div>
 	</div>
+{% endblock %}
+
+{% block js %}
+    {{ block.super }}
+    {{ installationdateform.media }}
 {% endblock %}
